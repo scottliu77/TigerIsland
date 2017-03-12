@@ -8,6 +8,11 @@ public class Hex {
     private int contentCount;
     private String contentType;
 
+    public Hex() {
+        this.contentCount = 0;
+        this.contentType = null;
+    }
+
     public Hex(Terrain terrain) {
         this.terrain = terrain;
         this.contentCount = 0;
