@@ -36,6 +36,12 @@ public class BoardTest{
     }
 
     @Test
+    public void testCanRenderDetails() {
+        this.board.placeTile(this.tile, this.location, 0);
+        this.board.printDetails();
+    }
+
+    @Test
     public void testCanPlaceTile() {
         this.board.placeTile(this.tile, this.location, 0);
         //assertTrue(this.board.)
@@ -43,7 +49,7 @@ public class BoardTest{
     }
 
     @Test
-    public void notAvailableLocation() {
+    public void testLocationUnavailable() {
         Tile tile = new Tile(Terrain.GRASSLANDS, Terrain.JUNGLE);
         Location location = new Location(0,0);
         board.placeTile(tile, location,0);
@@ -53,7 +59,7 @@ public class BoardTest{
     }
 
     @Test
-    public void hexAtLocation(){
+    public void testHexAtLocation(){
         Tile tile = new Tile(Terrain.GRASSLANDS, Terrain.JUNGLE);
         Location location = new Location(0,0);
         board.placeTile(tile, location,0);
