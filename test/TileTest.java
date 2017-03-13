@@ -30,4 +30,10 @@ public class TileTest {
     public void testCanGetRightHex() {
         assertTrue(this.tile.getRightHex() != null);
     }
+
+    @Test
+    public void testCanGetUniqueId() {
+        assertTrue(this.tile.getUniqueID() instanceof String);
+    }
+
 }

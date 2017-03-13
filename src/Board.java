@@ -8,7 +8,6 @@ public class Board{
     ArrayList<Location> edgeSpaces;
 
     public Board(){
-        tileID = 1;
         placedHexTiles = new ArrayList<Hex>();
         placedHexLocations = new ArrayList<Location>();
         edgeSpaces = new ArrayList<Location>();
@@ -18,9 +17,8 @@ public class Board{
         placeHex(tile.getVolcanoHex(), centerLoc);
         placeHex(tile.getRightHex(), Location.add(centerLoc,rotate(rotation)));
         placeHex(tile.getLeftHex(), Location.add(centerLoc,rotate(rotation+60)));
-
-        tileID += 1;
     }
+
     private Location rotate(int rotation){
         int xShift=0;
         int yShift=0;
@@ -235,7 +233,7 @@ public class Board{
             int newX = loc.x*2 + loc.y;
             int newY = loc.y;
             Hex hex = placedHexTiles.get(ii);
-            theBoard[newX+10][10-newY] = '<'+ Character.toString(hex.getHexTerrain().getType().charAt(0))+Integer.toString(hex.getID())+'>';
+            theBoard[newX+10][10-newY] = '<'+ Character.toString(hex.getHexTerrain().getType().charAt(0))+hex.getID()+'>';
         }
         for(int ii=0; ii<edgeSpaces.size(); ii++){
             Location loc = edgeSpaces.get(ii);

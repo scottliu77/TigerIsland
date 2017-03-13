@@ -3,22 +3,31 @@ import java.util.*;
 public class Hex {
 
     private Terrain terrain;
-    private int tileID;
     private int height;
     private int contentCount;
     private String contentType;
+    private String tileID;
 
     public Hex() {
         this.contentCount = 0;
         this.contentType = null;
+        this.tileID = null;
     }
 
-    public Hex(Terrain terrain) {
+    public Hex(String tileID) {
+        this.contentCount = 0;
+        this.contentType = null;
+        this.tileID = tileID;
+    }
+
+    public Hex(String tileID, Terrain terrain) {
         this.terrain = terrain;
         this.contentCount = 0;
         this.contentType = null;
+        this.tileID = tileID;
     }
-    public Hex(Terrain terrain, int tileID, int height) {
+
+    public Hex(String tileID, Terrain terrain, int height) {
         this.terrain = terrain;
         this.tileID = tileID;
         this.height = height;
@@ -29,9 +38,18 @@ public class Hex {
     public Terrain getHexTerrain() {
         return terrain;
     }
-    public int getHeight() {return height;}
-    public void setHeight(int height) {this.height = height;}
-    public int getID() {return tileID;}
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public String getID() {
+        return this.tileID;
+    }
 
     public void addPieceToTile() {
 
@@ -40,14 +58,12 @@ public class Hex {
     public static void printHexes(ArrayList<Hex> list){
         for(int ii=0;ii<list.size();ii++){
             Hex hex = list.get(ii);
-            System.out.println(hex.terrain.getType()+":H="+Integer.toString(hex.getHeight())+":ID="+Integer.toString(hex.getID()));
+            System.out.println(hex.terrain.getType()+":H="+Integer.toString(hex.getHeight())+":ID="+hex.getID());
         }
     }
 
 //    public List getTileContents() {
 //        return contents;
 //    }
-
-
 
 }

@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class DeckTest{
 
@@ -38,5 +40,18 @@ public class DeckTest{
         this.deck.shuffleDeck();
         String altDeckString = Arrays.toString(this.deck.tileDeck.toArray());
         assertNotEquals(baseDeckString, altDeckString);
+    }
+
+    @Test
+    public void testEachTileHasUniqueId() {
+        int deckSize = this.deck.getDeckSize();
+
+        Set<String> listOfUniqueIDs = new HashSet<String>();
+
+        for (Tile tile : this.deck.tileDeck) {
+            listOfUniqueIDs.add(tile.getUniqueID());
+        }
+
+        assertTrue(deckSize == listOfUniqueIDs.size());
     }
 }

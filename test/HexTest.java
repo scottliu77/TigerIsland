@@ -8,7 +8,7 @@ public class HexTest {
 
     @Before
     public void createHex() {
-        this.hex = new Hex(Terrain.VOLCANO);
+        this.hex = new Hex("dummyID" ,Terrain.VOLCANO);
     }
 
     @Test

@@ -3,7 +3,7 @@ import java.util.Collections;
 
 public class Deck {
 
-    ArrayList<Tile> tileDeck;
+    protected ArrayList<Tile> tileDeck;
 
     public Deck() {
         this.tileDeck = new ArrayList<Tile>();
