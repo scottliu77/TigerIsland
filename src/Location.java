@@ -4,44 +4,62 @@ public class Location{
     int x;
     int y;
 
-    public Location(int x,int y){
+    public Location(int x, int y){
         this.x = x;
         this.y = y;
     }
+
     public Location(Location loc){
         this.x = loc.x;
         this.y = loc.y;
     }
 
-    public static Location add(Location l1, Location l2){
-        return new Location(l1.x+l2.x, l1.y+l2.y);
+    public static Location add(Location loc1, Location loc2){
+        return new Location(loc1.x + loc2.x, loc1.y + loc2.y);
+    }
+
+    public Location add(Location addLoc) {
+        return new Location(this.x + addLoc.x, this.y + addLoc.y);
     }
 
     public boolean greaterThan(Location otherLoc){
-        if(this.y>otherLoc.y)
+        if(this.y > otherLoc.y) {
             return true;
-        if(this.y==otherLoc.y && this.x>otherLoc.x)
+        }
+
+        if(this.y == otherLoc.y && this.x > otherLoc.x) {
             return true;
+        }
+
         return false;
     }
 
     public boolean lessThan(Location otherLoc){
-        if(this.y<otherLoc.y)
+        if(this.y < otherLoc.y) {
             return true;
-        if(this.y==otherLoc.y && this.x<otherLoc.x)
+        }
+
+        if(this.y == otherLoc.y && this.x < otherLoc.x) {
             return true;
+        }
+
         return false;
     }
 
     public boolean equalTo(Location otherLoc){
-        if(this.y==otherLoc.y && this.x==otherLoc.x)
+        if(this.y == otherLoc.y && this.x == otherLoc.x) {
             return true;
+        }
+
         return false;
     }
 
     public static void printLocations(ArrayList<Location> list){
-        for(int ii=0;ii<list.size();ii++){
-            System.out.println("X="+Integer.toString(list.get(ii).x)+" : Y="+Integer.toString(list.get(ii).y));
+        for(int listIndex = 0; listIndex < list.size(); listIndex++){
+            String xCoordinate = Integer.toString(list.get(listIndex).x);
+            String yCoordinate = Integer.toString(list.get(listIndex).y);
+
+            System.out.println("X=" + xCoordinate + " : Y=" + yCoordinate);
         }
     }
 }
