@@ -2,19 +2,19 @@ import java.util.ArrayList;
 
 public class Pieces {
 
-    ArrayList<Meeple> meepleSet;
+    ArrayList<Villager> villagerSet;
     ArrayList<Totoro> totoroSet;
 
     public Pieces(int ownerCode) {
-        this.meepleSet = new ArrayList<Meeple>();
+        this.villagerSet = new ArrayList<Villager>();
         this.totoroSet = new ArrayList<Totoro>();
-        this.generateMeepleSet(ownerCode);
+        this.generateVillagerSet(ownerCode);
         this.generateTotoroSet(ownerCode);
     }
 
-    private void generateMeepleSet(int code) {
+    private void generateVillagerSet(int code) {
         for(int pieceNumber = 1; pieceNumber <= 20; pieceNumber++) {
-            this.meepleSet.add(new Meeple(code));
+            this.villagerSet.add(new Villager(code));
         }
     }
 
@@ -28,7 +28,7 @@ public class Pieces {
         return this.totoroSet.remove(0);
     }
 
-    public Meeple placeMeeple() {
-        return this.meepleSet.remove(0);
+    public Villager placeVillager() {
+        return this.villagerSet.remove(0);
     }
 }

@@ -2,17 +2,17 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class MeepleColorTest {
+public class VillagerColorTest {
 
-    private MeepleColor color;
+    private VillagerColor color;
 
     @Before
-    public void createMeepleColor() {
-        this.color = MeepleColor.BLACK;
+    public void createVillagerColor() {
+        this.color = VillagerColor.BLACK;
     }
 
     @Test
-    public void testCanCreateMeepleColor() {
+    public void testCanCreateVillagerColor() {
         assertTrue(this.color != null);
     }
 

@@ -17,12 +17,12 @@ public class PiecesTest {
 
     @Test
     public void testCanCreateNonEmptySets() {
-        assertTrue(this.pieces.meepleSet.size() > 0 && this.pieces.totoroSet.size() > 0);
+        assertTrue(this.pieces.villagerSet.size() > 0 && this.pieces.totoroSet.size() > 0);
     }
 
     @Test
-    public void testCanCreateExactlyTwentyMeeple() {
-        assertTrue(this.pieces.meepleSet.size() == 20);
+    public void testCanCreateExactlyTwentyVillager() {
+        assertTrue(this.pieces.villagerSet.size() == 20);
     }
 
     @Test
@@ -31,9 +31,9 @@ public class PiecesTest {
     }
 
     @Test
-    public void testCanSetColorOfMeeple() {
-        Meeple meep = this.pieces.meepleSet.get(0);
-        assertTrue(meep.getMeepleColor() == "Black");
+    public void testCanSetColorOfVillager() {
+        Villager meep = this.pieces.villagerSet.get(0);
+        assertTrue(meep.getVillagerColor() == "Black");
     }
 
     @Test
@@ -57,16 +57,16 @@ public class PiecesTest {
     }
 
     @Test
-    public void testCanPlaceMeeple() {
-        Meeple meep = this.pieces.placeMeeple();
-        assertTrue(this.pieces.meepleSet.size() == 19);
+    public void testCanPlaceVillager() {
+        Villager meep = this.pieces.placeVillager();
+        assertTrue(this.pieces.villagerSet.size() == 19);
     }
 
     @Test
-    public void testCanPlaceAllMeeple() {
-        for(int numMeeple = 0; numMeeple < 20; numMeeple++) {
-            Meeple meep = this.pieces.placeMeeple();
+    public void testCanPlaceAllVillager() {
+        for(int numVillager = 0; numVillager < 20; numVillager++) {
+            Villager meep = this.pieces.placeVillager();
         }
-        assertTrue(this.pieces.meepleSet.size() == 0);
+        assertTrue(this.pieces.villagerSet.size() == 0);
     }
 }
