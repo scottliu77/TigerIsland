@@ -1,8 +1,8 @@
 import java.util.*;
 
 public class Location{
-    int x;
-    int y;
+    protected int x;
+    protected int y;
 
     public Location(int x, int y){
         this.x = x;
@@ -14,12 +14,13 @@ public class Location{
         this.y = loc.y;
     }
 
-    public static Location add(Location loc1, Location loc2){
-        return new Location(loc1.x + loc2.x, loc1.y + loc2.y);
+    public static Location rotateHexRight(Location loc, int rotation) {
+        Location shiftLocation = Rotation.calculateRotation(rotation);
+        return Location.add(loc, shiftLocation);
     }
 
-    public Location add(Location addLoc) {
-        return new Location(this.x + addLoc.x, this.y + addLoc.y);
+    public static Location add(Location loc1, Location loc2){
+        return new Location(loc1.x + loc2.x, loc1.y + loc2.y);
     }
 
     public boolean greaterThan(Location otherLoc){

@@ -14,7 +14,7 @@ public class Tile {
         this.rightHex = new Hex(this.uniqueID , right);
     }
 
-    public Hex getVolcanoHex() {
+    public Hex getCenterHex() {
         return volcanoHex;
     }
 

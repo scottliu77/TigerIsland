@@ -18,7 +18,7 @@ public class TileTest {
 
     @Test
     public void testCanGetVolcanoHex() {
-        assertTrue(this.tile.getVolcanoHex() != null);
+        assertTrue(this.tile.getCenterHex() != null);
     }
 
     @Test

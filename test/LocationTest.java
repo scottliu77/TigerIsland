@@ -58,9 +58,9 @@ public class LocationTest {
     }
 
     @Test
-    public void testCanProperlyAddLocationValuesUsingSingleLocation() {
-        Location summedLocation = this.location.add(this.newLocation);
-        assertTrue(summedLocation.x == 4 && summedLocation.y == 5);
+    public void testCanRotateLocationByAdding() {
+        Location rotatedLocation = Location.rotateHexRight(this.location, 0);
+        assertTrue(rotatedLocation.x == this.location.x + 1 && rotatedLocation.y == this.location.y);
     }
 
     @Test
