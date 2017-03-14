@@ -45,7 +45,7 @@ public class HexTest {
 
     @Test
     public void testCanGetNonEmptyContentType() {
-        this.hex.addPiecesToHex("Totoro", 1);
+        this.hex.addPiecesToHex(Placeable.TOTORO, 1);
         assertTrue(this.hex.getContentType().equals("Totoro"));
     }
 
@@ -66,13 +66,13 @@ public class HexTest {
 
     @Test
     public void testCanAddVillagerToHex() {
-        this.hex.addPiecesToHex("Villager", 1);
+        this.hex.addPiecesToHex(Placeable.VILLAGER, 1);
         assertTrue(this.hex.getContentType() == "Villager" && this.hex.getContentCount() == 1);
     }
 
     @Test
     public void testCanAddTotoroToHex() {
-        this.hex.addPiecesToHex("Totoro", 1);
+        this.hex.addPiecesToHex(Placeable.TOTORO, 1);
         assertTrue(this.hex.getContentType() == "Totoro" && this.hex.getContentCount() == 1);
     }
 

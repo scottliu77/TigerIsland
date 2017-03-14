@@ -2,12 +2,10 @@ import java.util.*;
 
 public class Hex {
 
-    private final List<String> acceptablePieces = Arrays.asList("Villager", "Totoro");
-    private final int defaultIDstringSize = 2;
     private Terrain terrain;
     private int height;
     private int contentCount;
-    private String contentType;
+    private Placeable contentType;
     private String tileID;
 
     public Hex() {
@@ -48,7 +46,7 @@ public class Hex {
             return "Empty";
         }
         else {
-            return this.contentType;
+            return this.contentType.getPiece();
         }
     }
 
@@ -63,13 +61,9 @@ public class Hex {
         return this.tileID.substring(0, size);
     }
 
-    public void addPiecesToHex(String pieceType, int pieceCount) {
-        for(String acceptablePiece: this.acceptablePieces) {
-            if(acceptablePiece.trim().contains(pieceType)) {
-                this.contentType = pieceType;
-                this.contentCount = pieceCount;
-            }
-        }
+    public void addPiecesToHex(Placeable piece, int pieceCount) {
+        this.contentType = piece;
+        this.contentCount = pieceCount;
     }
 
     public static void printHexes(ArrayList<Hex> list){
