@@ -1,6 +1,8 @@
 import java.util.*;
 
-public class Turn {
+public class PlayOrder {
+
+    private int currentPlayer = 0;
 
     public ArrayList<Player> determinePlayOrder(ArrayList<Player> players){
         int a = 0;
@@ -15,4 +17,11 @@ public class Turn {
         return players;
     }
 
+    public Player getCurrentPlayer(ArrayList<Player> players){
+        return players.get(currentPlayer);
+    }
+
+    public void setNextPlayer(){
+        currentPlayer++;
+    }
 }
