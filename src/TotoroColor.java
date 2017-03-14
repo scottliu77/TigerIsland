@@ -13,7 +13,7 @@ public enum TotoroColor {
     }
 
     public int getCode() {
-        return code = code;
+        return this.code;
     }
 
     public String getColor() {
