@@ -5,10 +5,12 @@ public class Player {
 
     private int score;
     private PlayerColor color;
+    private Pieces pieces;
 
     public Player(PlayerColor color) {
         this.color = color;
         score = 0;
+        pieces = new Pieces(getPlayerCode());
     }
 
     public Player(int code) {

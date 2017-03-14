@@ -24,11 +24,19 @@ public class Pieces {
         }
     }
 
+    public int getNumberOfVillagersRemaining() {
+        return villagerSet.size();
+    }
+
     public Totoro placeTotoro() {
         return this.totoroSet.remove(0);
     }
 
     public Villager placeVillager() {
         return this.villagerSet.remove(0);
+    }
+
+    public int getNumberOfTotoroRemaining() {
+        return totoroSet.size();
     }
 }

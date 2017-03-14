@@ -43,6 +43,16 @@ public class PiecesTest {
     }
 
     @Test
+    public void testCanGetNumberOfVillagersRemaining() {
+        assertTrue(pieces.getNumberOfVillagersRemaining() == this.pieces.villagerSet.size());
+    }
+
+    @Test
+    public void testCanGetNumberOfTotoroRemaining() {
+        assertTrue(pieces.getNumberOfTotoroRemaining() == this.pieces.totoroSet.size());
+    }
+
+    @Test
     public void testCanPlaceTotoro() {
         Totoro tot = this.pieces.placeTotoro();
         assertTrue(this.pieces.totoroSet.size() == 2);

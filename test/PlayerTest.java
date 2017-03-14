@@ -33,4 +33,5 @@ public class PlayerTest {
         assertTrue(this.playerWhite.getScore() == 0);
     }
 
+
 }
