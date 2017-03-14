@@ -4,25 +4,25 @@ import static org.junit.Assert.*;
 
 public class TotoroColorTest {
 
-    private TotoroColor color;
+    private TotoroColor colorBlue;
 
     @Before
     public void createTotoroColor() {
-        this.color = TotoroColor.BLUE;
+        this.colorBlue = TotoroColor.BLUE;
     }
 
     @Test
     public void testCanCreateTotoroColor() {
-        assertTrue(this.color != null);
+        assertTrue(this.colorBlue != null);
     }
 
     @Test
     public void testCanGetColorCode() {
-        assertTrue(this.color.getCode() == 0);
+        assertTrue(this.colorBlue.getCode() == 0);
     }
 
     @Test
     public void testCanGetColorString() {
-        assertTrue(this.color.getColor() == "Blue");
+        assertTrue(this.colorBlue.getColor() == "Blue");
     }
 }
