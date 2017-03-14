@@ -26,16 +26,13 @@ public class Board{
     private void addHexToListOfPlacedHexes(Hex hex, Location loc){
 
         if(placedHexTiles.size()==0){
-            placedHexTiles.add(hex);
-            placedHexLocations.add(loc);
+            addHex(hex, loc, -1);
         }
         else if(loc.lessThan(placedHexLocations.get(0))){
-            placedHexTiles.add(0,hex);
-            placedHexLocations.add(0,loc);
+            addHex(hex, loc, 0);
         }
         else if(loc.greaterThan(placedHexLocations.get(placedHexTiles.size()-1))){
-            placedHexTiles.add(hex);
-            placedHexLocations.add(loc);
+            addHex(hex, loc, -1);
         }
         else{
             int bot = 0;
@@ -49,21 +46,34 @@ public class Board{
                 else if(loc.lessThan(midLocation))
                     top = mid - 1;
                 else if(loc.equalTo(midLocation)){
-                    placedHexTiles.set(mid,hex);
-                    placedHexLocations.set(mid,loc);
+                    setHex(hex, loc, mid);
                     return;
                 }
                 else if(loc.equalTo(midLocationP1)){
-                    placedHexTiles.set(mid+1,hex);
-                    placedHexLocations.set(mid+1,loc);
+                    setHex(hex,loc,mid+1);
                     return;
                 }
                 else{
-                    placedHexTiles.add(mid+1,hex);
-                    placedHexLocations.add(mid+1,loc);
+                    addHex(hex,loc,mid+1);
                     return;
                 }
             }
+        }
+    }
+
+    private void setHex(Hex hex, Location loc, int mid) {
+        placedHexTiles.set(mid,hex);
+        placedHexLocations.set(mid,loc);
+    }
+
+    private void addHex(Hex hex, Location loc, int index) {
+        if (index < 0) {
+            placedHexTiles.add(hex);
+            placedHexLocations.add(loc);
+        }
+        else {
+            placedHexTiles.add(0,hex);
+            placedHexLocations.add(0,loc);
         }
     }
 
