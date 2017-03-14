@@ -11,11 +11,15 @@ import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 public class LocationTest {
-    Location location;
-    Location newLocation;
 
     private final ByteArrayOutputStream outText = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errText = new ByteArrayOutputStream();
+
+    private Location location;
+    private Location newLocation;
+
+    private PrintStream stdout;
+    private PrintStream errout;
 
     @Before
     public void createLocation() {
@@ -25,14 +29,17 @@ public class LocationTest {
 
     @Before
     public void setupStreams() {
+        this.stdout = System.out;
         System.setOut(new PrintStream(outText));
+
+        this.errout = System.err;
         System.setErr(new PrintStream(errText));
     }
 
     @After
     public void cleanupStreams() {
-        System.setOut(null);
-        System.setErr(null);
+        System.setOut(this.stdout);
+        System.setErr(this.errout);
     }
 
     @Test
