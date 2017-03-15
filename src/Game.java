@@ -1,8 +1,5 @@
 import java.util.ArrayList;
 
-/**
- * Created by johnzoldos on 3/13/17.
- */
 public class Game {
 
     private ArrayList<Player> players;
@@ -11,7 +8,7 @@ public class Game {
 
     public Game(int numPlayers){
         board = new Board();
-        for(int i=0;i<numPlayers;i++){
+        for(int i = 0; i < numPlayers; i++){
             players.add(i, new Player(i));
         }
     }

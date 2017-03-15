@@ -218,22 +218,26 @@ public class Board{
             if(totoroAlreadyPresent(currentHex)){
                 return false;
             }
-            if(currentHex.hexAvailableForSettlement()) {
+            if(hexAvailableForSettlement(currentHex)) {
                 expansionPossible = true;
             }
             if(settlementLargeEnoughForTotoro = true);
         }
-        if(expansionPossible && settlementLargeEnoughForTotoro){
+        if(expansionPossible && settlement.size() >= 5){
             return true;
         }
         return false;
     }
 
+    private boolean hexAvailableForSettlement(Hex currentHex) {
+        return currentHex.getPieceCount() == 0;
+    }
+
     private boolean totoroAlreadyPresent(Hex currentHex) {
-        return currentHex.getContentType().equals("Totoro");
+        return currentHex.getPieceType().equals("Totoro");
     }
 
     private boolean ownedBySamePlayer(Hex hex, Player player){
-        return player.equals(hex.getPlayer());
+        return player.getPlayerColor().equals(hex.getPlayer());
     }
 }

@@ -1,7 +1,12 @@
-package PACKAGE_NAME;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * Created by Dax on 3/14/2017.
- */
 public class Match {
+
+    private Boolean offline;
+
+    Match(Boolean offline) {
+        this.offline = offline;
+    }
+
 }

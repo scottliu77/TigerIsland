@@ -1,7 +1,18 @@
-package PACKAGE_NAME;
+import org.junit.Test;
+import org.junit.Before;
+import static org.junit.Assert.*;
 
-/**
- * Created by Dax on 3/14/2017.
- */
 public class MatchTest {
+
+    private Match match;
+
+    @Before
+    public void createMatch() {
+        this.match = new Match(true);
+    }
+
+    @Test
+    public void testCanCreateMatch() {
+        assertTrue(this.match != null);
+    }
 }

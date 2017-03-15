@@ -1,7 +1,18 @@
-package PACKAGE_NAME;
+import org.junit.Test;
+import org.junit.Before;
+import static org.junit.Assert.*;
 
-/**
- * Created by Dax on 3/14/2017.
- */
 public class GameTest {
+
+    private Game game;
+
+    @Before
+    public void createGame() {
+        this.game = new Game(2);
+    }
+
+    @Test
+    public void testCanCreateGame() {
+        assertTrue(this.game != null);
+    }
 }
