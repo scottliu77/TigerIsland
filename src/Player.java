@@ -3,14 +3,14 @@
  */
 public class Player {
 
-    private int score;
-    private PlayerColor color;
-    private Pieces pieces;
+    protected Score score;
+    protected PlayerColor color;
+    protected Pieces pieces;
 
     public Player(PlayerColor color) {
         this.color = color;
-        score = 0;
-        pieces = new Pieces(getPlayerCode());
+        score = new Score();
+        pieces = new Pieces(getPlayerColor().getCode());
     }
 
     public Player(int code) {
@@ -22,36 +22,20 @@ public class Player {
                 this.color = PlayerColor.WHITE;
                 break;
         }
-        score = 0;
+        score = new Score();
+        pieces = new Pieces(getPlayerColor().getCode());
     }
 
-    public String getPlayerColor() {
-        return this.color.getColor();
-    }
-
-    public int getPlayerCode() {
-        return this.color.getCode();
-    }
-
-    public int getScore() {
+    public Score getScore() {
         return score;
     }
 
-    public int villagersRemaining(){
-        return this.pieces.getNumberOfVillagersRemaining();
+    public PlayerColor getPlayerColor() {
+        return color;
     }
 
-    public int TotoroRemaining(){
-        return this.pieces.getNumberOfTotoroRemaining();
-    }
-
-    public boolean inventoryEmpty(){
-        if(pieces.getNumberOfTotoroRemaining() == 0 && pieces.getNumberOfVillagersRemaining() == 0){
-            return true;
-        }
-        else {
-            return false;
-        }
+    public Pieces getPieces() {
+        return pieces;
     }
 
     public boolean mustPlaceTotoro(){
@@ -76,7 +60,7 @@ public class Player {
     }
 
     public boolean canBuildSettlement(){
-        if (villagersRemaining() > 0){
+        if (getPieces().villagerSet.size() > 0){
             return true;
         }
         return false;

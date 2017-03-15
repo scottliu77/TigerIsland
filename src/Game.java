@@ -2,14 +2,16 @@ import java.util.ArrayList;
 
 public class Game {
 
+    private Settings settings;
     private ArrayList<Player> players;
     private Board board;
     private int currentPlayerIndex;
 
-    public Game(int numPlayers){
+    public Game(Settings settings){
+        this.settings = settings;
         board = new Board();
         players = new ArrayList<Player>();
-        for(int i = 0; i < numPlayers; i++){
+        for(int i = 0; i < this.settings.playerCount; i++){
             players.add(i, new Player(i));
         }
     }
@@ -28,7 +30,7 @@ public class Game {
 
     public boolean playerIsOutOfPieces(){
         for(Player player : players){
-            if(player.inventoryEmpty()){
+            if(player.getPieces().inventoryEmpty()){
                 return true;
             }
         }

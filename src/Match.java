@@ -9,7 +9,7 @@ public class Match {
         this.settings = settings;
         this.games = new ArrayList<Game>();
         for(int game = 0; game < settings.gameCount; game++) {
-            games.add(game, new Game(settings.playerCount));
+            games.add(game, new Game(settings));
         }
     }
 

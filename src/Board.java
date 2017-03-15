@@ -208,7 +208,7 @@ public class Board{
             Hex currentHex = hexAt(currentLocation);
             int sizeOfSettlementThisLocationIsIn = 0;
             visitedLocations.add(currentLocation);
-            ArrayList<Location> adjacentLocationsToTemp = currentLocation.adjacentLocations();
+            ArrayList<Location> adjacentLocationsToTemp = currentLocation.getAdjacentLocations();
             for(Location location : adjacentLocationsToTemp){
                 if(ownedBySamePlayer(currentHex, player) && !visitedLocations.contains(location)) {
                     sizeOfSettlementThisLocationIsIn++;

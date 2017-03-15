@@ -24,7 +24,7 @@ public class PlayerTest {
 
     @Test
     public void testCanGetPlayerColor() {
-        assertTrue(this.playerWhite.getPlayerColor() == "White");
+        assertTrue(this.playerWhite.getPlayerColor().getColor() == "White");
     }
 
     @Test
@@ -34,12 +34,12 @@ public class PlayerTest {
 
     @Test
     public void testCanGetPlayerCode() {
-        assertTrue(this.playerWhite.getPlayerCode() == 1);
+        assertTrue(this.playerWhite.getPlayerColor().getCode() == 1);
     }
 
     @Test
     public void testCanGetPlayerScore() {
-        assertTrue(this.playerWhite.getScore() == 0);
+        assertTrue(this.playerWhite.score.getScore() == 0);
     }
 
 

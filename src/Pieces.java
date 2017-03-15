@@ -29,14 +29,23 @@ public class Pieces {
     }
 
     public Totoro placeTotoro() {
-        return this.totoroSet.remove(0);
+        return totoroSet.remove(0);
     }
 
     public Villager placeVillager() {
-        return this.villagerSet.remove(0);
+        return villagerSet.remove(0);
     }
 
     public int getNumberOfTotoroRemaining() {
         return totoroSet.size();
+    }
+
+    public boolean inventoryEmpty(){
+        if(totoroSet.size() == 0 && villagerSet.size() == 0){
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }
