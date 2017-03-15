@@ -37,6 +37,13 @@ public class Player {
         return score;
     }
 
+    public int villagersRemaining(){
+        return this.pieces.getNumberOfVillagersRemaining();
+    }
+
+    public int TotoroRemaining(){
+        return this.pieces.getNumberOfTotoroRemaining();
+    }
 
     public boolean inventoryEmpty(){
         if(pieces.getNumberOfTotoroRemaining() == 0 && pieces.getNumberOfVillagersRemaining() == 0){
