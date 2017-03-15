@@ -4,26 +4,27 @@ public class Hex {
 
     private Terrain terrain;
     private int height;
-    private int contentCount;
-    private Placeable contentType;
+    private int pieceCount;
+    private Placeable pieceType;
+    private PlayerColor player;
     private String tileID;
 
     public Hex() {
-        this.contentCount = 0;
-        this.contentType = null;
+        this.pieceCount = 0;
+        this.pieceType = null;
         this.tileID = null;
     }
 
     public Hex(String tileID, Terrain terrain) {
-        this.contentCount = 0;
-        this.contentType = null;
+        this.pieceCount = 0;
+        this.pieceType = null;
         this.tileID = tileID;
         this.terrain = terrain;
     }
 
     public Hex(String tileID, Terrain terrain, int height) {
-        this.contentCount = 0;
-        this.contentType = null;
+        this.pieceCount = 0;
+        this.pieceType = null;
         this.tileID = tileID;
         this.terrain = terrain;
         this.height = height;
@@ -37,17 +38,21 @@ public class Hex {
         return height;
     }
 
-    public int getContentCount() {
-        return this.contentCount;
+    public int getPieceCount() {
+        return this.pieceCount;
     }
 
-    public String getContentType() {
-        if(this.contentType == null) {
+    public String getPieceType() {
+        if(this.pieceType == null) {
             return "Empty";
         }
         else {
-            return this.contentType.getPiece();
+            return this.pieceType.getPiece();
         }
+    }
+
+    public String getPlayer() {
+        return this.player.getColor();
     }
 
     public String getID() {
@@ -61,9 +66,10 @@ public class Hex {
         return this.tileID.substring(0, size);
     }
 
-    public void addPiecesToHex(Placeable piece, int pieceCount) {
-        this.contentType = piece;
-        this.contentCount = pieceCount;
+    public void addPiecesToHex(Placeable piece, int pieceCount, PlayerColor owner) {
+        this.pieceType = piece;
+        this.pieceCount = pieceCount;
+        this.player = owner;
     }
 
     public static void printHexes(ArrayList<Hex> list){

@@ -40,18 +40,18 @@ public class HexTest {
 
     @Test
     public void testCanGetHexContentType() {
-        assertTrue(this.hex.getContentType().equals("Empty"));
+        assertTrue(this.hex.getPieceType().equals("Empty"));
     }
 
     @Test
     public void testCanGetNonEmptyContentType() {
-        this.hex.addPiecesToHex(Placeable.TOTORO, 1);
-        assertTrue(this.hex.getContentType().equals("Totoro"));
+        this.hex.addPiecesToHex(Placeable.TOTORO,1, PlayerColor.BLACK );
+        assertTrue(this.hex.getPieceType().equals("Totoro"));
     }
 
     @Test
     public void testCanGetHexContentCount() {
-        assertTrue(this.hex.getContentCount() == 0);
+        assertTrue(this.hex.getPieceCount() == 0);
     }
 
     @Test
@@ -66,14 +66,14 @@ public class HexTest {
 
     @Test
     public void testCanAddVillagerToHex() {
-        this.hex.addPiecesToHex(Placeable.VILLAGER, 1);
-        assertTrue(this.hex.getContentType() == "Villager" && this.hex.getContentCount() == 1);
+        this.hex.addPiecesToHex(Placeable.VILLAGER, 1, PlayerColor.BLACK);
+        assertTrue(this.hex.getPieceType() == "Villager" && this.hex.getPieceCount() == 1);
     }
 
     @Test
     public void testCanAddTotoroToHex() {
-        this.hex.addPiecesToHex(Placeable.TOTORO, 1);
-        assertTrue(this.hex.getContentType() == "Totoro" && this.hex.getContentCount() == 1);
+        this.hex.addPiecesToHex(Placeable.TOTORO, 1, PlayerColor.BLACK);
+        assertTrue(this.hex.getPieceType() == "Totoro" && this.hex.getPieceCount() == 1);
     }
 
 

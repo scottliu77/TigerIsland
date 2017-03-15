@@ -42,8 +42,8 @@ public class TextGUI {
             Hex hex = placedHexTiles.get(ii);
             String hexTerrain = Character.toString(hex.getHexTerrain().getType().charAt(0));
             String hexHeight = Integer.toString(hex.getHeight());
-            String hexContentType = Character.toString(hex.getContentType().charAt(0));
-            String hexContentCount = Integer.toString(hex.getContentCount());
+            String hexContentType = Character.toString(hex.getPieceType().charAt(0));
+            String hexContentCount = Integer.toString(hex.getPieceCount());
             String hexIDshort = hex.getIDfirstChars(2);
             theBoard[newX + 10][10 - newY] = '<' + hexTerrain + '-' + hexHeight + '-' + hexContentType + hexContentCount + '-' + hexIDshort + '>';
         }
