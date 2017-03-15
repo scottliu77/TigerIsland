@@ -63,4 +63,21 @@ public class Location{
             System.out.println("X=" + xCoordinate + " : Y=" + yCoordinate);
         }
     }
+
+    public ArrayList<Location> adjacentLocations(){
+        ArrayList<Location> adjacentLoc = new ArrayList<Location>();
+        Location firstLoc = new Location(x, y-1);
+        Location secondLoc = new Location(x+1, y-1);
+        Location thirdLoc = new Location(x-1, y+1);
+        Location fourthLoc = new Location(x, y+1);
+        Location fifthLoc = new Location(x-1, y);
+        Location sixthLoc = new Location(x+1, y);
+        adjacentLoc.add(firstLoc);
+        adjacentLoc.add(secondLoc);
+        adjacentLoc.add(thirdLoc);
+        adjacentLoc.add(fourthLoc);
+        adjacentLoc.add(fifthLoc);
+        adjacentLoc.add(sixthLoc);
+        return adjacentLoc;
+    }
 }
