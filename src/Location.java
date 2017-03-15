@@ -3,7 +3,6 @@ import java.util.*;
 public class Location{
     protected int x;
     protected int y;
-    private Player player;
 
     public Location(int x, int y){
         this.x = x;
@@ -65,21 +64,11 @@ public class Location{
         }
     }
 
-    public ArrayList<Location> adjacentLocations(){
-        ArrayList<Location> adjacentLoc = new ArrayList<Location>();
-        Location firstLoc = new Location(x, y-1);
-        Location secondLoc = new Location(x+1, y-1);
-        Location thirdLoc = new Location(x-1, y+1);
-        Location fourthLoc = new Location(x, y+1);
-        Location fifthLoc = new Location(x-1, y);
-        Location sixthLoc = new Location(x+1, y);
-        adjacentLoc.add(firstLoc);
-        adjacentLoc.add(secondLoc);
-        adjacentLoc.add(thirdLoc);
-        adjacentLoc.add(fourthLoc);
-        adjacentLoc.add(fifthLoc);
-        adjacentLoc.add(sixthLoc);
-        return adjacentLoc;
+    public ArrayList<Location> getAdjacentLocations(){
+        ArrayList<Location> adjacentLocations = new ArrayList<Location>();
+        for (int angle = 0; angle <= 300; angle += 60) {
+            adjacentLocations.add(Location.rotateHexRight(this, angle));
+        }
+        return adjacentLocations;
     }
-
 }

@@ -95,5 +95,13 @@ public class LocationTest {
         assertEquals("X=3 : Y=4", outTextNewlineStripped);
     }
 
+    @Test
+    public void testCanCreateLocationAdjacentLocList() {
+        assertTrue(location.getAdjacentLocations() != null);
+    }
 
+    @Test
+    public void testThereShouldAlwaysBeSixAdjacentLocations() {
+        assertTrue(location.getAdjacentLocations().size() == 6);
+    }
 }
