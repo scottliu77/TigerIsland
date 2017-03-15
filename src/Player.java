@@ -36,4 +36,23 @@ public class Player {
     public int getScore() {
         return score;
     }
+
+
+    public boolean inventoryEmpty(){
+        if(pieces.getNumberOfTotoroRemaining() == 0 && pieces.getNumberOfVillagersRemaining() == 0){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public boolean mustPlaceTotoro(){
+        if(pieces.getNumberOfVillagersRemaining() == 0 && pieces.getNumberOfTotoroRemaining() != 0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 }
