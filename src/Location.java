@@ -82,18 +82,4 @@ public class Location{
         return adjacentLoc;
     }
 
-    public boolean hexAvailableForSettlement(){
-        if(terrain.equals(Terrain.VOLCANO) || !getPlayer().equals(null)){
-            return false;
-        }
-        return true;
-    }
-
-    public void setPlayer(Player player){
-        this.player = player;
-    }
-
-    private Player getPlayer(){
-        return player;
-    }
 }
