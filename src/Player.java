@@ -62,4 +62,38 @@ public class Player {
             return false;
         }
     }
+
+    public void createNewSettlement(){
+
+    }
+
+    public void expandSettlement(){
+
+    }
+
+    public void createTotoroSanct(){
+
+    }
+
+    public boolean canBuildSettlement(){
+        if (villagersRemaining() > 0){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean canExpandSettlement(Pieces pieces){
+        if (villagersRemaining() >= piecesNeeded()){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean canCreateTotoroSanct(Settlement settlement){
+        if (TotoroRemaining() > 0 && settlement.size() > 4 && !settlement.hasTotoro()){
+            return true;
+        }
+        return false;
+
+    }
 }
