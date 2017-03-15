@@ -1,6 +1,7 @@
 import java.util.*;
 
 public class Board{
+    static final int SIZE_REQUIRED_FOR_TOTORO = 5;
 
     protected ArrayList<Hex> placedHexTiles;
     protected ArrayList<Location> placedHexLocations;
@@ -184,5 +185,55 @@ public class Board{
                 return true;
         }
         return false;
+    }
+
+    public boolean totoroPlacementPossible(Player player){
+        for(int i=0;i<placedHexLocations.size();i++){
+            Location currentLocation = placedHexLocations.get(i);
+            if(settlementCouldAcceptTororo(currentLocation, player)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean settlementCouldAcceptTororo(Location loc, Player player){
+        boolean expansionPossible = false;
+        boolean settlementLargeEnoughForTotoro;
+        Queue<Location> settlement = new LinkedList<Location>();
+        settlement.add(loc);
+        HashSet<Location> visitedLocations = new HashSet<Location>();
+        while(!settlement.isEmpty()){
+            Location currentLocation = settlement.remove();
+            Hex currentHex = hexAt(currentLocation);
+            int sizeOfSettlementThisLocationIsIn = 0;
+            visitedLocations.add(currentLocation);
+            ArrayList<Location> adjacentLocationsToTemp = currentLocation.adjacentLocations();
+            for(Location location : adjacentLocationsToTemp){
+                if(ownedBySamePlayer(currentHex, player) && !visitedLocations.contains(location)) {
+                    sizeOfSettlementThisLocationIsIn++;
+                    settlement.add(location);
+                }
+            }
+            if(totoroAlreadyPresent(currentHex)){
+                return false;
+            }
+            if(currentHex.hexAvailableForSettlement()) {
+                expansionPossible = true;
+            }
+            if(settlementLargeEnoughForTotoro = true);
+        }
+        if(expansionPossible && settlementLargeEnoughForTotoro){
+            return true;
+        }
+        return false;
+    }
+
+    private boolean totoroAlreadyPresent(Hex currentHex) {
+        return currentHex.getContentType().equals("Totoro");
+    }
+
+    private boolean ownedBySamePlayer(Hex hex, Player player){
+        return player.equals(hex.getPlayer());
     }
 }
