@@ -8,9 +8,14 @@ public class Game {
 
     public Game(int numPlayers){
         board = new Board();
+        players = new ArrayList<Player>();
         for(int i = 0; i < numPlayers; i++){
             players.add(i, new Player(i));
         }
+    }
+
+    public void start() {
+
     }
 
     public boolean noValidMoves(){

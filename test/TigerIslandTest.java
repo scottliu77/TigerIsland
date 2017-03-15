@@ -1,5 +1,6 @@
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
@@ -7,74 +8,75 @@ import static org.junit.Assert.assertTrue;
 public class TigerIslandTest {
 
     private TigerIsland tigerIsland;
-    private String[] argsDefault;
-    private String[] argsOnline;
-    private String[] argsOffline;
-    private String[] argsOfflineLong;
-    private String[] argsBadEntry;
-    private String[] argsBadEntryPartial;
+
+    String[] argsDefault = new String[]{};
+    String[] argsOnline = new String[]{"-o", "false"};
+    String[] argsOffline = new String[]{"-o", "true"};
+    String[] argsOfflineLong = new String[]{"--offline", "true"};
+    String[] argsBadEntry = new String[]{"alaka;skjfa"};
+    String[] argsBadEntryPartial = new String[]{"-o", "asdfkajs;ldk"};
+    String[] argsThreeGames = new String[]{"-g", "3"};
+    String[] argsZeroGames = new String[]{"-g", "0"};
+    String[] argsOneHundredGames = new String[]{"-g", "100"};
+    String[] argsThreePlayers = new String[]{"-p", "3"};
 
     @Before
     public void createTigerIsland() {
         this.tigerIsland = new TigerIsland();
-        this.argsDefault = new String[]{};
-        this.argsOnline = new String[]{"-o", "false"};
-        this.argsOffline = new String[]{"-o", "true"};
-        this.argsOfflineLong = new String[]{"--offline", "true"};
-        this.argsBadEntry = new String[]{"alaka;skjfa"};
-        this.argsBadEntryPartial = new String[]{"-o", "asdfkajs;ldk"};
     }
 
     @Test
     public void testCanCreateTigerIsland() {
-        assertTrue(this.tigerIsland != null);
+        assertTrue(tigerIsland != null);
     }
 
     // TODO refactor once run method is developed
-    @Test
-    public void testCanRunTigerIsland() {
-        assertTrue(this.tigerIsland.offline == false);
-    }
 
     @Test
-    public void testCanRunTigerIslandOnline() {
-        TigerIsland tigerIslandOnline = new TigerIsland();
+    public void testCanStartTigerIslandDefault() {
         try {
-            tigerIslandOnline.parseArguments(this.argsOnline);
+            tigerIsland.parseArguments(this.argsDefault);
         } catch (ArgumentParserException e) {
             e.printStackTrace();
         }
-        assertTrue(tigerIslandOnline.offline == false);
+        assertTrue(tigerIsland.settings.offline == true);
     }
 
     @Test
-    public void testCanRunTigerIslandOffline() {
-        TigerIsland tigerIslandOffline = new TigerIsland();
+    public void testCanStartTigerIslandOnline() {
         try {
-            tigerIslandOffline.parseArguments(this.argsOffline);
+            tigerIsland.parseArguments(argsOnline);
         } catch (ArgumentParserException e) {
             e.printStackTrace();
         }
-        assertTrue(tigerIslandOffline.offline == true);
-
+        assertTrue(tigerIsland.settings.offline == false);
     }
 
     @Test
-    public void testCanRunTigerIslandOfflineLong() {
-        TigerIsland tigerIslandOffline = new TigerIsland();
+    public void testCanStartTigerIslandOffline() {
         try {
-            tigerIslandOffline.parseArguments(this.argsOfflineLong);
+            tigerIsland.parseArguments(argsOffline);
         } catch (ArgumentParserException e) {
             e.printStackTrace();
         }
-        assertTrue(tigerIslandOffline.offline == true);
+        assertTrue(tigerIsland.settings.offline == true);
+
     }
 
     @Test
-    public void testCannotRunTigerIslandWithBadEntry() {
+    public void testCanStartTigerIslandOfflineLong() {
         try {
-            TigerIsland tigerIslandBadEntry = new TigerIsland();
-            tigerIslandBadEntry.parseArguments(this.argsBadEntry);
+            tigerIsland.parseArguments(argsOfflineLong);
+        } catch (ArgumentParserException e) {
+            e.printStackTrace();
+        }
+        assertTrue(tigerIsland.settings.offline == true);
+    }
+
+    @Test
+    public void testCannotStartTigerIslandWithBadEntry() {
+        try {
+            tigerIsland.parseArguments(argsBadEntry);
             assertTrue(false);
         } catch (ArgumentParserException exception) {
             assertTrue(true);
@@ -82,13 +84,52 @@ public class TigerIslandTest {
     }
 
     @Test
-    public void testCannotRunTigerIslandWithPartialBadEntry() {
+    public void testCannotStartTigerIslandWithPartialBadEntry() {
         try {
-            TigerIsland tigerIslandBadPartialEntry = new TigerIsland();
-            tigerIslandBadPartialEntry.parseArguments(this.argsBadEntryPartial);
+            tigerIsland.parseArguments(argsBadEntryPartial);
             assertTrue(false);
         } catch (ArgumentParserException exception) {
             assertTrue(true);
+        }
+    }
+
+    @Test
+    public void testCanCreateMatchWithThreeGames() {
+        try {
+            tigerIsland.parseArguments(argsThreeGames);
+            assertTrue(tigerIsland.settings.gameCount == 3);
+        } catch (ArgumentParserException exception) {
+            assertTrue(false);
+        }
+    }
+
+    @Test
+    public void testCannotCreateMatchWithZeroGames() {
+        try {
+            tigerIsland.parseArguments(argsZeroGames);
+            assertTrue(false);
+        } catch (ArgumentParserException exception) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void testCannotCreateMatchWithOneHundredGames() {
+        try {
+            tigerIsland.parseArguments(argsOneHundredGames);
+            assertTrue(false);
+        } catch (ArgumentParserException exception) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void testCanCreateMatchWithThreePlayers() {
+        try {
+            tigerIsland.parseArguments(argsThreePlayers);
+            assertTrue(tigerIsland.settings.playerCount == 3);
+        } catch (ArgumentParserException exception) {
+            assertTrue(false);
         }
     }
 }
