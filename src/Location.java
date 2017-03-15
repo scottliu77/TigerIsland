@@ -3,6 +3,7 @@ import java.util.*;
 public class Location{
     protected int x;
     protected int y;
+    private Player player;
 
     public Location(int x, int y){
         this.x = x;
@@ -79,5 +80,20 @@ public class Location{
         adjacentLoc.add(fifthLoc);
         adjacentLoc.add(sixthLoc);
         return adjacentLoc;
+    }
+
+    public boolean hexAvailableForSettlement(){
+        if(terrain.equals(Terrain.VOLCANO) || !getPlayer().equals(null)){
+            return false;
+        }
+        return true;
+    }
+
+    public void setPlayer(Player player){
+        this.player = player;
+    }
+
+    private Player getPlayer(){
+        return player;
     }
 }
