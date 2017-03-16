@@ -1,21 +1,25 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
 /**
  * Created by johnzoldos on 3/16/17.
  */
 public class SettlementTest {
-
-  /*  private Settlement settlement;
+/*
+    private Settlement settlement;
     private Player player;
 
 
     @Before
     public void createSettlement(){
+        ArrayList<PlacedHex> allPlacedHexes = new ArrayList<>();
+
         Hex hex = new Hex("dummyId", Terrain.GRASSLANDS);
-        this.settlement = new Settlement(hex);
+        this.settlement = new Settlement(hex, );
         this.player = new Player(Color.BLACK);
 
     }
@@ -36,7 +40,7 @@ public class SettlementTest {
         assertTrue(this.settlement != null);
     }
 
-   /* @Test
+   /*@Test
     public void testOwnedBySamePlayer(){
         assertFalse(this.);
     }*/
