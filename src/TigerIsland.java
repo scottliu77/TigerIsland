@@ -1,4 +1,3 @@
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.impl.Arguments;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
@@ -9,7 +8,7 @@ public class TigerIsland {
 
     private ArgumentParser parser;
     private Namespace parsedArguments;
-    protected Settings settings;
+    protected GlobalSettings globalSettings;
 
     public TigerIsland() {}
 
@@ -17,21 +16,21 @@ public class TigerIsland {
 
         parser = ArgumentParsers.newArgumentParser("TigerParser")
                 .defaultHelp(true)
-                .description("Specify TigerIsland match settings.");
+                .description("Specify TigerIsland match globalSettings.");
         parser.addArgument("-o", "--offline").type(Arguments.booleanType())
-                .setDefault(Settings.defaultOffline)
+                .setDefault(GlobalSettings.defaultOffline)
                 .help("Toggle running system in offline mode, AI v. AI");
         parser.addArgument("-g", "--games").type(Integer.class)
-                .setDefault(Settings.defaultGames)
+                .setDefault(GlobalSettings.defaultGames)
                 .help("Specify the number of games to be run concurrently in each match");
         parser.addArgument("-p", "--players").type(Integer.class)
-                .setDefault(Settings.defaultPlayers)
+                .setDefault(GlobalSettings.defaultPlayers)
                 .help("Specify the number of players in each match");
         parser.addArgument("-t", "--turnTime").type(Float.class)
-                .setDefault(Settings.defaultTurnTime)
+                .setDefault(GlobalSettings.defaultTurnTime)
                 .help("Specify the time allowed per turn");
         parser.addArgument("-i", "--ipaddress").type(String.class)
-                .setDefault(Settings.defaultIPaddress)
+                .setDefault(GlobalSettings.defaultIPaddress)
                 .help("Specify the ip address of the TigerHost server");
 
         parsedArguments = parser.parseArgs(args);
@@ -43,15 +42,14 @@ public class TigerIsland {
         String ipaddress = parsedArguments.get("ipaddress");
 
         try {
-            this.settings = new Settings(offline, gameCount, playerCount, turnTime, ipaddress, parser);
+            this.globalSettings = new GlobalSettings(offline, gameCount, playerCount, turnTime, ipaddress, parser);
         } catch (ArgumentParserException exception) {
             throw exception;
         }
     }
 
     private void run() {
-        Match match = new Match(settings);
-        match.start();
+        Match match = new Match(globalSettings);
     }
 
     public static void main(String[] args) throws Exception {

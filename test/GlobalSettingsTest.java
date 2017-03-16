@@ -6,40 +6,40 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
 
-public class SettingsTest {
+public class GlobalSettingsTest {
 
-    private Settings settings;
+    private GlobalSettings globalSettings;
     private ArgumentParser parser = ArgumentParsers.newArgumentParser("TigerParser");
 
     @Before
     public void createSettings() {
-        this.settings = new Settings();
+        this.globalSettings = new GlobalSettings();
     }
 
     @Test
     public void testCanCreateSettings() {
-        assertTrue(settings != null);
+        assertTrue(globalSettings != null);
     }
 
     @Test
     public void testCanCreateSettingsWithFullConstructor() {
         try {
-            Settings settings = new Settings(Settings.defaultOffline, Settings.defaultGames, Settings.defaultPlayers, Settings.defaultTurnTime, "ABCD", parser);
+            GlobalSettings globalSettings = new GlobalSettings(GlobalSettings.defaultOffline, GlobalSettings.defaultGames, GlobalSettings.defaultPlayers, GlobalSettings.defaultTurnTime, "ABCD", parser);
         } catch (ArgumentParserException e) {
             e.printStackTrace();
         }
-        assertTrue(settings != null);
+        assertTrue(globalSettings != null);
 
     }
     @Test
     public void testCanGetOfflineStatus() {
-        assertTrue(settings.offline);
+        assertTrue(globalSettings.offline);
     }
 
     @Test
     public void testCannotSetTooFewPlayers() {
         try {
-            Settings settings = new Settings(Settings.defaultOffline, Settings.defaultGames, Settings.minPlayers - 1, Settings.defaultTurnTime);
+            GlobalSettings globalSettings = new GlobalSettings(GlobalSettings.defaultOffline, GlobalSettings.defaultGames, GlobalSettings.minPlayers - 1, GlobalSettings.defaultTurnTime);
             assertTrue(false);
         } catch (ArgumentParserException e) {
             assertTrue(true);
@@ -49,7 +49,7 @@ public class SettingsTest {
     @Test
     public void testCannotSetTooManyPlayers() {
         try {
-            Settings settings = new Settings(Settings.defaultOffline, Settings.defaultGames, Settings.maxPlayers + 1, Settings.defaultTurnTime);
+            GlobalSettings globalSettings = new GlobalSettings(GlobalSettings.defaultOffline, GlobalSettings.defaultGames, GlobalSettings.maxPlayers + 1, GlobalSettings.defaultTurnTime);
             assertTrue(false);
         } catch (ArgumentParserException e) {
             assertTrue(true);
@@ -59,7 +59,7 @@ public class SettingsTest {
     @Test
     public void testCannotSetTooFewGames() {
         try {
-            Settings settings = new Settings(Settings.defaultOffline, Settings.minGames - 1, Settings.defaultPlayers, Settings.defaultTurnTime);
+            GlobalSettings globalSettings = new GlobalSettings(GlobalSettings.defaultOffline, GlobalSettings.minGames - 1, GlobalSettings.defaultPlayers, GlobalSettings.defaultTurnTime);
             assertTrue(false);
         } catch (ArgumentParserException e) {
             assertTrue(true);
@@ -69,7 +69,7 @@ public class SettingsTest {
     @Test
     public void testCannotSetTooManyGames() {
         try {
-            Settings settings = new Settings(Settings.defaultOffline, Settings.maxGames + 1, Settings.defaultPlayers, Settings.defaultTurnTime);
+            GlobalSettings globalSettings = new GlobalSettings(GlobalSettings.defaultOffline, GlobalSettings.maxGames + 1, GlobalSettings.defaultPlayers, GlobalSettings.defaultTurnTime);
             assertTrue(false);
         } catch (ArgumentParserException e) {
             assertTrue(true);
@@ -79,7 +79,7 @@ public class SettingsTest {
     @Test
     public void testCannotSetTooShortOfRounds() {
         try {
-            Settings settings = new Settings(Settings.defaultOffline, Settings.defaultGames, Settings.defaultPlayers, Settings.minTurnTime - 1);
+            GlobalSettings globalSettings = new GlobalSettings(GlobalSettings.defaultOffline, GlobalSettings.defaultGames, GlobalSettings.defaultPlayers, GlobalSettings.minTurnTime - 1);
             assertTrue(false);
         } catch (ArgumentParserException e) {
             assertTrue(true);
@@ -89,7 +89,7 @@ public class SettingsTest {
     @Test
     public void testCannotSetTooLongOfRounds() {
         try {
-            Settings settings = new Settings(Settings.defaultOffline, Settings.defaultGames, Settings.defaultPlayers, Settings.maxTurnTime + 1);
+            GlobalSettings globalSettings = new GlobalSettings(GlobalSettings.defaultOffline, GlobalSettings.defaultGames, GlobalSettings.defaultPlayers, GlobalSettings.maxTurnTime + 1);
             assertTrue(false);
         } catch (ArgumentParserException e) {
             assertTrue(true);
@@ -98,17 +98,17 @@ public class SettingsTest {
 
     @Test
     public void testCanGetNumberOfGamesInEachMatch() {
-        assertTrue(settings.gameCount == Settings.defaultGames);
+        assertTrue(globalSettings.gameCount == GlobalSettings.defaultGames);
     }
 
     @Test
     public void testCanGetNumberOfPlayersInEachMatch() {
-        assertTrue(settings.playerCount == Settings.defaultPlayers);
+        assertTrue(globalSettings.playerCount == GlobalSettings.defaultPlayers);
     }
 
     @Test
     public void testCanGetAllowedTimePerTurn() {
-        assertTrue(settings.turnTime == Settings.defaultTurnTime);
+        assertTrue(globalSettings.turnTime == GlobalSettings.defaultTurnTime);
     }
 }
 

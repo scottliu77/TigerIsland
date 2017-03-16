@@ -3,7 +3,7 @@ import net.sourceforge.argparse4j.inf.Argument;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 
-public class Settings {
+public class GlobalSettings {
 
     public final static Boolean defaultOffline = true;
     public final static int defaultGames = 1;
@@ -28,7 +28,7 @@ public class Settings {
 
     private ArgumentParser parser;
 
-    Settings() {
+    GlobalSettings() {
        this.offline = defaultOffline;
        this.gameCount = defaultGames;
        this.playerCount = defaultPlayers;
@@ -37,7 +37,7 @@ public class Settings {
        this.parser = ArgumentParsers.newArgumentParser("TigerIsland ArgumentParser");
     }
 
-    Settings(Boolean offline, int gameCount, int playerCount, float turnTime) throws ArgumentParserException {
+    GlobalSettings(Boolean offline, int gameCount, int playerCount, float turnTime) throws ArgumentParserException {
         this.offline = offline;
         this.gameCount = gameCount;
         this.playerCount = playerCount;
@@ -54,7 +54,7 @@ public class Settings {
         }
     }
 
-    Settings(Boolean offline, int gameCount, int playerCount, float turnTime, String IPaddress, ArgumentParser parser) throws ArgumentParserException {
+    GlobalSettings(Boolean offline, int gameCount, int playerCount, float turnTime, String IPaddress, ArgumentParser parser) throws ArgumentParserException {
         this.offline = offline;
         this.gameCount = gameCount;
         this.playerCount = playerCount;

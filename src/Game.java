@@ -2,16 +2,16 @@ import java.util.ArrayList;
 
 public class Game {
 
-    private Settings settings;
+    private GlobalSettings globalSettings;
     private ArrayList<Player> players;
     private Board board;
     private int currentPlayerIndex;
 
-    public Game(Settings settings){
-        this.settings = settings;
+    public Game(GlobalSettings globalSettings){
+        this.globalSettings = globalSettings;
         board = new Board();
         players = new ArrayList<Player>();
-        for(int player = 0; player < this.settings.playerCount; player++){
+        for(int player = 0; player < this.globalSettings.playerCount; player++){
             players.add(player, new Player(Color.values()[player]));
         }
     }

@@ -2,21 +2,19 @@ import java.util.ArrayList;
 
 public class Match {
 
-    protected Settings settings;
+    protected GlobalSettings globalSettings;
+    protected GameSettings gameSettings;
     protected ArrayList<Game> games;
 
-    Match(Settings settings) {
-        this.settings = settings;
+    Match(GlobalSettings globalSettings) {
+        this.globalSettings = globalSettings;
+        this.gameSettings = new GameSettings(this.globalSettings);
         this.games = new ArrayList<Game>();
-        for(int game = 0; game < settings.gameCount; game++) {
-            games.add(game, new Game(settings));
-        }
+        setup();
     }
 
-    // TODO overloaded constructor will go here, Match(Boolean offline, String connectionAddress)
-
-    public void start() {
-        if(settings.offline) {
+    private void setup() {
+        if(globalSettings.offline) {
             setupOfflineMatch();
         } else{
             setupOnlineMatch();
@@ -25,8 +23,25 @@ public class Match {
 
     // TODO Multi-threading required here. Otherwise games are run sequentially.
     private void setupOfflineMatch() {
-        for(int game = 0; game < games.size(); game++) {
-            games.get(game).start();
+        configureOfflineGameSettings();
+        constructOfflineGames();
+        startOfflineGames();
+    }
+
+    private void configureOfflineGameSettings() {
+        gameSettings.setDeck();
+        gameSettings.setPlayOrder();
+    }
+
+    private void constructOfflineGames() {
+        for(int game = 0; game < globalSettings.gameCount; game++) {
+            games.add(game, new Game(globalSettings));
+        }
+    }
+
+    private void startOfflineGames() {
+        for(Game game: games) {
+            game.start();
         }
     }
 

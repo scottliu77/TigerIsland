@@ -8,76 +8,109 @@ public class PieceSetTest {
 
     @Before
     public void createPieces() {
-        this.pieceSet = new PieceSet(Color.BLACK);
+        pieceSet = new PieceSet(Color.BLACK);
     }
 
     @Test
     public void canCreatePieces() {
-        assertTrue(this.pieceSet != null);
+        assertTrue(pieceSet != null);
     }
 
     @Test
     public void testCanCreateNonEmptySets() {
-        assertTrue(this.pieceSet.villagerSet.size() > 0 && this.pieceSet.totoroSet.size() > 0);
+        assertTrue(pieceSet.villagerSet.size() > 0 && pieceSet.totoroSet.size() > 0);
     }
 
     @Test
     public void testCanCreateExactlyTwentyVillager() {
-        assertTrue(this.pieceSet.villagerSet.size() == 20);
+        assertTrue(pieceSet.villagerSet.size() == 20);
     }
 
     @Test
     public void testCanCreateExactlyThreeTotoro() {
-        assertTrue(this.pieceSet.totoroSet.size() == 3);
+        assertTrue(pieceSet.totoroSet.size() == 3);
     }
 
     @Test
     public void testCanSetColorOfVillager() {
-        Piece meep = this.pieceSet.villagerSet.get(0);
+        Piece meep = pieceSet.villagerSet.get(0);
         assertTrue(meep.getColorString() == "Black");
     }
 
     @Test
     public void testCanSetColorOfTotoro() {
-        Piece totororo = this.pieceSet.totoroSet.get(0);
+        Piece totororo = pieceSet.totoroSet.get(0);
         assertTrue(totororo.getColorString() == "Black");
     }
 
     @Test
     public void testCanGetNumberOfVillagersRemaining() {
-        assertTrue(pieceSet.getNumberOfVillagersRemaining() == this.pieceSet.villagerSet.size());
+        assertTrue(pieceSet.getNumberOfVillagersRemaining() == pieceSet.villagerSet.size());
     }
 
     @Test
     public void testCanGetNumberOfTotoroRemaining() {
-        assertTrue(pieceSet.getNumberOfTotoroRemaining() == this.pieceSet.totoroSet.size());
+        assertTrue(pieceSet.getNumberOfTotoroRemaining() == pieceSet.totoroSet.size());
     }
 
     @Test
     public void testCanPlaceTotoro() {
-        Piece totoro = this.pieceSet.placeTotoro();
-        assertTrue(this.pieceSet.totoroSet.size() == 2);
+        Piece totoro = pieceSet.placeTotoro();
+        assertTrue(pieceSet.totoroSet.size() == 2);
     }
 
     @Test
     public void testCanPlaceAllTotoro() {
         for(int numTotoro = 0; numTotoro < 3; numTotoro ++) {
-           Piece totoro = this.pieceSet.placeTotoro();
+           Piece totoro = pieceSet.placeTotoro();
         }
-        assertTrue(this.pieceSet.totoroSet.size() == 0);
+        assertTrue(pieceSet.totoroSet.size() == 0);
     }
 
     @Test
     public void testCanPlaceVillager() {
-        Piece villager = this.pieceSet.placeVillager();
-        assertTrue(this.pieceSet.villagerSet.size() == 19);
+        Piece villager = pieceSet.placeVillager();
+        assertTrue(pieceSet.villagerSet.size() == 19);
     }
 
     @Test
     public void testCanPlaceAllVillager() {
         for(int numVillager = 0; numVillager < 20; numVillager++) {
-            Piece villager = this.pieceSet.placeVillager();
+            Piece villager = pieceSet.placeVillager();
         }
-        assertTrue(this.pieceSet.villagerSet.size() == 0);
+        assertTrue(pieceSet.villagerSet.size() == 0);
     }
+
+    @Test
+    public void testCannotPlaceMoreWhenHavingZero() {
+        try {
+            for (int numVillager = 0; numVillager < 21; numVillager++) {
+                Piece villager = pieceSet.placeVillager();
+            }
+            assertTrue(false);
+        } catch (Exception exception) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void testCanCheckInventoryEmpty() {
+        for(int numVillager = 0; numVillager < 20; numVillager++) {
+            Piece villager = pieceSet.placeVillager();
+        }
+        for(int numTotoro = 0; numTotoro < 3; numTotoro++) {
+            Piece totoro = pieceSet.placeTotoro();
+        }
+        assertTrue(pieceSet.inventoryEmpty() == true);
+    }
+
+    @Test
+    public void testCanCheckInventoryNotEmpty() {
+        for(int numVillager = 0; numVillager < 2; numVillager++) {
+            Piece villager = pieceSet.placeVillager();
+        }
+        assertTrue(pieceSet.inventoryEmpty() == false);
+    }
+
+
 }

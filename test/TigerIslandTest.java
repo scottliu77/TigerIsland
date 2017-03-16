@@ -1,6 +1,5 @@
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
@@ -39,7 +38,7 @@ public class TigerIslandTest {
         } catch (ArgumentParserException e) {
             e.printStackTrace();
         }
-        assertTrue(tigerIsland.settings.offline == true);
+        assertTrue(tigerIsland.globalSettings.offline == true);
     }
 
     @Test
@@ -49,7 +48,7 @@ public class TigerIslandTest {
         } catch (ArgumentParserException e) {
             e.printStackTrace();
         }
-        assertTrue(tigerIsland.settings.offline == false);
+        assertTrue(tigerIsland.globalSettings.offline == false);
     }
 
     @Test
@@ -59,7 +58,7 @@ public class TigerIslandTest {
         } catch (ArgumentParserException e) {
             e.printStackTrace();
         }
-        assertTrue(tigerIsland.settings.offline == true);
+        assertTrue(tigerIsland.globalSettings.offline == true);
 
     }
 
@@ -70,7 +69,7 @@ public class TigerIslandTest {
         } catch (ArgumentParserException e) {
             e.printStackTrace();
         }
-        assertTrue(tigerIsland.settings.offline == true);
+        assertTrue(tigerIsland.globalSettings.offline == true);
     }
 
     @Test
@@ -97,7 +96,7 @@ public class TigerIslandTest {
     public void testCanCreateMatchWithThreeGames() {
         try {
             tigerIsland.parseArguments(argsThreeGames);
-            assertTrue(tigerIsland.settings.gameCount == 3);
+            assertTrue(tigerIsland.globalSettings.gameCount == 3);
         } catch (ArgumentParserException exception) {
             assertTrue(false);
         }
@@ -127,7 +126,7 @@ public class TigerIslandTest {
     public void testCanCreateMatchWithThreePlayers() {
         try {
             tigerIsland.parseArguments(argsThreePlayers);
-            assertTrue(tigerIsland.settings.playerCount == 3);
+            assertTrue(tigerIsland.globalSettings.playerCount == 3);
         } catch (ArgumentParserException exception) {
             assertTrue(false);
         }
