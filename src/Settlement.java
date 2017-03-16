@@ -33,12 +33,12 @@ public class Settlement {
             Hex currentHex = hexesToBeAnalyzed.remove();
             visitedHexes.add(currentHex);
             hexesInSettlement.add(currentHex);
-            ArrayList<Hex> adjacentHexesToCurrentHex = currentHex.getAdjacentHexes();
+            /*ArrayList<Hex> adjacentHexesToCurrentHex = currentHex.getAdjacentHexes();
             for(Hex hexInAdjacentList : adjacentHexesToCurrentHex) {
-                if (ownedBySamePlayer(currentHex.getPieceType(), color) && !visitedHexes.contains(hexInAdjacentList)) {
+                if (ownedBySamePlayer(currentHex.getPieceColor(), color) && !visitedHexes.contains(hexInAdjacentList)) {
                     hexesToBeAnalyzed.add(hexInAdjacentList);
                 }
-            }
+            }*/
         }
     }
 

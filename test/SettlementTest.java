@@ -1,0 +1,46 @@
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
+
+/**
+ * Created by johnzoldos on 3/16/17.
+ */
+public class SettlementTest {
+
+  /*  private Settlement settlement;
+    private Player player;
+
+
+    @Before
+    public void createSettlement(){
+        Hex hex = new Hex("dummyId", Terrain.GRASSLANDS);
+        this.settlement = new Settlement(hex);
+        this.player = new Player(Color.BLACK);
+
+    }
+
+
+    @Test
+    public void testContainsTotoro() {
+        assertFalse(settlement.containsTotoro());
+    }
+
+    @Test
+    public void testSize() {
+        assertFalse(settlement.size() == 1);
+    }
+
+    @Test
+    public void testCanCreateSettlement(){
+        assertTrue(this.settlement != null);
+    }
+
+   /* @Test
+    public void testOwnedBySamePlayer(){
+        assertFalse(this.);
+    }*/
+
+
+
+}
