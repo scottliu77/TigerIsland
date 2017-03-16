@@ -25,7 +25,7 @@ public class TextGUITest {
     @Test
     public void testCanPrintPlacedHexLocations() {
         this.board.placeTile(this.tile, this.location, 0);
-        TextGUI.printPlacedHexLocations(this.board.placedHexLocations);
+        TextGUI.printPlacedHexLocations(this.board.locationsOfPlacedHexes());
     }
 
     @Test
@@ -37,13 +37,13 @@ public class TextGUITest {
     @Test
     public void testCanPrintPlacedHexTiles() {
         this.board.placeTile(this.tile, this.location, 0);
-        TextGUI.printPlacedHexTiles(this.board.placedHexTiles);
+        TextGUI.printPlacedHexTiles(this.board.hexesOfPlacedHexes());
     }
 
     @Test
     public void testCanPrintMap() {
         this.board.placeTile(this.tile, this.location, 0);
-        TextGUI.printMap(this.board.placedHexLocations, this.board.edgeSpaces, this.board.placedHexTiles);
+        TextGUI.printMap(this.board.locationsOfPlacedHexes(), this.board.edgeSpaces, this.board.hexesOfPlacedHexes());
     }
 
 

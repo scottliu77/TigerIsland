@@ -3,13 +3,11 @@ import java.util.*;
 public class Board{
     static final int SIZE_REQUIRED_FOR_TOTORO = 5;
 
-    protected ArrayList<Hex> placedHexTiles;
-    protected ArrayList<Location> placedHexLocations;
+    protected ArrayList<PlacedHex> placedHexes;
     protected ArrayList<Location> edgeSpaces;
 
     public Board(){
-        placedHexTiles = new ArrayList<Hex>();
-        placedHexLocations = new ArrayList<Location>();
+        placedHexes = new ArrayList<PlacedHex>();
         edgeSpaces = new ArrayList<Location>();
     }
 
@@ -26,22 +24,22 @@ public class Board{
 
     private void addHexToListOfPlacedHexes(Hex hex, Location loc){
 
-        if(placedHexTiles.size()==0){
+        if(placedHexes.size()==0){
             addHex(hex, loc, -1);
         }
-        else if(loc.lessThan(placedHexLocations.get(0))){
+        else if(loc.lessThan(placedHexes.get(0).getLocation())){
             addHex(hex, loc, 0);
         }
-        else if(loc.greaterThan(placedHexLocations.get(placedHexTiles.size()-1))){
+        else if(loc.greaterThan(placedHexes.get(placedHexes.size()-1).getLocation())){
             addHex(hex, loc, -1);
         }
         else{
             int bot = 0;
-            int top = placedHexTiles.size()-1;
+            int top = placedHexes.size()-1;
             while(top>=bot){
                 int mid = (top-bot)/2 + bot;
-                Location midLocation = placedHexLocations.get(mid);
-                Location midLocationP1 = placedHexLocations.get(mid+1);
+                Location midLocation = placedHexes.get(mid).getLocation();
+                Location midLocationP1 = placedHexes.get(mid+1).getLocation();
                 if(loc.greaterThan(midLocationP1))
                     bot = mid + 1;
                 else if(loc.lessThan(midLocation))
@@ -63,18 +61,17 @@ public class Board{
     }
 
     private void setHex(Hex hex, Location loc, int mid) {
-        placedHexTiles.set(mid,hex);
-        placedHexLocations.set(mid,loc);
+        PlacedHex placedHex = new PlacedHex(hex, loc);
+        placedHexes.set(mid, placedHex);
     }
 
     private void addHex(Hex hex, Location loc, int index) {
+        PlacedHex placedHex = new PlacedHex(hex, loc);
         if (index < 0) {
-            placedHexTiles.add(hex);
-            placedHexLocations.add(loc);
+            placedHexes.add(placedHex);
         }
         else {
-            placedHexTiles.add(0,hex);
-            placedHexLocations.add(0,loc);
+            placedHexes.add(0,placedHex);
         }
     }
 
@@ -141,10 +138,10 @@ public class Board{
     
     public boolean hexExistsAtLocation(Location loc){
         int bot = 0;
-        int top = placedHexTiles.size()-1;
+        int top = placedHexes.size()-1;
         while(top>=bot){
             int mid = (top-bot)/2 + bot;
-            Location midLocation = placedHexLocations.get(mid);
+            Location midLocation = placedHexes.get(mid).getLocation();
             if(loc.greaterThan(midLocation))
                 bot = mid + 1;
             else if(loc.lessThan(midLocation))
@@ -157,16 +154,16 @@ public class Board{
 
     public Hex hexAt(Location loc){
         int bot = 0;
-        int top = placedHexTiles.size()-1;
+        int top = placedHexes.size()-1;
         while(top >= bot){
             int mid = (top - bot) / 2 + bot;
-            Location midLocation = placedHexLocations.get(mid);
+            Location midLocation = placedHexes.get(mid).getLocation();
             if(loc.greaterThan(midLocation))
                 bot = mid + 1;
             else if(loc.lessThan(midLocation))
                 top = mid - 1;
             else
-                return placedHexTiles.get(mid);
+                return placedHexes.get(mid).getHex();
         }
         return new Hex();
     }
@@ -187,47 +184,10 @@ public class Board{
         return false;
     }
 
-    public boolean totoroPlacementPossible(Player player){
-        for(int i=0;i<placedHexLocations.size();i++){
-            Location currentLocation = placedHexLocations.get(i);
-            if(settlementCouldAcceptTororo(currentLocation, player)){
-                return true;
-            }
-        }
-        return false;
+    public void totoroPlacementPossible(Player player){
+
     }
 
-    private boolean settlementCouldAcceptTororo(Location loc, Player player){
-        boolean expansionPossible = false;
-        boolean settlementLargeEnoughForTotoro;
-        Queue<Location> settlement = new LinkedList<Location>();
-        settlement.add(loc);
-        HashSet<Location> visitedLocations = new HashSet<Location>();
-        while(!settlement.isEmpty()){
-            Location currentLocation = settlement.remove();
-            Hex currentHex = hexAt(currentLocation);
-            int sizeOfSettlementThisLocationIsIn = 0;
-            visitedLocations.add(currentLocation);
-            ArrayList<Location> adjacentLocationsToTemp = currentLocation.getAdjacentLocations();
-            for(Location location : adjacentLocationsToTemp){
-                if(ownedBySamePlayer(currentHex, player) && !visitedLocations.contains(location)) {
-                    sizeOfSettlementThisLocationIsIn++;
-                    settlement.add(location);
-                }
-            }
-            if(totoroAlreadyPresent(currentHex)){
-                return false;
-            }
-            if(hexAvailableForSettlement(currentHex)) {
-                expansionPossible = true;
-            }
-            if(settlementLargeEnoughForTotoro = true);
-        }
-        if(expansionPossible && settlement.size() >= 5){
-            return true;
-        }
-        return false;
-    }
 
     private boolean hexAvailableForSettlement(Hex currentHex) {
         return currentHex.getPieceCount() == 0;
@@ -239,5 +199,21 @@ public class Board{
 
     private boolean ownedBySamePlayer(Hex hex, Player player){
         return player.getPlayerColor().equals(hex.getPieceColor());
+    }
+
+    public ArrayList<Location> locationsOfPlacedHexes(){
+        ArrayList<Location> locationsOfPlacedHexes = new ArrayList<Location>();
+        for(PlacedHex placedHex : placedHexes){
+            locationsOfPlacedHexes.add(placedHex.getLocation());
+        }
+        return  locationsOfPlacedHexes;
+    }
+
+    public ArrayList<Hex> hexesOfPlacedHexes(){
+        ArrayList<Hex> hexesOfPlacedHexes = new ArrayList<Hex>();
+        for(PlacedHex placedHex : placedHexes){
+            hexesOfPlacedHexes.add(placedHex.getHex());
+        }
+        return  hexesOfPlacedHexes;
     }
 }

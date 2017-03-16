@@ -21,13 +21,8 @@ public class BoardTest{
     }
 
     @Test
-    public void testCreatedBoardHasHexLocations() {
-        assertTrue(this.board.placedHexLocations != null);
-    }
-
-    @Test
-    public void testCreatedBoardHaxHexTiles() {
-        assertTrue(this.board.placedHexTiles != null);
+    public void testCreatedBoardHasPlacedHexes() {
+        assertTrue(this.board.placedHexes != null);
     }
 
     @Test
@@ -59,6 +54,6 @@ public class BoardTest{
     @Test
     public void testCanPlaceTile() {
         this.board.placeTile(this.tile, this.location, 0);
-        TextGUI.printMap(this.board.placedHexLocations, this.board.edgeSpaces, this.board.placedHexTiles);
+        TextGUI.printMap(this.board.locationsOfPlacedHexes(), this.board.edgeSpaces, this.board.hexesOfPlacedHexes());
     }
 }
