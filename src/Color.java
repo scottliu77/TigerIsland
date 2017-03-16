@@ -1,7 +1,13 @@
 public enum Color {
 
     BLACK("Black"),
-    WHITE("White");
+    WHITE("White"),
+    RED("Red"),
+    ORANGE("Orange"),
+    YELLOW("Yellow"),
+    GREEN("Green"),
+    BLUE("Blue"),
+    PURPLE("Purple");
 
     private String color;
 

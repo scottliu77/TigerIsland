@@ -15,7 +15,7 @@ public class GlobalSettings {
     public final static int maxGames = 10;
 
     public final static int minPlayers = 1;
-    public final static int maxPlayers = 10;
+    public final static int maxPlayers = 8;
 
     public final static float minTurnTime = 0;
     public final static float maxTurnTime = 100;

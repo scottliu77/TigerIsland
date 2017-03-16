@@ -24,7 +24,7 @@ public class GameSettings {
 
     public void setPlayOrder() {
         if(globalSettings.offline) {
-            playOrder = new PlayOrder();
+            playOrder = new PlayOrder(globalSettings);
         } else {
             // TODO Server implementation of play order(?)
         }

@@ -2,18 +2,30 @@ import java.util.*;
 
 public class PlayOrder {
 
+    private int playerCount;
     private int currentPlayer = 0;
+    protected ArrayList<Player> players = new ArrayList<Player>();
 
-    public ArrayList<Player> determinePlayOrder(ArrayList<Player> players){
-        Collections.shuffle(players);
-        return players;
+    PlayOrder(GlobalSettings globalSettings) {
+        this.playerCount = globalSettings.playerCount;
+        for(int player = 0; player < this.playerCount; player++) {
+            players.add(player, new Player(Color.values()[player]));
+        }
     }
 
-    public Player getCurrentPlayer(ArrayList<Player> players){
+    public void shufflePlayerOrder(){
+        Collections.shuffle(players);
+    }
+
+    public Player getCurrentPlayer(){
         return players.get(currentPlayer);
     }
 
     public void setNextPlayer(){
-        currentPlayer++;
+        if (currentPlayer == playerCount) {
+            currentPlayer = 0;
+        } else {
+            currentPlayer++;
+        }
     }
 }
