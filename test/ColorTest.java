@@ -18,6 +18,6 @@ public class ColorTest {
 
     @Test
     public void testCanGetColorString() {
-        assertTrue(this.color.getColor() == "Black");
+        assertTrue(this.color.getColorString() == "Black");
     }
 }
