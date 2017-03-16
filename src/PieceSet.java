@@ -32,11 +32,22 @@ public class PieceSet {
         return totoroSet.size();
     }
 
-    public Piece placeVillager() {
+    public Piece placeVillager() throws IndexOutOfBoundsException {
         return villagerSet.remove(0);
     }
 
-    public Piece placeTotoro() {
+    public Piece placeMultipleVillagers(int numVillagers) throws IndexOutOfBoundsException {
+        if (numVillagers > getNumberOfVillagersRemaining()) {
+            IndexOutOfBoundsException exception = new IndexOutOfBoundsException();
+            throw exception;
+        }
+        for (int villager = 0; villager < numVillagers - 1; villager++) {
+            villagerSet.remove(0);
+        }
+        return villagerSet.remove(0);
+    }
+
+    public Piece placeTotoro() throws IndexOutOfBoundsException {
         return totoroSet.remove(0);
     }
 

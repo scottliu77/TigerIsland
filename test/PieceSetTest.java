@@ -88,8 +88,34 @@ public class PieceSetTest {
                 Piece villager = pieceSet.placeVillager();
             }
             assertTrue(false);
-        } catch (Exception exception) {
+        } catch (IndexOutOfBoundsException exception) {
             assertTrue(true);
+        }
+    }
+
+    @Test
+    public void testCanPlaceMultipleVillagersAtOnce() {
+        Piece villagers = pieceSet.placeMultipleVillagers(3);
+        assertTrue(villagers != null);
+    }
+
+    @Test
+    public void testCannotPlaceTooManyVillagersAtOnce() {
+        try {
+            Piece villager = pieceSet.placeMultipleVillagers(21);
+            assertTrue(false);
+        } catch (IndexOutOfBoundsException except) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void testTryingToPlaceTooManyVillagesDoesntBreakCount() {
+        try {
+            Piece villager = pieceSet.placeMultipleVillagers(21);
+            assertTrue(false);
+        } catch (IndexOutOfBoundsException except) {
+            assertTrue(pieceSet.getNumberOfVillagersRemaining() == 20);
         }
     }
 

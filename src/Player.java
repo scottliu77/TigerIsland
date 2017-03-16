@@ -3,9 +3,9 @@
  */
 public class Player {
 
-    protected Score score;
-    protected Color color;
-    protected PieceSet pieceSet;
+    private Score score;
+    private Color color;
+    private PieceSet pieceSet;
 
     public Player(Color color) {
         this.color = color;
@@ -13,8 +13,12 @@ public class Player {
         pieceSet = new PieceSet(color);
     }
 
-    public Score getScore() {
-        return score;
+    public int getScore() {
+        return score.getScore();
+    }
+
+    public void addPoints(int points) {
+        score.addPoints(points);
     }
 
     public Color getPlayerColor() {
@@ -25,46 +29,28 @@ public class Player {
         return pieceSet;
     }
 
-    public boolean mustPlaceTotoro(){
-        if(pieceSet.getNumberOfVillagersRemaining() == 0 && pieceSet.getNumberOfTotoroRemaining() != 0){
-            return true;
+    public Piece createNewSettlement(){
+        try {
+            return pieceSet.placeVillager();
+        } catch (IndexOutOfBoundsException exception){
+            throw exception;
         }
-        else{
-            return false;
+    }
+
+    public Piece expandSettlement(int villagersNeeeded){
+        try {
+            return pieceSet.placeMultipleVillagers(villagersNeeeded);
+        } catch (IndexOutOfBoundsException exception) {
+            throw exception;
         }
     }
 
-    public void createNewSettlement(){
-
-    }
-
-    public void expandSettlement(){
-
-    }
-
-    public void createTotoroSanct(){
-
-    }
-
-    public boolean canBuildSettlement(){
-        if (getPieceSet().villagerSet.size() > 0){
-            return true;
+    public Piece createTotoroSanct(){
+        try {
+            return pieceSet.placeTotoro();
+        } catch (IndexOutOfBoundsException exception) {
+            throw exception;
         }
-        return false;
     }
 
-//    public boolean canExpandSettlement(PieceSet pieceSet){
-//        if (villagersRemaining() >= piecesNeeded()){
-//            return true;
-//        }
-//        return false;
-//    }
-//
-//    public boolean canCreateTotoroSanct(Settlement settlement){
-//        if (TotoroRemaining() > 0 && settlement.size() > 4 && !settlement.hasTotoro()){
-//            return true;
-//        }
-//        return false;
-//
-//    }
 }
