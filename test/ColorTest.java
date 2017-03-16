@@ -2,23 +2,18 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class VillagerColorTest {
+public class ColorTest {
 
-    private VillagerColor color;
+    private Color color;
 
     @Before
     public void createVillagerColor() {
-        this.color = VillagerColor.BLACK;
+        this.color = Color.BLACK;
     }
 
     @Test
     public void testCanCreateVillagerColor() {
         assertTrue(this.color != null);
-    }
-
-    @Test
-    public void testCanGetColorCode() {
-        assertTrue(this.color.getCode() == 0);
     }
 
     @Test

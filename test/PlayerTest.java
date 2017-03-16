@@ -5,16 +5,10 @@ import static org.junit.Assert.*;
 public class PlayerTest {
 
     private Player playerWhite;
-    private Player playerBlack;
-    private Player playerZero;
-    private Player playerOne;
 
     @Before
     public void createPlayer() {
-        this.playerWhite = new Player(PlayerColor.WHITE);
-        this.playerBlack = new Player(PlayerColor.BLACK);
-        this.playerZero = new Player(0);
-        this.playerOne = new Player(1);
+        this.playerWhite = new Player(Color.WHITE);
     }
 
     @Test
@@ -25,16 +19,6 @@ public class PlayerTest {
     @Test
     public void testCanGetPlayerColor() {
         assertTrue(this.playerWhite.getPlayerColor().getColor() == "White");
-    }
-
-    @Test
-    public void testCanCreatePlayerByCode() {
-        assertTrue(this.playerZero != null);
-    }
-
-    @Test
-    public void testCanGetPlayerCode() {
-        assertTrue(this.playerWhite.getPlayerColor().getCode() == 1);
     }
 
     @Test

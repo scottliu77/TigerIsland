@@ -11,8 +11,8 @@ public class Game {
         this.settings = settings;
         board = new Board();
         players = new ArrayList<Player>();
-        for(int i = 0; i < this.settings.playerCount; i++){
-            players.add(i, new Player(i));
+        for(int player = 0; player < this.settings.playerCount; player++){
+            players.add(player, new Player(Color.values()[player]));
         }
     }
 
@@ -30,7 +30,7 @@ public class Game {
 
     public boolean playerIsOutOfPieces(){
         for(Player player : players){
-            if(player.getPieces().inventoryEmpty()){
+            if(player.getPieceSet().inventoryEmpty()){
                 return true;
             }
         }

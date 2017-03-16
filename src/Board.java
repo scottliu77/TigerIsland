@@ -238,6 +238,6 @@ public class Board{
     }
 
     private boolean ownedBySamePlayer(Hex hex, Player player){
-        return player.getPlayerColor().equals(hex.getPlayer());
+        return player.getPlayerColor().equals(hex.getPieceColor());
     }
 }

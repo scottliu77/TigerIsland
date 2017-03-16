@@ -35,7 +35,7 @@ public class HexTest {
 
     @Test
     public void testCanGetHexHeight() {
-        assertTrue(this.hex.getHeight() == 0);
+        assertTrue(this.hex.getHeight() == 1);
     }
 
     @Test
@@ -45,7 +45,7 @@ public class HexTest {
 
     @Test
     public void testCanGetNonEmptyContentType() {
-        this.hex.addPiecesToHex(Placeable.TOTORO,1, PlayerColor.BLACK );
+        this.hex.addPiecesToHex(new Piece(Color.BLACK, PieceType.TOTORO), 1);
         assertTrue(this.hex.getPieceType().equals("Totoro"));
     }
 
@@ -66,13 +66,13 @@ public class HexTest {
 
     @Test
     public void testCanAddVillagerToHex() {
-        this.hex.addPiecesToHex(Placeable.VILLAGER, 1, PlayerColor.BLACK);
+        this.hex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
         assertTrue(this.hex.getPieceType() == "Villager" && this.hex.getPieceCount() == 1);
     }
 
     @Test
     public void testCanAddTotoroToHex() {
-        this.hex.addPiecesToHex(Placeable.TOTORO, 1, PlayerColor.BLACK);
+        this.hex.addPiecesToHex(new Piece(Color.BLACK, PieceType.TOTORO), 1);
         assertTrue(this.hex.getPieceType() == "Totoro" && this.hex.getPieceCount() == 1);
     }
 

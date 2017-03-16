@@ -3,28 +3,21 @@ import java.util.*;
 public class Hex {
 
     private Terrain terrain;
-    private int height;
-    private int pieceCount;
-    private Placeable pieceType;
-    private PlayerColor player;
+    private int height = 1;
+    private int pieceCount = 0;
+    private Piece piece;
     private String tileID;
 
     public Hex() {
-        this.pieceCount = 0;
-        this.pieceType = null;
         this.tileID = null;
     }
 
     public Hex(String tileID, Terrain terrain) {
-        this.pieceCount = 0;
-        this.pieceType = null;
         this.tileID = tileID;
         this.terrain = terrain;
     }
 
     public Hex(String tileID, Terrain terrain, int height) {
-        this.pieceCount = 0;
-        this.pieceType = null;
         this.tileID = tileID;
         this.terrain = terrain;
         this.height = height;
@@ -39,37 +32,35 @@ public class Hex {
     }
 
     public int getPieceCount() {
-        return this.pieceCount;
+        return pieceCount;
     }
 
     public String getPieceType() {
-        if(this.pieceType == null) {
+        if(piece == null) {
             return "Empty";
-        }
-        else {
-            return this.pieceType.getPiece();
+        } else {
+            return piece.getTypeString();
         }
     }
 
-    public String getPlayer() {
-        return this.player.getColor();
+    public String getPieceColor() {
+        return piece.getColorString();
     }
 
     public String getID() {
-        return this.tileID;
+        return tileID;
     }
 
     public String getIDfirstChars(int size) {
         size = Math.abs(size);
-        size = Math.min(this.tileID.length(), size);
+        size = Math.min(tileID.length(), size);
 
-        return this.tileID.substring(0, size);
+        return tileID.substring(0, size);
     }
 
-    public void addPiecesToHex(Placeable piece, int pieceCount, PlayerColor owner) {
-        this.pieceType = piece;
-        this.pieceCount = pieceCount;
-        this.player = owner;
+    public void addPiecesToHex(Piece piece, int count) {
+        this.piece = piece;
+        this.pieceCount = count;
     }
 
     public static void printHexes(ArrayList<Hex> list){

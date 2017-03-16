@@ -4,42 +4,29 @@
 public class Player {
 
     protected Score score;
-    protected PlayerColor color;
-    protected Pieces pieces;
+    protected Color color;
+    protected PieceSet pieceSet;
 
-    public Player(PlayerColor color) {
+    public Player(Color color) {
         this.color = color;
         score = new Score();
-        pieces = new Pieces(getPlayerColor().getCode());
-    }
-
-    public Player(int code) {
-        switch (code) {
-            case 0:
-                this.color = PlayerColor.BLACK;
-                break;
-            case 1:
-                this.color = PlayerColor.WHITE;
-                break;
-        }
-        score = new Score();
-        pieces = new Pieces(getPlayerColor().getCode());
+        pieceSet = new PieceSet(color);
     }
 
     public Score getScore() {
         return score;
     }
 
-    public PlayerColor getPlayerColor() {
+    public Color getPlayerColor() {
         return color;
     }
 
-    public Pieces getPieces() {
-        return pieces;
+    public PieceSet getPieceSet() {
+        return pieceSet;
     }
 
     public boolean mustPlaceTotoro(){
-        if(pieces.getNumberOfVillagersRemaining() == 0 && pieces.getNumberOfTotoroRemaining() != 0){
+        if(pieceSet.getNumberOfVillagersRemaining() == 0 && pieceSet.getNumberOfTotoroRemaining() != 0){
             return true;
         }
         else{
@@ -60,13 +47,13 @@ public class Player {
     }
 
     public boolean canBuildSettlement(){
-        if (getPieces().villagerSet.size() > 0){
+        if (getPieceSet().villagerSet.size() > 0){
             return true;
         }
         return false;
     }
 
-//    public boolean canExpandSettlement(Pieces pieces){
+//    public boolean canExpandSettlement(PieceSet pieceSet){
 //        if (villagersRemaining() >= piecesNeeded()){
 //            return true;
 //        }
