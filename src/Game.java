@@ -22,7 +22,7 @@ public class Game {
 
     public boolean noValidMoves(){
         Player currentPlayer = players.get(currentPlayerIndex);
-        if(currentPlayer.mustPlaceTotoro()){
+        if(currentPlayer.getPieceSet().getNumberOfVillagersRemaining() == 0){
 
         }
         return false;

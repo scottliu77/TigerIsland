@@ -1,5 +1,3 @@
-import java.util.EnumSet;
-
 public class Piece {
 
     private Color color;
@@ -15,7 +13,7 @@ public class Piece {
     }
 
     public String getColorString() {
-        return color.getColor();
+        return color.getColorString();
     }
 
     public PieceType getType() {
