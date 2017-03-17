@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Game {
 
-    private GlobalSettings globalSettings;
+    protected GlobalSettings globalSettings;
     protected ArrayList<Player> players;
     protected Board board;
     private int currentPlayerIndex;
