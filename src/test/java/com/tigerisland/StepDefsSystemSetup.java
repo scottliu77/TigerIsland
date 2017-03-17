@@ -29,11 +29,6 @@ public class StepDefsSystemSetup {
         players = aGame.players;
     }
 
-    @And("^that is an offline game$")
-    public void thatIsAnOfflineGame() throws Throwable {
-        assertTrue(aGame.globalSettings.offline);
-    }
-
     @When("^the game is started$")
     public void theGameIsStarted() throws Throwable {
         aGame.start();

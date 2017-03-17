@@ -1,8 +1,9 @@
 Feature: Offline System Setup
 
   Scenario: Offline games create their own tile deck
-    Given a game is created
-    And that game has players
-    And that is an offline game
-    When the game is started
-    Then then the game has a board
+    Given an offline game is created
+    And that offline game has players
+    When the offline game is started
+    Then then the game has a tile deck
+    And that deck has 48 total tiles
+    And that deck has 3 tiles of each valid combination of terrain types

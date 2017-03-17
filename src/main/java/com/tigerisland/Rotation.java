@@ -1,7 +1,5 @@
 package com.tigerisland;
 
-import com.tigerisland.Location;
-
 public final class Rotation {
 
     public static Location calculateRotation(int rotation) {

@@ -19,7 +19,7 @@ public class TigerIsland {
 
         parser = ArgumentParsers.newArgumentParser("TigerParser")
                 .defaultHelp(true)
-                .description("Specify com.tigerisland.TigerIsland match globalSettings.");
+                .description("Specify TigerIsland match globalSettings.");
         parser.addArgument("-o", "--offline").type(Arguments.booleanType())
                 .setDefault(GlobalSettings.defaultOffline)
                 .help("Toggle running system in offline mode, AI v. AI");

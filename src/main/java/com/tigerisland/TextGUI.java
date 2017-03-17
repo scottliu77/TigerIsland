@@ -1,8 +1,5 @@
 package com.tigerisland;
 
-import com.tigerisland.Hex;
-import com.tigerisland.Location;
-
 import java.util.ArrayList;
 
 public class TextGUI {

@@ -37,7 +37,7 @@ public class Match {
 
     private void constructOfflineGames() {
         for(int game = 0; game < globalSettings.gameCount; game++) {
-            games.add(game, new Game(globalSettings));
+            games.add(game, new Game(gameSettings));
         }
     }
 
