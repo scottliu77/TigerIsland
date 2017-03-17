@@ -3,12 +3,20 @@ package com.tigerisland;
 import java.util.*;
 
 public class Settlement {
-    String color;
-    ArrayList<PlacedHex> hexesInSettlement;
+    private Color color;
+    private ArrayList<PlacedHex> hexesInSettlement;
 
-    public Settlement(PlacedHex hexInSettlement, ArrayList<PlacedHex> allPlacedHexes){
-        this.color = hexInSettlement.getHex().getPieceColor();
-        findHexesInSettlement(hexInSettlement, allPlacedHexes);
+    public Settlement(PlacedHex hexInSettlement, ArrayList<PlacedHex> hexesInSettlement){
+
+        try {
+            this.color = hexInSettlement.getHex().getPieceColor();
+        } catch (NullPointerException exception) {
+            throw exception;
+        }
+
+        this.hexesInSettlement = hexesInSettlement;
+
+        findHexesInSettlement(hexInSettlement, this.hexesInSettlement);
     }
 
     public boolean containsTotoro(){
@@ -41,7 +49,7 @@ public class Settlement {
         }
     }
 
-    private boolean ownedBySamePlayer(String firstPieceColor, String secondPieceColor){
+    private boolean ownedBySamePlayer(Color firstPieceColor, Color secondPieceColor){
         return firstPieceColor.equals(secondPieceColor);
     }
 

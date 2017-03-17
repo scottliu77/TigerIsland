@@ -7,10 +7,12 @@ public class Board{
 
     protected ArrayList<PlacedHex> placedHexes;
     protected ArrayList<Location> edgeSpaces;
+    protected ArrayList<Settlement> settlements;
 
     public Board(){
         placedHexes = new ArrayList<PlacedHex>();
         edgeSpaces = new ArrayList<Location>();
+        settlements = new ArrayList<Settlement>();
     }
 
     public void placeTile(Tile tile, Location centerLoc, int rotation){

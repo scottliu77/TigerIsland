@@ -45,8 +45,8 @@ public class Hex {
         }
     }
 
-    public String getPieceColor() {
-        return piece.getColorString();
+    public Color getPieceColor() {
+        return piece.getColor();
     }
 
     public String getID() {
