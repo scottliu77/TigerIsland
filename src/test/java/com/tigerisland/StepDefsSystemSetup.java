@@ -63,4 +63,14 @@ public class StepDefsSystemSetup {
         }
         assertTrue(true);
     }
+
+    @Then("^all players have (\\d+) totoros$")
+    public void allPlayersHaveTotoros(int arg0) throws Throwable {
+        for(Player player: players) {
+            if(player.getPieceSet().totoroSet.size() != arg0) {
+                assertTrue(false);
+            }
+        }
+        assertTrue(true);
+    }
 }
