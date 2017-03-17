@@ -3,3 +3,6 @@ TigerIsland.iml
 cucumber/
 out/
 /.idea/
+!/cucumber/
+!/src/test/cucumber/
+/target/
