@@ -11,7 +11,7 @@ public class TimerTest {
 
     @Before
     public void createTimer() {
-        this.timer = new Timer(this.MAXSECONDS);
+        this.timer = new Timer(MAXSECONDS);
     }
 
     @Test
@@ -21,6 +21,6 @@ public class TimerTest {
 
     @Test
     public void testCanGetMaxSeconds() {
-        assertTrue(this.timer.getMaxSeconds() == this.MAXSECONDS);
+        assertTrue(timer.getMaxSeconds() == MAXSECONDS);
     }
 }

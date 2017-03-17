@@ -36,7 +36,7 @@ public class TigerIslandTest {
     @Test
     public void testCanStartTigerIslandDefault() {
         try {
-            tigerIsland.parseArguments(this.argsDefault);
+            tigerIsland.parseArguments(argsDefault);
         } catch (ArgumentParserException e) {
             e.printStackTrace();
         }

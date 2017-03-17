@@ -12,17 +12,17 @@ import static org.junit.Assert.*;
  */
 public class SettlementTest {
 /*
-    private com.tigerisland.Settlement settlement;
-    private com.tigerisland.Player player;
+    private Settlement settlement;
+    private Player player;
 
 
     @Before
     public void createSettlement(){
-        ArrayList<com.tigerisland.PlacedHex> allPlacedHexes = new ArrayList<>();
+        ArrayList<PlacedHex> allPlacedHexes = new ArrayList<>();
 
-        com.tigerisland.Hex hex = new com.tigerisland.Hex("dummyId", com.tigerisland.Terrain.GRASSLANDS);
-        this.settlement = new com.tigerisland.Settlement(hex, );
-        this.player = new com.tigerisland.Player(Color.BLACK);
+        Hex hex = new Hex("dummyId", com.tigerisland.Terrain.GRASSLANDS);
+        this.settlement = new Settlement(hex, );
+        this.player = new Player(Color.BLACK);
 
     }
 
@@ -39,12 +39,12 @@ public class SettlementTest {
 
     @Test
     public void testCanCreateSettlement(){
-        assertTrue(this.settlement != null);
+        assertTrue(settlement != null);
     }
 
    /*@Test
     public void testOwnedBySamePlayer(){
-        assertFalse(this.);
+        assertFalse();
     }*/
 
 

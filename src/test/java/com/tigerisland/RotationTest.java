@@ -15,7 +15,7 @@ public class RotationTest {
 
     @Test
     public void testCanCreateRotation() {
-        assertTrue(this.rotation != null);
+        assertTrue(rotation != null);
     }
 
     @Test

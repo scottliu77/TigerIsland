@@ -19,17 +19,17 @@ public class BoardTest{
 
     @Test
     public void testCanCreateBoard() {
-        assertTrue(this.board != null);
+        assertTrue(board != null);
     }
 
     @Test
     public void testCreatedBoardHasPlacedHexes() {
-        assertTrue(this.board.placedHexes != null);
+        assertTrue(board.placedHexes != null);
     }
 
     @Test
     public void testCreatedBoardHasEdgeSpaces() {
-        assertTrue(this.board.edgeSpaces != null);
+        assertTrue(board.edgeSpaces != null);
     }
 
     @Test
@@ -55,7 +55,7 @@ public class BoardTest{
 
     @Test
     public void testCanPlaceTile() {
-        this.board.placeTile(this.tile, this.location, 0);
-        TextGUI.printMap(this.board.locationsOfPlacedHexes(), this.board.edgeSpaces, this.board.hexesOfPlacedHexes());
+        board.placeTile(tile, location, 0);
+        TextGUI.printMap(board.locationsOfPlacedHexes(), board.edgeSpaces, board.hexesOfPlacedHexes());
     }
 }

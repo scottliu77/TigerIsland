@@ -15,27 +15,27 @@ public class TileTest {
 
     @Test
     public void testCanCreateTile() {
-        assertTrue(this.tile != null);
+        assertTrue(tile != null);
     }
 
     @Test
     public void testCanGetVolcanoHex() {
-        assertTrue(this.tile.getCenterHex() != null);
+        assertTrue(tile.getCenterHex() != null);
     }
 
     @Test
     public void testCanGetLeftHex() {
-        assertTrue(this.tile.getLeftHex() != null);
+        assertTrue(tile.getLeftHex() != null);
     }
 
     @Test
     public void testCanGetRightHex() {
-        assertTrue(this.tile.getRightHex() != null);
+        assertTrue(tile.getRightHex() != null);
     }
 
     @Test
     public void testCanGetUniqueId() {
-        assertTrue(this.tile.getUniqueID() instanceof String);
+        assertTrue(tile.getUniqueID() instanceof String);
     }
 
 }

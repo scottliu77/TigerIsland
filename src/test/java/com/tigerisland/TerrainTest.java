@@ -15,16 +15,16 @@ public class TerrainTest {
 
     @Test
     public void testCanCreateTerrain() {
-        assertTrue(this.terrainType != null);
+        assertTrue(terrainType != null);
     }
 
     @Test
     public void testCanGetTerrainCode() {
-        assertTrue(this.terrainType.getCode() == 1);
+        assertTrue(terrainType.getCode() == 1);
     }
 
     @Test
     public void testCanGetTerrainString() {
-        assertTrue(this.terrainType.getType() == "Grasslands");
+        assertTrue(terrainType.getType() == "Grasslands");
     }
 }

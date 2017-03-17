@@ -15,11 +15,11 @@ public class ColorTest {
 
     @Test
     public void testCanCreateVillagerColor() {
-        assertTrue(this.color != null);
+        assertTrue(color != null);
     }
 
     @Test
     public void testCanGetColorString() {
-        assertTrue(this.color.getColorString() == "Black");
+        assertTrue(color.getColorString() == "Black");
     }
 }

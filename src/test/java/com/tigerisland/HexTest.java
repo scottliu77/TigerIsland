@@ -15,7 +15,7 @@ public class HexTest {
 
     @Test
     public void testCanCreateHexUsingIDandTerrain() {
-        assertTrue(this.hex != null);
+        assertTrue(hex != null);
     }
 
     @Test
@@ -32,50 +32,50 @@ public class HexTest {
 
     @Test
     public void testCanGetHexTerrain() {
-        assertTrue(this.hex.getHexTerrain() == Terrain.VOLCANO);
+        assertTrue(hex.getHexTerrain() == Terrain.VOLCANO);
     }
 
     @Test
     public void testCanGetHexHeight() {
-        assertTrue(this.hex.getHeight() == 1);
+        assertTrue(hex.getHeight() == 1);
     }
 
     @Test
     public void testCanGetHexContentType() {
-        assertTrue(this.hex.getPieceType().equals("Empty"));
+        assertTrue(hex.getPieceType().equals("Empty"));
     }
 
     @Test
     public void testCanGetNonEmptyContentType() {
-        this.hex.addPiecesToHex(new Piece(Color.BLACK, PieceType.TOTORO), 1);
-        assertTrue(this.hex.getPieceType().equals("Totoro"));
+        hex.addPiecesToHex(new Piece(Color.BLACK, PieceType.TOTORO), 1);
+        assertTrue(hex.getPieceType().equals("Totoro"));
     }
 
     @Test
     public void testCanGetHexContentCount() {
-        assertTrue(this.hex.getPieceCount() == 0);
+        assertTrue(hex.getPieceCount() == 0);
     }
 
     @Test
     public void testCanGetHexID() {
-        assertTrue(this.hex.getID().equals("dummyID"));
+        assertTrue(hex.getID().equals("dummyID"));
     }
 
     @Test
     public void testCanGetHexIDsubstring() {
-        assertTrue(this.hex.getIDfirstChars(2).equals("du"));
+        assertTrue(hex.getIDfirstChars(2).equals("du"));
     }
 
     @Test
     public void testCanAddVillagerToHex() {
-        this.hex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
-        assertTrue(this.hex.getPieceType() == "Villager" && this.hex.getPieceCount() == 1);
+        hex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        assertTrue(hex.getPieceType() == "Villager" && hex.getPieceCount() == 1);
     }
 
     @Test
     public void testCanAddTotoroToHex() {
-        this.hex.addPiecesToHex(new Piece(Color.BLACK, PieceType.TOTORO), 1);
-        assertTrue(this.hex.getPieceType() == "Totoro" && this.hex.getPieceCount() == 1);
+        hex.addPiecesToHex(new Piece(Color.BLACK, PieceType.TOTORO), 1);
+        assertTrue(hex.getPieceType() == "Totoro" && hex.getPieceCount() == 1);
     }
 
 

@@ -17,27 +17,27 @@ public class PieceTest {
 
     @Test
     public void testCanCreatePiece() {
-        assertTrue(this.villager != null);
+        assertTrue(villager != null);
     }
 
     @Test
     public void testCanGetPieceTypeString() {
-        assertTrue(this.villager.getTypeString() == "Villager");
+        assertTrue(villager.getTypeString() == "Villager");
     }
 
     @Test
     public void testCanGetPieceCode() {
-        assertTrue(this.villager.getType() == PieceType.VILLAGER);
+        assertTrue(villager.getType() == PieceType.VILLAGER);
     }
 
     @Test
     public void testCanGetPieceColorString() {
-        assertTrue(this.totoro.getColorString() == "White");
+        assertTrue(totoro.getColorString() == "White");
     }
 
     @Test
     public void testCanGetPieceColor() {
-        assertTrue(this.totoro.getColor() == Color.WHITE);
+        assertTrue(totoro.getColor() == Color.WHITE);
     }
 
 }

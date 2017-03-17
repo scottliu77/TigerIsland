@@ -17,17 +17,17 @@ public class PlayerTest {
 
     @Test
     public void testCanCreatePlayer() {
-        assertTrue(this.playerWhite != null);
+        assertTrue(playerWhite != null);
     }
 
     @Test
     public void testCanGetPlayerColor() {
-        assertTrue(this.playerWhite.getPlayerColor().getColorString() == "White");
+        assertTrue(playerWhite.getPlayerColor().getColorString() == "White");
     }
 
     @Test
     public void testCanGetPlayerScore() {
-        assertTrue(this.playerWhite.getScore() == 0);
+        assertTrue(playerWhite.getScore() == 0);
     }
 
     @Test
@@ -39,7 +39,7 @@ public class PlayerTest {
 
     @Test
     public void testCanGetPlayerPieceSet() {
-        assertTrue(this.playerWhite.getPieceSet() != null);
+        assertTrue(playerWhite.getPieceSet() != null);
     }
 
     @Test

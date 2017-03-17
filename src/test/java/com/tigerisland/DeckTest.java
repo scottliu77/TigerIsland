@@ -23,34 +23,34 @@ public class DeckTest{
 
     @Test
     public void testCanCreateDeck() {
-        assertTrue(this.deck != null);
+        assertTrue(deck != null);
     }
 
     @Test
     public void testCanCreateNonEmptyDeck() {
-        assertTrue(this.deck.getDeckSize() > 0);
+        assertTrue(deck.getDeckSize() > 0);
     }
 
     @Test
     public void testCanCreateDeckOfSize48() {
-        assertTrue(this.deck.getDeckSize() == 48);
+        assertTrue(deck.getDeckSize() == 48);
     }
 
     @Test
     public void testCanShuffleDeckOnceCreated() {
-        String baseDeckString = Arrays.toString(this.deck.tileDeck.toArray());
-        this.deck.shuffleDeck();
-        String altDeckString = Arrays.toString(this.deck.tileDeck.toArray());
+        String baseDeckString = Arrays.toString(deck.tileDeck.toArray());
+        deck.shuffleDeck();
+        String altDeckString = Arrays.toString(deck.tileDeck.toArray());
         assertNotEquals(baseDeckString, altDeckString);
     }
 
     @Test
     public void testEachTileHasUniqueId() {
-        int deckSize = this.deck.getDeckSize();
+        int deckSize = deck.getDeckSize();
 
         Set<String> listOfUniqueIDs = new HashSet<String>();
 
-        for (Tile tile : this.deck.tileDeck) {
+        for (Tile tile : deck.tileDeck) {
             listOfUniqueIDs.add(tile.getUniqueID());
         }
 

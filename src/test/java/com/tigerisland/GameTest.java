@@ -17,6 +17,6 @@ public class GameTest {
 
     @Test
     public void testCanCreateGame() {
-        assertTrue(this.game != null);
+        assertTrue(game != null);
     }
 }

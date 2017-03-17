@@ -31,69 +31,69 @@ public class LocationTest {
 
     @Before
     public void setupStreams() {
-        this.stdout = System.out;
+        stdout = System.out;
         System.setOut(new PrintStream(outText));
 
-        this.errout = System.err;
+        errout = System.err;
         System.setErr(new PrintStream(errText));
     }
 
     @After
     public void cleanupStreams() {
-        System.setOut(this.stdout);
-        System.setErr(this.errout);
+        System.setOut(stdout);
+        System.setErr(errout);
     }
 
     @Test
     public void testCanCreateLocationUsingCoordinates() {
-        assertTrue(this.location != null);
+        assertTrue(location != null);
     }
 
     @Test
     public void testCanCreateLocationUsingLocation() {
-        Location locationBasedLocation = new Location((this.location));
+        Location locationBasedLocation = new Location((location));
         assertTrue(locationBasedLocation instanceof Location);
     }
 
     @Test
     public void testStoresCorrectLocationValues() {
-        assertTrue((this.location.x == 3) && (this.location.y == 4));
+        assertTrue((location.x == 3) && (location.y == 4));
     }
 
     @Test
     public void testCanProperlyAddLocationValuesUsingTwoLocations() {
-        Location summedLocation = Location.add(this.location, this.newLocation);
+        Location summedLocation = Location.add(location, newLocation);
         assertTrue(summedLocation.x == 4 && summedLocation.y == 5);
     }
 
     @Test
     public void testCanRotateLocationByAdding() {
-        Location rotatedLocation = Location.rotateHexRight(this.location, 0);
-        assertTrue(rotatedLocation.x == this.location.x + 1 && rotatedLocation.y == this.location.y);
+        Location rotatedLocation = Location.rotateHexRight(location, 0);
+        assertTrue(rotatedLocation.x == location.x + 1 && rotatedLocation.y == location.y);
     }
 
     @Test
     public void testCanEvaluateGreaterThan() {
-        assertTrue(this.location.greaterThan(this.newLocation));
+        assertTrue(location.greaterThan(newLocation));
     }
 
     @Test
     public void testCanEvaluteLessThan() {
-        assertTrue(this.newLocation.lessThan(this.location));
+        assertTrue(newLocation.lessThan(location));
     }
 
     @Test
     public void testCanEvaluateEqualTo() {
-        assertTrue(this.location.equalTo(this.location));
+        assertTrue(location.equalTo(location));
     }
 
     @Test
     public void testCanCreateLocationList() {
         ArrayList<Location> locationList = new ArrayList<Location>();
-        locationList.add(this.location);
+        locationList.add(location);
         Location.printLocations(locationList);
 
-        String outTextNewlineStripped = this.outText.toString().replace("\n", "").replace("\r", "");
+        String outTextNewlineStripped = outText.toString().replace("\n", "").replace("\r", "");
         assertEquals("X=3 : Y=4", outTextNewlineStripped);
     }
 

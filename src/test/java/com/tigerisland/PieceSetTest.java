@@ -10,7 +10,7 @@ public class PieceSetTest {
 
     @Before
     public void createPieces() {
-        pieceSet = new PieceSet(Color.BLACK);
+        this.pieceSet = new PieceSet(Color.BLACK);
     }
 
     @Test

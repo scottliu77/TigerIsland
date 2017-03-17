@@ -1,11 +1,5 @@
 package com.tigerisland;
 
-import com.tigerisland.Hex;
-import com.tigerisland.Location;
-
-/**
- * Created by johnzoldos on 3/16/17.
- */
 public class PlacedHex {
     private Hex hex;
     private Location location;

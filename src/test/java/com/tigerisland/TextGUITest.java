@@ -21,31 +21,31 @@ public class TextGUITest {
 
     @Test
     public void testCanCreateTextGUI() {
-        assertTrue(this.textGUI != null);
+        assertTrue(textGUI != null);
     }
 
     @Test
     public void testCanPrintPlacedHexLocations() {
-        this.board.placeTile(this.tile, this.location, 0);
-        TextGUI.printPlacedHexLocations(this.board.locationsOfPlacedHexes());
+        board.placeTile(tile, location, 0);
+        TextGUI.printPlacedHexLocations(board.locationsOfPlacedHexes());
     }
 
     @Test
     public void testCanPrintEdgeSpaces() {
-        this.board.placeTile(this.tile, this.location, 0);
-        TextGUI.printEdgeSpaces(this.board.edgeSpaces);
+        board.placeTile(tile, location, 0);
+        TextGUI.printEdgeSpaces(board.edgeSpaces);
     }
 
     @Test
     public void testCanPrintPlacedHexTiles() {
-        this.board.placeTile(this.tile, this.location, 0);
-        TextGUI.printPlacedHexTiles(this.board.hexesOfPlacedHexes());
+        board.placeTile(tile, location, 0);
+        TextGUI.printPlacedHexTiles(board.hexesOfPlacedHexes());
     }
 
     @Test
     public void testCanPrintMap() {
-        this.board.placeTile(this.tile, this.location, 0);
-        TextGUI.printMap(this.board.locationsOfPlacedHexes(), this.board.edgeSpaces, this.board.hexesOfPlacedHexes());
+        board.placeTile(tile, location, 0);
+        TextGUI.printMap(board.locationsOfPlacedHexes(), board.edgeSpaces, board.hexesOfPlacedHexes());
     }
 
 
