@@ -1,5 +1,6 @@
 package com.tigerisland;
 
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -9,11 +10,12 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.assertTrue;
 
-public class MyStepdefs {
+public class StepDefsSystemSetup {
 
     private TigerIsland tigerIsland;
     private Game aGame;
     private ArrayList<Player> players;
+    private Board board;
 
     @Given("^a game is created$")
     public void aGameIsCreated() throws Throwable {
@@ -29,7 +31,6 @@ public class MyStepdefs {
 
     @When("^the game is started$")
     public void theGameIsStarted() throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
         aGame.start();
     }
 
@@ -41,5 +42,10 @@ public class MyStepdefs {
             }
         }
         assertTrue(true);
+    }
+
+    @Then("^then the game has a board$")
+    public void thenTheGameHasABoard() throws Throwable {
+        assertTrue(aGame.board != null);
     }
 }

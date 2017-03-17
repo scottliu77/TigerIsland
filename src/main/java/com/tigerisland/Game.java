@@ -6,7 +6,7 @@ public class Game {
 
     private GlobalSettings globalSettings;
     protected ArrayList<Player> players;
-    private Board board;
+    protected Board board;
     private int currentPlayerIndex;
 
     public Game(GlobalSettings globalSettings){

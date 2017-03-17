@@ -1,4 +1,4 @@
-Feature: Startup
+Feature: System Startup
 
   Scenario: Each Player Starts With Zero Points
   Given a game is created
