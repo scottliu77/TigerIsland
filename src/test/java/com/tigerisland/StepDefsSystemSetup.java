@@ -53,4 +53,14 @@ public class StepDefsSystemSetup {
     public void thenTheGameHasABoard() throws Throwable {
         assertTrue(aGame.board != null);
     }
+
+    @Then("^all players have (\\d+) villagers$")
+    public void allPlayersHaveVillagers(int arg0) throws Throwable {
+        for(Player player: players) {
+            if(player.getPieceSet().villagerSet.size() != arg0) {
+                assertTrue(false);
+            }
+        }
+        assertTrue(true);
+    }
 }
