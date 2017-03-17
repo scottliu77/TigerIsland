@@ -9,7 +9,7 @@ import java.util.*;
 
 import static org.junit.Assert.assertTrue;
 
-public class StepDefsOfflineSystemSetup {
+public class OfflineSystemSetupStepDefs {
 
     private TigerIsland tigerIsland;
     private Game aGame;
