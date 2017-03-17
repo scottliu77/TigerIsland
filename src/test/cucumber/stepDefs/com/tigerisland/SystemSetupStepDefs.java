@@ -5,8 +5,11 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import gherkin.formatter.model.Examples;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
@@ -67,5 +70,29 @@ public class SystemSetupStepDefs {
             }
         }
         assertTrue(true);
+    }
+
+    @Then("^then the game has rules the following moves:$")
+    public void thenTheGameHasRulesTheFollowingMoves(List<String> moves) throws Throwable {
+        int movesToCheck = moves.size();
+        try {
+            Class rules = Rules.class;
+            Method[] ruleMethods = rules.getDeclaredMethods();
+            for (String move : moves) {
+                for (Method method : ruleMethods) {
+                    if(method.getName().equals(move)) {
+                        movesToCheck--;
+                    }
+
+                }
+            }
+            if(movesToCheck == 0) {
+                assertTrue(true);
+            } else {
+                assertTrue(false);
+            }
+        } catch (Exception exception) {
+            assertTrue(false);
+        }
     }
 }
