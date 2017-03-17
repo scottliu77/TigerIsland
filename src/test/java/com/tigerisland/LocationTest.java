@@ -1,13 +1,11 @@
 package com.tigerisland;
 
-import com.sun.xml.internal.bind.v2.util.ByteArrayOutputStreamEx;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
@@ -68,7 +66,7 @@ public class LocationTest {
 
     @Test
     public void testCanRotateLocationByAdding() {
-        Location rotatedLocation = Location.rotateHexRight(location, 0);
+        Location rotatedLocation = Location.rotateHexLeft(location, 0);
         assertTrue(rotatedLocation.x == location.x + 1 && rotatedLocation.y == location.y);
     }
 

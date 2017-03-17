@@ -17,8 +17,8 @@ public class Board{
 
     public void placeTile(Tile tile, Location centerLoc, int rotation){
         placeHex(tile.getCenterHex(), centerLoc);
-        placeHex(tile.getRightHex(), Location.rotateHexRight(centerLoc, rotation));
-        placeHex(tile.getLeftHex(), Location.rotateHexRight(centerLoc, rotation + 60));
+        placeHex(tile.getRightHex(), Location.rotateHexLeft(centerLoc, rotation));
+        placeHex(tile.getLeftHex(), Location.rotateHexLeft(centerLoc, rotation + 60));
     }
 
     private void placeHex(Hex hex, Location loc){
@@ -82,7 +82,7 @@ public class Board{
     private void updateListOfEdgeSpaces(Location loc) {
         removeLocationFromOrderedSurroundingEdgeSpaces(loc);
         for(int rotation = 0; rotation < 360; rotation += 60){
-            Location newLoc = Location.rotateHexRight(loc, rotation);
+            Location newLoc = Location.rotateHexLeft(loc, rotation);
             if(!hexExistsAtLocation(newLoc))
                 insertLocationIntoOrderedSurroundingEdgeSpaces(newLoc);
         }

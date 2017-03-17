@@ -16,7 +16,7 @@ public class Location{
         this.y = loc.y;
     }
 
-    public static Location rotateHexRight(Location loc, int rotation) {
+    public static Location rotateHexLeft(Location loc, int rotation) {
         Location shiftLocation = Rotation.calculateRotation(rotation);
         return Location.add(loc, shiftLocation);
     }
@@ -69,7 +69,7 @@ public class Location{
     public ArrayList<Location> getAdjacentLocations(){
         ArrayList<Location> adjacentLocations = new ArrayList<Location>();
         for (int angle = 0; angle <= 300; angle += 60) {
-            adjacentLocations.add(Location.rotateHexRight(this, angle));
+            adjacentLocations.add(Location.rotateHexLeft(this, angle));
         }
         return adjacentLocations;
     }
