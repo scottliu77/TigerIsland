@@ -17,12 +17,4 @@ public class PlacedHex {
         return this.hex;
     }
 
-    public String getPieceColor(){
-        return hex.getPieceColor();
-    }
-
-    public String getPieceType(){
-        return hex.getPieceType();
-    }
-
 }

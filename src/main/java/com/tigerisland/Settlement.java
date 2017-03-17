@@ -7,13 +7,13 @@ public class Settlement {
     ArrayList<PlacedHex> hexesInSettlement;
 
     public Settlement(PlacedHex hexInSettlement, ArrayList<PlacedHex> allPlacedHexes){
-        this.color = hexInSettlement.getPieceColor();
+        this.color = hexInSettlement.getHex().getPieceColor();
         findHexesInSettlement(hexInSettlement, allPlacedHexes);
     }
 
     public boolean containsTotoro(){
         for(PlacedHex hex : hexesInSettlement){
-            if(hex.getPieceType().equals(PieceType.TOTORO)){
+            if(hex.getHex().getPieceType().equals(PieceType.TOTORO)){
                 return true;
             }
         }
@@ -34,7 +34,7 @@ public class Settlement {
             hexesInSettlement.add(currentPlacedHex);
             ArrayList<PlacedHex> adjacentHexesToCurrentHex = findAdjacentHexes(startHex, allPlacedHexes);
             for(PlacedHex hexInAdjacentList : adjacentHexesToCurrentHex) {
-                if (ownedBySamePlayer(currentPlacedHex.getPieceColor(), color) && !visitedHexes.contains(hexInAdjacentList)) {
+                if (ownedBySamePlayer(currentPlacedHex.getHex().getPieceColor(), color) && !visitedHexes.contains(hexInAdjacentList)) {
                     hexesToBeAnalyzed.add(hexInAdjacentList);
                 }
             }
