@@ -123,15 +123,17 @@ public class SettlementTest {
         assertTrue(settlement.size() == 3);
     }
 
-//    @Test
-//    public void testContainsTotoro() {
-//        assertTrue(settlement.containsTotoro());
-//    }
-//
-//    @Test
-//    public void testCanTellWhenSettlementDoesntHaveTotoro() {
-//
-//    }
+  @Test
+    public void testContainsTotoro() {
+        settlement = new Settlement(placedHex1, allPlacedHexes);
+        assertTrue(settlement.containsTotoro());
+    }
+
+    @Test
+    public void testCanTellWhenSettlementDoesntHaveTotoro() {
+        settlement = new Settlement(placedHex4, allPlacedHexes);
+        assertFalse(settlement.containsTotoro());
+    }
 
 
 

@@ -13,7 +13,7 @@ public class Settlement {
 
     public boolean containsTotoro(){
         for(PlacedHex hex : hexesInSettlement){
-            if(hex.getHex().getPieceType().equals(PieceType.TOTORO)){
+            if(hex.getHex().getPieceType().equals("Totoro")){
                 return true;
             }
         }
