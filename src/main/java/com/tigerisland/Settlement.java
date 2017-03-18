@@ -3,20 +3,12 @@ package com.tigerisland;
 import java.util.*;
 
 public class Settlement {
-    private Color color;
-    private ArrayList<PlacedHex> hexesInSettlement;
+    Color color;
+    ArrayList<PlacedHex> hexesInSettlement = new ArrayList<PlacedHex>();
 
-    public Settlement(PlacedHex hexInSettlement, ArrayList<PlacedHex> hexesInSettlement){
-
-        try {
-            this.color = hexInSettlement.getHex().getPieceColor();
-        } catch (NullPointerException exception) {
-            throw exception;
-        }
-
-        this.hexesInSettlement = hexesInSettlement;
-
-        findHexesInSettlement(hexInSettlement, this.hexesInSettlement);
+    public Settlement(PlacedHex hexInSettlement, ArrayList<PlacedHex> allPlacedHexes){
+        this.color = hexInSettlement.getHex().getPieceColor();
+        findHexesInSettlement(hexInSettlement, allPlacedHexes);
     }
 
     public boolean containsTotoro(){
@@ -40,10 +32,14 @@ public class Settlement {
             PlacedHex currentPlacedHex = hexesToBeAnalyzed.remove();
             visitedHexes.add(currentPlacedHex);
             hexesInSettlement.add(currentPlacedHex);
-            ArrayList<PlacedHex> adjacentHexesToCurrentHex = findAdjacentHexes(startHex, allPlacedHexes);
+            ArrayList<PlacedHex> adjacentHexesToCurrentHex = findAdjacentHexesForOneHex(currentPlacedHex, allPlacedHexes);
             for(PlacedHex hexInAdjacentList : adjacentHexesToCurrentHex) {
-                if (ownedBySamePlayer(currentPlacedHex.getHex().getPieceColor(), color) && !visitedHexes.contains(hexInAdjacentList)) {
-                    hexesToBeAnalyzed.add(hexInAdjacentList);
+                try {
+                    if (ownedBySamePlayer(hexInAdjacentList.getHex().getPieceColor(), color) && !visitedHexes.contains(hexInAdjacentList)) {
+                        hexesToBeAnalyzed.add(hexInAdjacentList);
+                    }
+                }catch(NullPointerException e){
+                    continue;
                 }
             }
         }
@@ -55,40 +51,18 @@ public class Settlement {
 
 
     /*I know this is ugly and I'll clean it up. Just wanted to push what I had. - Jack*/
-    private ArrayList<PlacedHex> findAdjacentHexes(PlacedHex startHex, ArrayList<PlacedHex> allPlacedHexes){
+    private ArrayList<PlacedHex> findAdjacentHexesForOneHex(PlacedHex startHex, ArrayList<PlacedHex> allPlacedHexes){
         ArrayList<PlacedHex> adjacentHexes = new ArrayList<PlacedHex>();
-        HashMap<Location, PlacedHex> allPlacedHexesMap = getAllPlacedHexesMap(allPlacedHexes);
+        HashMap<Location, PlacedHex> allPlacedHexesMap = getAllPlacedHexesAsMap(allPlacedHexes);
         Location startingLocation = startHex.getLocation();
-        int startingX = startingLocation.x;
-        int startingY = startingLocation.y;
-        Location firstAdjacentLocation = new Location(startingX + 1, startingY);
-        Location secondAdjacentLocation = new Location(startingX + 1, startingY - 1);
-        Location thirdAdjacentLocation = new Location(startingX - 1, startingY + 1);
-        Location fourthAdjacentLocation = new Location(startingX -1 , startingY);
-        Location fifthAdjacentLocation = new Location(startingX, startingY + 1);
-        Location sixthAdjacentLocation = new Location(startingX, startingY - 1);
-        if(allPlacedHexesMap.containsKey(firstAdjacentLocation)){
-            adjacentHexes.add(allPlacedHexesMap.get(firstAdjacentLocation));
-        }
-        if(allPlacedHexesMap.containsKey(secondAdjacentLocation)){
-            adjacentHexes.add(allPlacedHexesMap.get(secondAdjacentLocation));
-        }
-        if(allPlacedHexesMap.containsKey(thirdAdjacentLocation)){
-            adjacentHexes.add(allPlacedHexesMap.get(thirdAdjacentLocation));
-        }
-        if(allPlacedHexesMap.containsKey(fourthAdjacentLocation)){
-            adjacentHexes.add(allPlacedHexesMap.get(fourthAdjacentLocation));
-        }
-        if(allPlacedHexesMap.containsKey(fifthAdjacentLocation)){
-            adjacentHexes.add(allPlacedHexesMap.get(fifthAdjacentLocation));
-        }
-        if(allPlacedHexesMap.containsKey(sixthAdjacentLocation)){
-            adjacentHexes.add(allPlacedHexesMap.get(sixthAdjacentLocation));
-        }
+        int x = startingLocation.x;
+        int y = startingLocation.y;
+        adjacentHexes.addAll(findListOfAdjacentHexesBasedOnCoordinates(x,y, allPlacedHexes));
         return adjacentHexes;
     }
 
-    private HashMap<Location, PlacedHex> getAllPlacedHexesMap(ArrayList<PlacedHex> allPlacedHexes){
+
+    private HashMap<Location, PlacedHex> getAllPlacedHexesAsMap(ArrayList<PlacedHex> allPlacedHexes){
         HashMap<Location, PlacedHex> allPlacedHexesMap = new HashMap<Location, PlacedHex>();
         for(int i = 0;i<allPlacedHexes.size();i++){
             PlacedHex currentHex = allPlacedHexes.get(i);
@@ -97,5 +71,35 @@ public class Settlement {
         return allPlacedHexesMap;
     }
 
+    private ArrayList<PlacedHex> findListOfAdjacentHexesBasedOnCoordinates(int x, int y, ArrayList<PlacedHex> allPlacedHexes) {
+        ArrayList<PlacedHex> adjacentHexes = new ArrayList<PlacedHex>();
+        for(PlacedHex hex : allPlacedHexes) {
+            if(areCoordinatesAdjacent(x, y, hex.getLocation().x, hex.getLocation().y)){
+                adjacentHexes.add(hex);
+            }
+        }
+        return  adjacentHexes;
+    }
 
+    private boolean areCoordinatesAdjacent(int x, int y, int comparisonX, int comparisonY){
+        if(x == comparisonX - 1 && y == comparisonY + 1){
+            return true;
+        }
+        if(x == comparisonX + 1 && y == comparisonY - 1){
+            return true;
+        }
+        if(x == comparisonX && y == comparisonY + 1){
+            return true;
+        }
+        if(x == comparisonX && y == comparisonY - 1){
+            return true;
+        }
+        if(x == comparisonX + 1 && y == comparisonY){
+            return true;
+        }
+        if(x == comparisonX - 1 && y == comparisonY){
+            return true;
+        }
+        return false;
+    }
 }

@@ -17,4 +17,5 @@ public class PlacedHex {
         return this.hex;
     }
 
+
 }
