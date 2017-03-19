@@ -76,7 +76,7 @@ public class Board{
             placedHexes.add(placedHex);
         }
         else {
-            placedHexes.add(0,placedHex);
+            placedHexes.add(index,placedHex);
         }
     }
 
