@@ -20,6 +20,10 @@ public class Settlement {
         return false;
     }
 
+    public ArrayList<PlacedHex> getHexesInSettlement(){
+        return hexesInSettlement;
+    }
+
     public int size(){
         return hexesInSettlement.size();
     }
@@ -28,15 +32,16 @@ public class Settlement {
         Queue<PlacedHex> hexesToBeAnalyzed = new LinkedList<PlacedHex>();
         hexesToBeAnalyzed.add(startHex);
         HashSet<PlacedHex> visitedHexes = new HashSet<PlacedHex>();
+        visitedHexes.add(startHex);
         while(!hexesToBeAnalyzed.isEmpty()){
             PlacedHex currentPlacedHex = hexesToBeAnalyzed.remove();
-            visitedHexes.add(currentPlacedHex);
             hexesInSettlement.add(currentPlacedHex);
             ArrayList<PlacedHex> adjacentHexesToCurrentHex = findAdjacentHexesForOneHex(currentPlacedHex, allPlacedHexes);
             for(PlacedHex hexInAdjacentList : adjacentHexesToCurrentHex) {
                 try {
                     if (ownedBySamePlayer(hexInAdjacentList.getHex().getPieceColor(), color) && !visitedHexes.contains(hexInAdjacentList)) {
                         hexesToBeAnalyzed.add(hexInAdjacentList);
+                        visitedHexes.add(hexInAdjacentList);
                     }
                 }catch(NullPointerException e){
                     continue;

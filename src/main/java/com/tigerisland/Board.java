@@ -9,6 +9,7 @@ public class Board{
     protected ArrayList<Location> edgeSpaces;
     protected ArrayList<Settlement> settlements;
 
+
     public Board(){
         placedHexes = new ArrayList<PlacedHex>();
         edgeSpaces = new ArrayList<Location>();
@@ -220,4 +221,25 @@ public class Board{
         }
         return  hexesOfPlacedHexes;
     }
+
+    public void updateSettlements(){
+        settlements.clear();
+        HashSet<PlacedHex> visitedHexes = new HashSet<PlacedHex>();
+        for(PlacedHex hex : placedHexes){
+            if(visitedHexes.contains(hex)){
+                continue;
+            }
+            Settlement settlement = new Settlement(hex, placedHexes);
+            settlements.add(settlement);
+            addHexesOfSettlementToHashSet(settlement, visitedHexes);
+        }
+    }
+
+    private void addHexesOfSettlementToHashSet(Settlement settlement, HashSet<PlacedHex> visitedHexes){
+        for(PlacedHex hex : settlement.getHexesInSettlement()){
+            visitedHexes.add(hex);
+        }
+    }
+
+
 }

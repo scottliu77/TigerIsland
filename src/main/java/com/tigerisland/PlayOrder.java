@@ -24,9 +24,10 @@ public class PlayOrder {
     }
 
     public void setNextPlayer(){
-        currentPlayer++;
-        if (currentPlayer >= playerCount) {
+        if (currentPlayer == playerCount) {
             currentPlayer = 0;
+        } else {
+            currentPlayer++;
         }
     }
 }

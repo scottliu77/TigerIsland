@@ -2,6 +2,9 @@ package com.tigerisland;
 
 import org.junit.Test;
 import org.junit.Before;
+
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
 public class BoardTest{
@@ -9,12 +12,14 @@ public class BoardTest{
     private Board board;
     private Tile tile;
     private Location location;
+    private ArrayList<PlacedHex> placedHexes;
 
     @Before
     public void createBoard() {
         this.board = new Board();
         this.tile = new Tile(Terrain.GRASSLANDS, Terrain.JUNGLE);
         this.location = new Location(0,0);
+        this.placedHexes = new ArrayList<PlacedHex>();
     }
 
     @Test
@@ -58,4 +63,62 @@ public class BoardTest{
         board.placeTile(tile, location, 0);
         TextGUI.printMap(board.locationsOfPlacedHexes(), board.edgeSpaces, board.hexesOfPlacedHexes());
     }
+
+    @Test
+    public void testUpdateSettlements(){
+        Hex hex1 = new Hex("hex1", Terrain.LAKE);
+        Hex hex2 = new Hex("hex2", Terrain.LAKE);
+        Hex hex3 = new Hex("hex3", Terrain.LAKE);
+        Hex hex4 = new Hex("hex4", Terrain.LAKE);
+
+        hex1.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        hex2.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        hex3.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        hex4.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+
+        Location loc1 = new Location(0,0);
+        Location loc2 = new Location(0,-1);
+        Location loc3 = new Location(0,1);
+        Location loc4 = new Location(1,0);
+
+        PlacedHex placedHex1 = new PlacedHex(hex1, loc1);
+        PlacedHex placedHex2 = new PlacedHex(hex2, loc2);
+        PlacedHex placedHex3 = new PlacedHex(hex3, loc3);
+        PlacedHex placedHex4 = new PlacedHex(hex4, loc4);
+
+        placedHexes.add(placedHex1);
+        placedHexes.add(placedHex2);
+        placedHexes.add(placedHex3);
+        placedHexes.add(placedHex4);
+
+        Settlement settlement = new Settlement(placedHex1, placedHexes);
+
+        board.placedHexes = this.placedHexes;
+        board.settlements.add(settlement);
+
+        assertTrue(settlement.size() == 4 && !settlement.containsTotoro());
+
+        Hex hex5 = new Hex("hex5", Terrain.LAKE);
+        Hex hex6 = new Hex("hex6", Terrain.LAKE);
+
+        hex5.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        hex6.addPiecesToHex(new Piece(Color.BLACK, PieceType.TOTORO), 1);
+
+        Location loc5 = new Location(0,2);
+        Location loc6 = new Location(2,0);
+
+        PlacedHex placedHex5 = new PlacedHex(hex5, loc5);
+        PlacedHex placedHex6 = new PlacedHex(hex6, loc6);
+
+        placedHexes.add(placedHex5);
+        placedHexes.add(placedHex6);
+
+        board.updateSettlements();
+
+        assertTrue(board.settlements.get(0).containsTotoro());
+
+        assertTrue(board.settlements.get(0).getHexesInSettlement().size() == 6);
+
+    }
+
 }

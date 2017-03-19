@@ -8,7 +8,7 @@ public class Game {
     protected ArrayList<Player> players;
     protected Board board;
     protected Rules rules;
-    private int currentPlayerIndex;
+    private PlayOrder playOrder;
 
     public Game(GameSettings gameSettings){
         this.gameSettings = gameSettings;
@@ -25,9 +25,9 @@ public class Game {
     }
 
     public boolean noValidMoves(){
-        Player currentPlayer = players.get(currentPlayerIndex);
-        if(currentPlayer.getPieceSet().getNumberOfVillagersRemaining() == 0){
-
+        Player currentPlayer = playOrder.getCurrentPlayer();
+        if(noMoreVillagers(currentPlayer) && cantPlayTotoro(currentPlayer)){
+            return true;
         }
         return false;
     }
@@ -41,4 +41,17 @@ public class Game {
         return false;
     }
 
+    private boolean noMoreVillagers(Player player){
+        return player.getPieceSet().getNumberOfVillagersRemaining() == 0;
+    }
+
+    private boolean cantPlayTotoro(Player player){
+        if(player.getPieceSet().getNumberOfTotoroRemaining() == 0){
+            return true;
+        }
+        //otherwise check board's list of settlements (to be created) and see if one exists in this player's color with
+        //room for a totoro. For every large enough settlement, see if there's an adjacent hex capable of being settled
+
+        return false;
+    }
 }
