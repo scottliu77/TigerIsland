@@ -32,7 +32,7 @@ public class Game {
         return false;
     }
 
-    public boolean playerIsOutOfPieces(){
+    private boolean playerIsOutOfPieces(){
         for(Player player : players){
             if(player.getPieceSet().inventoryEmpty()){
                 return true;
