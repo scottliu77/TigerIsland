@@ -7,7 +7,7 @@ import java.lang.reflect.Method;
 public final class Rules {
 
     protected Class tilePlacementRules = TilePlacementRules.class;
-    protected Class villageCreationRules = VillagerPlacementRules.class;
+    protected Class villageCreationRules = VillageCreationRules.class;
     protected Class villageExpansionRules = VillageExpansionRules.class;
     protected Class totoroPlacementRules = TotoroPlacementRules.class;
 
@@ -59,7 +59,7 @@ public final class Rules {
         return true;
     }
 
-    public void checkAllRules(Class runnableClass, Game game) throws InvalidMoveException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, InstantiationException{
+    private void checkAllRules(Class runnableClass, Game game) throws InvalidMoveException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, InstantiationException{
         Object ruleObject = runnableClass.newInstance();
         Method[] methods = runnableClass.getDeclaredMethods();
         for (Method runnableMethod : methods) {

@@ -5,13 +5,15 @@ import java.util.ArrayList;
 public class Game {
 
     protected GameSettings gameSettings;
-    protected ArrayList<Player> players;
+    protected Deck deck;
     protected Board board;
+    protected ArrayList<Player> players;
     protected Rules rules;
-    private PlayOrder playOrder;
+    protected Move move;
 
     public Game(GameSettings gameSettings){
         this.gameSettings = gameSettings;
+        deck = this.gameSettings.getDeck();
         board = new Board();
         players = new ArrayList<Player>();
         rules = new Rules();
@@ -21,11 +23,66 @@ public class Game {
     }
 
     public void start() {
+        while(noEndConditionsAreMet()) {
+            takeTurn();
+            gameSettings.getPlayOrder().setNextPlayer();
+        }
+
+        // TODO fancy game-ending stuff
+    }
+    private boolean noEndConditionsAreMet() {
+        return !noValidMoves() && !playerIsOutOfPieces();
+    }
+
+    private void takeTurn() {
+        try {
+            // Listen for tile placement
+            move = listenForMove();
+            processTilePlacementMove();
+
+            // Listen for build option
+            move = listenForMove();
+
+            switch (move.getMoveType()) {
+                case VILLAGECREATION:
+                    processVillageCreationMove();
+                case VILLAGEEXPANSION:
+                    processVillageExpansionMove();
+                case TOTOROPLACEMENT:
+                    processTotoroPlacementMove();
+            }
+        } catch (InvalidMoveException exception) {
+            // runInvalidMoveEndCondtion();
+        }
+    }
+
+    private Move listenForMove() {
+        // TODO replace with mock listener
+        Tile newTile = new Tile(Terrain.LAKE, Terrain.GRASSLANDS);
+        Location newLocation = new Location(0, 1);
+        int newRotation = 60;
+        Move newMove = new Move(newTile, newLocation, newRotation);
+        return newMove;
+    }
+
+    private void processTilePlacementMove() throws InvalidMoveException {
 
     }
 
-    public boolean noValidMoves(){
-        Player currentPlayer = playOrder.getCurrentPlayer();
+    private void processVillageCreationMove() throws InvalidMoveException {
+
+    }
+
+    private void processVillageExpansionMove() throws InvalidMoveException {
+
+    }
+
+    private void processTotoroPlacementMove() throws InvalidMoveException {
+
+    }
+
+    private boolean noValidMoves(){
+        Player currentPlayer = gameSettings.getPlayOrder().getCurrentPlayer();
         if(noMoreVillagers(currentPlayer) && cantPlayTotoro(currentPlayer)){
             return true;
         }

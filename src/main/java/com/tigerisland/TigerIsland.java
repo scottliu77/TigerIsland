@@ -50,11 +50,11 @@ public class TigerIsland {
             throw exception;
         }
 
-        run();
+        match = new Match(globalSettings);
     }
 
     private void run() {
-        match = new Match(globalSettings);
+        match.startGames();
     }
 
     public static void main(String[] args) throws Exception {
@@ -67,6 +67,9 @@ public class TigerIsland {
             System.out.println(exception);
             return;
         }
+
+
+        tigerIsland.run();
     }
 
 }

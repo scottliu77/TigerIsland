@@ -15,6 +15,12 @@ public class Match {
         setup();
     }
 
+    public void startGames() {
+        for(Game game: games) {
+            game.start();
+        }
+    }
+
     private void setup() {
         if(globalSettings.offline) {
             setupOfflineMatch();
@@ -27,7 +33,6 @@ public class Match {
     private void setupOfflineMatch() {
         configureOfflineGameSettings();
         constructOfflineGames();
-        startOfflineGames();
     }
 
     private void configureOfflineGameSettings() {
@@ -38,12 +43,6 @@ public class Match {
     private void constructOfflineGames() {
         for(int game = 0; game < globalSettings.gameCount; game++) {
             games.add(game, new Game(gameSettings));
-        }
-    }
-
-    private void startOfflineGames() {
-        for(Game game: games) {
-            game.start();
         }
     }
 

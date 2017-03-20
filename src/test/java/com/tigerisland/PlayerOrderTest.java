@@ -43,9 +43,11 @@ public class PlayerOrderTest {
 
     @Test
     public void testThatPlayerOrderLoopsAfterLastPlayer() {
-        for(int turns = 0; turns < 10; turns ++) {
+        for(int turns = 0; turns < 9; turns ++) {
             playOrder.setNextPlayer();
         }
-        assertTrue(playOrder.getCurrentPlayer().getPlayerColor() == Color.WHITE);
+        assertTrue(playOrder.getCurrentPlayer().getPlayerColor() == Color.BLACK);
     }
+
+
 }

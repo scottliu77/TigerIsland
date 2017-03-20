@@ -32,11 +32,6 @@ public class SystemSetupStepDefs {
         players = aGame.players;
     }
 
-    @When("^the game is started$")
-    public void theGameIsStarted() throws Throwable {
-        aGame.start();
-    }
-
     @Then("^all players have (\\d+) points$")
     public void allPlayersHavePoints(int arg0) throws Throwable {
         for(Player player: players) {

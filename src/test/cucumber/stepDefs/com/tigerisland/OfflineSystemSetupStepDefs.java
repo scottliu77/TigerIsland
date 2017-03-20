@@ -30,12 +30,6 @@ public class OfflineSystemSetupStepDefs {
         players = aGame.players;
     }
 
-    @When("^the offline game is started$")
-    public void theGameIsStarted() throws Throwable {
-        assertTrue(aGame.gameSettings.globalSettings.offline);
-        aGame.start();
-    }
-
     @Then("^then the game has a tile deck$")
     public void thenTheGameHasATileDeck() throws Throwable {
         deck = aGame.gameSettings.getDeck();
