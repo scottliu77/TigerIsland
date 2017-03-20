@@ -44,21 +44,29 @@ public class PlayerTest {
 
     @Test
     public void testCanPlaceVillager() {
-        Piece newVillager = playerWhite.createNewSettlement();
-        assertTrue(newVillager != null);
+        try {
+            Piece newTotoro = playerWhite.getPieceSet().placeVillager();
+            assertTrue(newTotoro != null);
+        } catch (InvalidMoveException exception) {
+            assertTrue(false);
+        }
     }
 
     @Test
     public void testCanPlaceTotoro() {
-        Piece newTotoro = playerWhite.createTotoroSanct();
-        assertTrue(newTotoro != null);
+        try {
+            Piece newTotoro = playerWhite.getPieceSet().placeTotoro();
+            assertTrue(newTotoro != null);
+        } catch (InvalidMoveException exception) {
+            assertTrue(false);
+        }
     }
 
     @Test
     public void testCannotPlaceMoreTotoroThanPlayerHas() {
         try {
             for(int totoro = 0; totoro < 4; totoro++) {
-                Piece newTotoro = playerWhite.createTotoroSanct();
+                Piece newTotoro = playerWhite.getPieceSet().placeTotoro();
             }
             assertTrue(false);
         } catch (Exception exception) {
@@ -69,9 +77,9 @@ public class PlayerTest {
     @Test
     public void testCanExpandSettlement() {
         try {
-            Piece villagers = playerWhite.expandSettlement(5);
+            Piece villagers = playerWhite.getPieceSet().placeMultipleVillagers(5);
             assertTrue(true);
-        } catch (IndexOutOfBoundsException exception) {
+        } catch (InvalidMoveException exception) {
             assertTrue(false);
         }
     }
@@ -79,9 +87,9 @@ public class PlayerTest {
     @Test
     public void testCannotPlaceMoreVillagesrThanPlayerHas() {
         try {
-            Piece villagers = playerWhite.expandSettlement(21);
+            Piece villagers = playerWhite.getPieceSet().placeMultipleVillagers(21);
             assertTrue(false);
-        } catch (IndexOutOfBoundsException exception) {
+        } catch (InvalidMoveException exception) {
             assertTrue(true);
         }
     }

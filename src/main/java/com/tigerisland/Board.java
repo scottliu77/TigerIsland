@@ -9,20 +9,19 @@ public class Board{
     protected ArrayList<Location> edgeSpaces;
     protected ArrayList<Settlement> settlements;
 
-
     public Board(){
         placedHexes = new ArrayList<PlacedHex>();
         edgeSpaces = new ArrayList<Location>();
         settlements = new ArrayList<Settlement>();
     }
 
-    public void placeTile(Tile tile, Location centerLoc, int rotation){
+    public void placeTile(Tile tile, Location centerLoc, int rotation) throws InvalidMoveException {
         placeHex(tile.getCenterHex(), centerLoc);
         placeHex(tile.getRightHex(), Location.rotateHexLeft(centerLoc, rotation));
         placeHex(tile.getLeftHex(), Location.rotateHexLeft(centerLoc, rotation + 60));
     }
 
-    private void placeHex(Hex hex, Location loc){
+    private void placeHex(Hex hex, Location loc) throws InvalidMoveException {
         addHexToListOfPlacedHexes(hex, loc);
         updateListOfEdgeSpaces(loc);
     }

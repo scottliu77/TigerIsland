@@ -34,23 +34,31 @@ public class PieceSet {
         return totoroSet.size();
     }
 
-    public Piece placeVillager() throws IndexOutOfBoundsException {
-        return villagerSet.remove(0);
+    public Piece placeVillager() throws InvalidMoveException {
+        try{
+            return villagerSet.remove(0);
+        } catch (IndexOutOfBoundsException exception) {
+            throw new InvalidMoveException("No villagers remaining in player inventory.");
+        }
     }
 
-    public Piece placeMultipleVillagers(int numVillagers) throws IndexOutOfBoundsException {
-        if (numVillagers > getNumberOfVillagersRemaining()) {
+    public Piece placeMultipleVillagers(int numVillagersToPlace) throws InvalidMoveException {
+        if (numVillagersToPlace > getNumberOfVillagersRemaining()) {
             IndexOutOfBoundsException exception = new IndexOutOfBoundsException();
-            throw exception;
+            throw new InvalidMoveException("Insufficient number of villagers in player inventory");
         }
-        for (int villager = 0; villager < numVillagers - 1; villager++) {
+        for (int villager = 0; villager < numVillagersToPlace - 1; villager++) {
             villagerSet.remove(0);
         }
         return villagerSet.remove(0);
     }
 
-    public Piece placeTotoro() throws IndexOutOfBoundsException {
-        return totoroSet.remove(0);
+    public Piece placeTotoro() throws InvalidMoveException {
+        try {
+            return totoroSet.remove(0);
+        } catch (IndexOutOfBoundsException exception) {
+            throw new InvalidMoveException("No totoro remaining in player inventory.");
+        }
     }
 
     public boolean inventoryEmpty(){

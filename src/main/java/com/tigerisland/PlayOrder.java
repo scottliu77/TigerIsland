@@ -6,7 +6,7 @@ public class PlayOrder {
 
     private int playerCount;
     private int currentPlayer = 0;
-    protected ArrayList<Player> players = new ArrayList<Player>();
+    private ArrayList<Player> players = new ArrayList<Player>();
 
     PlayOrder(GlobalSettings globalSettings) {
         this.playerCount = globalSettings.playerCount;
@@ -23,11 +23,19 @@ public class PlayOrder {
         return players.get(currentPlayer);
     }
 
+    public void updatePlayerState(Player updatedPlayer) {
+        players.set(currentPlayer, updatedPlayer);
+    }
+
     public void setNextPlayer(){
         if (currentPlayer == playerCount) {
             currentPlayer = 0;
         } else {
             currentPlayer++;
         }
+    }
+
+    public ArrayList<Player> getPlayerList() {
+        return players;
     }
 }

@@ -34,27 +34,43 @@ public class TextGUITest {
 
     @Test
     public void testCanPrintPlacedHexLocations() {
-        board.placeTile(tile, location, 0);
+        try {
+            board.placeTile(tile, location, 0);
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        }
         TextGUI.printPlacedHexLocations(board.locationsOfPlacedHexes());
     }
 
     @Test
     public void testCanPrintEdgeSpaces() {
-        board.placeTile(tile, location, 0);
+        try {
+            board.placeTile(tile, location, 0);
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        }
         TextGUI.printEdgeSpaces(board.edgeSpaces);
     }
 
     @Test
     public void testCanPrintPlacedHexTiles() {
-        board.placeTile(tile, location, 0);
+        try {
+            board.placeTile(tile, location, 0);
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        }
         TextGUI.printPlacedHexTiles(board.hexesOfPlacedHexes());
     }
 
     @Test
     public void testCanPrintMap() {
-        board.placeTile(tile, location, 0);
-        board.placeTile(tile2, location2, 60);
-        board.placeTile(tile3, location3, 120);
+        try {
+            board.placeTile(tile, location, 0);
+            board.placeTile(tile2, location2, 60);
+            board.placeTile(tile3, location3, 120);
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        }
         TextGUI.printMap(board.locationsOfPlacedHexes(), board.edgeSpaces, board.hexesOfPlacedHexes());
     }
 

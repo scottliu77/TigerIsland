@@ -38,7 +38,7 @@ public class BoardTest{
     }
 
     @Test
-    public void testLocationUnavailable() {
+    public void testLocationUnavailable() throws InvalidMoveException {
         Tile tile = new Tile(Terrain.GRASSLANDS, Terrain.JUNGLE);
         Location location = new Location(0,0);
         board.placeTile(tile, location,0);
@@ -48,7 +48,7 @@ public class BoardTest{
     }
 
     @Test
-    public void testHexAtLocation(){
+    public void testHexAtLocation() throws InvalidMoveException {
         Tile tile = new Tile(Terrain.GRASSLANDS, Terrain.JUNGLE);
         Location location = new Location(0,0);
         board.placeTile(tile, location,0);
@@ -59,7 +59,7 @@ public class BoardTest{
     }
 
     @Test
-    public void testCanPlaceTile() {
+    public void testCanPlaceTile() throws InvalidMoveException {
         board.placeTile(tile, location, 0);
         TextGUI.printMap(board.locationsOfPlacedHexes(), board.edgeSpaces, board.hexesOfPlacedHexes());
     }

@@ -4,7 +4,7 @@ Feature: System Setup
     Given a game is created
     And that game has players
     Then then the game has rules the following moves:
-      | validTilePlacement |
-      | validVillageCreation |
-      | validVillageExpansion |
-      | validTotoroPlacement |
+      | TilePlacement |
+      | VillageCreation |
+      | VillageExpansion |
+      | TotoroPlacement |

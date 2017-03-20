@@ -35,7 +35,7 @@ public class PlayerOrderTest {
 
     @Test
     public void testCanSetNextPlayer() {
-        Color nextPlayerString = playOrder.players.get(1).getPlayerColor();
+        Color nextPlayerString = playOrder.getPlayerList().get(1).getPlayerColor();
         playOrder.setNextPlayer();
         Color currentPlayerString = playOrder.getCurrentPlayer().getPlayerColor();
         assertTrue(nextPlayerString.equals(currentPlayerString));

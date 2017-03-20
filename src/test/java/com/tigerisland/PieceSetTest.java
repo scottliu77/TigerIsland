@@ -57,28 +57,44 @@ public class PieceSetTest {
 
     @Test
     public void testCanPlaceTotoro() {
-        Piece totoro = pieceSet.placeTotoro();
+        try {
+            Piece totoro = pieceSet.placeTotoro();
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        }
         assertTrue(pieceSet.totoroSet.size() == 2);
     }
 
     @Test
     public void testCanPlaceAllTotoro() {
         for(int numTotoro = 0; numTotoro < 3; numTotoro ++) {
-           Piece totoro = pieceSet.placeTotoro();
+            try {
+                Piece totoro = pieceSet.placeTotoro();
+            } catch (InvalidMoveException e) {
+                e.printStackTrace();
+            }
         }
         assertTrue(pieceSet.totoroSet.size() == 0);
     }
 
     @Test
     public void testCanPlaceVillager() {
-        Piece villager = pieceSet.placeVillager();
+        try {
+            Piece villager = pieceSet.placeVillager();
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        }
         assertTrue(pieceSet.villagerSet.size() == 19);
     }
 
     @Test
     public void testCanPlaceAllVillager() {
         for(int numVillager = 0; numVillager < 20; numVillager++) {
-            Piece villager = pieceSet.placeVillager();
+            try {
+                Piece villager = pieceSet.placeVillager();
+            } catch (InvalidMoveException e) {
+                e.printStackTrace();
+            }
         }
         assertTrue(pieceSet.villagerSet.size() == 0);
     }
@@ -90,14 +106,19 @@ public class PieceSetTest {
                 Piece villager = pieceSet.placeVillager();
             }
             assertTrue(false);
-        } catch (IndexOutOfBoundsException exception) {
+        } catch (InvalidMoveException exception) {
             assertTrue(true);
         }
     }
 
     @Test
     public void testCanPlaceMultipleVillagersAtOnce() {
-        Piece villagers = pieceSet.placeMultipleVillagers(3);
+        Piece villagers = null;
+        try {
+            villagers = pieceSet.placeMultipleVillagers(3);
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        }
         assertTrue(villagers != null);
     }
 
@@ -106,7 +127,7 @@ public class PieceSetTest {
         try {
             Piece villager = pieceSet.placeMultipleVillagers(21);
             assertTrue(false);
-        } catch (IndexOutOfBoundsException except) {
+        } catch (InvalidMoveException except) {
             assertTrue(true);
         }
     }
@@ -116,26 +137,34 @@ public class PieceSetTest {
         try {
             Piece villager = pieceSet.placeMultipleVillagers(21);
             assertTrue(false);
-        } catch (IndexOutOfBoundsException except) {
+        } catch (InvalidMoveException except) {
             assertTrue(pieceSet.getNumberOfVillagersRemaining() == 20);
         }
     }
 
     @Test
     public void testCanCheckInventoryEmpty() {
-        for(int numVillager = 0; numVillager < 20; numVillager++) {
-            Piece villager = pieceSet.placeVillager();
+        try {
+            for(int numVillager = 0; numVillager < 20; numVillager++) {
+                Piece villager = pieceSet.placeVillager();
+            }
+            for(int numTotoro = 0; numTotoro < 3; numTotoro++) {
+                Piece totoro = pieceSet.placeTotoro();
+            }
+            assertTrue(pieceSet.inventoryEmpty() == true);
+        } catch (InvalidMoveException exception) {
+            exception.printStackTrace();
         }
-        for(int numTotoro = 0; numTotoro < 3; numTotoro++) {
-            Piece totoro = pieceSet.placeTotoro();
-        }
-        assertTrue(pieceSet.inventoryEmpty() == true);
     }
 
     @Test
     public void testCanCheckInventoryNotEmpty() {
         for(int numVillager = 0; numVillager < 2; numVillager++) {
-            Piece villager = pieceSet.placeVillager();
+            try {
+                Piece villager = pieceSet.placeVillager();
+            } catch (InvalidMoveException e) {
+                e.printStackTrace();
+            }
         }
         assertTrue(pieceSet.inventoryEmpty() == false);
     }

@@ -1,8 +1,5 @@
 package com.tigerisland;
 
-/**
- * Created by scott on 3/13/17.
- */
 public class Player {
 
     private Score score;
@@ -29,30 +26,6 @@ public class Player {
 
     public PieceSet getPieceSet() {
         return pieceSet;
-    }
-
-    public Piece createNewSettlement(){
-        try {
-            return pieceSet.placeVillager();
-        } catch (IndexOutOfBoundsException exception){
-            throw exception;
-        }
-    }
-
-    public Piece expandSettlement(int villagersNeeeded){
-        try {
-            return pieceSet.placeMultipleVillagers(villagersNeeeded);
-        } catch (IndexOutOfBoundsException exception) {
-            throw exception;
-        }
-    }
-
-    public Piece createTotoroSanct(){
-        try {
-            return pieceSet.placeTotoro();
-        } catch (IndexOutOfBoundsException exception) {
-            throw exception;
-        }
     }
 
 }

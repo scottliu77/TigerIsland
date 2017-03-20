@@ -1,7 +1,5 @@
 package com.tigerisland;
 
-import java.lang.management.PlatformLoggingMXBean;
-
 public class GameSettings {
 
     public GlobalSettings globalSettings;

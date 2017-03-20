@@ -3,7 +3,6 @@ package com.tigerisland;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
 
 import java.util.*;
 
@@ -13,7 +12,7 @@ public class OfflineSystemSetupStepDefs {
 
     private TigerIsland tigerIsland;
     private Game aGame;
-    private ArrayList<Player> players;
+    private PlayOrder playerOrder;
     private Deck deck;
     
     @Given("^an offline game is created$")
@@ -27,7 +26,7 @@ public class OfflineSystemSetupStepDefs {
     @And("^that offline game has players$")
     public void thatGameHasPlayers() throws Throwable {
         assertTrue(aGame.gameSettings.globalSettings.offline);
-        players = aGame.players;
+        playerOrder = aGame.players;
     }
 
     @Then("^then the game has a tile deck$")

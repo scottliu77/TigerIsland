@@ -7,25 +7,20 @@ public class Game {
     protected GameSettings gameSettings;
     protected Deck deck;
     protected Board board;
-    protected ArrayList<Player> players;
-    protected Rules rules;
+    protected PlayOrder players;
     protected Move move;
 
     public Game(GameSettings gameSettings){
         this.gameSettings = gameSettings;
         deck = this.gameSettings.getDeck();
         board = new Board();
-        players = new ArrayList<Player>();
-        rules = new Rules();
-        for(int player = 0; player < this.gameSettings.globalSettings.playerCount; player++){
-            players.add(player, new Player(Color.values()[player]));
-        }
+        players = gameSettings.getPlayOrder();
     }
 
     public void start() {
         while(noEndConditionsAreMet()) {
             takeTurn();
-            gameSettings.getPlayOrder().setNextPlayer();
+           players.setNextPlayer();
         }
 
         // TODO fancy game-ending stuff
@@ -38,18 +33,18 @@ public class Game {
         try {
             // Listen for tile placement
             move = listenForMove();
-            processTilePlacementMove();
+            placeTile(move);
 
             // Listen for build option
             move = listenForMove();
 
             switch (move.getMoveType()) {
                 case VILLAGECREATION:
-                    processVillageCreationMove();
+                    createVillage(move);
                 case VILLAGEEXPANSION:
-                    processVillageExpansionMove();
+                    expandVillage(move);
                 case TOTOROPLACEMENT:
-                    processTotoroPlacementMove();
+                    placeTotoro(move);
             }
         } catch (InvalidMoveException exception) {
             // runInvalidMoveEndCondtion();
@@ -65,20 +60,53 @@ public class Game {
         return newMove;
     }
 
-    private void processTilePlacementMove() throws InvalidMoveException {
+    private void placeTile(Move move) throws InvalidMoveException {
+        // Save create temp copy of board
+        Board tempBoard = board;
 
+        tempBoard.placeTile(move.getTile(), move.getLocation(), move.getRotation());
+
+        // Update board state
+        board = tempBoard;
     }
 
-    private void processVillageCreationMove() throws InvalidMoveException {
+    private void createVillage(Move move) throws InvalidMoveException {
+        // Save temp copies of board and player
+        Player tempPlayer = players.getCurrentPlayer();
+        Board tempBoard = board;
 
+        //tempBoard.createVillage(tempPlayer);
+        //tempPlayer.getPieceSet().placeVillager();
+
+        // Update board and player state
+        players.updatePlayerState(tempPlayer);
+        board = tempBoard;
     }
 
-    private void processVillageExpansionMove() throws InvalidMoveException {
+    private void expandVillage(Move move) throws InvalidMoveException {
+        // Save temp copies of board and player
+        Player tempPlayer = players.getCurrentPlayer();
+        Board tempBoard = board;
 
+        //int piecesNeeded = tempBoard.expandVillage(tempPlayer);
+        //tempPlayer.getPieceSet().placeMultipleVillagers(piecesNeeded);
+
+        // Update board and player state
+        players.updatePlayerState(tempPlayer);
+        board = tempBoard;
     }
 
-    private void processTotoroPlacementMove() throws InvalidMoveException {
+    private void placeTotoro(Move move) throws InvalidMoveException {
+        // Save temp copies of board and player
+        Player tempPlayer = players.getCurrentPlayer();
+        Board tempBoard = board;
 
+        //tempBoard.placeTotoro(tempPlayer);
+        //tempPlayer.getPieceSet().placeTotoro();
+
+        // Update board and player state
+        players.updatePlayerState(tempPlayer);
+        board = tempBoard;
     }
 
     private boolean noValidMoves(){
@@ -90,7 +118,7 @@ public class Game {
     }
 
     private boolean playerIsOutOfPieces(){
-        for(Player player : players){
+        for(Player player : players.getPlayerList()){
             if(player.getPieceSet().inventoryEmpty()){
                 return true;
             }
