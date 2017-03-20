@@ -19,11 +19,6 @@ public class TerrainTest {
     }
 
     @Test
-    public void testCanGetTerrainCode() {
-        assertTrue(terrainType.getCode() == 1);
-    }
-
-    @Test
     public void testCanGetTerrainString() {
         assertTrue(terrainType.getType() == "Grasslands");
     }

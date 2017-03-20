@@ -7,16 +7,10 @@ public enum Terrain {
     LAKE(3, "Lake"),
     ROCKY(4, "Rocky");
 
-    private int code;
     private String type;
 
     Terrain(int code, String type) {
-        this.code = code;
         this.type = type;
-    }
-
-    public int getCode() {
-        return code;
     }
 
     public String getType() {

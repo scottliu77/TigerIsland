@@ -22,7 +22,7 @@ public class PieceTest {
 
     @Test
     public void testCanGetPieceTypeString() {
-        assertTrue(villager.getTypeString() == "Villager");
+        assertTrue(villager.getType().getTypeString() == "Villager");
     }
 
     @Test
@@ -32,7 +32,7 @@ public class PieceTest {
 
     @Test
     public void testCanGetPieceColorString() {
-        assertTrue(totoro.getColorString() == "White");
+        assertTrue(totoro.getColor().getColorString() == "White");
     }
 
     @Test

@@ -11,7 +11,7 @@ public enum PieceType {
         this.type = type;
     }
 
-    public String getType() {
+    public String getTypeString() {
         return type;
     }
 }

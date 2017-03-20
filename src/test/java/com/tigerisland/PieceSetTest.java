@@ -36,13 +36,13 @@ public class PieceSetTest {
     @Test
     public void testCanSetColorOfVillager() {
         Piece meep = pieceSet.villagerSet.get(0);
-        assertTrue(meep.getColorString() == "Black");
+        assertTrue(meep.getColor().getColorString() == "Black");
     }
 
     @Test
     public void testCanSetColorOfTotoro() {
         Piece totororo = pieceSet.totoroSet.get(0);
-        assertTrue(totororo.getColorString() == "Black");
+        assertTrue(totororo.getColor().getColorString() == "Black");
     }
 
     @Test

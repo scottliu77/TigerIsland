@@ -14,15 +14,8 @@ public class Piece {
         return color;
     }
 
-    public String getColorString() {
-        return color.getColorString();
-    }
-
     public PieceType getType() {
         return type;
     }
 
-    public String getTypeString() {
-        return type.getType();
-    }
 }

@@ -41,7 +41,7 @@ public class Hex {
         if(piece == null) {
             return "Empty";
         } else {
-            return piece.getTypeString();
+            return piece.getType().getTypeString();
         }
     }
 
