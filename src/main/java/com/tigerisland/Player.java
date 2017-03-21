@@ -12,6 +12,12 @@ public class Player {
         pieceSet = new PieceSet(color);
     }
 
+    public Player(Player player){
+        this.score = player.score;
+        this.color = player.color;
+        this.pieceSet = new PieceSet(player.getPieceSet()); //might need clone constructor here too
+    }
+
     public Score getScore() {
         return score;
     }

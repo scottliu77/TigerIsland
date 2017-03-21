@@ -247,8 +247,8 @@ public class Board{
         if (placedHex.getHex().getHexTerrain() == Terrain.VOLCANO) {
             throw new InvalidMoveException("Cannot place a piece on a volcano hex");
         }
-        PlacedHex tempPlacedHex = placedHex;
-        Player tempPlayer = player;
+        PlacedHex tempPlacedHex = new PlacedHex(placedHex);
+        Player tempPlayer = new Player(player);
         tempPlacedHex.getHex().addPiecesToHex(tempPlayer.getPieceSet().placeVillager(), 1);
         placedHexes.add(tempPlacedHex);
         Settlement settlement = new Settlement(tempPlacedHex, placedHexes);

@@ -4,24 +4,36 @@ import java.util.ArrayList;
 
 public class PieceSet {
 
-    ArrayList<Piece> villagerSet;
-    ArrayList<Piece> totoroSet;
+    protected ArrayList<Piece> villagerSet;
+    protected ArrayList<Piece> totoroSet;
+    protected Color ownerColor;
 
     public PieceSet(Color ownerColor) {
         this.villagerSet = new ArrayList<Piece>();
         this.totoroSet = new ArrayList<Piece>();
-        this.generateVillagerSet(ownerColor);
-        this.generateTotoroSet(ownerColor);
+        this.generateVillagerSet(ownerColor, 20);
+        this.generateTotoroSet(ownerColor, 3);
+        this.ownerColor = ownerColor;
     }
 
-    private void generateVillagerSet(Color color) {
-        for(int pieceNumber = 1; pieceNumber <= 20; pieceNumber++) {
+    public PieceSet(PieceSet pieceSet){
+        int newVillagerSetSize = pieceSet.villagerSet.size();
+        int newTotoroSetSize = pieceSet.totoroSet.size();
+        this.villagerSet = new ArrayList<Piece>();
+        this.totoroSet = new ArrayList<Piece>();
+        this.ownerColor = pieceSet.ownerColor;
+        this.generateVillagerSet(ownerColor, newVillagerSetSize);
+        this.generateTotoroSet(ownerColor, newTotoroSetSize);
+    }
+
+    private void generateVillagerSet(Color color, int size) {
+        for(int pieceNumber = 1; pieceNumber <= size; pieceNumber++) {
             this.villagerSet.add(new Piece(color, PieceType.VILLAGER));
         }
     }
 
-    private void generateTotoroSet(Color color) {
-        for(int pieceNumber = 1; pieceNumber <= 3; pieceNumber++) {
+    private void generateTotoroSet(Color color, int size) {
+        for(int pieceNumber = 1; pieceNumber <= size; pieceNumber++) {
             this.totoroSet.add(new Piece(color, PieceType.TOTORO));
         }
     }

@@ -188,6 +188,11 @@ public class BoardTest{
     public void testCantPlaceTotoroOnOccupiedHex() throws InvalidMoveException {
         Player player = new Player(Color.BLACK);
         PlacedHex placedHex1 = setUpSettlement();
+        Hex hex5 = new Hex("hex5", Terrain.JUNGLE);
+        hex5.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        Location loc5 = new Location(2,0);
+        PlacedHex placedHex5 = new PlacedHex(hex5, loc5);
+        placedHexes.add(placedHex5);
         Settlement settlement = new Settlement(placedHex1, placedHexes);
         board.placedHexes = this.placedHexes;
         board.settlements.add(settlement);
@@ -220,7 +225,7 @@ public class BoardTest{
             board.placeTotoro(player, placedHex1.getLocation());
             assertFalse(true);
         } catch (InvalidMoveException e) {
-            assertTrue(e.getMessage().equals("Cannot place totoro in a settlement of size 4 or smaller!")); //e.getMessage().equals("Cannot place totoro in a settlement already containing a Totoro")
+            assertTrue(e.getMessage().equals("Cannot place totoro in a settlement of size 4 or smaller!"));
         }
     }
 
@@ -235,8 +240,8 @@ public class BoardTest{
         placedHexes.add(placedHex5);
         Hex hex6 = new Hex("hex5", Terrain.GRASSLANDS);
         Location loc6 = new Location(0,-3);
-        PlacedHex placedHex6 = new PlacedHex(hex6, loc6);
-        placedHexes.add(placedHex6);
+        PlacedHex emptyPlacedHexToTryToPlaceTotoroOn = new PlacedHex(hex6, loc6);
+        placedHexes.add(emptyPlacedHexToTryToPlaceTotoroOn);
         Settlement settlement = new Settlement(placedHex1, placedHexes);
 
 
@@ -244,13 +249,97 @@ public class BoardTest{
         board.settlements.add(settlement);
 
         try {
-            board.placeTotoro(player, placedHex1.getLocation());
+            board.placeTotoro(player, emptyPlacedHexToTryToPlaceTotoroOn.getLocation());
             assertFalse(true);
         } catch (InvalidMoveException e) {
-            assertTrue(/*e.getMessage().equals("Cannot place totoro in a settlement already containing a Totoro")); //e.getMessage().equals("Cannot place totoro in a settlement already containing a Totoro"*/true);
+            assertTrue(e.getMessage().equals("Cannot place totoro in a settlement already containing a Totoro"));
         }
     }
 
+    @Test
+    public void testCantPlaceTotoroOnUnplacedHex() throws InvalidMoveException {
+        Player player = new Player(Color.BLACK);
+        PlacedHex placedHex1 = setUpSettlement();
+        Hex hex5 = new Hex("hex5", Terrain.LAKE);
+        hex5.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        Location loc5 = new Location(0,-2);
+        PlacedHex placedHex5 = new PlacedHex(hex5, loc5);
+        placedHexes.add(placedHex5);
+        Location locationWithoutPlacedHex = new Location(0,-3);
+        Settlement settlement = new Settlement(placedHex1, placedHexes);
+
+
+        board.placedHexes = this.placedHexes;
+        board.settlements.add(settlement);
+
+        try {
+            board.placeTotoro(player, locationWithoutPlacedHex);
+            assertFalse(true);
+        } catch (InvalidMoveException e) {
+            assertTrue(e.getMessage().equals("Target hex does not exist"));
+        }
+    }
+
+    @Test
+    public void testCantPlaceTotoroOnVolcano() throws InvalidMoveException {
+        Player player = new Player(Color.BLACK);
+        PlacedHex placedHex1 = setUpSettlement();
+        Hex hex5 = new Hex("hex5", Terrain.LAKE);
+        hex5.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        Location loc5 = new Location(0,-2);
+        PlacedHex placedHex5 = new PlacedHex(hex5, loc5);
+        placedHexes.add(placedHex5);
+        Hex targetHex = new Hex("hex6", Terrain.VOLCANO);
+        Location targetLocation = new Location(0,-3);
+        PlacedHex targetPlacedHex = new PlacedHex(targetHex, targetLocation);
+        placedHexes.add(targetPlacedHex);
+        Settlement settlement = new Settlement(placedHex1, placedHexes);
+
+
+        board.placedHexes = this.placedHexes;
+        board.settlements.add(settlement);
+
+        try {
+            board.placeTotoro(player, targetLocation);
+            assertFalse(true);
+        } catch (InvalidMoveException e) {
+            assertTrue(e.getMessage().equals("Cannot place a piece on a volcano hex"));
+        }
+    }
+
+    @Test
+    public void testCanPlaceTotoroWhenValid() throws InvalidMoveException {
+        Player player = new Player(Color.BLACK);
+        PlacedHex placedHex1 = setUpSettlement();
+        Hex hex5 = new Hex("hex5", Terrain.LAKE);
+        hex5.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        Location loc5 = new Location(0,-2);
+        PlacedHex placedHex5 = new PlacedHex(hex5, loc5);
+        placedHexes.add(placedHex5);
+        Hex targetHex = new Hex("hex6", Terrain.JUNGLE);
+        Location targetLocation = new Location(0,-3);
+        PlacedHex targetPlacedHex = new PlacedHex(targetHex, targetLocation);
+        placedHexes.add(targetPlacedHex);
+        Settlement settlement = new Settlement(placedHex1, placedHexes);
+
+       int originalNumberOfVillagersRemaining = player.getPieceSet().getNumberOfVillagersRemaining();
+       int originalNumberOfTotoroRemaining = player.getPieceSet().getNumberOfTotoroRemaining();
+
+        board.placedHexes = this.placedHexes;
+        board.settlements.add(settlement);
+
+        try {
+            board.placeTotoro(player, targetLocation);
+        } catch (InvalidMoveException e) {
+            assertTrue(false);
+        }
+
+        int finalNumberOfVillagersRemaining = player.getPieceSet().getNumberOfVillagersRemaining();
+        int finalNumberOfTotoroRemaining = player.getPieceSet().getNumberOfTotoroRemaining();
+
+        assertTrue(finalNumberOfTotoroRemaining == originalNumberOfTotoroRemaining - 1);
+        assertTrue(finalNumberOfVillagersRemaining == originalNumberOfVillagersRemaining);
+    }
 
     private PlacedHex setUpSettlement(){
         Hex hex1 = new Hex("hex1", Terrain.LAKE);
