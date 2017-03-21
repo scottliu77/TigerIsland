@@ -59,7 +59,7 @@ public final class EndConditions {
 
     private static boolean noSettlementsOfSizeFiveOrGreater(ArrayList<Settlement> playerSettlements) {
         for(Settlement settlement : playerSettlements) {
-            if (settlement.getSettlementSize() >= 5) {
+            if (settlement.size() >= 5) {
                 return false;
             }
         }

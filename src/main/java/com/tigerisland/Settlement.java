@@ -11,7 +11,7 @@ public class Settlement {
         findHexesInSettlement(hexInSettlement, allPlacedHexes);
     }
 
-    public int getSettlementSize() {
+    public int size(){
         return hexesInSettlement.size();
     }
 
@@ -38,10 +38,6 @@ public class Settlement {
 
     public ArrayList<PlacedHex> getHexesInSettlement(){
         return hexesInSettlement;
-    }
-
-    public int size(){
-        return hexesInSettlement.size();
     }
 
     private boolean hexIsNotVolcano(PlacedHex adjacentHex) {
