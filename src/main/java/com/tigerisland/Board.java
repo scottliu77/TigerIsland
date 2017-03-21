@@ -202,16 +202,6 @@ public class Board{
         return false;
     }
 
-    public void placeTotoro(Player player, Location location) throws InvalidMoveException{
-        Hex targetHex = hexAt(location);
- /*       Settlement adjacentSettlement = findSettlementAdjacentToHex(targetHex);
-        if (!hexAvailableForSettlement(targetHex){
-            throw new InvalidMoveException("Target hex already contains piece(s).");
-        }
-        else if (settlement.containsTotoro()){
-            throw new InvalidMoveException("Settlement already has Totoro sanctuary.");
-        }*/
-    }
 
     private boolean totoroAlreadyPresent(Hex currentHex) {
         return currentHex.getPieceType().equals("Totoro");
@@ -246,6 +236,38 @@ public class Board{
         return  locationsOfPlacedHexes;
     }
 
+    public void placeTotoro(Player player, Location location) throws InvalidMoveException{
+        PlacedHex placedHex = placedHexAtLocation(location);
+        if (placedHex == null) {
+            throw new InvalidMoveException("Target hex does not exist");
+        }
+        if (placedHex.getHex().getPieceCount() > 0) {
+            throw new InvalidMoveException("Target hex already contains piece(s)");
+        }
+        if (placedHex.getHex().getHexTerrain() == Terrain.VOLCANO) {
+            throw new InvalidMoveException("Cannot place a piece on a volcano hex");
+        }
+        PlacedHex tempPlacedHex = placedHex;
+        Player tempPlayer = player;
+        tempPlacedHex.getHex().addPiecesToHex(tempPlayer.getPieceSet().placeVillager(), 1);
+        placedHexes.add(tempPlacedHex);
+        Settlement settlement = new Settlement(tempPlacedHex, placedHexes);
+
+        if(settlement.containsTotoro()){
+            throw new InvalidMoveException("Cannot place totoro in a settlement already containing a Totoro");
+        }
+
+        placedHexes.remove(tempPlacedHex);
+        placedHex.getHex().addPiecesToHex(player.getPieceSet().placeTotoro(), 1);
+        int minimumSizeRequireForTotoroAfterPlacement = SIZE_REQUIRED_FOR_TOTORO + 1;
+        settlement = new Settlement(placedHex, placedHexes);
+
+        if(settlement.size() < minimumSizeRequireForTotoroAfterPlacement) {
+            throw new InvalidMoveException("Cannot place totoro in a settlement of size 4 or smaller!");
+        }
+
+    }
+
     public ArrayList<Hex> hexesOfPlacedHexes(){
         ArrayList<Hex> hexesOfPlacedHexes = new ArrayList<Hex>();
         for(PlacedHex placedHex : placedHexes){
@@ -275,5 +297,13 @@ public class Board{
         }
     }
 
+    private PlacedHex placedHexAtLocation(Location location){
+        for(PlacedHex placedHex : placedHexes){
+            if(location.x == placedHex.getLocation().x && location.y == placedHex.getLocation().y){
+                return placedHex;
+            }
+        }
+        return null;
+    }
 
 }

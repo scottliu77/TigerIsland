@@ -1,6 +1,8 @@
 package com.tigerisland;
 
 public class Game {
+    private static final int TOTORO_POINT_VALUE = 200;
+    private static final int VILLAGER_POINT_VALUE = 1;
 
     protected GameSettings gameSettings;
     protected Deck deck;
@@ -102,7 +104,7 @@ public class Game {
 
         tempBoard.createVillage(tempPlayer, move.getLocation());
         tempPlayer.getPieceSet().placeVillager();
-        tempPlayer.getScore().addPoints(1);
+        tempPlayer.getScore().addPoints(VILLAGER_POINT_VALUE);
         tempBoard.updateSettlements();
 
         // Update board and player state
@@ -129,14 +131,12 @@ public class Game {
         Player tempPlayer = players.getCurrentPlayer();
         Board tempBoard = board;
 
-        //tempBoard.placeTotoro(tempPlayer);
-        //tempPlayer.getPieceSet().placeTotoro();
-        //tempBoard.updateSettlements();
+        tempBoard.placeTotoro(tempPlayer, move.getLocation());
+        tempBoard.updateSettlements();
+        tempPlayer.getScore().addPoints(TOTORO_POINT_VALUE);
 
         // Update board and player state
         players.updatePlayerState(tempPlayer);
         board = tempBoard;
     }
-
-
 }
