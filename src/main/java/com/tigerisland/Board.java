@@ -15,20 +15,6 @@ public class Board{
         settlements = new ArrayList<Settlement>();
     }
 
-    public void createVillage(Player player, Location location) throws InvalidMoveException {
-        Hex targetHex = hexAt(location);
-        if (targetHex.getPieceCount() == -1) {
-            throw new InvalidMoveException("Target hex does not exist");
-        } else if (targetHex.getHeight() != 1) {
-            throw new InvalidMoveException("Cannot create village above height 1");
-        } else if (targetHex.getPieceCount() > 0) {
-            throw new InvalidMoveException("Target hex already contains piece(s)");
-        } else if (targetHex.getHexTerrain() == Terrain.VOLCANO) {
-            throw new InvalidMoveException("Cannot place a piece on a volcano hex");
-        }
-        hexAt(location).addPiecesToHex(new Piece(player.getPlayerColor(), PieceType.VILLAGER), 1);
-    }
-
     public void placeTile(Tile tile, Location centerLoc, int rotation) throws InvalidMoveException {
         placeHex(tile.getCenterHex(), centerLoc);
         placeHex(tile.getRightHex(), Location.rotateHexLeft(centerLoc, rotation));
@@ -186,6 +172,20 @@ public class Board{
         return new Hex();
     }
 
+    public void createVillage(Player player, Location location) throws InvalidMoveException {
+        Hex targetHex = hexAt(location);
+        if (targetHex.getPieceCount() == -1) {
+            throw new InvalidMoveException("Target hex does not exist");
+        } else if (targetHex.getHeight() != 1) {
+            throw new InvalidMoveException("Cannot create village above height 1");
+        } else if (!hexAvailableForSettlement(targetHex)) {
+            throw new InvalidMoveException("Target hex already contains piece(s)");
+        } else if (targetHex.getHexTerrain() == Terrain.VOLCANO) {
+            throw new InvalidMoveException("Cannot place a piece on a volcano hex");
+        }
+        hexAt(location).addPiecesToHex(new Piece(player.getPlayerColor(), PieceType.VILLAGER), 1);
+    }
+
     public boolean isAnAvailableSpace(Location loc){
         int bot = 0;
         int top = edgeSpaces.size()-1;
@@ -200,6 +200,21 @@ public class Board{
                 return true;
         }
         return false;
+    }
+
+    public void placeTotoro(Player player, Location location) throws InvalidMoveException{
+        Hex targetHex = hexAt(location);
+ /*       Settlement adjacentSettlement = findSettlementAdjacentToHex(targetHex);
+        if (!hexAvailableForSettlement(targetHex){
+            throw new InvalidMoveException("Target hex already contains piece(s).");
+        }
+        else if (settlement.containsTotoro()){
+            throw new InvalidMoveException("Settlement already has Totoro sanctuary.");
+        }*/
+    }
+
+    private boolean totoroAlreadyPresent(Hex currentHex) {
+        return currentHex.getPieceType().equals("Totoro");
     }
 
     public boolean playerHasSettlementThatCouldAcceptTotoro(Player player){
@@ -217,10 +232,6 @@ public class Board{
 
     private boolean hexAvailableForSettlement(Hex currentHex) {
         return currentHex.getPieceCount() == 0;
-    }
-
-    private boolean totoroAlreadyPresent(Hex currentHex) {
-        return currentHex.getPieceType().equals("Totoro");
     }
 
     private boolean ownedBySamePlayer(Hex hex, Player player){
