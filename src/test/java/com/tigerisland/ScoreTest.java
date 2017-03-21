@@ -21,18 +21,21 @@ public class ScoreTest {
 
     @Test
     public void testCreatedScoreHasZeroPoints() {
-        assertTrue(score.getScore() == 0);
+        assertTrue(score.getScoreValue() == 0);
     }
 
     @Test
-    public void testCanAddPointsToScore() {
+    public void testCanAddPointsToScore() throws InvalidMoveException {
         score.addPoints(5);
-        assertTrue(score.getScore() == 5);
+        assertTrue(score.getScoreValue() == 5);
     }
 
     @Test
-    public void testCannotSubtractPointsFromScore() {
-        score.addPoints(-5);
-        assertTrue(score.getScore() == 5);
+    public void testCannotSubtractPointsFromScore()  {
+        try {
+            score.addPoints(-5);
+        } catch (InvalidMoveException exception) {
+            assertTrue(true);
+        }
     }
 }

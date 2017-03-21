@@ -27,14 +27,14 @@ public class PlayerTest {
 
     @Test
     public void testCanGetPlayerScore() {
-        assertTrue(playerWhite.getScore() == 0);
+        assertTrue(playerWhite.getScore().getScoreValue() == 0);
     }
 
     @Test
-    public void testCanIncreasePlayerScore() {
-        playerWhite.addPoints(5);
-        playerWhite.addPoints(5);
-        assertTrue(playerWhite.getScore() == 10);
+    public void testCanIncreasePlayerScore() throws InvalidMoveException {
+        playerWhite.getScore().addPoints(5);
+        playerWhite.getScore().addPoints(5);
+        assertTrue(playerWhite.getScore().getScoreValue() == 10);
     }
 
     @Test

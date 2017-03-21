@@ -15,6 +15,20 @@ public class Board{
         settlements = new ArrayList<Settlement>();
     }
 
+    public void createVillage(Player player, Location location) throws InvalidMoveException {
+        Hex targetHex = hexAt(location);
+        if (targetHex.getPieceCount() == -1) {
+            throw new InvalidMoveException("Target hex does not exist");
+        } else if (targetHex.getHeight() != 1) {
+            throw new InvalidMoveException("Cannot create village above height 1");
+        } else if (targetHex.getPieceCount() > 0) {
+            throw new InvalidMoveException("Target hex already contains piece(s)");
+        } else if (targetHex.getHexTerrain() == Terrain.VOLCANO) {
+            throw new InvalidMoveException("Cannot place a piece on a volcano hex");
+        }
+        hexAt(location).addPiecesToHex(new Piece(player.getPlayerColor(), PieceType.VILLAGER), 1);
+    }
+
     public void placeTile(Tile tile, Location centerLoc, int rotation) throws InvalidMoveException {
         placeHex(tile.getCenterHex(), centerLoc);
         placeHex(tile.getRightHex(), Location.rotateHexLeft(centerLoc, rotation));

@@ -57,9 +57,9 @@ public class PlayerOrderTest {
     }
 
     @Test
-    public void testCanUpdatePlayerState() {
+    public void testCanUpdatePlayerState() throws InvalidMoveException {
         Player updatedPlayer = playerOrder.getCurrentPlayer();
-        updatedPlayer.addPoints(20);
+        updatedPlayer.getScore().addPoints(20);
         playerOrder.updatePlayerState(updatedPlayer);
     }
 

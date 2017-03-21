@@ -30,7 +30,7 @@ public class SystemSetupStepDefs {
     @Then("^all players have (\\d+) points$")
     public void allPlayersHavePoints(int arg0) throws Throwable {
         for(Player player: playerOrder.getPlayerList()) {
-            if(player.getScore() != arg0) {
+            if(player.getScore().getScoreValue() != arg0) {
                 assertTrue(false);
             }
         }

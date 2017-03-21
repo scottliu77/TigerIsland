@@ -12,12 +12,8 @@ public class Player {
         pieceSet = new PieceSet(color);
     }
 
-    public int getScore() {
-        return score.getScore();
-    }
-
-    public void addPoints(int points) {
-        score.addPoints(points);
+    public Score getScore() {
+        return score;
     }
 
     public Color getPlayerColor() {
@@ -27,5 +23,7 @@ public class Player {
     public PieceSet getPieceSet() {
         return pieceSet;
     }
+
+
 
 }

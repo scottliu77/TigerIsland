@@ -57,7 +57,7 @@ public class Game {
         return newMove;
     }
 
-    private void placeTile(Move move) throws InvalidMoveException {
+    protected void placeTile(Move move) throws InvalidMoveException {
         // Save create temp copy of board
         Board tempBoard = board;
 
@@ -67,21 +67,22 @@ public class Game {
         board = tempBoard;
     }
 
-    private void createVillage(Move move) throws InvalidMoveException {
+    protected void createVillage(Move move) throws InvalidMoveException {
         // Save temp copies of board and player
         Player tempPlayer = players.getCurrentPlayer();
         Board tempBoard = board;
 
-        //tempBoard.createVillage(tempPlayer);
-        //tempPlayer.getPieceSet().placeVillager();
-        //tempBoard.updateSettlements();
+        tempBoard.createVillage(tempPlayer, move.getLocation());
+        tempPlayer.getPieceSet().placeVillager();
+        tempPlayer.getScore().addPoints(1);
+        tempBoard.updateSettlements();
 
         // Update board and player state
         players.updatePlayerState(tempPlayer);
         board = tempBoard;
     }
 
-    private void expandVillage(Move move) throws InvalidMoveException {
+    protected void expandVillage(Move move) throws InvalidMoveException {
         // Save temp copies of board and player
         Player tempPlayer = players.getCurrentPlayer();
         Board tempBoard = board;
@@ -95,7 +96,7 @@ public class Game {
         board = tempBoard;
     }
 
-    private void placeTotoro(Move move) throws InvalidMoveException {
+    protected void placeTotoro(Move move) throws InvalidMoveException {
         // Save temp copies of board and player
         Player tempPlayer = players.getCurrentPlayer();
         Board tempBoard = board;

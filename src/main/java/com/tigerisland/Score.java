@@ -8,11 +8,15 @@ public class Score {
         score = 0;
     }
 
-    public int getScore() {
+    public int getScoreValue() {
         return score;
     }
 
-    public void addPoints(int points) {
-        score += Math.abs(points);
+    public void addPoints(int points) throws InvalidMoveException {
+        if (points > 0) {
+            score += points;
+        } else {
+            throw new InvalidMoveException("Cannot add zero or fewer points");
+        }
     }
 }
