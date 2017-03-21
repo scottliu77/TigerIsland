@@ -4,7 +4,7 @@ public class GameSettings {
 
     public GlobalSettings globalSettings;
     private Deck deck;
-    private PlayOrder playOrder;
+    private PlayerOrder playerOrder;
 
     GameSettings() {
         this.globalSettings = new GlobalSettings();
@@ -24,7 +24,7 @@ public class GameSettings {
 
     public void setPlayOrder() {
         if(globalSettings.offline) {
-            playOrder = new PlayOrder(globalSettings);
+            playerOrder = new PlayerOrder(globalSettings);
         } else {
             // TODO Server implementation of play order(?)
         }
@@ -34,8 +34,8 @@ public class GameSettings {
         return deck;
     }
 
-    public PlayOrder getPlayOrder() {
-        return playOrder;
+    public PlayerOrder getPlayerOrder() {
+        return playerOrder;
     }
 
 }

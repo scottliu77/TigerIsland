@@ -58,12 +58,12 @@ public class HexTest {
 
     @Test
     public void testCanGetHexID() {
-        assertTrue(hex.getID().equals("dummyID"));
+        assertTrue(hex.getTileID().equals("dummyID"));
     }
 
     @Test
     public void testCanGetHexIDsubstring() {
-        assertTrue(hex.getIDfirstChars(2).equals("du"));
+        assertTrue(hex.getIDFirstChars(2).equals("du"));
     }
 
     @Test

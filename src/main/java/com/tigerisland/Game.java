@@ -1,57 +1,54 @@
 package com.tigerisland;
 
-import java.util.ArrayList;
-
 public class Game {
 
     protected GameSettings gameSettings;
     protected Deck deck;
     protected Board board;
-    protected PlayOrder players;
-    protected Move move;
+    protected PlayerOrder players;
+    protected Move currentMove;
 
     public Game(GameSettings gameSettings){
         this.gameSettings = gameSettings;
-        deck = this.gameSettings.getDeck();
+        deck = gameSettings.getDeck();
         board = new Board();
-        players = gameSettings.getPlayOrder();
+        players = gameSettings.getPlayerOrder();
     }
 
     public void start() {
-        while(noEndConditionsAreMet()) {
+        while(EndConditions.noEndConditionsAreMet(players.getCurrentPlayer(), board)) {
             takeTurn();
-           players.setNextPlayer();
+            players.setNextPlayer();
         }
 
         // TODO fancy game-ending stuff
     }
-    private boolean noEndConditionsAreMet() {
-        return !noValidMoves() && !playerIsOutOfPieces();
-    }
 
-    private void takeTurn() {
+
+
+    protected void takeTurn() {
         try {
             // Listen for tile placement
-            move = listenForMove();
-            placeTile(move);
+            currentMove = listenForMove();
+            placeTile(currentMove);
 
             // Listen for build option
-            move = listenForMove();
+            currentMove = listenForMove();
 
-            switch (move.getMoveType()) {
+            switch (currentMove.getMoveType()) {
                 case VILLAGECREATION:
-                    createVillage(move);
+                    createVillage(currentMove);
                 case VILLAGEEXPANSION:
-                    expandVillage(move);
+                    expandVillage(currentMove);
                 case TOTOROPLACEMENT:
-                    placeTotoro(move);
+                    placeTotoro(currentMove);
             }
         } catch (InvalidMoveException exception) {
             // runInvalidMoveEndCondtion();
         }
     }
 
-    private Move listenForMove() {
+    protected Move listenForMove() {
         // TODO replace with mock listener
         Tile newTile = new Tile(Terrain.LAKE, Terrain.GRASSLANDS);
         Location newLocation = new Location(0, 1);
@@ -77,6 +74,7 @@ public class Game {
 
         //tempBoard.createVillage(tempPlayer);
         //tempPlayer.getPieceSet().placeVillager();
+        //tempBoard.updateSettlements();
 
         // Update board and player state
         players.updatePlayerState(tempPlayer);
@@ -90,6 +88,7 @@ public class Game {
 
         //int piecesNeeded = tempBoard.expandVillage(tempPlayer);
         //tempPlayer.getPieceSet().placeMultipleVillagers(piecesNeeded);
+        //tempBoard.updateSettlements();
 
         // Update board and player state
         players.updatePlayerState(tempPlayer);
@@ -103,40 +102,12 @@ public class Game {
 
         //tempBoard.placeTotoro(tempPlayer);
         //tempPlayer.getPieceSet().placeTotoro();
+        //tempBoard.updateSettlements();
 
         // Update board and player state
         players.updatePlayerState(tempPlayer);
         board = tempBoard;
     }
 
-    private boolean noValidMoves(){
-        Player currentPlayer = gameSettings.getPlayOrder().getCurrentPlayer();
-        if(noMoreVillagers(currentPlayer) && cantPlayTotoro(currentPlayer)){
-            return true;
-        }
-        return false;
-    }
 
-    private boolean playerIsOutOfPieces(){
-        for(Player player : players.getPlayerList()){
-            if(player.getPieceSet().inventoryEmpty()){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean noMoreVillagers(Player player){
-        return player.getPieceSet().getNumberOfVillagersRemaining() == 0;
-    }
-
-    private boolean cantPlayTotoro(Player player){
-        if(player.getPieceSet().getNumberOfTotoroRemaining() == 0){
-            return true;
-        }
-        //otherwise check board's list of settlements (to be created) and see if one exists in this player's color with
-        //room for a totoro. For every large enough settlement, see if there's an adjacent hex capable of being settled
-
-        return false;
-    }
 }

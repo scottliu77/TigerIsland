@@ -12,7 +12,7 @@ public class OfflineSystemSetupStepDefs {
 
     private TigerIsland tigerIsland;
     private Game aGame;
-    private PlayOrder playerOrder;
+    private PlayerOrder playerOrder;
     private Deck deck;
     
     @Given("^an offline game is created$")

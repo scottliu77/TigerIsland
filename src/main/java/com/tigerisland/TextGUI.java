@@ -187,18 +187,26 @@ public class TextGUI {
             char hexHeight = Integer.toString(hex.getHeight()).charAt(0);
             map[centerX+1][(yDimensionMax-1)-(centerY-1)] = hexHeight;
 
-            String hexIDshort = hex.getIDfirstChars(2);
+            String hexIDshort = hex.getIDFirstChars(2);
             map[centerX-2][(yDimensionMax-1)-(centerY)] = 'I';
             map[centerX-1][(yDimensionMax-1)-(centerY)] = 'D';
             map[centerX][(yDimensionMax-1)-(centerY)] = '=';
             map[centerX+1][(yDimensionMax-1)-(centerY)] = hexIDshort.charAt(0);
             map[centerX+2][(yDimensionMax-1)-(centerY)] = hexIDshort.charAt(1);
 
+            try {
+                char hexColor = hex.getPieceColor().getColorString().charAt(0);
+                map[centerX-2][(yDimensionMax-1)-(centerY+1)] = hexColor;
+                map[centerX-1][(yDimensionMax-1)-(centerY+1)] = '-';
+            } catch (NullPointerException exception) {
+                // do nothing
+            }
+
             char hexContentType = hex.getPieceType().charAt(0);
-            map[centerX-1][(yDimensionMax-1)-(centerY+1)] = hexContentType;
-            map[centerX][(yDimensionMax-1)-(centerY+1)] = '-';
+            map[centerX][(yDimensionMax-1)-(centerY+1)] = hexContentType;
+            map[centerX+1][(yDimensionMax-1)-(centerY+1)] = '-';
             char hexContentCount = Integer.toString(hex.getPieceCount()).charAt(0);
-            map[centerX+1][(yDimensionMax-1)-(centerY+1)] = hexContentCount;
+            map[centerX+2][(yDimensionMax-1)-(centerY+1)] = hexContentCount;
         }
     }
 

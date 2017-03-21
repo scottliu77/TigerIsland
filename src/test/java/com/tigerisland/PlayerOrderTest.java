@@ -10,44 +10,57 @@ import static org.junit.Assert.assertTrue;
 
 public class PlayerOrderTest {
 
-    private PlayOrder playOrder;
+    private PlayerOrder playerOrder;
 
     @Before
     public void createPlayerOrder() {
-        this.playOrder = new PlayOrder(new GlobalSettings());
+        this.playerOrder = new PlayerOrder(new GlobalSettings());
     }
 
     @Test
     public void testCanCreatePlayerOrder() {
-        assertTrue(playOrder != null);
+        assertTrue(playerOrder != null);
     }
 
     @Test
     public void testCanShuffleOrderOfPlayers() {
-        playOrder.shufflePlayerOrder();
+        playerOrder.shufflePlayerOrder();
         assertTrue(true);
     }
 
     @Test
     public void testCanGetCurrentPlayer() {
-        assertTrue(playOrder.getCurrentPlayer() != null);
+        assertTrue(playerOrder.getCurrentPlayer() != null);
     }
 
     @Test
     public void testCanSetNextPlayer() {
-        Color nextPlayerString = playOrder.getPlayerList().get(1).getPlayerColor();
-        playOrder.setNextPlayer();
-        Color currentPlayerString = playOrder.getCurrentPlayer().getPlayerColor();
+        Color nextPlayerString = playerOrder.getPlayerList().get(1).getPlayerColor();
+        playerOrder.setNextPlayer();
+        Color currentPlayerString = playerOrder.getCurrentPlayer().getPlayerColor();
         assertTrue(nextPlayerString.equals(currentPlayerString));
     }
 
     @Test
     public void testThatPlayerOrderLoopsAfterLastPlayer() {
         for(int turns = 0; turns < 9; turns ++) {
-            playOrder.setNextPlayer();
+            playerOrder.setNextPlayer();
         }
-        assertTrue(playOrder.getCurrentPlayer().getPlayerColor() == Color.BLACK);
+        assertTrue(playerOrder.getCurrentPlayer().getPlayerColor() == Color.BLACK);
     }
 
+    @Test
+    public void testCanGetPlayerList() {
+        ArrayList<Player> players = playerOrder.getPlayerList();
+        GlobalSettings globalSettings = new GlobalSettings();
+        assertTrue(players != null && players.size() ==  globalSettings.playerCount);
+    }
+
+    @Test
+    public void testCanUpdatePlayerState() {
+        Player updatedPlayer = playerOrder.getCurrentPlayer();
+        updatedPlayer.addPoints(20);
+        playerOrder.updatePlayerState(updatedPlayer);
+    }
 
 }

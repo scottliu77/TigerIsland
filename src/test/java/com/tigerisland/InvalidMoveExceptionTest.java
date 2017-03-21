@@ -18,7 +18,7 @@ public class InvalidMoveExceptionTest {
     @Test
     public void testCanThrowInvalidMoveExceptionWithMessage() {
         try {
-            throw new InvalidMoveException("You can't make that move!");
+            throw new InvalidMoveException("You can't make that currentMove!");
         } catch(InvalidMoveException exception) {
             assertTrue(true);
         }

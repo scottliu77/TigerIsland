@@ -59,7 +59,7 @@ public class BoardTest{
     }
 
     @Test
-    public void testCanPlaceTile() throws InvalidMoveException {
+    public void testCanPlaceTile() throws InvalidMoveException{
         board.placeTile(tile, location, 0);
         TextGUI.printMap(board.locationsOfPlacedHexes(), board.edgeSpaces, board.hexesOfPlacedHexes());
     }

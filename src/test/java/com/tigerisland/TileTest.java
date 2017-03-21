@@ -35,7 +35,7 @@ public class TileTest {
 
     @Test
     public void testCanGetUniqueId() {
-        assertTrue(tile.getUniqueID() instanceof String);
+        assertTrue(tile.getTileID() instanceof String);
     }
 
 }

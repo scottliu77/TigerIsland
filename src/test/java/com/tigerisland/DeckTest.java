@@ -51,7 +51,7 @@ public class DeckTest{
         Set<String> listOfUniqueIDs = new HashSet<String>();
 
         for (Tile tile : deck.tileDeck) {
-            listOfUniqueIDs.add(tile.getUniqueID());
+            listOfUniqueIDs.add(tile.getTileID());
         }
 
         assertTrue(deckSize == listOfUniqueIDs.size());

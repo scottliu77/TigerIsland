@@ -12,7 +12,7 @@ public class SystemSetupStepDefs {
 
     private TigerIsland tigerIsland;
     private Game aGame;
-    private PlayOrder playOrder;
+    private PlayerOrder playerOrder;
     private Board board;
 
     @Given("^a game is created$")
@@ -24,12 +24,12 @@ public class SystemSetupStepDefs {
 
     @And("^that game has players$")
     public void thatGameHasPlayers() throws Throwable {
-        playOrder = aGame.players;
+        playerOrder = aGame.players;
     }
 
     @Then("^all players have (\\d+) points$")
     public void allPlayersHavePoints(int arg0) throws Throwable {
-        for(Player player: playOrder.getPlayerList()) {
+        for(Player player: playerOrder.getPlayerList()) {
             if(player.getScore() != arg0) {
                 assertTrue(false);
             }
@@ -44,7 +44,7 @@ public class SystemSetupStepDefs {
 
     @Then("^all players have (\\d+) villagers$")
     public void allPlayersHaveVillagers(int arg0) throws Throwable {
-        for(Player player: playOrder.getPlayerList()) {
+        for(Player player: playerOrder.getPlayerList()) {
             if(player.getPieceSet().villagerSet.size() != arg0) {
                 assertTrue(false);
             }
@@ -54,7 +54,7 @@ public class SystemSetupStepDefs {
 
     @Then("^all players have (\\d+) totoros$")
     public void allPlayersHaveTotoros(int arg0) throws Throwable {
-        for(Player player: playOrder.getPlayerList()) {
+        for(Player player: playerOrder.getPlayerList()) {
             if(player.getPieceSet().totoroSet.size() != arg0) {
                 assertTrue(false);
             }

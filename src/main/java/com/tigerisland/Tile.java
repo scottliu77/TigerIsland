@@ -28,7 +28,7 @@ public class Tile {
         return rightHex;
     }
 
-    public String getUniqueID() {
+    public String getTileID() {
         return this.uniqueID;
     }
 }

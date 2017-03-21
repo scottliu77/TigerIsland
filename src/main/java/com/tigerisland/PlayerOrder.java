@@ -2,13 +2,13 @@ package com.tigerisland;
 
 import java.util.*;
 
-public class PlayOrder {
+public class PlayerOrder {
 
     private int playerCount;
     private int currentPlayer = 0;
     private ArrayList<Player> players = new ArrayList<Player>();
 
-    PlayOrder(GlobalSettings globalSettings) {
+    PlayerOrder(GlobalSettings globalSettings) {
         this.playerCount = globalSettings.playerCount;
         for(int player = 0; player < this.playerCount; player++) {
             players.add(player, new Player(Color.values()[player]));

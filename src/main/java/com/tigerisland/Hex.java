@@ -12,6 +12,7 @@ public class Hex {
 
     public Hex() {
         this.tileID = null;
+        this.pieceCount = -1;
     }
 
     public Hex(String tileID, Terrain terrain) {
@@ -49,11 +50,11 @@ public class Hex {
         return piece.getColor();
     }
 
-    public String getID() {
+    public String getTileID() {
         return tileID;
     }
 
-    public String getIDfirstChars(int size) {
+    public String getIDFirstChars(int size) {
         size = Math.abs(size);
         size = Math.min(tileID.length(), size);
 
@@ -68,7 +69,7 @@ public class Hex {
     public static void printHexes(ArrayList<Hex> list){
         for(int ii = 0; ii < list.size(); ii++){
             Hex hex = list.get(ii);
-            System.out.println(hex.terrain.getType()+":H="+Integer.toString(hex.getHeight())+":ID="+hex.getID());
+            System.out.println(hex.terrain.getType()+":H="+Integer.toString(hex.getHeight())+":ID="+hex.getTileID());
         }
     }
 

@@ -3,12 +3,16 @@ package com.tigerisland;
 import java.util.*;
 
 public class Settlement {
-    Color color;
+    public final Color color;
     ArrayList<PlacedHex> hexesInSettlement = new ArrayList<PlacedHex>();
 
     public Settlement(PlacedHex hexInSettlement, ArrayList<PlacedHex> allPlacedHexes){
         this.color = hexInSettlement.getHex().getPieceColor();
         findHexesInSettlement(hexInSettlement, allPlacedHexes);
+    }
+
+    public int getSettlementSize() {
+        return hexesInSettlement.size();
     }
 
     public boolean containsTotoro(){
@@ -54,7 +58,6 @@ public class Settlement {
         return firstPieceColor.equals(secondPieceColor);
     }
 
-
     /*I know this is ugly and I'll clean it up. Just wanted to push what I had. - Jack*/
     private ArrayList<PlacedHex> findAdjacentHexesForOneHex(PlacedHex startHex, ArrayList<PlacedHex> allPlacedHexes){
         ArrayList<PlacedHex> adjacentHexes = new ArrayList<PlacedHex>();
@@ -76,7 +79,7 @@ public class Settlement {
         return allPlacedHexesMap;
     }
 
-    private ArrayList<PlacedHex> findListOfAdjacentHexesBasedOnCoordinates(int x, int y, ArrayList<PlacedHex> allPlacedHexes) {
+    protected ArrayList<PlacedHex> findListOfAdjacentHexesBasedOnCoordinates(int x, int y, ArrayList<PlacedHex> allPlacedHexes) {
         ArrayList<PlacedHex> adjacentHexes = new ArrayList<PlacedHex>();
         for(PlacedHex hex : allPlacedHexes) {
             if(areCoordinatesAdjacent(x, y, hex.getLocation().x, hex.getLocation().y)){

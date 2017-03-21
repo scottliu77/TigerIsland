@@ -53,7 +53,6 @@ public class Location{
         if(this.y == otherLoc.y && this.x == otherLoc.x) {
             return true;
         }
-
         return false;
     }
 

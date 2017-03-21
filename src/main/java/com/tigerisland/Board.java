@@ -225,12 +225,14 @@ public class Board{
         settlements.clear();
         HashSet<PlacedHex> visitedHexes = new HashSet<PlacedHex>();
         for(PlacedHex hex : placedHexes){
-            if(visitedHexes.contains(hex)){
-                continue;
+            if (hex.getHex().getPieceCount() > 0) {
+                if(visitedHexes.contains(hex)){
+                    continue;
+                }
+                Settlement settlement = new Settlement(hex, placedHexes);
+                settlements.add(settlement);
+                addHexesOfSettlementToHashSet(settlement, visitedHexes);
             }
-            Settlement settlement = new Settlement(hex, placedHexes);
-            settlements.add(settlement);
-            addHexesOfSettlementToHashSet(settlement, visitedHexes);
         }
     }
 
