@@ -24,12 +24,28 @@ public class Settlement {
         return false;
     }
 
+    public boolean isExpandable(ArrayList<PlacedHex> allPlacedHexes){
+        for(PlacedHex hexInSettlement : hexesInSettlement){
+            ArrayList<PlacedHex> adjacentHexes = findAdjacentHexesForOneHex(hexInSettlement, allPlacedHexes);
+            for(PlacedHex adjacentHex : adjacentHexes){
+                if(adjacentHex.isEmpty() && hexIsNotVolcano(adjacentHex)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public ArrayList<PlacedHex> getHexesInSettlement(){
         return hexesInSettlement;
     }
 
     public int size(){
         return hexesInSettlement.size();
+    }
+
+    private boolean hexIsNotVolcano(PlacedHex adjacentHex) {
+        return !adjacentHex.getHex().getHexTerrain().equals(Terrain.VOLCANO);
     }
 
     private void findHexesInSettlement(PlacedHex startHex, ArrayList<PlacedHex> allPlacedHexes){

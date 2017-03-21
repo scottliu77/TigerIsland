@@ -202,10 +202,18 @@ public class Board{
         return false;
     }
 
-    public void totoroPlacementPossible(Player player){
-
+    public boolean playerHasSettlementThatCouldAcceptTotoro(Player player){
+        for(Settlement settlement : settlements) {
+            if (settlementBelongsToCurrentPlayer(settlement, player) && settlement.size() >= SIZE_REQUIRED_FOR_TOTORO) {
+                return settlement.isExpandable(placedHexes);
+            }
+        }
+        return false;
     }
 
+    private boolean settlementBelongsToCurrentPlayer(Settlement settlement, Player player){
+        return settlement.color.equals(player.getPlayerColor());
+    }
 
     private boolean hexAvailableForSettlement(Hex currentHex) {
         return currentHex.getPieceCount() == 0;

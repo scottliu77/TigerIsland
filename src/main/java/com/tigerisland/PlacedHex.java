@@ -17,5 +17,9 @@ public class PlacedHex {
         return this.hex;
     }
 
+    public boolean isEmpty(){
+        return hex.getPieceType().equals("Empty");
+    }
+
 
 }

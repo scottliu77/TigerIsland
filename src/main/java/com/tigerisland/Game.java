@@ -24,6 +24,34 @@ public class Game {
         // TODO fancy game-ending stuff
     }
 
+    public boolean noValidMoves(Player player){
+        if(noMoreVillagers(player) && cantPlayTotoro(player)){
+            return true;
+        }
+        return false;
+    }
+
+    private boolean playerIsOutOfPieces(){
+        for(Player player : players.getPlayerList()){
+            if(player.getPieceSet().inventoryEmpty()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean noMoreVillagers(Player player){
+        return player.getPieceSet().getNumberOfVillagersRemaining() == 0;
+    }
+
+    private boolean cantPlayTotoro(Player player){
+        if(player.getPieceSet().getNumberOfTotoroRemaining() == 0){
+            return true;
+        }
+
+        return !board.playerHasSettlementThatCouldAcceptTotoro(player);
+    }
+
 
 
     protected void takeTurn() {
