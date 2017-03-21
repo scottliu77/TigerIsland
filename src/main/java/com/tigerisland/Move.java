@@ -4,6 +4,7 @@ public class Move {
 
     private Tile tile = null;
     private Location location = null;
+    private Location settlementLocation = null;
     private int rotation;
     private Player player = null;
 
@@ -19,10 +20,18 @@ public class Move {
         this.moveType = MoveType.TILEPLACEMENT;
     }
 
-    // Village Creation, Village Expansion, and Totoro Placement have overlapping constructors for now
+    // Village Creation and Totoro Placement have overlapping constructors for now
     Move(Player player, Location location, MoveType moveType) {
         this.player = player;
         this.location = location;
+        this.moveType = moveType;
+    }
+
+    // Expand Village -> Might not need MoveType if we have independent constructors for each move
+    Move(Player player, Location locationToBeExpanded, Location settlementLocation, MoveType moveType){
+        this.player = player;
+        this.location = locationToBeExpanded;
+        this.settlementLocation = settlementLocation;
         this.moveType = moveType;
     }
 
@@ -34,6 +43,8 @@ public class Move {
     public Location getLocation() {
         return this.location;
     }
+
+    public Location getSettlementLocation() { return this.settlementLocation; }
 
     public int getRotation() {
         return this.rotation;
