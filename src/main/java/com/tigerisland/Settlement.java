@@ -28,7 +28,7 @@ public class Settlement {
         for(PlacedHex hexInSettlement : hexesInSettlement){
             ArrayList<PlacedHex> adjacentHexes = findAdjacentHexesFromPlacedHex(hexInSettlement, allPlacedHexes);
             for(PlacedHex adjacentHex : adjacentHexes){
-                if(adjacentHex.isEmpty() && hexIsNotVolcano(adjacentHex)){
+                if(adjacentHex.isEmpty() && adjacentHex.isNotVolcano()){
                     return true;
                 }
             }
@@ -38,10 +38,6 @@ public class Settlement {
 
     public ArrayList<PlacedHex> getHexesInSettlement(){
         return hexesInSettlement;
-    }
-
-    private boolean hexIsNotVolcano(PlacedHex adjacentHex) {
-        return !adjacentHex.getHex().getHexTerrain().equals(Terrain.VOLCANO);
     }
 
     private void findHexesInSettlement(PlacedHex startHex, ArrayList<PlacedHex> allPlacedHexes){

@@ -27,4 +27,7 @@ public class PlacedHex {
     }
 
 
+    public boolean isNotVolcano() {
+        return !getHex().getHexTerrain().equals(Terrain.VOLCANO);
+    }
 }

@@ -123,7 +123,7 @@ public class SettlementTest {
         assertTrue(settlement.size() == 3);
     }
 
-  @Test
+    @Test
     public void testContainsTotoro() {
         settlement = new Settlement(placedHex1, allPlacedHexes);
         assertTrue(settlement.containsTotoro());
@@ -134,7 +134,6 @@ public class SettlementTest {
         settlement = new Settlement(placedHex4, allPlacedHexes);
         assertFalse(settlement.containsTotoro());
     }
-
 
 
 }
