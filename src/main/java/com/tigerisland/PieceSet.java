@@ -6,14 +6,17 @@ public class PieceSet {
 
     protected ArrayList<Piece> villagerSet;
     protected ArrayList<Piece> totoroSet;
+    protected ArrayList<Piece> tigerSet;
     protected Color ownerColor;
 
     public PieceSet(Color ownerColor) {
         this.villagerSet = new ArrayList<Piece>();
         this.totoroSet = new ArrayList<Piece>();
+        this.tigerSet = new ArrayList<Piece>();
         this.ownerColor = ownerColor;
         this.generateVillagerSet(ownerColor, 20);
         this.generateTotoroSet(ownerColor, 3);
+        this.generateTigerSet(ownerColor, 2);
     }
 
     public PieceSet(PieceSet pieceSet){
@@ -38,12 +41,22 @@ public class PieceSet {
         }
     }
 
+    private void generateTigerSet(Color color, int size) {
+        for(int pieceNumber = 1; pieceNumber <= size; pieceNumber++) {
+            this.tigerSet.add(new Piece(color, PieceType.TIGER));
+        }
+    }
+
     public int getNumberOfVillagersRemaining() {
         return villagerSet.size();
     }
 
     public int getNumberOfTotoroRemaining() {
         return totoroSet.size();
+    }
+
+    public int getNumberOfTigersRemaining() {
+        return tigerSet.size();
     }
 
     public Piece placeVillager() throws InvalidMoveException {

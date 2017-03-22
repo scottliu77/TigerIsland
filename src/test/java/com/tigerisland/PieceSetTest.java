@@ -20,7 +20,7 @@ public class PieceSetTest {
 
     @Test
     public void testCanCreateNonEmptySets() {
-        assertTrue(pieceSet.villagerSet.size() > 0 && pieceSet.totoroSet.size() > 0);
+        assertTrue(pieceSet.villagerSet.size() > 0 && pieceSet.totoroSet.size() > 0 && pieceSet.tigerSet.size() > 0);
     }
 
     @Test
@@ -31,6 +31,11 @@ public class PieceSetTest {
     @Test
     public void testCanCreateExactlyThreeTotoro() {
         assertTrue(pieceSet.totoroSet.size() == 3);
+    }
+
+    @Test
+    public void testCanCreateExactlyTwoTiger() {
+        assertTrue(pieceSet.tigerSet.size() == 2);
     }
 
     @Test
@@ -53,6 +58,11 @@ public class PieceSetTest {
     @Test
     public void testCanGetNumberOfTotoroRemaining() {
         assertTrue(pieceSet.getNumberOfTotoroRemaining() == pieceSet.totoroSet.size());
+    }
+
+    @Test
+    public void testCanGetNumberOfTigersRemaining() {
+        assertTrue(pieceSet.getNumberOfTigersRemaining() == pieceSet.tigerSet.size());
     }
 
     @Test
