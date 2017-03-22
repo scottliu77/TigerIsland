@@ -78,5 +78,16 @@ public class HexTest {
         assertTrue(hex.getPieceType() == "Totoro" && hex.getPieceCount() == 1);
     }
 
+    @Test
+    public void testCanTellIfHexIsNotVolcano() {
+        this.hex = new Hex("dummyID", Terrain.ROCKY);
+        assertTrue(hex.isNotVolcano());
+    }
+
+    @Test
+    public void testCanTellIfHexIsVolcano() {
+        this.hex = new Hex("dummyID", Terrain.VOLCANO);
+        assertFalse(hex.isNotVolcano());
+    }
 
 }
