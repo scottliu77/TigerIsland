@@ -192,22 +192,23 @@ public class Board{
         hexAt(location).addPiecesToHex(new Piece(player.getPlayerColor(), PieceType.VILLAGER), 1);
     }
 
-    public int expandVillage(Player player, Location location, Location existingSettlement) throws InvalidMoveException {
-        Settlement settlement = isValidSettlement(existingSettlement);
-        Hex targetHex = getDesiredTerrain(location);
-        Terrain desiredTerrain = targetHex.getHexTerrain();
+    public int expandVillage(Player player, Location loc, Location settledLoc) throws InvalidMoveException {
+        Settlement settlement = isValidSettlementCheck(settledLoc);
+        Hex targetHex = setDesiredTerrain(loc);
+        Terrain specifiedTerrain = targetHex.getHexTerrain();
         ArrayList<PlacedHex> hexesInSettlement = settlement.getHexesInSettlement();
+        ArrayList<PlacedHex> adjacentHexes;
         int piecesNeeded = 0;
 
-        for (PlacedHex hex : hexesInSettlement) {
-            ArrayList<PlacedHex> adjacentHexes = settlement.findAdjacentHexesForOneHex(hex, hexesInSettlement);
-            villageExpansionChecks(player, piecesNeeded, desiredTerrain, settlement, adjacentHexes);
+        for (PlacedHex placedHex : hexesInSettlement) {
+            adjacentHexes = settlement.findAdjacentHexesForOneHex(placedHex, hexesInSettlement);
+            villageExpansionChecks(player, piecesNeeded, specifiedTerrain, settlement, adjacentHexes);
         }
         return piecesNeeded;
     }
 
-    public Settlement isValidSettlement(Location location) throws InvalidMoveException {
-        Hex potentialSettlementHex = hexAt(location);
+    public Settlement isValidSettlementCheck(Location loc) throws InvalidMoveException {
+        Hex potentialSettlementHex = hexAt(loc);
         if (potentialSettlementHex.getPieceCount() == -1){
             throw new InvalidMoveException("Settlement hex does not exist");
         }
@@ -222,8 +223,8 @@ public class Board{
         throw new InvalidMoveException("Hex does not belong to a settlement");
     }
 
-    public Hex getDesiredTerrain(Location location) throws InvalidMoveException {
-        Hex targetHex = hexAt(location);
+    public Hex setDesiredTerrain(Location loc) throws InvalidMoveException {
+        Hex targetHex = hexAt(loc);
         if(targetHex.getPieceCount() == -1){
             throw new InvalidMoveException("Target hex does not exist");
         } else{
@@ -231,23 +232,23 @@ public class Board{
         }
     }
 
-    public int villageExpansionChecks(Player player, int piecesNeeded, Terrain desiredTerrain,
+    public int villageExpansionChecks(Player player, int piecesNeeded, Terrain specifiedTerrain,
                                       Settlement settlement, ArrayList<PlacedHex> adjacentHexes) throws InvalidMoveException {
         for (PlacedHex potentialHex : adjacentHexes) {
+            int hexHeight = potentialHex.getHex().getHeight();
             if (potentialHex.getHex().getPieceCount() > 0){
                 continue;
-            } else if (potentialHex.getHex().getHexTerrain() != desiredTerrain){
+            } else if (potentialHex.getHex().getHexTerrain() != specifiedTerrain){
                 continue;
-            } else if (player.getPieceSet().getNumberOfVillagersRemaining() != potentialHex.getHex().getHeight()){
+            } else if (player.getPieceSet().getNumberOfVillagersRemaining() != hexHeight){
                 throw new InvalidMoveException("Player does not have enough pieces to populate the target hex");
             }
-            potentialHex.getHex().addPiecesToHex(player.getPieceSet()
-                    .placeMultipleVillagers(potentialHex.getHex().getHeight()), potentialHex.getHex().getHeight());
+            potentialHex.getHex().addPiecesToHex(player.getPieceSet().placeMultipleVillagers(hexHeight), hexHeight);
             updateSettlements();
             ArrayList<PlacedHex> hexesInSettlement = settlement.getHexesInSettlement();
-            piecesNeeded += potentialHex.getHex().getHeight()^2;
+            piecesNeeded += hexHeight;
             adjacentHexes = settlement.findAdjacentHexesForOneHex(potentialHex, hexesInSettlement);
-            villageExpansionChecks(player, piecesNeeded, desiredTerrain, settlement, adjacentHexes);
+            villageExpansionChecks(player, piecesNeeded, specifiedTerrain, settlement, adjacentHexes);
         }
         return piecesNeeded;
     }
