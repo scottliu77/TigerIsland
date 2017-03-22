@@ -26,7 +26,7 @@ public class Settlement {
 
     public boolean isExpandable(ArrayList<PlacedHex> allPlacedHexes){
         for(PlacedHex hexInSettlement : hexesInSettlement){
-            ArrayList<PlacedHex> adjacentHexes = findAdjacentHexesForOneHex(hexInSettlement, allPlacedHexes);
+            ArrayList<PlacedHex> adjacentHexes = findAdjacentHexesFromPlacedHex(hexInSettlement, allPlacedHexes);
             for(PlacedHex adjacentHex : adjacentHexes){
                 if(adjacentHex.isEmpty() && hexIsNotVolcano(adjacentHex)){
                     return true;
@@ -52,7 +52,7 @@ public class Settlement {
         while(!hexesToBeAnalyzed.isEmpty()){
             PlacedHex currentPlacedHex = hexesToBeAnalyzed.remove();
             hexesInSettlement.add(currentPlacedHex);
-            ArrayList<PlacedHex> adjacentHexesToCurrentHex = findAdjacentHexesForOneHex(currentPlacedHex, allPlacedHexes);
+            ArrayList<PlacedHex> adjacentHexesToCurrentHex = findAdjacentHexesFromPlacedHex(currentPlacedHex, allPlacedHexes);
             for(PlacedHex hexInAdjacentList : adjacentHexesToCurrentHex) {
                 try {
                     if (ownedBySamePlayer(hexInAdjacentList.getHex().getPieceColor(), color) && !visitedHexes.contains(hexInAdjacentList)) {
@@ -70,18 +70,6 @@ public class Settlement {
         return firstPieceColor.equals(secondPieceColor);
     }
 
-    /*I know this is ugly and I'll clean it up. Just wanted to push what I had. - Jack*/
-    public ArrayList<PlacedHex> findAdjacentHexesForOneHex(PlacedHex startHex, ArrayList<PlacedHex> allPlacedHexes){
-        ArrayList<PlacedHex> adjacentHexes = new ArrayList<PlacedHex>();
-        HashMap<Location, PlacedHex> allPlacedHexesMap = getAllPlacedHexesAsMap(allPlacedHexes);
-        Location startingLocation = startHex.getLocation();
-        int x = startingLocation.x;
-        int y = startingLocation.y;
-        adjacentHexes.addAll(findListOfAdjacentHexesBasedOnCoordinates(x,y, allPlacedHexes));
-        return adjacentHexes;
-    }
-
-
     private HashMap<Location, PlacedHex> getAllPlacedHexesAsMap(ArrayList<PlacedHex> allPlacedHexes){
         HashMap<Location, PlacedHex> allPlacedHexesMap = new HashMap<Location, PlacedHex>();
         for(int i = 0;i<allPlacedHexes.size();i++){
@@ -91,17 +79,18 @@ public class Settlement {
         return allPlacedHexesMap;
     }
 
-    protected ArrayList<PlacedHex> findListOfAdjacentHexesBasedOnCoordinates(int x, int y, ArrayList<PlacedHex> allPlacedHexes) {
+    protected ArrayList<PlacedHex> findAdjacentHexesFromPlacedHex(PlacedHex placedHex, ArrayList<PlacedHex> allPlacedHexes) {
+        Location location = placedHex.getLocation();
         ArrayList<PlacedHex> adjacentHexes = new ArrayList<PlacedHex>();
         for(PlacedHex hex : allPlacedHexes) {
-            if(areCoordinatesAdjacent(x, y, hex.getLocation().x, hex.getLocation().y)){
+            if(location.isAdjacentTo(hex.getLocation())){
                 adjacentHexes.add(hex);
             }
         }
         return  adjacentHexes;
     }
 
-    private boolean areCoordinatesAdjacent(int x, int y, int comparisonX, int comparisonY){
+    /*private boolean areCoordinatesAdjacent(int x, int y, int comparisonX, int comparisonY){
         if(x == comparisonX - 1 && y == comparisonY + 1){
             return true;
         }
@@ -121,5 +110,5 @@ public class Settlement {
             return true;
         }
         return false;
-    }
+    }*/
 }

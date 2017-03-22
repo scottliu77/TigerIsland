@@ -201,7 +201,7 @@ public class Board{
         int piecesNeeded = 0;
 
         for (PlacedHex placedHex : hexesInSettlement) {
-            adjacentHexes = settlement.findAdjacentHexesForOneHex(placedHex, hexesInSettlement);
+            adjacentHexes = settlement.findAdjacentHexesFromPlacedHex(placedHex, hexesInSettlement);
             villageExpansionChecks(player, piecesNeeded, specifiedTerrain, settlement, adjacentHexes);
         }
         return piecesNeeded;
@@ -247,7 +247,7 @@ public class Board{
             updateSettlements();
             ArrayList<PlacedHex> hexesInSettlement = settlement.getHexesInSettlement();
             piecesNeeded += hexHeight;
-            adjacentHexes = settlement.findAdjacentHexesForOneHex(potentialHex, hexesInSettlement);
+            adjacentHexes = settlement.findAdjacentHexesFromPlacedHex(potentialHex, hexesInSettlement);
             villageExpansionChecks(player, piecesNeeded, specifiedTerrain, settlement, adjacentHexes);
         }
         return piecesNeeded;

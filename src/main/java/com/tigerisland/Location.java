@@ -72,4 +72,28 @@ public class Location{
         }
         return adjacentLocations;
     }
+
+    public boolean isAdjacentTo(Location otherLocation) {
+        int otherX = otherLocation.x;
+        int otherY = otherLocation.y;
+        if(this.x == otherX - 1 && y == otherY + 1){
+            return true;
+        }
+        if(x == otherX + 1 && y == otherY - 1){
+            return true;
+        }
+        if(x == otherX && y == otherY + 1){
+            return true;
+        }
+        if(x == otherX && y == otherY - 1) {
+            return true;
+        }
+        if(x == otherX + 1 && y == otherY){
+            return true;
+        }
+        if(x == otherX - 1 && y == otherY){
+            return true;
+        }
+        return false;
+    }
 }
