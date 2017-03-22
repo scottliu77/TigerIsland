@@ -78,4 +78,7 @@ public class Hex {
         }
     }
 
+    public boolean isNotVolcano() {
+        return !this.getHexTerrain().equals(Terrain.VOLCANO);
+    }
 }
