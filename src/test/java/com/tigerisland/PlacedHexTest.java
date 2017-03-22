@@ -35,4 +35,9 @@ public class PlacedHexTest {
         assertTrue(retrievedHex != null);
     }
 
+    @Test
+    public void testCanTellIfHexIsEmpty() {
+        assertTrue(placedHex.isEmpty());
+    }
+
 }
