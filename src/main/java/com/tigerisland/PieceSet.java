@@ -22,11 +22,14 @@ public class PieceSet {
     public PieceSet(PieceSet pieceSet){
         int newVillagerSetSize = pieceSet.villagerSet.size();
         int newTotoroSetSize = pieceSet.totoroSet.size();
+        int newTigerSetSize = pieceSet.tigerSet.size();
         this.villagerSet = new ArrayList<Piece>();
         this.totoroSet = new ArrayList<Piece>();
+        this.tigerSet = new ArrayList<Piece>();
         this.ownerColor = pieceSet.ownerColor;
         this.generateVillagerSet(ownerColor, newVillagerSetSize);
         this.generateTotoroSet(ownerColor, newTotoroSetSize);
+        this.generateTigerSet(ownerColor, newTigerSetSize);
     }
 
     private void generateVillagerSet(Color color, int size) {
@@ -86,8 +89,16 @@ public class PieceSet {
         }
     }
 
+    public Piece placeTiger() throws InvalidMoveException {
+        try {
+            return tigerSet.remove(0);
+        } catch (IndexOutOfBoundsException expection) {
+            throw new InvalidMoveException("No tiger remaining in player inventory");
+        }
+    }
+
     public boolean inventoryEmpty(){
-        if(totoroSet.size() == 0 && villagerSet.size() == 0){
+        if(totoroSet.size() == 0 && villagerSet.size() == 0 && tigerSet.size() == 0){
             return true;
         }
         else {

@@ -66,6 +66,28 @@ public class PieceSetTest {
     }
 
     @Test
+    public void testCanPlaceTiger() {
+        try {
+            Piece tiger = pieceSet.placeTiger();
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        }
+        assertTrue(pieceSet.tigerSet.size() == 1);
+    }
+
+    @Test
+    public void testCanPlaceAllTiger() {
+        for(int numTiger = 0; numTiger < 3; numTiger++) {
+            try {
+                Piece totoro = pieceSet.placeTiger();
+            } catch (InvalidMoveException e) {
+                e.printStackTrace();
+            }
+        }
+        assertTrue(pieceSet.tigerSet.size() == 0);
+    }
+
+    @Test
     public void testCanPlaceTotoro() {
         try {
             Piece totoro = pieceSet.placeTotoro();
@@ -77,7 +99,7 @@ public class PieceSetTest {
 
     @Test
     public void testCanPlaceAllTotoro() {
-        for(int numTotoro = 0; numTotoro < 3; numTotoro ++) {
+        for(int numTotoro = 0; numTotoro < 3; numTotoro++) {
             try {
                 Piece totoro = pieceSet.placeTotoro();
             } catch (InvalidMoveException e) {
@@ -160,6 +182,9 @@ public class PieceSetTest {
             }
             for(int numTotoro = 0; numTotoro < 3; numTotoro++) {
                 Piece totoro = pieceSet.placeTotoro();
+            }
+            for(int numTiger = 0; numTiger < 2; numTiger++) {
+                Piece tiger = pieceSet.placeTiger();
             }
             assertTrue(pieceSet.inventoryEmpty() == true);
         } catch (InvalidMoveException exception) {

@@ -67,6 +67,9 @@ public class EndConditionsTest {
         for(int totoroMove = 0; totoroMove < 3; totoroMove++) {
             currentPlayer.getPieceSet().placeTotoro();
         }
+        for(int tigerMove = 0; tigerMove < 2; tigerMove++) {
+            currentPlayer.getPieceSet().placeTiger();
+        }
         currentPlayer.getPieceSet().placeMultipleVillagers(20);
         assertTrue(EndConditions.playerIsOutOfPieces(currentPlayer));
     }
