@@ -15,6 +15,12 @@ public class Board{
         settlements = new ArrayList<Settlement>();
     }
 
+    public Board(Board board){
+        placedHexes = board.placedHexes;
+        edgeSpaces = board.edgeSpaces;
+        settlements = board.settlements;
+    }
+
     public void placeTile(Tile tile, Location centerLoc, int rotation) throws InvalidMoveException {
         placeHex(tile.getCenterHex(), centerLoc);
         placeHex(tile.getRightHex(), Location.rotateHexLeft(centerLoc, rotation));
