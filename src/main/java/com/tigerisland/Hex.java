@@ -69,7 +69,12 @@ public class Hex {
     public static void printHexes(ArrayList<Hex> list){
         for(int ii = 0; ii < list.size(); ii++){
             Hex hex = list.get(ii);
-            System.out.println(hex.terrain.getType()+":H="+Integer.toString(hex.getHeight())+":ID="+hex.getTileID());
+            String hexTerrain = "T="+hex.terrain.getType();
+            String hexHeight = "H="+Integer.toString(hex.getHeight());
+            String hexPieceType = hex.getPieceType();
+            String hexPieceCount = Integer.toString(hex.getPieceCount());
+            String hexID = "ID="+hex.getIDFirstChars(8);
+            System.out.println(hexTerrain + " : " + hexHeight + " : " + hexPieceType + '-' + hexPieceCount + " : " + hexID);
         }
     }
 
