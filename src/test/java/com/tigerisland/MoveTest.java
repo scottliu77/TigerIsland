@@ -27,7 +27,7 @@ public class MoveTest {
 
         this.tilePlacementMove = new Move(tile, location, rotation);
         this.villageCreationMove = new Move(player, location, MoveType.VILLAGECREATION);
-        this.villageExpansionMove = new Move(player, location, settlementLocation, MoveType.VILLAGEEXPANSION);
+        this.villageExpansionMove = new Move(player, location, settlementLocation);
     }
 
     @Test

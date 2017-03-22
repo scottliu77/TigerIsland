@@ -27,12 +27,11 @@ public class Move {
         this.moveType = moveType;
     }
 
-    // Expand Village -> Might not need MoveType if we have independent constructors for each move
-    Move(Player player, Location locationToBeExpanded, Location settlementLocation, MoveType moveType){
+    Move(Player player, Location locationToBeExpanded, Location settlementLocation){
         this.player = player;
         this.location = locationToBeExpanded;
         this.settlementLocation = settlementLocation;
-        this.moveType = moveType;
+        this.moveType = MoveType.VILLAGEEXPANSION;
     }
 
 
