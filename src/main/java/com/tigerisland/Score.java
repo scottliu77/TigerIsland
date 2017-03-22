@@ -8,6 +8,10 @@ public class Score {
         score = 0;
     }
 
+    Score(Score score) {
+        this.score = score.getScoreValue();
+    }
+
     public int getScoreValue() {
         return score;
     }

@@ -35,8 +35,4 @@ public class GameTest {
         assertTrue(game != null);
     }
 
-    @Test
-    public void testPlayerHasNoMoreValidMoves() { assertTrue(game.noValidMoves(playerBlack)); }
-
-
 }

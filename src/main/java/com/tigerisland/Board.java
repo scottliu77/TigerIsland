@@ -335,6 +335,39 @@ public class Board{
 
     }
 
+    public void placeTiger(Player player, Location location) throws InvalidMoveException{
+        PlacedHex placedHex = placedHexAtLocation(location);
+        if (placedHex == null) {
+            throw new InvalidMoveException("Target hex does not exist");
+        }
+        if (placedHex.getHex().getPieceCount() > 0) {
+            throw new InvalidMoveException("Target hex already contains piece(s)");
+        }
+        if (placedHex.getHex().getHexTerrain() == Terrain.VOLCANO) {
+            throw new InvalidMoveException("Cannot place a piece on a volcano hex");
+        }
+        PlacedHex tempPlacedHex = new PlacedHex(placedHex);
+        Player tempPlayer = new Player(player);
+        tempPlacedHex.getHex().addPiecesToHex(tempPlayer.getPieceSet().placeVillager(), 1);
+        placedHexes.add(tempPlacedHex);
+        Settlement settlement = new Settlement(tempPlacedHex, placedHexes);
+
+        if(settlement.containsTotoro()){
+            throw new InvalidMoveException("Cannot place totoro in a settlement already containing a Totoro");
+        }
+
+        placedHexes.remove(tempPlacedHex);
+        placedHex.getHex().addPiecesToHex(player.getPieceSet().placeTotoro(), 1);
+        int minimumSizeRequireForTotoroAfterPlacement = SIZE_REQUIRED_FOR_TOTORO + 1;
+        settlement = new Settlement(placedHex, placedHexes);
+
+        if(settlement.size() < minimumSizeRequireForTotoroAfterPlacement) {
+            throw new InvalidMoveException("Cannot place totoro in a settlement of size 4 or smaller!");
+        }
+
+    }
+
+
     public ArrayList<Hex> hexesOfPlacedHexes(){
         ArrayList<Hex> hexesOfPlacedHexes = new ArrayList<Hex>();
         for(PlacedHex placedHex : placedHexes){

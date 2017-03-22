@@ -1,14 +1,14 @@
 package com.tigerisland;
 
-public enum MoveType {
-    TILEPLACEMENT("TilePlacement"),
+public enum BuildActionType {
     VILLAGECREATION("VillageCreation"),
     VILLAGEEXPANSION("VillageExpansion"),
-    TOTOROPLACEMENT("TotoroPlacement");
+    TOTOROPLACEMENT("TotoroPlacement"),
+    TIGERPLACEMENT("TigerPlacement");
 
     private String moveString;
 
-    MoveType(String moveString) {
+    BuildActionType(String moveString) {
         this.moveString = moveString;
     }
 

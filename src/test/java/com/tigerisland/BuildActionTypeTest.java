@@ -4,15 +4,15 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
 
-public class MoveTypeTest {
+public class BuildActionTypeTest {
 
     @Test
     public void testCanCreateMoveType() {
-        assertTrue(MoveType.TILEPLACEMENT instanceof MoveType );
+        assertTrue(BuildActionType.TOTOROPLACEMENT instanceof BuildActionType);
     }
 
     @Test
     public void testCanGetMoveTypeString() {
-        assertTrue(MoveType.TILEPLACEMENT.getMoveString().equals("TilePlacement"));
+        assertTrue(BuildActionType.TOTOROPLACEMENT.getMoveString().equals("TotoroPlacement"));
     }
 }

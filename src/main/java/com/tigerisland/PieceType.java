@@ -3,7 +3,8 @@ package com.tigerisland;
 public enum PieceType {
 
     VILLAGER("Villager"),
-    TOTORO("Totoro");
+    TOTORO("Totoro"),
+    TIGER("Tiger");
 
     private String type;
 

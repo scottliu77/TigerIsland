@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
 
-public class InvalidMoveExceptionTest {
+public class InvalidBuildActionExceptionTest {
 
     @Test
     public void testCanThrowInvalidMoveException() {
@@ -18,7 +18,7 @@ public class InvalidMoveExceptionTest {
     @Test
     public void testCanThrowInvalidMoveExceptionWithMessage() {
         try {
-            throw new InvalidMoveException("You can't make that currentMove!");
+            throw new InvalidMoveException("You can't make that currentBuildAction!");
         } catch(InvalidMoveException exception) {
             assertTrue(true);
         }

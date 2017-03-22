@@ -13,8 +13,8 @@ public class Player {
     }
 
     public Player(Player player){
-        this.score = player.score;
-        this.color = player.color;
+        this.score = new Score(player.getScore());
+        this.color = player.getPlayerColor();
         this.pieceSet = new PieceSet(player.getPieceSet()); //might need clone constructor here too
     }
 
@@ -33,3 +33,4 @@ public class Player {
 
 
 }
+gi

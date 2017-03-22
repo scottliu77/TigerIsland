@@ -3,140 +3,135 @@ package com.tigerisland;
 public class Game {
     private static final int TOTORO_POINT_VALUE = 200;
     private static final int VILLAGER_POINT_VALUE = 1;
+    private static final int TIGER_POINT_VALUE = 75;
 
     protected GameSettings gameSettings;
-    protected Deck deck;
     protected Board board;
-    protected PlayerOrder players;
-    protected Move currentMove;
+    protected TilePlacement currentTilePlacement;
+    protected BuildAction currentBuildAction;
 
     public Game(GameSettings gameSettings){
         this.gameSettings = gameSettings;
-        deck = gameSettings.getDeck();
         board = new Board();
-        players = gameSettings.getPlayerOrder();
     }
 
     public void start() {
-        while(EndConditions.noEndConditionsAreMet(players.getCurrentPlayer(), board)) {
+        // TODO add checking for interrupted exception
+        while(EndConditions.noEndConditionsAreMet(gameSettings.getPlayerOrder().getCurrentPlayer(), board)) {
             takeTurn();
-            players.setNextPlayer();
+            gameSettings.getPlayerOrder().setNextPlayer();
         }
 
         // TODO fancy game-ending stuff
     }
 
-    public boolean noValidMoves(Player player){
-        if(noMoreVillagers(player) && cantPlayTotoro(player)){
-            return true;
-        }
-        return false;
-    }
-
-    private boolean playerIsOutOfPieces(){
-        for(Player player : players.getPlayerList()){
-            if(player.getPieceSet().inventoryEmpty()){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean noMoreVillagers(Player player){
-        return player.getPieceSet().getNumberOfVillagersRemaining() == 0;
-    }
-
-    private boolean cantPlayTotoro(Player player){
-        if(player.getPieceSet().getNumberOfTotoroRemaining() == 0){
-            return true;
-        }
-
-        return !board.playerHasSettlementThatCouldAcceptTotoro(player);
-    }
-
-
 
     protected void takeTurn() {
         try {
             // Listen for tile placement
-            currentMove = listenForMove();
-            placeTile(currentMove);
+            currentTilePlacement = listenForTilePlacement();
+            placeTile(currentTilePlacement);
 
             // Listen for build option
-            currentMove = listenForMove();
+            currentBuildAction = listenForBuildAction();
 
-            switch (currentMove.getMoveType()) {
+            switch (currentBuildAction.getBuildActionType()) {
                 case VILLAGECREATION:
-                    createVillage(currentMove);
+                    createVillage(currentBuildAction);
                 case VILLAGEEXPANSION:
-                    expandVillage(currentMove);
+                    expandVillage(currentBuildAction);
                 case TOTOROPLACEMENT:
-                    placeTotoro(currentMove);
+                    placeTotoro(currentBuildAction);
+                case TIGERPLACEMENT:
+                    placeTiger(currentBuildAction);
             }
         } catch (InvalidMoveException exception) {
             // runInvalidMoveEndCondtion();
         }
     }
 
-    protected Move listenForMove() {
+    protected TilePlacement listenForTilePlacement() {
         // TODO replace with mock listener
         Tile newTile = new Tile(Terrain.LAKE, Terrain.GRASSLANDS);
         Location newLocation = new Location(0, 1);
         int newRotation = 60;
-        Move newMove = new Move(newTile, newLocation, newRotation);
-        return newMove;
+        TilePlacement tilePlacement = new TilePlacement(newTile, newLocation, newRotation);
+        return tilePlacement;
     }
 
-    protected void placeTile(Move move) throws InvalidMoveException {
+    protected BuildAction listenForBuildAction() {
+        // TODO replace with mock listener
+        Player currentPlayer = gameSettings.getPlayerOrder().getCurrentPlayer();
+        Location placementLocation = new Location(0, 1);
+        BuildAction newBuildAction = new BuildAction(currentPlayer, placementLocation, BuildActionType.VILLAGECREATION);
+        return newBuildAction;
+    }
+
+
+    protected void placeTile(TilePlacement tilePlacement) throws InvalidMoveException {
         // Save create temp copy of board
         Board tempBoard = board;
 
-        tempBoard.placeTile(move.getTile(), move.getLocation(), move.getRotation());
+        tempBoard.placeTile(tilePlacement.getTile(), tilePlacement.getLocation(), tilePlacement.getRotation());
 
         // Update board state
         board = tempBoard;
     }
 
-    protected void createVillage(Move move) throws InvalidMoveException {
+    protected void createVillage(BuildAction buildAction) throws InvalidMoveException {
         // Save temp copies of board and player
-        Player tempPlayer = players.getCurrentPlayer();
+        Player tempPlayer = new Player(gameSettings.getPlayerOrder().getCurrentPlayer());
         Board tempBoard = board;
 
-        tempBoard.createVillage(tempPlayer, move.getLocation());
+        tempBoard.createVillage(tempPlayer, buildAction.getLocation());
         tempPlayer.getPieceSet().placeVillager();
         tempPlayer.getScore().addPoints(VILLAGER_POINT_VALUE);
         tempBoard.updateSettlements();
 
         // Update board and player state
-        players.updatePlayerState(tempPlayer);
+        gameSettings.getPlayerOrder().updatePlayerState(tempPlayer);
         board = tempBoard;
     }
 
-    protected void expandVillage(Move move) throws InvalidMoveException {
+    protected void expandVillage(BuildAction buildAction) throws InvalidMoveException {
         // Save temp copies of board and player
-        Player tempPlayer = players.getCurrentPlayer();
+        Player tempPlayer = new Player(gameSettings.getPlayerOrder().getCurrentPlayer());
         Board tempBoard = board;
 
-        int piecesNeeded = tempBoard.expandVillage(tempPlayer, move.getLocation(), move.getSettlementLocation());
+        int piecesNeeded = tempBoard.expandVillage(tempPlayer, buildAction.getLocation(), buildAction.getSettlementLocation());
         tempPlayer.getPieceSet().placeMultipleVillagers(piecesNeeded);
         tempBoard.updateSettlements();
 
         // Update board and player state
-        players.updatePlayerState(tempPlayer);
+        gameSettings.getPlayerOrder().updatePlayerState(tempPlayer);
         board = tempBoard;
     }
 
-    protected void placeTotoro(Move move) throws InvalidMoveException {
+    protected void placeTotoro(BuildAction buildAction) throws InvalidMoveException {
         // Save temp copies of board and player
-        Player tempPlayer = players.getCurrentPlayer();
+        Player tempPlayer = new Player(gameSettings.getPlayerOrder().getCurrentPlayer());
         Board tempBoard = board;
 
-        tempBoard.placeTotoro(tempPlayer, move.getLocation());
+        tempBoard.placeTotoro(tempPlayer, buildAction.getLocation());
         tempBoard.updateSettlements();
         tempPlayer.getScore().addPoints(TOTORO_POINT_VALUE);
 
         // Update board and player state
-        players.updatePlayerState(tempPlayer);
+        gameSettings.getPlayerOrder().updatePlayerState(tempPlayer);
+        board = tempBoard;
+    }
+
+    protected void placeTiger(BuildAction buildAction) throws InvalidMoveException {
+        // Save temp copies of board and player
+        Player tempPlayer = new Player(gameSettings.getPlayerOrder().getCurrentPlayer());
+        Board tempBoard = board;
+
+        tempBoard.placeTiger(tempPlayer, buildAction.getLocation());
+        tempBoard.updateSettlements();
+        tempPlayer.getScore().addPoints(TIGER_POINT_VALUE);
+
+        // Update board and player state
+        gameSettings.getPlayerOrder().updatePlayerState(tempPlayer);
         board = tempBoard;
     }
 }

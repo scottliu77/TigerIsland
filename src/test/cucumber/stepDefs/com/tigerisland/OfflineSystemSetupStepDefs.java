@@ -26,7 +26,7 @@ public class OfflineSystemSetupStepDefs {
     @And("^that offline game has players$")
     public void thatGameHasPlayers() throws Throwable {
         assertTrue(aGame.gameSettings.globalSettings.offline);
-        playerOrder = aGame.players;
+        playerOrder = aGame.gameSettings.getPlayerOrder();
     }
 
     @Then("^then the game has a tile deck$")

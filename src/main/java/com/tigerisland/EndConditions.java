@@ -27,6 +27,7 @@ public final class EndConditions {
     }
 
     private static boolean cantPlayTotoro(Player currentPlayer, Board board){
+
         if(currentPlayer.getPieceSet().getNumberOfTotoroRemaining() == 0){
             return true;
         }

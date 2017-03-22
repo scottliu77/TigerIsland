@@ -24,7 +24,7 @@ public class SystemSetupStepDefs {
 
     @And("^that game has players$")
     public void thatGameHasPlayers() throws Throwable {
-        playerOrder = aGame.players;
+        playerOrder = aGame.gameSettings.getPlayerOrder();
     }
 
     @Then("^all players have (\\d+) points$")
@@ -67,8 +67,8 @@ public class SystemSetupStepDefs {
         int movesToCheck = moves.size();
         try {
             for (String move : moves) {
-                for (MoveType moveType :MoveType.values()) {
-                    if(moveType.getMoveString().equals(move)) {
+                for (BuildActionType buildActionType : BuildActionType.values()) {
+                    if(buildActionType.getMoveString().equals(move)) {
                         movesToCheck--;
                     }
 

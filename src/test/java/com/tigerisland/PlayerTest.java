@@ -93,4 +93,11 @@ public class PlayerTest {
             assertTrue(true);
         }
     }
+
+    @Test
+    public void testCanCreateCopyOfPlayer() throws InvalidMoveException {
+        Player playerCopy = new Player(playerWhite);
+        playerCopy.getScore().addPoints(10);
+        assertTrue(playerCopy.getScore().getScoreValue() != playerWhite.getScore().getScoreValue());
+    }
 }
