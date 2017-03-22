@@ -1,7 +1,6 @@
 package com.tigerisland;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 public final class EndConditions {
 
@@ -38,7 +37,7 @@ public final class EndConditions {
             return true;
         } else if (noSettlementsNotContainingTotoro(playerSettlements)) {
             return true;
-        } else if (noAvaibleSpacesForTotoro(board, playerSettlements)) {
+        } else if (noAvailableSpacesForTotoro(board, playerSettlements)) {
             return true;
         }
 
@@ -75,7 +74,7 @@ public final class EndConditions {
         return true;
     }
 
-    private static boolean noAvaibleSpacesForTotoro(Board board, ArrayList<Settlement> playerSettlements) {
+    private static boolean noAvailableSpacesForTotoro(Board board, ArrayList<Settlement> playerSettlements) {
         for(Settlement settlement : playerSettlements) {
             for(PlacedHex hex : settlement.getHexesInSettlement()) {
                 for(Location location : hex.getLocation().getAdjacentLocations()) {
@@ -85,7 +84,6 @@ public final class EndConditions {
                         }
                     }
                 }
-
             }
         }
 
