@@ -71,7 +71,7 @@ public class Settlement {
     }
 
     /*I know this is ugly and I'll clean it up. Just wanted to push what I had. - Jack*/
-    private ArrayList<PlacedHex> findAdjacentHexesForOneHex(PlacedHex startHex, ArrayList<PlacedHex> allPlacedHexes){
+    public ArrayList<PlacedHex> findAdjacentHexesForOneHex(PlacedHex startHex, ArrayList<PlacedHex> allPlacedHexes){
         ArrayList<PlacedHex> adjacentHexes = new ArrayList<PlacedHex>();
         HashMap<Location, PlacedHex> allPlacedHexesMap = getAllPlacedHexesAsMap(allPlacedHexes);
         Location startingLocation = startHex.getLocation();

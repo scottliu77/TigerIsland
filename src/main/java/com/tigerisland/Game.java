@@ -117,9 +117,9 @@ public class Game {
         Player tempPlayer = players.getCurrentPlayer();
         Board tempBoard = board;
 
-        //int piecesNeeded = tempBoard.expandVillage(tempPlayer);
-        //tempPlayer.getPieceSet().placeMultipleVillagers(piecesNeeded);
-        //tempBoard.updateSettlements();
+        int piecesNeeded = tempBoard.expandVillage(tempPlayer, move.getLocation(), move.getSettlementLocation());
+        tempPlayer.getPieceSet().placeMultipleVillagers(piecesNeeded);
+        tempBoard.updateSettlements();
 
         // Update board and player state
         players.updatePlayerState(tempPlayer);
