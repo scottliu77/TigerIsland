@@ -11,9 +11,9 @@ public class PieceSet {
     public PieceSet(Color ownerColor) {
         this.villagerSet = new ArrayList<Piece>();
         this.totoroSet = new ArrayList<Piece>();
+        this.ownerColor = ownerColor;
         this.generateVillagerSet(ownerColor, 20);
         this.generateTotoroSet(ownerColor, 3);
-        this.ownerColor = ownerColor;
     }
 
     public PieceSet(PieceSet pieceSet){

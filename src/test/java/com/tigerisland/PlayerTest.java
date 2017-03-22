@@ -95,9 +95,24 @@ public class PlayerTest {
     }
 
     @Test
-    public void testCanCreateCopyOfPlayer() throws InvalidMoveException {
+    public void testCanCreateCopyOfPlayerCheckScore() throws InvalidMoveException {
         Player playerCopy = new Player(playerWhite);
         playerCopy.getScore().addPoints(10);
         assertTrue(playerCopy.getScore().getScoreValue() != playerWhite.getScore().getScoreValue());
+    }
+
+    @Test
+    public void testCanCreateCopyOfPlayerCheckPieceSet() throws InvalidMoveException {
+        Player playerCopy = new Player(playerWhite);
+        playerCopy.getPieceSet().placeVillager();
+        assertTrue(playerCopy.getPieceSet().getNumberOfVillagersRemaining() != playerWhite.getPieceSet().getNumberOfVillagersRemaining());
+    }
+
+    @Test
+    public void testCanSaveOriginalPlayerUsingCopy() throws InvalidMoveException {
+        Player playerCopy = new Player(playerWhite);
+        playerCopy.getPieceSet().placeMultipleVillagers(4);
+        playerWhite = playerCopy;
+        assertTrue(playerWhite.getPieceSet().getNumberOfVillagersRemaining() == 16);
     }
 }
