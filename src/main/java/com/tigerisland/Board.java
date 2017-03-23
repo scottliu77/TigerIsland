@@ -346,6 +346,7 @@ public class Board{
 
     public void placeTiger(Player player, Location location) throws InvalidMoveException{
         PlacedHex placedHex = placedHexAtLocation(location);
+
         if (placedHex == null) {
             throw new InvalidMoveException("Target hex does not exist");
         }
