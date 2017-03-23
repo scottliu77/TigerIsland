@@ -355,25 +355,21 @@ public class Board{
         if (placedHex.getHex().getHexTerrain() == Terrain.VOLCANO) {
             throw new InvalidMoveException("Cannot place a piece on a volcano hex");
         }
+        if (placedHex.getHex().getHeight() < 3){
+            throw new InvalidMoveException("Cannot build Tiger playground on hex of level less than 3");
+        }
         PlacedHex tempPlacedHex = new PlacedHex(placedHex);
         Player tempPlayer = new Player(player);
         tempPlacedHex.getHex().addPiecesToHex(tempPlayer.getPieceSet().placeVillager(), 1);
         placedHexes.add(tempPlacedHex);
         Settlement settlement = new Settlement(tempPlacedHex, placedHexes);
 
-        if(settlement.containsTotoro()){
-            throw new InvalidMoveException("Cannot place totoro in a settlement already containing a Totoro");
+        if(settlement.containsTiger()){
+            throw new InvalidMoveException("Cannot place Tiger in a settlement already containing a Tiger");
         }
 
         placedHexes.remove(tempPlacedHex);
-        placedHex.getHex().addPiecesToHex(player.getPieceSet().placeTotoro(), 1);
-        int minimumSizeRequireForTotoroAfterPlacement = SIZE_REQUIRED_FOR_TOTORO + 1;
-        settlement = new Settlement(placedHex, placedHexes);
-
-        if(settlement.size() < minimumSizeRequireForTotoroAfterPlacement) {
-            throw new InvalidMoveException("Cannot place totoro in a settlement of size 4 or smaller!");
-        }
-
+        placedHex.getHex().addPiecesToHex(player.getPieceSet().placeTiger(), 1);
     }
 
 

@@ -32,6 +32,14 @@ public class Settlement {
         return false;
     }
 
+    public boolean containsTiger(){
+        for(PlacedHex hex : hexesInSettlement){
+            if(hex.getHex().getPieceType().equals("Tiger")){
+                return true;
+            }
+        }
+        return false;
+    }
     public boolean isExpandable(ArrayList<PlacedHex> allPlacedHexes){
         for(PlacedHex hexInSettlement : hexesInSettlement){
             ArrayList<PlacedHex> adjacentHexes = findAdjacentHexesFromPlacedHex(hexInSettlement, allPlacedHexes);
