@@ -26,7 +26,7 @@ public class TigerIsland {
         parser.addArgument("-g", "--games").type(Integer.class)
                 .setDefault(GlobalSettings.defaultGames)
                 .help("Specify the number of games to be run concurrently in each match");
-        parser.addArgument("-p", "--players").type(Integer.class)
+        parser.addArgument("-n", "--players").type(Integer.class)
                 .setDefault(GlobalSettings.defaultPlayers)
                 .help("Specify the number of players in each match");
         parser.addArgument("-t", "--turnTime").type(Float.class)
@@ -35,6 +35,15 @@ public class TigerIsland {
         parser.addArgument("-i", "--ipaddress").type(String.class)
                 .setDefault(GlobalSettings.defaultIPaddress)
                 .help("Specify the ip address of the TigerHost server");
+        parser.addArgument("-p", "--port").type(Integer.class)
+                .setDefault(GlobalSettings.defaultPort)
+                .help("Specify the port used by the TigerHost server");
+        parser.addArgument("--username").type(String.class)
+                .setDefault(GlobalSettings.defaultUsername)
+                .help("Specify username used by the TigerHost server");
+        parser.addArgument("--password").type(String.class)
+                .setDefault(GlobalSettings.defaultPassword)
+                .help("Specify password used by the TigerHost server");
 
         parsedArguments = parser.parseArgs(args);
 
@@ -43,9 +52,12 @@ public class TigerIsland {
         int playerCount = parsedArguments.get("players");
         float turnTime = parsedArguments.get("turnTime");
         String ipaddress = parsedArguments.get("ipaddress");
+        int port = parsedArguments.get("port");
+        String username = parsedArguments.get("username");
+        String password = parsedArguments.get("password");
 
         try {
-            this.globalSettings = new GlobalSettings(offline, gameCount, playerCount, turnTime, ipaddress, parser);
+            this.globalSettings = new GlobalSettings(offline, gameCount, playerCount, turnTime, ipaddress, port, username, password, parser);
         } catch (ArgumentParserException exception) {
             throw exception;
         }
@@ -54,7 +66,7 @@ public class TigerIsland {
     }
 
     private void run() {
-        match.createAndStartAllThreads();
+        match.run();
     }
 
     public static void main(String[] args) throws Exception {

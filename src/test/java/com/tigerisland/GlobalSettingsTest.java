@@ -27,7 +27,9 @@ public class GlobalSettingsTest {
     @Test
     public void testCanCreateSettingsWithFullConstructor() {
         try {
-            GlobalSettings globalSettings = new GlobalSettings(GlobalSettings.defaultOffline, GlobalSettings.defaultGames, GlobalSettings.defaultPlayers, GlobalSettings.defaultTurnTime, "ABCD", parser);
+            GlobalSettings globalSettings = new GlobalSettings(GlobalSettings.defaultOffline, GlobalSettings.defaultGames,
+                    GlobalSettings.defaultPlayers, GlobalSettings.defaultTurnTime, GlobalSettings.defaultIPaddress,
+                    GlobalSettings.defaultPort, GlobalSettings.defaultUsername, GlobalSettings.defaultPassword, parser);
         } catch (ArgumentParserException e) {
             e.printStackTrace();
         }

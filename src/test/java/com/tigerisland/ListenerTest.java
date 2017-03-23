@@ -17,6 +17,7 @@ public class ListenerTest {
 
     @Test
     public void testCanStartAndStopListenerThread() throws InterruptedException {
+
         listenerThread = new Thread(listener);
         listenerThread.start();
         listenerThread.interrupt();

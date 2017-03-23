@@ -5,19 +5,21 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
 
-public class MessagerTest {
+public class MessengerTest {
 
-    private Messager messager;
+    private Match match = new Match(new GlobalSettings());
+    private Messenger messenger;
     private Thread messagerThread;
 
     @Before
     public void createMessager() {
-         messager = new Messager(new GlobalSettings());
+         messenger = new Messenger(new GlobalSettings());
     }
 
     @Test
     public void testCanStartAndStopMessagerThread() throws InterruptedException {
-        messagerThread = new Thread(messager);
+
+        messagerThread = new Thread(messenger);
         messagerThread.start();
         messagerThread.interrupt();
         messagerThread.join();
