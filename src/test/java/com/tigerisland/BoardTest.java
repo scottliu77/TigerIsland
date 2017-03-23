@@ -414,85 +414,94 @@ public class BoardTest{
         assertTrue(board.hexExistsAtLocation(location) == true);
     }
 
-    @Test
-    public void testCannotPlaceTigerOnLowerLevel(){
-        Player player = new Player(Color.BLACK);
-        PlacedHex placedHex1 = setUpSettlement();
-        Hex hex5 = new Hex("hex5", Terrain.LAKE);
-        hex5.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
-        Location loc5 = new Location(0,-2);
-        PlacedHex placedHex5 = new PlacedHex(hex5, loc5);
-        placedHexes.add(placedHex5);
-        Hex targetHex = new Hex("hex6", Terrain.JUNGLE);
-        Location targetLocation = new Location(0,-3);
-        PlacedHex targetPlacedHex = new PlacedHex(targetHex, targetLocation);
-        placedHexes.add(targetPlacedHex);
-        Settlement settlement = new Settlement(placedHex1, placedHexes);
-
-        board.placedHexes = this.placedHexes;
-        board.settlements.add(settlement);
-
-        try {
-            board.placeTiger(player, targetLocation);
-        } catch (InvalidMoveException e) {
-            assertTrue(e.getMessage().equals("Cannot build Tiger playground on hex of level less than 3"));
-        }
-    }
-
-    @Test
-    public void testCannotPlaceTigerOnOccupiedHex(){
-        Player player = new Player(Color.BLACK);
-        PlacedHex placedHex1 = setUpSettlement();
-        Hex hex5 = new Hex("hex5", Terrain.JUNGLE);
-        hex5.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
-        Location loc5 = new Location(2,0);
-        PlacedHex placedHex5 = new PlacedHex(hex5, loc5);
-        placedHexes.add(placedHex5);
-        Settlement settlement = new Settlement(placedHex1, placedHexes);
-        board.placedHexes = this.placedHexes;
-        board.settlements.add(settlement);
-
-        try {
-            board.placeTiger(player, placedHex1.getLocation());
-        } catch (InvalidMoveException e) {
-            assertTrue(e.getMessage().equals("Target hex already contains piece(s)"));
-        }
-    }
-
-    @Test
-    public void testCantPlaceTigerOnVolcano() throws InvalidMoveException {
-        Player player = new Player(Color.BLACK);
-        PlacedHex placedHex1 = setUpSettlement();
-        Hex hex5 = new Hex("hex5", Terrain.LAKE);
-        hex5.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
-        Location loc5 = new Location(0,-2);
-        PlacedHex placedHex5 = new PlacedHex(hex5, loc5);
-        placedHexes.add(placedHex5);
-        Hex targetHex = new Hex("hex6", Terrain.VOLCANO);
-        Location targetLocation = new Location(0,-3);
-        PlacedHex targetPlacedHex = new PlacedHex(targetHex, targetLocation);
-        placedHexes.add(targetPlacedHex);
-        Settlement settlement = new Settlement(placedHex1, placedHexes);
+  /* @Test
+   public void testCanPlaceTigerOnValidHex(){
+       Player player = new Player(Color.BLACK);
+       PlacedHex placedHex1 = setUpSettlement();
+       Hex hex5 = new Hex("hex5", Terrain.LAKE);
+       Location loc5 = new Location(0,-1);
+       PlacedHex placedHex5 = new PlacedHex(hex5, loc5);
+       placedHexes.add(placedHex5);
 
 
-        board.placedHexes = this.placedHexes;
-        board.settlements.add(settlement);
 
-        try {
-            board.placeTiger(player, targetLocation);
-        } catch (InvalidMoveException e) {
-            assertTrue(e.getMessage().equals("Cannot place a piece on a volcano hex"));
-        }
-    }
+       Hex targetHex = new Hex("hex6", Terrain.VOLCANO);
+       Location targetLocation = new Location(0,-1);
+       PlacedHex targetPlacedHex = new PlacedHex(targetHex, targetLocation);
+       placedHexes.add(targetPlacedHex);
+       Settlement settlement = new Settlement(placedHex1, placedHexes);
 
- /*   @Test
-    public void testCantPlaceTigerInSettlementContainingTiger() throws InvalidMoveException {
+       System.out.print(placedHex5.getHex().getPieceCount() > 0);
 
+       int originalNumberOfVillagersRemaining = player.getPieceSet().getNumberOfVillagersRemaining();
+       int originalNumberOfTigersRemaining = player.getPieceSet().getNumberOfTigersRemaining();
 
-        try {
-            board.placeTiger(player, emptyPlacedHexToTryToPlaceTigerOn.getLocation());
-        } catch (InvalidMoveException e) {
-            assertTrue(e.getMessage().equals("Cannot place Tiger in a settlement already containing a Tiger"));
-        }
-    }*/
+       board.placedHexes = this.placedHexes;
+       board.settlements.add(settlement);
+
+       try {
+           board.placeTiger(player, targetLocation);
+       } catch (InvalidMoveException e) {
+           assertTrue(e.getMessage().equals("Target hex already contains piece(s)"));
+       }
+
+       int finalNumberOfVillagersRemaining = player.getPieceSet().getNumberOfVillagersRemaining();
+       int finalNumberOfTigersRemaining = player.getPieceSet().getNumberOfTigersRemaining();
+
+  //     assertTrue(finalNumberOfTigersRemaining == originalNumberOfTigersRemaining - 1);
+    //   assertTrue(finalNumberOfVillagersRemaining == originalNumberOfVillagersRemaining);
+   }
+
+  /* @Test
+   public void testCannotPlaceTigerOnNonexistentHex(){
+
+   }
+
+   @Test
+    public void testCannotPlaceTigerOnVolcano(){
+
+   }
+*/ /*
+   @Test
+   public void testCannotPlaceTigerOnNonemptyHex(){
+       Player player = new Player(Color.BLACK);
+       PlacedHex placedHex1 = setUpSettlement();
+       Hex hex5 = new Hex("hex5", Terrain.LAKE);
+       hex5.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+       Location loc5 = new Location(0,-1);
+       PlacedHex placedHex5 = new PlacedHex(hex5, loc5);
+       placedHexes.add(placedHex5);
+       Hex targetHex = new Hex("hex6", Terrain.JUNGLE);
+       Location targetLocation = new Location(0,-1);
+       PlacedHex targetPlacedHex = new PlacedHex(targetHex, targetLocation);
+       placedHexes.add(targetPlacedHex);
+       Settlement settlement = new Settlement(placedHex1, placedHexes);
+
+       int originalNumberOfVillagersRemaining = player.getPieceSet().getNumberOfVillagersRemaining();
+       int originalNumberOfTigersRemaining = player.getPieceSet().getNumberOfTigersRemaining();
+
+       board.placedHexes = this.placedHexes;
+       board.settlements.add(settlement);
+
+       try {
+           board.placeTiger(player, targetLocation);
+       } catch (InvalidMoveException e) {
+           assertTrue(e.getMessage().equals("Target hex already contains piece(s)"));
+       }
+
+       int finalNumberOfVillagersRemaining = player.getPieceSet().getNumberOfVillagersRemaining();
+       int finalNumberOfTigersRemaining = player.getPieceSet().getNumberOfTigersRemaining();
+
+       assertTrue(finalNumberOfTigersRemaining == originalNumberOfTigersRemaining);
+       assertTrue(finalNumberOfVillagersRemaining == originalNumberOfVillagersRemaining);
+   }*/
+/*
+   @Test
+    public void testCannotPlaceTigerOnHexOfHeightLessThanThree(){
+
+   }
+   @Test
+    public void testCannotPlaceTigerOnSettlementSizeZero(){
+
+   }*/
 }

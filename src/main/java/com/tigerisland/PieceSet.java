@@ -92,7 +92,7 @@ public class PieceSet {
     public Piece placeTiger() throws InvalidMoveException {
         try {
             return tigerSet.remove(0);
-        } catch (IndexOutOfBoundsException expection) {
+        } catch (IndexOutOfBoundsException exception) {
             throw new InvalidMoveException("No tiger remaining in player inventory");
         }
     }

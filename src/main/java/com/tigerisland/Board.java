@@ -370,6 +370,12 @@ public class Board{
 
         placedHexes.remove(tempPlacedHex);
         placedHex.getHex().addPiecesToHex(player.getPieceSet().placeTiger(), 1);
+        int minimumSizeRequireForTigerAfterPlacement = 2;
+        settlement = new Settlement(placedHex, placedHexes);
+
+        if(settlement.size() < minimumSizeRequireForTigerAfterPlacement) {
+            throw new InvalidMoveException("Cannot place Tiger in a settlement of size smaller than 1");
+        }
     }
 
 
