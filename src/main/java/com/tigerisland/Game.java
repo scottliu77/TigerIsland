@@ -17,7 +17,7 @@ public class Game {
 
     public void start() {
         // TODO add checking for interrupted exception
-        while(EndConditions.noEndConditionsAreMet(gameSettings.getPlayerOrder().getCurrentPlayer(), board)) {
+        while(gameIsNotOver()) {
             takeTurn();
             gameSettings.getPlayerOrder().setNextPlayer();
         }
@@ -25,6 +25,9 @@ public class Game {
         // TODO fancy game-ending stuff
     }
 
+    protected boolean gameIsNotOver() {
+        return EndConditions.noEndConditionsAreMet(gameSettings.getPlayerOrder().getCurrentPlayer(), board);
+    }
 
     protected void takeTurn() {
         try {

@@ -1,8 +1,10 @@
 package com.tigerisland;
 
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
 import java.util.List;
 
@@ -15,6 +17,8 @@ public class SystemSetupStepDefs {
     private PlayerOrder playerOrder;
     private Board board;
 
+    private boolean gameRunning = false;
+
     @Given("^a game is created$")
     public void aGameIsCreated() throws Throwable {
         tigerIsland = new TigerIsland();
@@ -25,6 +29,11 @@ public class SystemSetupStepDefs {
     @And("^that game has players$")
     public void thatGameHasPlayers() throws Throwable {
         playerOrder = aGame.gameSettings.getPlayerOrder();
+    }
+
+    @When("^the game has not yet started$")
+    public void theGameHasNotYetStarted() throws Throwable {
+        assertTrue(gameRunning == false);
     }
 
     @Then("^all players have (\\d+) points$")
