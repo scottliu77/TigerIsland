@@ -26,6 +26,14 @@ public class Hex {
         this.height = height;
     }
 
+    public Hex(Hex hex) {
+        this.terrain = hex.getHexTerrain();
+        this.height = hex.getHeight();
+        this.pieceCount = hex.getPieceCount();
+        this.piece = hex.getPiece();
+        this.tileID = hex.getTileID();
+    }
+
     public Terrain getHexTerrain() {
         return terrain;
     }
@@ -59,6 +67,10 @@ public class Hex {
         size = Math.min(tileID.length(), size);
 
         return tileID.substring(0, size);
+    }
+
+    public Piece getPiece() {
+        return piece;
     }
 
     public void addPiecesToHex(Piece piece, int count) {

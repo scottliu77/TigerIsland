@@ -73,7 +73,7 @@ public class Game {
 
     protected void placeTile(TilePlacement tilePlacement) throws InvalidMoveException {
         // Save create temp copy of board
-        Board tempBoard = board;
+        Board tempBoard = new Board(board);
 
         tempBoard.placeTile(tilePlacement.getTile(), tilePlacement.getLocation(), tilePlacement.getRotation());
 
@@ -84,7 +84,7 @@ public class Game {
     protected void createVillage(BuildAction buildAction) throws InvalidMoveException {
         // Save temp copies of board and player
         Player tempPlayer = new Player(gameSettings.getPlayerOrder().getCurrentPlayer());
-        Board tempBoard = board;
+        Board tempBoard = new Board(board);
 
         tempBoard.createVillage(tempPlayer, buildAction.getLocation());
         tempPlayer.getPieceSet().placeVillager();
@@ -99,7 +99,7 @@ public class Game {
     protected void expandVillage(BuildAction buildAction) throws InvalidMoveException {
         // Save temp copies of board and player
         Player tempPlayer = new Player(gameSettings.getPlayerOrder().getCurrentPlayer());
-        Board tempBoard = board;
+        Board tempBoard = new Board(board);
 
         int piecesNeeded = tempBoard.expandVillage(tempPlayer, buildAction.getLocation(), buildAction.getSettlementLocation());
         tempPlayer.getPieceSet().placeMultipleVillagers(piecesNeeded);
@@ -113,7 +113,7 @@ public class Game {
     protected void placeTotoro(BuildAction buildAction) throws InvalidMoveException {
         // Save temp copies of board and player
         Player tempPlayer = new Player(gameSettings.getPlayerOrder().getCurrentPlayer());
-        Board tempBoard = board;
+        Board tempBoard = new Board(board);
 
         tempBoard.placeTotoro(tempPlayer, buildAction.getLocation());
         tempBoard.updateSettlements();
@@ -127,7 +127,7 @@ public class Game {
     protected void placeTiger(BuildAction buildAction) throws InvalidMoveException {
         // Save temp copies of board and player
         Player tempPlayer = new Player(gameSettings.getPlayerOrder().getCurrentPlayer());
-        Board tempBoard = board;
+        Board tempBoard = new Board(board);
 
         tempBoard.placeTiger(tempPlayer, buildAction.getLocation());
         tempBoard.updateSettlements();
