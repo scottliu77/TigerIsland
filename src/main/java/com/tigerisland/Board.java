@@ -16,9 +16,18 @@ public class Board{
     }
 
     public Board(Board board){
-        placedHexes = board.placedHexes;
-        edgeSpaces = board.edgeSpaces;
-        settlements = board.settlements;
+        this.placedHexes = new ArrayList<PlacedHex>();
+        for(PlacedHex hex : board.placedHexes) {
+            this.placedHexes.add(new PlacedHex(hex));
+        }
+        this.edgeSpaces = new ArrayList<Location>();
+        for(Location location : board.edgeSpaces) {
+            this.edgeSpaces.add(new Location(location));
+        }
+        this.settlements = new ArrayList<Settlement>();
+        for(Settlement settlement : board.settlements) {
+            this.settlements.add(new Settlement(settlement));
+        }
     }
 
     public void placeTile(Tile tile, Location centerLoc, int rotation) throws InvalidMoveException {

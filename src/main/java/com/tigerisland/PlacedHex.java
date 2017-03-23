@@ -10,8 +10,8 @@ public class PlacedHex {
     }
 
     public PlacedHex(PlacedHex placedHex){
-        this.hex = placedHex.hex;//might need clone constructors for these too
-        this.location = placedHex.location;
+        this.hex = new Hex(placedHex.getHex());
+        this.location = new Location(placedHex.getLocation());
     }
 
     public Location getLocation() {

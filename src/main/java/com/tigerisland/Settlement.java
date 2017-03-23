@@ -11,6 +11,14 @@ public class Settlement {
         findHexesInSettlement(hexInSettlement, allPlacedHexes);
     }
 
+    public Settlement(Settlement settlement) {
+        this.color = settlement.color;
+        this.hexesInSettlement = new ArrayList<PlacedHex>();
+        for(PlacedHex placedHex : settlement.hexesInSettlement) {
+            this.hexesInSettlement.add(new PlacedHex(placedHex));
+        }
+    }
+
     public int size(){
         return hexesInSettlement.size();
     }

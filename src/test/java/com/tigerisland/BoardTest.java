@@ -370,4 +370,52 @@ public class BoardTest{
         return placedHex1;
     }
 
+    @Test
+    public void testCanMakeSaveBoardCopyCheckPlacedHexes() throws InvalidMoveException {
+        Board boardCopy = new Board(board);
+        Tile tile = new Tile(Terrain.LAKE, Terrain.GRASSLANDS);
+        Location location = new Location(0, 0);
+        boardCopy.placeTile(tile, location, 0);
+
+        assertTrue(boardCopy.hexExistsAtLocation(location) == true && board.hexExistsAtLocation(location) == false);
+    }
+
+    @Test
+    public void testCanMakeSaveBoardCopyCheckSettlements() throws InvalidMoveException {
+        Board boardCopy = new Board(board);
+
+        Tile tile = new Tile(Terrain.LAKE, Terrain.GRASSLANDS);
+        Location location = new Location(0, 0);
+        boardCopy.placeTile(tile, location, 0);
+
+        Player player = new Player(Color.BLACK);
+        Location villageLocation = new Location(1, 0);
+        boardCopy.createVillage(player, villageLocation);
+
+        boardCopy.updateSettlements();
+
+        assertTrue(boardCopy.settlements.size() == 1 && board.settlements.size() == 0);
+    }
+
+    @Test
+    public void testCanMakeSaveBoardCopyCheckEdgesSpaces() throws InvalidMoveException {
+        Board boardCopy = new Board(board);
+        Tile tile = new Tile(Terrain.LAKE, Terrain.GRASSLANDS);
+        Location location = new Location(0, 0);
+        boardCopy.placeTile(tile, location, 0);
+
+        assertTrue(boardCopy.edgeSpaces.size() != board.edgeSpaces.size());
+    }
+
+    @Test
+    public void testCanSaveOriginalBoardWithCopy() throws InvalidMoveException {
+        Board boardCopy = new Board(board);
+        Tile tile = new Tile(Terrain.LAKE, Terrain.GRASSLANDS);
+        Location location = new Location(0, 0);
+        boardCopy.placeTile(tile, location, 0);
+
+        board = boardCopy;
+
+        assertTrue(board.hexExistsAtLocation(location) == true);
+    }
 }

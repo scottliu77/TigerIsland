@@ -77,9 +77,9 @@ public class PieceSetTest {
 
     @Test
     public void testCanPlaceAllTiger() {
-        for(int numTiger = 0; numTiger < 3; numTiger++) {
+        for(int numTiger = 0; numTiger < 2; numTiger++) {
             try {
-                Piece totoro = pieceSet.placeTiger();
+                Piece tiger = pieceSet.placeTiger();
             } catch (InvalidMoveException e) {
                 e.printStackTrace();
             }
