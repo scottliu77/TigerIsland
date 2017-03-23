@@ -1,5 +1,6 @@
 package com.tigerisland;
 
+import gherkin.formatter.model.Examples;
 import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
@@ -111,6 +112,26 @@ public class GlobalSettingsTest {
     @Test
     public void testCanGetAllowedTimePerTurn() {
         assertTrue(globalSettings.turnTime == GlobalSettings.defaultTurnTime);
+    }
+
+    @Test
+    public void testCanUseInboundQueue() {
+        try {
+            globalSettings.inboundQueue.add("New inbound string");
+            assertTrue(globalSettings.inboundQueue.remove().equals("New inbound string"));
+        } catch (Exception exception) {
+            assert false;
+        }
+    }
+
+    @Test
+    public void testCanUseOutboundQueue() {
+        try {
+            globalSettings.outboundQueue.add("New outbound string");
+            assertTrue(globalSettings.outboundQueue.remove().equals("New outbound string"));
+        } catch (Exception exception) {
+            assert false;
+        }
     }
 }
 

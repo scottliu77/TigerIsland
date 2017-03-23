@@ -4,6 +4,10 @@ import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.inf.Argument;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
+import sun.plugin2.message.Message;
+
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class GlobalSettings {
 
@@ -29,6 +33,9 @@ public class GlobalSettings {
     public final String IPaddress;
 
     private ArgumentParser parser;
+
+    final BlockingQueue inboundQueue = new LinkedBlockingQueue<String>();
+    final BlockingQueue outboundQueue = new LinkedBlockingQueue<String>();
 
     GlobalSettings() {
        this.offline = defaultOffline;
