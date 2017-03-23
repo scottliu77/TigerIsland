@@ -6,6 +6,7 @@ import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import sun.plugin2.message.Message;
 
+import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -15,7 +16,12 @@ public class GlobalSettings {
     public final static int defaultGames = 1;
     public final static int defaultPlayers = 2;
     public final static float defaultTurnTime = 20;
-    public final static String defaultIPaddress = "WheresWaldo";
+
+    public final static String defaultIPaddress = "localhost";
+    public final static int defaultPort = 6539;
+
+    public final static String defaultUsername = "username";
+    public final static String defaultPassword = "password";
 
     public final static int minGames = 1;
     public final static int maxGames = 10;
@@ -31,11 +37,16 @@ public class GlobalSettings {
     public final int playerCount;
     public final float turnTime;
     public final String IPaddress;
+    public final int port;
+    public final String username;
+    public final String password;
 
     private ArgumentParser parser;
 
-    final BlockingQueue inboundQueue = new LinkedBlockingQueue<String>();
-    final BlockingQueue outboundQueue = new LinkedBlockingQueue<String>();
+    final BlockingQueue<String> inboundQueue = new LinkedBlockingQueue<String>();
+    final BlockingQueue<String> outboundQueue = new LinkedBlockingQueue<String>();
+
+    public static Socket socket;
 
     GlobalSettings() {
        this.offline = defaultOffline;
@@ -43,6 +54,9 @@ public class GlobalSettings {
        this.playerCount = defaultPlayers;
        this.turnTime = defaultTurnTime;
        this.IPaddress = defaultIPaddress;
+       this.port = defaultPort;
+       this.username = defaultUsername;
+       this.password = defaultPassword;
        this.parser = ArgumentParsers.newArgumentParser("com.tigerisland.TigerIsland ArgumentParser");
     }
 
@@ -52,6 +66,9 @@ public class GlobalSettings {
         this.playerCount = playerCount;
         this.turnTime = turnTime;
         this.IPaddress = defaultIPaddress;
+        this.port = defaultPort;
+        this.username = defaultUsername;
+        this.password = defaultPassword;
         this.parser = ArgumentParsers.newArgumentParser("com.tigerisland.TigerIsland ArgumentParser");
 
         try {
@@ -63,13 +80,16 @@ public class GlobalSettings {
         }
     }
 
-    GlobalSettings(Boolean offline, int gameCount, int playerCount, float turnTime, String IPaddress, ArgumentParser parser) throws ArgumentParserException {
+    GlobalSettings(Boolean offline, int gameCount, int playerCount, float turnTime, String IPaddress, int port, String username, String password, ArgumentParser parser) throws ArgumentParserException {
         this.offline = offline;
         this.gameCount = gameCount;
         this.playerCount = playerCount;
         this.turnTime = turnTime;
         this.IPaddress = IPaddress;
+        this.port = port;
         this.parser = parser;
+        this.username = username;
+        this.password = password;
 
         try {
             validateGameCount();
@@ -96,6 +116,10 @@ public class GlobalSettings {
         if (turnTime < minTurnTime || turnTime > maxTurnTime) {
             throw new ArgumentParserException("Turn time must be within the range of " + minTurnTime + " to " + maxTurnTime + ".", parser);
         }
+    }
+
+    public void setSocketConnection(Socket socket) {
+        this.socket = socket;
     }
 
 }

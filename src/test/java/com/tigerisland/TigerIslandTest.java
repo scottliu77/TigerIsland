@@ -19,7 +19,8 @@ public class TigerIslandTest {
     String[] argsThreeGames = new String[]{"-g", "3"};
     String[] argsZeroGames = new String[]{"-g", "0"};
     String[] argsOneHundredGames = new String[]{"-g", "100"};
-    String[] argsThreePlayers = new String[]{"-p", "3"};
+    String[] argsThreePlayers = new String[]{"-n", "3"};
+    String[] argsRealisticExample = new String[]{"--ipaddress", "129.68.1.88", "--port", "3333", "--username", "username", "--password", "password"};
 
     @Before
     public void createTigerIsland() {
@@ -31,8 +32,6 @@ public class TigerIslandTest {
         assertTrue(tigerIsland != null);
     }
 
-    // TODO refactor once run method is developed
-
     @Test
     public void testCanStartTigerIslandDefault() {
         try {
@@ -43,15 +42,15 @@ public class TigerIslandTest {
         assertTrue(tigerIsland.globalSettings.offline == true);
     }
 
-    @Test
-    public void testCanStartTigerIslandOnline() {
-        try {
-            tigerIsland.parseArguments(argsOnline);
-        } catch (ArgumentParserException e) {
-            e.printStackTrace();
-        }
-        assertTrue(tigerIsland.globalSettings.offline == false);
-    }
+//    @Test
+//    public void testCanStartTigerIslandOnline() {
+//        try {
+//            tigerIsland.parseArguments(argsOnline);
+//        } catch (ArgumentParserException e) {
+//            e.printStackTrace();
+//        }
+//        assertTrue(tigerIsland.globalSettings.offline == false);
+//    }
 
     @Test
     public void testCanStartTigerIslandOffline() {
@@ -129,6 +128,16 @@ public class TigerIslandTest {
         try {
             tigerIsland.parseArguments(argsThreePlayers);
             assertTrue(tigerIsland.globalSettings.playerCount == 3);
+        } catch (ArgumentParserException exception) {
+            assertTrue(false);
+        }
+    }
+
+    @Test
+    public void testCanCreateMatchUsingRealisticInput() {
+        try {
+            tigerIsland.parseArguments(argsRealisticExample);
+            assertTrue(tigerIsland.globalSettings.username.equals("username"));
         } catch (ArgumentParserException exception) {
             assertTrue(false);
         }
