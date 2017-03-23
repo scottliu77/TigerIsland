@@ -54,7 +54,7 @@ public class TigerIsland {
     }
 
     private void run() {
-        match.startGames();
+        match.createAndStartAllThreads();
     }
 
     public static void main(String[] args) throws Exception {

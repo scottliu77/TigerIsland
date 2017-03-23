@@ -1,6 +1,8 @@
 package com.tigerisland;
 
-public class Game {
+import java.util.concurrent.BlockingQueue;
+
+public class Game implements Runnable {
     private static final int TOTORO_POINT_VALUE = 200;
     private static final int VILLAGER_POINT_VALUE = 1;
     private static final int TIGER_POINT_VALUE = 75;
@@ -9,13 +11,15 @@ public class Game {
     protected Board board;
     protected TilePlacement currentTilePlacement;
     protected BuildAction currentBuildAction;
+    protected BlockingQueue inboundQueue;
 
     public Game(GameSettings gameSettings){
         this.gameSettings = gameSettings;
         board = new Board();
+        this.inboundQueue = gameSettings.globalSettings.inboundQueue;
     }
 
-    public void start() {
+    public void run() {
         // TODO add checking for interrupted exception
         while(gameIsNotOver()) {
             takeTurn();
@@ -31,12 +35,8 @@ public class Game {
 
     protected void takeTurn() {
         try {
-            // Listen for tile placement
-            currentTilePlacement = listenForTilePlacement();
+            proccessMessages();
             placeTile(currentTilePlacement);
-
-            // Listen for build option
-            currentBuildAction = listenForBuildAction();
 
             switch (currentBuildAction.getBuildActionType()) {
                 case VILLAGECREATION:
@@ -53,21 +53,28 @@ public class Game {
         }
     }
 
-    protected TilePlacement listenForTilePlacement() {
-        // TODO replace with mock listener
+    protected void proccessMessages() {
+        currentTilePlacement = null;
+        currentBuildAction = null;
+
+        // Read message from inbound queue
+        getTilePlacementFromMessage();
+        getBuildActionFromMessage();
+    }
+
+    protected void getTilePlacementFromMessage() {
+        // TODO replace with assembler from string message
         Tile newTile = new Tile(Terrain.LAKE, Terrain.GRASSLANDS);
         Location newLocation = new Location(0, 1);
         int newRotation = 60;
-        TilePlacement tilePlacement = new TilePlacement(newTile, newLocation, newRotation);
-        return tilePlacement;
+        currentTilePlacement = new TilePlacement(newTile, newLocation, newRotation);
     }
 
-    protected BuildAction listenForBuildAction() {
-        // TODO replace with mock listener
+    protected void getBuildActionFromMessage() {
+        // TODO replace with assembler from string message
         Player currentPlayer = gameSettings.getPlayerOrder().getCurrentPlayer();
         Location placementLocation = new Location(0, 1);
-        BuildAction newBuildAction = new BuildAction(currentPlayer, placementLocation, BuildActionType.VILLAGECREATION);
-        return newBuildAction;
+        currentBuildAction = new BuildAction(currentPlayer, placementLocation, BuildActionType.VILLAGECREATION);
     }
 
 
