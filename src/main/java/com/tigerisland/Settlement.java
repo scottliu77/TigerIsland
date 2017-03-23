@@ -86,25 +86,4 @@ public class Settlement {
         return  adjacentHexes;
     }
 
-    /*private boolean areCoordinatesAdjacent(int x, int y, int comparisonX, int comparisonY){
-        if(x == comparisonX - 1 && y == comparisonY + 1){
-            return true;
-        }
-        if(x == comparisonX + 1 && y == comparisonY - 1){
-            return true;
-        }
-        if(x == comparisonX && y == comparisonY + 1){
-            return true;
-        }
-        if(x == comparisonX && y == comparisonY - 1){
-            return true;
-        }
-        if(x == comparisonX + 1 && y == comparisonY){
-            return true;
-        }
-        if(x == comparisonX - 1 && y == comparisonY){
-            return true;
-        }
-        return false;
-    }*/
 }
