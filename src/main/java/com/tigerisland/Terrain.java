@@ -1,15 +1,15 @@
 package com.tigerisland;
 
 public enum Terrain {
-    VOLCANO(0, "Volcano"),
-    GRASSLANDS(1, "Grasslands"),
-    JUNGLE(2, "Jungle"),
-    LAKE(3, "Lake"),
-    ROCKY(4, "Rocky");
+    VOLCANO("Volcano"),
+    GRASSLANDS("Grasslands"),
+    JUNGLE("Jungle"),
+    LAKE("Lake"),
+    ROCKY("Rocky");
 
     private String type;
 
-    Terrain(int code, String type) {
+    Terrain(String type) {
         this.type = type;
     }
 

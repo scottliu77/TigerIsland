@@ -1,4 +1,6 @@
-package com.tigerisland;
+package com.tigerisland.messenger;
+
+import com.tigerisland.GlobalSettings;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,7 +15,7 @@ public class Listener implements Runnable {
     private BufferedReader reader;
     private Socket socket;
 
-    Listener(GlobalSettings globalSettings) {
+    public Listener(GlobalSettings globalSettings) {
         this.inboundQueue = globalSettings.inboundQueue;
         this.globalSettings = globalSettings;
     }

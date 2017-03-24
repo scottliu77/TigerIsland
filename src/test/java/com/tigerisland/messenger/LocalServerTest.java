@@ -1,6 +1,8 @@
-package com.tigerisland;
+package com.tigerisland.messenger;
 
+import com.tigerisland.GlobalSettings;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -14,7 +16,6 @@ import static org.junit.Assert.assertTrue;
 public class LocalServerTest {
 
     private GlobalSettings globalSettings;
-    private Socket socket;
     private LocalServer localServer;
     private Messenger messenger;
 
@@ -29,7 +30,7 @@ public class LocalServerTest {
         assertTrue(localServer != null);
     }
 
-    @Test
+    @Ignore("Exceptionally slow") @Test
     public void testCanWriteToLocalServer() throws InterruptedException {
         Thread localServerThread = new Thread(localServer);
         localServerThread.start();
@@ -49,7 +50,7 @@ public class LocalServerTest {
         assertTrue(globalSettings.messagesReceived.remove().equals("Hello"));
     }
 
-    @Test
+    @Ignore("Exceptionally slow") @Test
     public void testCanShutoffLocalServerWithEndCode() throws InterruptedException {
         Thread localServerThread = new Thread(localServer);
         localServerThread.start();
@@ -68,7 +69,7 @@ public class LocalServerTest {
         assertTrue(localServerThread.isAlive() == false);
     }
 
-    @Test
+    @Ignore("Exceptionally slow") @Test
     public void testCanShutoffLocalServerWithEndCodeAfterWriting() throws InterruptedException {
         Thread localServerThread = new Thread(localServer);
         localServerThread.start();
@@ -88,7 +89,7 @@ public class LocalServerTest {
         assertTrue(localServerThread.isAlive() == false);
     }
 
-    @Test
+    @Ignore("Exceptionally slow") @Test
     public void testCanRetrieveSuccessiveMessages() throws InterruptedException {
         Thread localServerThread = new Thread(localServer);
         localServerThread.start();
@@ -131,7 +132,9 @@ public class LocalServerTest {
 
         messengerThread.start();
 
-        sleep(5);
+        while(globalSettings.outboundQueue.size() > 0) {
+            sleep(5);
+        }
 
         messengerThread.interrupt();
         messengerThread.join();

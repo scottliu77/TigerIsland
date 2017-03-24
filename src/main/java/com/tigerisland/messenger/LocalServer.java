@@ -1,4 +1,6 @@
-package com.tigerisland;
+package com.tigerisland.messenger;
+
+import com.tigerisland.GlobalSettings;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,7 +21,7 @@ public class LocalServer implements Runnable {
     private ServerSocket dummyListener;
     private Boolean running = true;
 
-    LocalServer(GlobalSettings globalSettings) {
+    public LocalServer(GlobalSettings globalSettings) {
         this.globalSettings = globalSettings;
         try {
             this.addr = InetAddress.getByName(globalSettings.IPaddress);

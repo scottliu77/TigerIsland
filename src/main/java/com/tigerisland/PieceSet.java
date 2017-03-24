@@ -66,14 +66,14 @@ public class PieceSet {
         try{
             return villagerSet.remove(0);
         } catch (IndexOutOfBoundsException exception) {
-            throw new InvalidMoveException("No villagers remaining in player inventory.");
+            throw new InvalidMoveException("No villagers remaining in game inventory.");
         }
     }
 
     public Piece placeMultipleVillagers(int numVillagersToPlace) throws InvalidMoveException {
         if (numVillagersToPlace > getNumberOfVillagersRemaining()) {
             IndexOutOfBoundsException exception = new IndexOutOfBoundsException();
-            throw new InvalidMoveException("Insufficient number of villagers in player inventory");
+            throw new InvalidMoveException("Insufficient number of villagers in game inventory");
         }
         for (int villager = 0; villager < numVillagersToPlace - 1; villager++) {
             villagerSet.remove(0);
@@ -85,7 +85,7 @@ public class PieceSet {
         try {
             return totoroSet.remove(0);
         } catch (IndexOutOfBoundsException exception) {
-            throw new InvalidMoveException("No totoro remaining in player inventory.");
+            throw new InvalidMoveException("No totoro remaining in game inventory.");
         }
     }
 
@@ -93,7 +93,7 @@ public class PieceSet {
         try {
             return tigerSet.remove(0);
         } catch (IndexOutOfBoundsException exception) {
-            throw new InvalidMoveException("No tiger remaining in player inventory");
+            throw new InvalidMoveException("No tiger remaining in game inventory");
         }
     }
 

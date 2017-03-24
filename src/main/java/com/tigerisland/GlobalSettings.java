@@ -44,11 +44,11 @@ public class GlobalSettings {
 
     private ArgumentParser parser;
 
-    final BlockingQueue<String> inboundQueue = new LinkedBlockingQueue<String>();
-    final BlockingQueue<String> outboundQueue = new LinkedBlockingQueue<String>();
-    final BlockingQueue<String> messagesReceived = new LinkedBlockingQueue<String>();
+    public final BlockingQueue<String> inboundQueue = new LinkedBlockingQueue<String>();
+    public final BlockingQueue<String> outboundQueue = new LinkedBlockingQueue<String>();
+    public final BlockingQueue<String> messagesReceived = new LinkedBlockingQueue<String>();
 
-    GlobalSettings() {
+    public GlobalSettings() {
        this.offline = defaultOffline;
        this.localServerRunning = defaultOffline;
        this.gameCount = defaultGames;
@@ -61,7 +61,7 @@ public class GlobalSettings {
        this.parser = ArgumentParsers.newArgumentParser("com.tigerisland.TigerIsland ArgumentParser");
     }
 
-    GlobalSettings(Boolean offline, int gameCount, int playerCount, float turnTime) throws ArgumentParserException {
+    public GlobalSettings(Boolean offline, int gameCount, int playerCount, float turnTime) throws ArgumentParserException {
         this.offline = offline;
         this.gameCount = gameCount;
         this.playerCount = playerCount;
@@ -83,7 +83,7 @@ public class GlobalSettings {
         }
     }
 
-    GlobalSettings(Boolean offline, int gameCount, int playerCount, float turnTime, String IPaddress, int port, String username, String password, ArgumentParser parser) throws ArgumentParserException {
+    public GlobalSettings(Boolean offline, int gameCount, int playerCount, float turnTime, String IPaddress, int port, String username, String password, ArgumentParser parser) throws ArgumentParserException {
         this.offline = offline;
         this.gameCount = gameCount;
         this.playerCount = playerCount;

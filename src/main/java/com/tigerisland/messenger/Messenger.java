@@ -1,4 +1,6 @@
-package com.tigerisland;
+package com.tigerisland.messenger;
+
+import com.tigerisland.GlobalSettings;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,7 +15,7 @@ public class Messenger implements Runnable {
     private Socket socket;
     final boolean offline;
 
-    Messenger(GlobalSettings globalSettings) {
+    public Messenger(GlobalSettings globalSettings) {
         this.outboundQueue = globalSettings.outboundQueue;
         this.globalSettings = globalSettings;
         this.offline = globalSettings.offline;

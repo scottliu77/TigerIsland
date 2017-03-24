@@ -1,7 +1,7 @@
 package com.tigerisland;
 
-import java.io.IOException;
-import java.net.Socket;
+import com.tigerisland.messenger.*;
+
 import java.util.ArrayList;
 
 public class Match {
@@ -9,7 +9,6 @@ public class Match {
     protected GlobalSettings globalSettings;
     protected GameSettings gameSettings;
     protected ArrayList<Game> games;
-    protected Socket socket;
     protected Listener listener;
     protected Messenger messenger;
 

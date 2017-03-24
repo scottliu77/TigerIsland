@@ -92,7 +92,7 @@ public class Game implements Runnable {
     }
 
     protected void createVillage(BuildAction buildAction) throws InvalidMoveException {
-        // Save temp copies of board and player
+        // Save temp copies of board and game
         Player tempPlayer = new Player(gameSettings.getPlayerOrder().getCurrentPlayer());
         Board tempBoard = new Board(board);
 
@@ -101,13 +101,13 @@ public class Game implements Runnable {
         tempPlayer.getScore().addPoints(VILLAGER_POINT_VALUE);
         tempBoard.updateSettlements();
 
-        // Update board and player state
+        // Update board and game state
         gameSettings.getPlayerOrder().updatePlayerState(tempPlayer);
         board = tempBoard;
     }
 
     protected void expandVillage(BuildAction buildAction) throws InvalidMoveException {
-        // Save temp copies of board and player
+        // Save temp copies of board and game
         Player tempPlayer = new Player(gameSettings.getPlayerOrder().getCurrentPlayer());
         Board tempBoard = new Board(board);
 
@@ -115,13 +115,13 @@ public class Game implements Runnable {
         tempPlayer.getPieceSet().placeMultipleVillagers(piecesNeeded);
         tempBoard.updateSettlements();
 
-        // Update board and player state
+        // Update board and game state
         gameSettings.getPlayerOrder().updatePlayerState(tempPlayer);
         board = tempBoard;
     }
 
     protected void placeTotoro(BuildAction buildAction) throws InvalidMoveException {
-        // Save temp copies of board and player
+        // Save temp copies of board and game
         Player tempPlayer = new Player(gameSettings.getPlayerOrder().getCurrentPlayer());
         Board tempBoard = new Board(board);
 
@@ -129,13 +129,13 @@ public class Game implements Runnable {
         tempBoard.updateSettlements();
         tempPlayer.getScore().addPoints(TOTORO_POINT_VALUE);
 
-        // Update board and player state
+        // Update board and game state
         gameSettings.getPlayerOrder().updatePlayerState(tempPlayer);
         board = tempBoard;
     }
 
     protected void placeTiger(BuildAction buildAction) throws InvalidMoveException {
-        // Save temp copies of board and player
+        // Save temp copies of board and game
         Player tempPlayer = new Player(gameSettings.getPlayerOrder().getCurrentPlayer());
         Board tempBoard = new Board(board);
 
@@ -143,7 +143,7 @@ public class Game implements Runnable {
         tempBoard.updateSettlements();
         tempPlayer.getScore().addPoints(TIGER_POINT_VALUE);
 
-        // Update board and player state
+        // Update board and game state
         gameSettings.getPlayerOrder().updatePlayerState(tempPlayer);
         board = tempBoard;
     }
