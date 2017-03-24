@@ -1,5 +1,7 @@
 package com.tigerisland;
 
+import java.util.ArrayList;
+
 public final class EndConditions {
 
     public static boolean noEndConditionsAreMet(Player currentPlayer, Board board) {
@@ -41,4 +43,25 @@ public final class EndConditions {
             return !board.playerHasSettlementThatCouldAcceptTiger(currentPlayer);
         }
     }
+
+    public static Player calculateWinner(Player currentPlayer, ArrayList<Player> playerList) {
+        Player winner = currentPlayer;
+        int highestScore = -1;
+
+        if(currentPlayer.getPieceSet().inventoryEmpty() == false) {
+            playerList.remove(currentPlayer);
+        }
+
+        for(Player player : playerList) {
+            if(player.getScore().getScoreValue() > highestScore) {
+                winner = player;
+                highestScore = player.getScore().getScoreValue();
+            } else if (player.getScore().getScoreValue() == highestScore) {
+                winner = currentPlayer;
+            }
+        }
+
+        return winner;
+    }
+
 }
