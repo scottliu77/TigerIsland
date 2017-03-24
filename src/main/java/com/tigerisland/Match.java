@@ -30,14 +30,6 @@ public class Match {
         }
     }
 
-    public void run() {
-        if(globalSettings.offline) {
-            createLocalServerAndStartThreads();
-        } else {
-            createAndStartAllThreads();
-        }
-    }
-
     private void setupOfflineMatch() {
         configureOfflineGameSettings();
         constructOfflineGames();
@@ -54,24 +46,18 @@ public class Match {
         }
     }
 
-    protected boolean attemptToConnectToServer() {
-        try {
-            socket = new Socket(globalSettings.IPaddress , globalSettings.port);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+    public void run() {
+        if(globalSettings.offline) {
+            createLocalServerAndStartThreads();
+        } else {
+            createAndStartAllThreads();
         }
-        globalSettings.setSocketConnection(socket);
-
-        return true;
     }
 
     protected void createLocalServerAndStartThreads() {
 
         LocalServer localServer = new LocalServer(globalSettings);
         Thread localServerThread = new Thread(localServer);
-
-        attemptToConnectToServer();
 
         createAndStartAllThreads();
 
@@ -116,7 +102,6 @@ public class Match {
     }
 
     private void setupOnlineMatch() {
-        attemptToConnectToServer();
         configureOfflineGameSettings(); // temporary usage
         // TODO constructOnlineGames()
     }

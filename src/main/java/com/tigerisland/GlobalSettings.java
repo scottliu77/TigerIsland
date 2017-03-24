@@ -1,16 +1,15 @@
 package com.tigerisland;
 
 import net.sourceforge.argparse4j.ArgumentParsers;
-import net.sourceforge.argparse4j.inf.Argument;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
-import sun.plugin2.message.Message;
 
-import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class GlobalSettings {
+
+    public final static String END_CODE = "END";
 
     public final static Boolean defaultOffline = true;
     public final static int defaultGames = 1;
@@ -23,10 +22,10 @@ public class GlobalSettings {
     public final static String defaultUsername = "username";
     public final static String defaultPassword = "password";
 
-    public final static int minGames = 1;
+    public final static int minGames = 0;
     public final static int maxGames = 10;
 
-    public final static int minPlayers = 1;
+    public final static int minPlayers = 0;
     public final static int maxPlayers = 8;
 
     public final static float minTurnTime = 0;
@@ -41,15 +40,17 @@ public class GlobalSettings {
     public final String username;
     public final String password;
 
+    public static Boolean localServerRunning;
+
     private ArgumentParser parser;
 
     final BlockingQueue<String> inboundQueue = new LinkedBlockingQueue<String>();
     final BlockingQueue<String> outboundQueue = new LinkedBlockingQueue<String>();
-
-    public static Socket socket;
+    final BlockingQueue<String> messagesReceived = new LinkedBlockingQueue<String>();
 
     GlobalSettings() {
        this.offline = defaultOffline;
+       this.localServerRunning = defaultOffline;
        this.gameCount = defaultGames;
        this.playerCount = defaultPlayers;
        this.turnTime = defaultTurnTime;
@@ -71,6 +72,8 @@ public class GlobalSettings {
         this.password = defaultPassword;
         this.parser = ArgumentParsers.newArgumentParser("com.tigerisland.TigerIsland ArgumentParser");
 
+        this.localServerRunning = offline;
+
         try {
             validateGameCount();
             validatePlayerCount();
@@ -90,6 +93,8 @@ public class GlobalSettings {
         this.parser = parser;
         this.username = username;
         this.password = password;
+
+        this.localServerRunning = offline;
 
         try {
             validateGameCount();
@@ -116,10 +121,6 @@ public class GlobalSettings {
         if (turnTime < minTurnTime || turnTime > maxTurnTime) {
             throw new ArgumentParserException("Turn time must be within the range of " + minTurnTime + " to " + maxTurnTime + ".", parser);
         }
-    }
-
-    public void setSocketConnection(Socket socket) {
-        this.socket = socket;
     }
 
 }

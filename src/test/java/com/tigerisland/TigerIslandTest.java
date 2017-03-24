@@ -17,7 +17,7 @@ public class TigerIslandTest {
     String[] argsBadEntry = new String[]{"alaka;skjfa"};
     String[] argsBadEntryPartial = new String[]{"-o", "asdfkajs;ldk"};
     String[] argsThreeGames = new String[]{"-g", "3"};
-    String[] argsZeroGames = new String[]{"-g", "0"};
+    String[] argsNegativeGames = new String[]{"-g", "-1"};
     String[] argsOneHundredGames = new String[]{"-g", "100"};
     String[] argsThreePlayers = new String[]{"-n", "3"};
     String[] argsRealisticExample = new String[]{"--ipaddress", "129.68.1.88", "--port", "3333", "--username", "username", "--password", "password"};
@@ -104,9 +104,9 @@ public class TigerIslandTest {
     }
 
     @Test
-    public void testCannotCreateMatchWithZeroGames() {
+    public void testCannotCreateMatchWithNegativeGames() {
         try {
-            tigerIsland.parseArguments(argsZeroGames);
+            tigerIsland.parseArguments(argsNegativeGames);
             assertTrue(false);
         } catch (ArgumentParserException exception) {
             assertTrue(true);

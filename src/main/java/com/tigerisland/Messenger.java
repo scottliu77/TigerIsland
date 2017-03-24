@@ -8,28 +8,49 @@ import java.util.concurrent.BlockingQueue;
 public class Messenger implements Runnable {
 
     protected BlockingQueue<String> outboundQueue;
-    static Socket socket;
-    protected
+    private GlobalSettings globalSettings;
+    private PrintWriter writer;
+    private Socket socket;
+    final boolean offline;
 
     Messenger(GlobalSettings globalSettings) {
         this.outboundQueue = globalSettings.outboundQueue;
-        this.socket = globalSettings.socket;
+        this.globalSettings = globalSettings;
+        this.offline = globalSettings.offline;
     }
 
     public void run() {
-        while(!Thread.interrupted()) {
-            try {
-                PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
-                writer.println(removeMessageFromQueue());
-            } catch(IOException exception) {
-                //exception.printStackTrace();
-            } catch (InterruptedException exception) {
-                //exception.printStackTrace();
+        try {
+            socket = new Socket(globalSettings.IPaddress, globalSettings.port);
+            writer = new PrintWriter(socket.getOutputStream(), true);
+
+            while(true) {
+                try {
+                    writer.println(removeMessageFromQueue());
+                } catch (InterruptedException exception) {
+                    break;
+                }
             }
+            closeLocalServer();
+        } catch (IOException exception) {
+            return;
         }
+
     }
 
-    private String removeMessageFromQueue() throws InterruptedException {
+    protected String removeMessageFromQueue() throws InterruptedException {
         return outboundQueue.take();
+    }
+
+    private void closeLocalServer() {
+        if (offline) {
+            try {
+                PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
+                writer.println("END");
+                socket.close();
+            } catch(IOException exception) {
+                exception.printStackTrace();
+            }
+        }
     }
 }

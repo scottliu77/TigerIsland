@@ -25,7 +25,7 @@ public class TigerIsland {
                 .help("Toggle running system in offline mode, AI v. AI");
         parser.addArgument("-g", "--games").type(Integer.class)
                 .setDefault(GlobalSettings.defaultGames)
-                .help("Specify the number of games to be run concurrently in each match");
+                .help("Specify the number of games to be call concurrently in each match");
         parser.addArgument("-n", "--players").type(Integer.class)
                 .setDefault(GlobalSettings.defaultPlayers)
                 .help("Specify the number of players in each match");

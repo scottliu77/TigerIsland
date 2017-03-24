@@ -9,27 +9,35 @@ import java.util.concurrent.BlockingQueue;
 public class Listener implements Runnable {
 
     protected BlockingQueue<String> inboundQueue;
-    static Socket socket;
+    private GlobalSettings globalSettings;
+    private BufferedReader reader;
+    private Socket socket;
 
     Listener(GlobalSettings globalSettings) {
         this.inboundQueue = globalSettings.inboundQueue;
-        this.socket = globalSettings.socket;
+        this.globalSettings = globalSettings;
     }
 
     public void run() {
-        while(!Thread.interrupted()) {
-            try {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
-                addMessageToQueue(reader.readLine());
-            } catch (IOException exception) {
-                //exception.printStackTrace();
-            } catch (InterruptedException exception) {
-                //exception.printStackTrace();
+        try {
+            socket = new Socket(globalSettings.IPaddress, globalSettings.port);
+            reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+            while(!Thread.currentThread().isInterrupted()) {
+                try {
+                    addMessageToQueue(reader.readLine());
+                } catch (IOException exception) {
+                    exception.printStackTrace();
+                } catch (InterruptedException exception) {
+                    break;
+                }
             }
+        } catch (IOException exception) {
+            return;
         }
     }
 
-    private void addMessageToQueue(String message) throws InterruptedException {
+    protected void addMessageToQueue(String message) throws InterruptedException {
         inboundQueue.put(message);
     }
 
