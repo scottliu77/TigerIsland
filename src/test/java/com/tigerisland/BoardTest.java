@@ -61,7 +61,6 @@ public class BoardTest{
     @Test
     public void testCanPlaceTile() throws InvalidMoveException{
         board.placeTile(tile, location, 0);
-        TextGUI.printMap(board.locationsOfPlacedHexes(), board.edgeSpaces, board.hexesOfPlacedHexes());
     }
 
     @Test
@@ -644,7 +643,6 @@ public class BoardTest{
         try {
             board.isSettledLocationValid(player2, loc);
         } catch (InvalidMoveException e) {
-            System.out.println(e.getMessage());
             assertTrue(e.getMessage().equals("Settlement hex does not belong to the current player"));
         }
    }
