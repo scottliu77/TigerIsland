@@ -107,15 +107,14 @@ public class Game implements Runnable {
     }
 
     protected void expandVillage(BuildAction buildAction) throws InvalidMoveException {
-        // Save temp copies of board and game
+        // Save temp copies of board and player
         Player tempPlayer = new Player(gameSettings.getPlayerOrder().getCurrentPlayer());
         Board tempBoard = new Board(board);
 
-        int piecesNeeded = tempBoard.expandVillage(tempPlayer, buildAction.getLocation(), buildAction.getSettlementLocation());
-        tempPlayer.getPieceSet().placeMultipleVillagers(piecesNeeded);
+        tempBoard.expandVillage(tempPlayer, buildAction.getLocation(), buildAction.getSettlementLocation());
         tempBoard.updateSettlements();
 
-        // Update board and game state
+        // Update board and player state
         gameSettings.getPlayerOrder().updatePlayerState(tempPlayer);
         board = tempBoard;
     }
