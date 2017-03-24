@@ -665,4 +665,159 @@ public class BoardTest{
             assertTrue(settlement != null);
         }
    }
+    @Test
+    public void testSettlementLocationIsNotValidForExpansion() {
+        Player player = new Player(Color.BLACK);
+        Location invalidSettlementLocation = new Location(0,1);
+
+        try {
+            board.isSettledLocationValid(player, invalidSettlementLocation);
+        } catch (InvalidMoveException e) {
+            assertTrue(e.getMessage().equals("This hex does not exist"));
+        }
+    }
+
+    @Test
+    public void testLocationDoesNotBelongToASettlement() {
+        Player player = new Player(Color.BLACK);
+        String tileID = "fakeTileID";
+        Location loc = new Location(0,1);
+        Hex emptyHex = new Hex(tileID, Terrain.GRASSLANDS);
+        PlacedHex emptyPlacedHex = new PlacedHex(emptyHex, loc);
+        placedHexes.add(emptyPlacedHex);
+        board.placedHexes = this.placedHexes;
+
+        try {
+            board.isSettledLocationValid(player, loc);
+        } catch (InvalidMoveException e) {
+            assertTrue(e.getMessage().equals("This hex does not belong in a settlement"));
+        }
+    }
+
+    @Test
+    public void testSettledLocationDoesNotBelongToPlayer() {
+        Player player1 = new Player(Color.BLACK);
+        String tileID = "fakeTileID";
+        Location loc = new Location(0,1);
+        Hex blackHex = new Hex(tileID, Terrain.GRASSLANDS);
+        blackHex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        PlacedHex blackPlacedHex = new PlacedHex(blackHex, loc);
+        placedHexes.add(blackPlacedHex);
+        board.placedHexes = this.placedHexes;
+
+        Player player2 = new Player(Color.WHITE);
+
+        try {
+            board.isSettledLocationValid(player2, loc);
+        } catch (InvalidMoveException e) {
+            assertTrue(e.getMessage().equals("Settlement hex does not belong to the current player"));
+        }
+    }
+
+    @Test
+    public void testIsValidSettlementLocationExpansion() {
+        Player player = new Player(Color.BLACK);
+        String tileID = "fakeTileID";
+        Location loc = new Location(0,1);
+        Hex settledHex = new Hex(tileID, Terrain.LAKE);
+        settledHex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        PlacedHex blackSettledHex = new PlacedHex(settledHex, loc);
+        placedHexes.add(blackSettledHex);
+        board.placedHexes = this.placedHexes;
+        Settlement settlement = new Settlement(blackSettledHex, placedHexes);
+        board.settlements.add(settlement);
+
+        try {
+            settlement = board.isSettledLocationValid(player, loc);
+        } catch (InvalidMoveException e) {
+            assertFalse(settlement.size() != 1);
+        }
+
+    }
+
+    @Test
+    public void testInvalidHexLocation() {
+        Location invalidLocation = new Location(0,0);
+
+        try {
+            board.isHexLocationValid(invalidLocation);
+        } catch (InvalidMoveException e) {
+            assertTrue(e.getMessage().equals("Target hex does not exist"));
+        }
+    }
+
+    @Test
+    public void testHexLocationAlreadyTaken() {
+        Player player = new Player(Color.BLACK);
+        String tileID = "fakeTileID";
+        Location loc = new Location(0,1);
+        Hex settledHex = new Hex(tileID, Terrain.LAKE);
+        settledHex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        PlacedHex blackSettledHex = new PlacedHex(settledHex, loc);
+        placedHexes.add(blackSettledHex);
+        board.placedHexes = this.placedHexes;
+
+        try {
+            board.isHexLocationValid(loc);
+        } catch (InvalidMoveException e) {
+            assertTrue(e.getMessage().equals("Target hex already has pieces on it and cannot be expanded upon"));
+        }
+    }
+
+    @Test
+    public void testInvalidHexTerrain() {
+        String tileID = "fakeTileID";
+        Location loc = new Location(0,1);
+        Hex volcanoHex = new Hex(tileID, Terrain.VOLCANO);
+        PlacedHex volcanoPlacedHex = new PlacedHex(volcanoHex, loc);
+        placedHexes.add(volcanoPlacedHex);
+        board.placedHexes = this.placedHexes;
+
+        try {
+            board.isHexLocationValid(loc);
+        } catch (InvalidMoveException e) {
+            assertTrue(e.getMessage().equals("Cannot expand into a Volcano"));
+        }
+    }
+
+    @Test
+    public void testValidHexTerrain() {
+        String tileID = "fakeTileID";
+        Location loc = new Location(0,1);
+        Hex validHex = new Hex(tileID, Terrain.LAKE);
+        PlacedHex lakeHex = new PlacedHex(validHex, loc);
+        placedHexes.add(lakeHex);
+        board.placedHexes = this.placedHexes;
+        Terrain lake = Terrain.GRASSLANDS;
+
+        try {
+            lake = board.isHexLocationValid(loc);
+        } catch (InvalidMoveException e) {
+            assertTrue(lake.getType() == "Lake");
+        }
+    }
+
+    @Test
+    public void testInvalidAdjacentLocations() {
+        Location loc1 = new Location(0,0);
+        Location loc2 = new Location(2,2);
+
+        try {
+            board.areAdjacentLocationsValid(loc1, loc2);
+        } catch (InvalidMoveException e) {
+            assertTrue(e.getMessage().equals("Hexes are not adjacent to one another"));
+        }
+    }
+
+    @Test
+    public void testValidAdjacentLocations() {
+        Location loc1 = new Location(0,0);
+        Location loc2 = new Location(1,0);
+
+        try {
+            board.areAdjacentLocationsValid(loc1, loc2);
+        } catch (InvalidMoveException e) {
+            assertTrue(e.getMessage().equals("Hexes are not adjacent to one another"));
+        }
+    }
 }

@@ -295,12 +295,12 @@ public class Board{
 
         for (Settlement settlement : settlements) {
             for (PlacedHex placedHex : settlement.getHexesInSettlement()) {
-                if (placedHex.getHex() == potentialSettlementHex) {
+                if (placedHex.getHex().getIDFirstChars(8).equals(potentialSettlementHex.getIDFirstChars(8))) {
                     return settlement;
                 }
             }
         }
-        throw new InvalidMoveException("Hex does not belong to an existing settlement");
+        return null;
     }
 
     public Terrain isHexLocationValid(Location loc) throws InvalidMoveException {
