@@ -598,4 +598,73 @@ public class BoardTest{
            assertTrue(e.getMessage().equals("Cannot place Tiger in a settlement already containing a Tiger"));
        }
    }
+
+   @Test
+    public void testSettlementLocationIsNotValid() {
+        Player player = new Player(Color.BLACK);
+        Location invalidSettlementLocation = new Location(0,1);
+
+        try {
+            board.isSettledLocationValid(player, invalidSettlementLocation);
+        } catch (InvalidMoveException e) {
+            assertTrue(e.getMessage().equals("This hex does not exist"));
+        }
+   }
+
+   @Test
+    public void testLocationDoesNotBelongInASettlement() {
+        Player player = new Player(Color.BLACK);
+        String tileID = "fakeTileID";
+        Location loc = new Location(0,1);
+        Hex emptyHex = new Hex(tileID, Terrain.GRASSLANDS);
+        PlacedHex emptyPlacedHex = new PlacedHex(emptyHex, loc);
+        placedHexes.add(emptyPlacedHex);
+        board.placedHexes = this.placedHexes;
+
+       try {
+           board.isSettledLocationValid(player, loc);
+       } catch (InvalidMoveException e) {
+           assertTrue(e.getMessage().equals("This hex does not belong in a settlement"));
+       }
+   }
+
+   @Test
+    public void testSettlementLocationDoesNotBelongToPlayer() {
+        Player player1 = new Player(Color.BLACK);
+        String tileID = "fakeTileID";
+        Location loc = new Location(0,1);
+        Hex blackHex = new Hex(tileID, Terrain.GRASSLANDS);
+        blackHex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        PlacedHex blackPlacedHex = new PlacedHex(blackHex, loc);
+        placedHexes.add(blackPlacedHex);
+        board.placedHexes = this.placedHexes;
+
+        Player player2 = new Player(Color.WHITE);
+
+        try {
+            board.isSettledLocationValid(player2, loc);
+        } catch (InvalidMoveException e) {
+            System.out.println(e.getMessage());
+            assertTrue(e.getMessage().equals("Settlement hex does not belong to the current player"));
+        }
+   }
+
+   @Test
+    public void testIsValidSettlementLocation() {
+        Player player = new Player(Color.BLACK);
+        String tileID = "fakeTileID";
+        Location loc = new Location(0,1);
+        Hex settledHex = new Hex(tileID, Terrain.LAKE);
+        settledHex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        PlacedHex blackSettledHex = new PlacedHex(settledHex, loc);
+        placedHexes.add(blackSettledHex);
+        board.placedHexes = this.placedHexes;
+        Settlement settlement = new Settlement(blackSettledHex, placedHexes);
+
+        try {
+            settlement = board.isSettledLocationValid(player, loc);
+        } catch (InvalidMoveException e) {
+            assertTrue(settlement != null);
+        }
+   }
 }
