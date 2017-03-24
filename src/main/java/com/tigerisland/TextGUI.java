@@ -37,13 +37,12 @@ public class TextGUI {
         System.out.println();
     }
 
-    public static void printMap(ArrayList<Location> placedHexLocations, ArrayList<Location> edgeSpaces, ArrayList<Hex> placedHexTiles){
+    public static void printMap(Board board){
+        ArrayList<Location> placedHexLocations = board.locationsOfPlacedHexes();
+        ArrayList<Location> edgeSpaces = board.edgeSpaces;
+        ArrayList<Hex> placedHexTiles = board.hexesOfPlacedHexes();
         TextGUI map = new TextGUI(placedHexLocations, edgeSpaces, placedHexTiles);
         map.constructMap();
-    }
-
-    public TextGUI(){
-
     }
 
     public TextGUI(ArrayList<Location> placedHexLocations, ArrayList<Location> edgeSpaces, ArrayList<Hex> placedHexTiles){
