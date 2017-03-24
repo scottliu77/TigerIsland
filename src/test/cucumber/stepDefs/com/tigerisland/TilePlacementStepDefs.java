@@ -13,6 +13,8 @@ import static org.junit.Assert.assertTrue;
 public class TilePlacementStepDefs{
     Board myBoard;
     boolean hasCaughtException;
+    String expectedExceptionMessage;
+    String caughtExceptionMessage;
 
     @Given("^existing pieces on a board$")
     public void existingPiecesOnABoard() throws Throwable {
@@ -44,6 +46,7 @@ public class TilePlacementStepDefs{
             myBoard.placeTile(tile4, loc4, rotation4);
         }
         catch (Exception ex){
+            caughtExceptionMessage = ex.getMessage();
             hasCaughtException = true;
         }
     }
@@ -55,6 +58,7 @@ public class TilePlacementStepDefs{
 
     @When("^a player places a tile at height one not directly next to existing pieces$")
     public void aPlayerPlacesATileAtHeightOneNotDirectlyNextToExistingPieces() throws Throwable {
+        expectedExceptionMessage = "Illegal Placement Location";
         hasCaughtException = false;
         try{
             Tile tile4 = new Tile(Terrain.JUNGLE, Terrain.JUNGLE);
@@ -62,7 +66,8 @@ public class TilePlacementStepDefs{
             int rotation4 = 120;
             myBoard.placeTile(tile4, loc4, rotation4);
         }
-        catch (Exception ex){
+        catch (Exception ex) {
+            caughtExceptionMessage = ex.getMessage();
             hasCaughtException = true;
         }
     }
@@ -70,6 +75,7 @@ public class TilePlacementStepDefs{
     @Then("^deny the player from doing so$")
     public void denyThePlayerFromDoingSo() throws Throwable {
         assertTrue(hasCaughtException);
+        assertTrue(caughtExceptionMessage.equals(expectedExceptionMessage));
     }
 
     @When("^a player places a tile at height one that is directly next to existing pieces$")
@@ -81,13 +87,15 @@ public class TilePlacementStepDefs{
             int rotation4 = 120;
             myBoard.placeTile(tile4, loc4, rotation4);
         }
-        catch (Exception e){
+        catch (Exception ex){
+            caughtExceptionMessage = ex.getMessage();
             hasCaughtException = true;
         }
     }
 
     @When("^a player places a tile on another tile and the volcanoes do not overlap$")
     public void aPlayerPlacesATileOnAnotherTileAndTheVolcanoesDoNotOverlap() throws Throwable {
+        expectedExceptionMessage = "Illegal Placement Location";
         hasCaughtException = false;
         try{
             Tile tile4 = new Tile(Terrain.JUNGLE, Terrain.JUNGLE);
@@ -96,12 +104,14 @@ public class TilePlacementStepDefs{
             myBoard.placeTile(tile4, loc4, rotation4);
         }
         catch (Exception ex){
+            caughtExceptionMessage = ex.getMessage();
             hasCaughtException = true;
         }
     }
 
     @When("^a player places a tile on another tile with overhang$")
     public void aPlayerPlacesATileOnAnotherTileWithOverhang() throws Throwable {
+        expectedExceptionMessage = "Illegal Placement Location";
         hasCaughtException = false;
         try{
             Tile tile4 = new Tile(Terrain.JUNGLE, Terrain.JUNGLE);
@@ -110,12 +120,14 @@ public class TilePlacementStepDefs{
             myBoard.placeTile(tile4, loc4, rotation4);
         }
         catch (Exception ex){
+            caughtExceptionMessage = ex.getMessage();
             hasCaughtException = true;
         }
     }
 
     @When("^a player places a tile directly on top of existing one$")
     public void aPlayerPlacesATileDirectlyOnTopOfExistingOne() throws Throwable {
+        expectedExceptionMessage = "Illegal Placement Location";
         hasCaughtException = false;
         try{
             Tile tile4 = new Tile(Terrain.JUNGLE, Terrain.JUNGLE);
@@ -124,6 +136,7 @@ public class TilePlacementStepDefs{
             myBoard.placeTile(tile4, loc4, rotation4);
         }
         catch (Exception ex){
+            caughtExceptionMessage = ex.getMessage();
             hasCaughtException = true;
         }
     }
@@ -194,12 +207,14 @@ public class TilePlacementStepDefs{
             myBoard.placeTile(tile5, loc5, rotation5);
         }
         catch (Exception ex){
+            caughtExceptionMessage = ex.getMessage();
             hasCaughtException = true;
         }
     }
 
     @When("^a player attempts to nuke a single hex settlment$")
     public void aPlayerAttemptsToNukeASingleHexSettlment() throws Throwable {
+        expectedExceptionMessage = "Whole settlement exists under tile";
         myBoard.updateSettlements();
         hasCaughtException = false;
         try{
@@ -209,12 +224,14 @@ public class TilePlacementStepDefs{
             myBoard.placeTile(tile5, loc5, rotation5);
         }
         catch (Exception ex){
+            caughtExceptionMessage = ex.getMessage();
             hasCaughtException = true;
         }
     }
 
     @When("^a player attempts to nuke a size two hex settlment$")
     public void aPlayerAttemptsToNukeASizeTwoHexSettlment() throws Throwable {
+        expectedExceptionMessage = "Whole settlement exists under tile";
         myBoard.updateSettlements();
         hasCaughtException = false;
         try{
@@ -224,12 +241,14 @@ public class TilePlacementStepDefs{
             myBoard.placeTile(tile5, loc5, rotation5);
         }
         catch (Exception ex){
+            caughtExceptionMessage = ex.getMessage();
             hasCaughtException = true;
         }
     }
 
     @When("^a player attempts to nuke a Totoro$")
     public void aPlayerAttemptsToNukeATotoro() throws Throwable {
+        expectedExceptionMessage = "Totoro exists under tile";
         myBoard.updateSettlements();
         hasCaughtException = false;
         try{
@@ -239,6 +258,7 @@ public class TilePlacementStepDefs{
             myBoard.placeTile(tile5, loc5, rotation5);
         }
         catch (Exception ex){
+            caughtExceptionMessage = ex.getMessage();
             hasCaughtException = true;
         }
     }
