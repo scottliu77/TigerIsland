@@ -84,6 +84,7 @@ public class EndConditionsTest {
     @Test
     public void testEndConditionMetMetWhenNoVillagersAndNoSize5Settlements() throws InvalidMoveException {
         currentPlayer.getPieceSet().placeMultipleVillagers(20);
+        for(int tigers = 0; tigers < 2; tigers++) { currentPlayer.getPieceSet().placeTiger(); }
         board.hexAt(new Location(0, 1)).addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
         board.hexAt(new Location(-1, 1)).addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
         board.hexAt(new Location(-3, 1)).addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);

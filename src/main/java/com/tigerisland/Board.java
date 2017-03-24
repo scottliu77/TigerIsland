@@ -4,6 +4,7 @@ import java.util.*;
 
 public class Board{
     static final int SIZE_REQUIRED_FOR_TOTORO = 5;
+    static final int HEIGHT_REQUIRED_FOR_TIGER = 3;
 
     protected ArrayList<PlacedHex> placedHexes;
     protected ArrayList<Location> edgeSpaces;
@@ -95,6 +96,7 @@ public class Board{
             tigerAlreadyPresent(hexAt(Location.rotateHexLeft(centerLoc, rotation))) ||
             tigerAlreadyPresent(hexAt(Location.rotateHexLeft(centerLoc, rotation + 60)));
     }
+
     private boolean tigerAlreadyPresent(Hex currentHex) {
         return currentHex.getPieceType().equals("Tiger");
     }
@@ -375,8 +377,30 @@ public class Board{
 
     public boolean playerHasSettlementThatCouldAcceptTotoro(Player player){
         for(Settlement settlement : settlements) {
-            if (settlementBelongsToCurrentPlayer(settlement, player) && settlement.size() >= SIZE_REQUIRED_FOR_TOTORO) {
+            if (settlementBelongsToCurrentPlayer(settlement, player) && settlement.size() >= SIZE_REQUIRED_FOR_TOTORO && settlement.containsTotoro() == false) {
                 return settlement.isExpandable(placedHexes);
+            }
+        }
+        return false;
+    }
+
+    public boolean playerHasSettlementThatCouldAcceptTiger(Player player) {
+        for(Settlement settlement : settlements) {
+            if (settlementBelongsToCurrentPlayer(settlement, player) && settlement.containsTiger() == false) {
+                if (settlementNextToTigerReadyHex(settlement, HEIGHT_REQUIRED_FOR_TIGER)) {
+                    return settlement.isExpandable(placedHexes);
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean settlementNextToTigerReadyHex(Settlement settlement, int heightRequired) {
+        for(PlacedHex hex : settlement.getHexesInSettlement()) {
+            for(PlacedHex adjacentHex : settlement.findAdjacentHexesFromPlacedHex(hex, placedHexes )) {
+                if (adjacentHex.getHex().getHeight() >= heightRequired && adjacentHex.getHex().getPieceCount() == 0) {
+                    return true;
+                }
             }
         }
         return false;

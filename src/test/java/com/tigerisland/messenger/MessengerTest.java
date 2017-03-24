@@ -20,7 +20,7 @@ public class MessengerTest {
          messenger = new Messenger(globalSettings);
     }
 
-    @Ignore("Exceptionally slow") @Test
+    @Ignore("Skipping start/stop messenger thread test") @Test
     public void testCanStartAndStopMessengerThread() throws InterruptedException {
         messengerThread = new Thread(messenger);
         messengerThread.start();

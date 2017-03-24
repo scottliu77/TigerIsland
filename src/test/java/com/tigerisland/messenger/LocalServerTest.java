@@ -30,7 +30,7 @@ public class LocalServerTest {
         assertTrue(localServer != null);
     }
 
-    @Ignore("Exceptionally slow") @Test
+    @Ignore("Skipping direct write to local server test") @Test
     public void testCanWriteToLocalServer() throws InterruptedException {
         Thread localServerThread = new Thread(localServer);
         localServerThread.start();
@@ -50,7 +50,7 @@ public class LocalServerTest {
         assertTrue(globalSettings.messagesReceived.remove().equals("Hello"));
     }
 
-    @Ignore("Exceptionally slow") @Test
+    @Ignore("Skipping direct pass END_CODE to local server test") @Test
     public void testCanShutoffLocalServerWithEndCode() throws InterruptedException {
         Thread localServerThread = new Thread(localServer);
         localServerThread.start();
@@ -69,7 +69,7 @@ public class LocalServerTest {
         assertTrue(localServerThread.isAlive() == false);
     }
 
-    @Ignore("Exceptionally slow") @Test
+    @Ignore("Skipping multiple writes with END_CODE to local server test") @Test
     public void testCanShutoffLocalServerWithEndCodeAfterWriting() throws InterruptedException {
         Thread localServerThread = new Thread(localServer);
         localServerThread.start();
@@ -89,7 +89,7 @@ public class LocalServerTest {
         assertTrue(localServerThread.isAlive() == false);
     }
 
-    @Ignore("Exceptionally slow") @Test
+    @Ignore("Skipping success messages to local server test") @Test
     public void testCanRetrieveSuccessiveMessages() throws InterruptedException {
         Thread localServerThread = new Thread(localServer);
         localServerThread.start();
@@ -141,11 +141,11 @@ public class LocalServerTest {
 
         localServerThread.join();
 
-        ArrayList<String> messagesProcessed = new ArrayList<String>();
-        for(String message : globalSettings.messagesReceived) {
-            messagesProcessed.add(message);
-            System.out.println(message);
-        }
+//        ArrayList<String> messagesProcessed = new ArrayList<String>();
+//        for(String message : globalSettings.messagesReceived) {
+//            messagesProcessed.add(message);
+//            System.out.println(message);
+//        }
 
         assertTrue(globalSettings.messagesReceived.remove().equals("Hello"));
     }

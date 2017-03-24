@@ -21,7 +21,7 @@ public class ListenerTest {
         listener = new Listener(globalSettings);
     }
 
-    @Ignore("Exceptionally slow") @Test
+    @Ignore("Skipping start/stop listener thread test") @Test
     public void testCanStartAndStopListenerThread() throws InterruptedException {
         listenerThread = new Thread(listener);
         listenerThread.start();
