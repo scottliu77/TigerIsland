@@ -42,6 +42,8 @@ public class Hex {
         return height;
     }
 
+    public void setHeight(int newHeight ) { this.height = newHeight; }
+
     public int getPieceCount() {
         return pieceCount;
     }
@@ -59,7 +61,11 @@ public class Hex {
     }
 
     public String getTileID() {
-        return tileID;
+        if(tileID == null) {
+            return "dummyID";
+        } else {
+            return tileID;
+        }
     }
 
     public String getIDFirstChars(int size) {

@@ -12,6 +12,7 @@ public class Board{
     public Board(){
         placedHexes = new ArrayList<PlacedHex>();
         edgeSpaces = new ArrayList<Location>();
+        edgeSpaces.add(new Location(0,0));
         settlements = new ArrayList<Settlement>();
     }
 
@@ -31,27 +32,96 @@ public class Board{
     }
 
     public void placeTile(Tile tile, Location centerLoc, int rotation) throws InvalidMoveException {
-        placeHex(tile.getCenterHex(), centerLoc);
-        placeHex(tile.getRightHex(), Location.rotateHexLeft(centerLoc, rotation));
-        placeHex(tile.getLeftHex(), Location.rotateHexLeft(centerLoc, rotation + 60));
+        if(!isPlacedProperlyAtHeight1(centerLoc, rotation) && !isPlacedProperlyOnExistingTiles(centerLoc, rotation))
+            throw new InvalidMoveException("Illegal Placement Location");
+        else if(totoroExistsUnderTile(centerLoc, rotation))
+            throw new InvalidMoveException("Totoro exists under tile");
+        else if(tigerExistsUnderTile(centerLoc, rotation))
+            throw new InvalidMoveException("Tiger exists under tile");
+        else if(completelyCoversSettlement(centerLoc, rotation))
+            throw new InvalidMoveException("Whole settlement exists under tile");
+        else {
+            placeHex(tile.getCenterHex(), centerLoc);
+            placeHex(tile.getRightHex(), Location.rotateHexLeft(centerLoc, rotation));
+            placeHex(tile.getLeftHex(), Location.rotateHexLeft(centerLoc, rotation + 60));
+        }
+    }
+
+    private boolean isPlacedProperlyAtHeight1(Location centerLoc, int rotation){
+        boolean areAllUnoccupiedLocations =
+            !hexExistsAtLocation(centerLoc) &&
+            !hexExistsAtLocation(Location.rotateHexLeft(centerLoc, rotation)) &&
+            !hexExistsAtLocation(Location.rotateHexLeft(centerLoc, rotation +60));
+        boolean isOnTheEdge =
+            isAnAvailableEdgeSpace(centerLoc) ||
+            isAnAvailableEdgeSpace(Location.rotateHexLeft(centerLoc, rotation)) ||
+            isAnAvailableEdgeSpace(Location.rotateHexLeft(centerLoc, rotation +60));
+        return (areAllUnoccupiedLocations && isOnTheEdge);
+    }
+
+    private boolean isPlacedProperlyOnExistingTiles(Location centerLoc, int rotation){
+        Location loc1 = Location.rotateHexLeft(centerLoc, rotation);
+        Location loc2 = Location.rotateHexLeft(centerLoc, rotation +60);
+        boolean areAllOccupiedLocations =
+            hexExistsAtLocation(centerLoc) &&
+            hexExistsAtLocation(loc1) &&
+            hexExistsAtLocation(loc2);
+        boolean areAllTheSameHeight =
+            (hexAt(centerLoc).getHeight() == hexAt(loc1).getHeight()) &&
+            (hexAt(centerLoc).getHeight() == hexAt(loc2).getHeight());
+        boolean isOn2OrMoreTiles =
+            !(hexAt(centerLoc).getTileID().equals(hexAt(loc1).getTileID())) ||
+            !(hexAt(centerLoc).getTileID().equals(hexAt(loc2).getTileID())) ||
+            !(hexAt(loc1).getTileID().equals(hexAt(loc2).getTileID()));
+        boolean volcanosOverlap =
+            (hexExistsAtLocation(centerLoc))?(hexAt(centerLoc).getHexTerrain().getType().equals("Volcano")):(false);
+        return (areAllOccupiedLocations && areAllTheSameHeight && isOn2OrMoreTiles && volcanosOverlap);
+    }
+
+    private boolean totoroExistsUnderTile(Location centerLoc, int rotation){
+        return
+            totoroAlreadyPresent(hexAt(centerLoc)) ||
+            totoroAlreadyPresent(hexAt(Location.rotateHexLeft(centerLoc, rotation))) ||
+            totoroAlreadyPresent(hexAt(Location.rotateHexLeft(centerLoc, rotation +60)));
+    }
+    private boolean totoroAlreadyPresent(Hex currentHex) {
+        return currentHex.getPieceType().equals("Totoro");
+    }
+
+    private boolean tigerExistsUnderTile(Location centerLoc, int rotation){
+        return
+            tigerAlreadyPresent(hexAt(centerLoc)) ||
+            tigerAlreadyPresent(hexAt(Location.rotateHexLeft(centerLoc, rotation))) ||
+            tigerAlreadyPresent(hexAt(Location.rotateHexLeft(centerLoc, rotation + 60)));
+    }
+    private boolean tigerAlreadyPresent(Hex currentHex) {
+        return currentHex.getPieceType().equals("Tiger");
+    }
+
+    private boolean completelyCoversSettlement(Location centerLoc, int rotation){
+        for(int ii=0; ii<settlements.size(); ii++){
+            Settlement currentSettlment = settlements.get(ii);
+            if(currentSettlment.hexesInSettlement.size()<=3)
+                if(currentSettlment.isConfinedUnderTile(centerLoc, rotation))
+                    return true;
+        }
+        return false;
     }
 
     private void placeHex(Hex hex, Location loc) throws InvalidMoveException {
+        int newHeight = (hexExistsAtLocation(loc))?(hexAt(loc).getHeight()+1):(1);
+        hex.setHeight(newHeight);
         addHexToListOfPlacedHexes(hex, loc);
         updateListOfEdgeSpaces(loc);
     }
 
     private void addHexToListOfPlacedHexes(Hex hex, Location loc){
-
-        if(placedHexes.size()==0){
+        if(placedHexes.size()==0)
             addHex(hex, loc, -1);
-        }
-        else if(loc.lessThan(placedHexes.get(0).getLocation())){
+        else if(loc.lessThan(placedHexes.get(0).getLocation()))
             addHex(hex, loc, 0);
-        }
-        else if(loc.greaterThan(placedHexes.get(placedHexes.size()-1).getLocation())){
+        else if(loc.greaterThan(placedHexes.get(placedHexes.size()-1).getLocation()))
             addHex(hex, loc, -1);
-        }
         else{
             int bot = 0;
             int top = placedHexes.size()-1;
@@ -86,12 +156,10 @@ public class Board{
 
     private void addHex(Hex hex, Location loc, int index) {
         PlacedHex placedHex = new PlacedHex(hex, loc);
-        if (index < 0) {
+        if (index < 0)
             placedHexes.add(placedHex);
-        }
-        else {
+        else
             placedHexes.add(index,placedHex);
-        }
     }
 
     private void updateListOfEdgeSpaces(Location loc) {
@@ -151,10 +219,6 @@ public class Board{
         }
     }
 
-    public int newHeight(Location loc){
-        return hexAt(loc).getHeight()+1;
-    }
-    
     public boolean hexExistsAtLocation(Location loc){
         int bot = 0;
         int top = placedHexes.size()-1;
@@ -262,7 +326,7 @@ public class Board{
         return piecesNeeded;
     }
 
-    public boolean isAnAvailableSpace(Location loc){
+    public boolean isAnAvailableEdgeSpace(Location loc){
         int bot = 0;
         int top = edgeSpaces.size()-1;
         while(top >= bot){
@@ -276,11 +340,6 @@ public class Board{
                 return true;
         }
         return false;
-    }
-
-
-    private boolean totoroAlreadyPresent(Hex currentHex) {
-        return currentHex.getPieceType().equals("Totoro");
     }
 
     public boolean playerHasSettlementThatCouldAcceptTotoro(Player player){

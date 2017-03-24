@@ -82,7 +82,10 @@ public class Game implements Runnable {
         // Save create temp copy of board
         Board tempBoard = new Board(board);
 
+        //Update Settlements before and after placing a tile to avoid problems when settlements change
+        tempBoard.updateSettlements();
         tempBoard.placeTile(tilePlacement.getTile(), tilePlacement.getLocation(), tilePlacement.getRotation());
+        tempBoard.updateSettlements();
 
         // Update board state
         board = tempBoard;

@@ -102,4 +102,16 @@ public class Settlement {
         return  adjacentHexes;
     }
 
+    public boolean isConfinedUnderTile(Location centerLoc, int rotation){
+        int numberOfHexesUnderTile = 0;
+        Location loc1 = Location.rotateHexLeft(centerLoc, rotation);
+        Location loc2 = Location.rotateHexLeft(centerLoc, rotation +60);
+        for(int ii = 0; ii<hexesInSettlement.size(); ii++){
+            PlacedHex currentHex = hexesInSettlement.get(ii);
+            Location loc = currentHex.getLocation();
+            if(loc.equalTo(centerLoc) || loc.equalTo(loc1) || loc.equalTo(loc2))
+                numberOfHexesUnderTile += 1;
+        }
+        return hexesInSettlement.size()==numberOfHexesUnderTile;
+    }
 }

@@ -44,7 +44,7 @@ public class BoardTest{
         board.placeTile(tile, location,0);
 
         Location location2 = new Location(0,0);
-        assertFalse(board.isAnAvailableSpace(location2));
+        assertFalse(board.isAnAvailableEdgeSpace(location2));
     }
 
     @Test
