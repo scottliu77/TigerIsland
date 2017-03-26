@@ -1,6 +1,6 @@
 package com.tigerisland;
 
-import cucumber.api.PendingException;
+import com.tigerisland.game.*;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -14,7 +14,7 @@ public class SystemSetupStepDefs {
 
     private TigerIsland tigerIsland;
     private Game aGame;
-    private PlayerOrder playerOrder;
+    private PlayerList playerList;
     private Board board;
 
     private boolean gameRunning = false;
@@ -28,7 +28,7 @@ public class SystemSetupStepDefs {
 
     @And("^that game has players$")
     public void thatGameHasPlayers() throws Throwable {
-        playerOrder = aGame.gameSettings.getPlayerOrder();
+        playerList = aGame.getGameSettings().getPlayerList();
     }
 
     @When("^the game has not yet started$")
@@ -38,7 +38,7 @@ public class SystemSetupStepDefs {
 
     @Then("^all players have (\\d+) points$")
     public void allPlayersHavePoints(int arg0) throws Throwable {
-        for(Player player: playerOrder.getPlayerList()) {
+        for(Player player: playerList.getPlayerList()) {
             if(player.getScore().getScoreValue() != arg0) {
                 assertTrue(false);
             }
@@ -48,13 +48,13 @@ public class SystemSetupStepDefs {
 
     @Then("^then the game has a board$")
     public void thenTheGameHasABoard() throws Throwable {
-        assertTrue(aGame.board != null);
+        assertTrue(aGame.getBoard() != null);
     }
 
     @Then("^all players have (\\d+) villagers$")
     public void allPlayersHaveVillagers(int arg0) throws Throwable {
-        for(Player player: playerOrder.getPlayerList()) {
-            if(player.getPieceSet().villagerSet.size() != arg0) {
+        for(Player player: playerList.getPlayerList()) {
+            if(player.getPieceSet().getNumberOfVillagersRemaining() != arg0) {
                 assertTrue(false);
             }
         }
@@ -63,8 +63,8 @@ public class SystemSetupStepDefs {
 
     @Then("^all players have (\\d+) totoros$")
     public void allPlayersHaveTotoros(int arg0) throws Throwable {
-        for(Player player: playerOrder.getPlayerList()) {
-            if(player.getPieceSet().totoroSet.size() != arg0) {
+        for(Player player: playerList.getPlayerList()) {
+            if(player.getPieceSet().getNumberOfTotoroRemaining() != arg0) {
                 assertTrue(false);
             }
         }

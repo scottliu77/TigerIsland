@@ -1,8 +1,10 @@
 package com.tigerisland;
 
+import com.tigerisland.game.Color;
+import com.tigerisland.game.Piece;
+import com.tigerisland.game.Player;
 import org.junit.Test;
 import org.junit.Before;
-import org.junit.experimental.theories.suppliers.TestedOn;
 
 import static org.junit.Assert.*;
 

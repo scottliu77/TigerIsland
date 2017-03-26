@@ -1,6 +1,8 @@
 package com.tigerisland;
 
-import cucumber.api.PendingException;
+import com.tigerisland.game.EndConditions;
+import com.tigerisland.game.Game;
+import com.tigerisland.game.Player;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -21,14 +23,14 @@ public class EndConditionsStepDefs {
     public EndConditionsStepDefs() throws ArgumentParserException {
         tigerIsland = new TigerIsland();
         tigerIsland.parseArguments(new String[]{});
-        this.game = tigerIsland.match.games.get(0);
-        this.player = this.game.gameSettings.getPlayerOrder().getCurrentPlayer();
-        this.players = this.game.gameSettings.getPlayerOrder().getPlayerList();
+        this.game = tigerIsland.getMatch().games.get(0);
+        this.player = this.game.getGameSettings().getPlayerList().getCurrentPlayer();
+        this.players = this.game.getGameSettings().getPlayerList().getPlayerList();
     }
 
     @Given("^it is a player's turn$")
     public void aPlayerHasNoMorePiecesLeft() throws Throwable {
-        assertTrue(player == game.gameSettings.getPlayerOrder().getCurrentPlayer());
+        assertTrue(player == game.getGameSettings().getPlayerList().getCurrentPlayer());
     }
 
     @When("^they play their last piece$")
@@ -40,7 +42,7 @@ public class EndConditionsStepDefs {
     @When("^that player is unable to build$")
     public void thatPlayerIsUnableToBuild() throws Throwable {
         player.getPieceSet().placeMultipleVillagers(20);
-        assertTrue(EndConditions.noValidMoves(player, game.board));
+        assertTrue(EndConditions.noValidMoves(player, game.getBoard()));
     }
 
     @And("^they have not played their last piece$")
@@ -53,7 +55,7 @@ public class EndConditionsStepDefs {
         assertTrue(players.get(0).getScore().getScoreValue() == players.get(1).getScore().getScoreValue());
     }
 
-    @And("^the only one play has the top score$")
+    @And("^only one player has the top score$")
     public void theOnlyOnePlayHasTheTopScore() throws Throwable {
         players.get(1).getScore().addPoints(25);
         assertTrue(players.get(1).getScore().getScoreValue() != players.get(0).getScore().getScoreValue());
@@ -61,7 +63,7 @@ public class EndConditionsStepDefs {
 
     @Then("^the game ends$")
     public void theGameEnds() throws Throwable {
-        assertTrue(EndConditions.noEndConditionsAreMet(player, game.board) == false);
+        assertTrue(EndConditions.noEndConditionsAreMet(player, game.getBoard()) == false);
     }
 
     @Then("^then the next highest scoring player wins$")

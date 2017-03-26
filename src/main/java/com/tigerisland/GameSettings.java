@@ -1,10 +1,12 @@
 package com.tigerisland;
 
+import com.tigerisland.game.PlayerList;
+
 public class GameSettings {
 
     public GlobalSettings globalSettings;
     private Deck deck;
-    private PlayerOrder playerOrder;
+    private PlayerList playerList;
 
     GameSettings() {
         this.globalSettings = new GlobalSettings();
@@ -24,7 +26,7 @@ public class GameSettings {
 
     public void setPlayOrder() {
         if(globalSettings.offline) {
-            playerOrder = new PlayerOrder(globalSettings);
+            playerList = new PlayerList(globalSettings);
         } else {
             // TODO Server implementation of play order(?)
         }
@@ -34,8 +36,8 @@ public class GameSettings {
         return deck;
     }
 
-    public PlayerOrder getPlayerOrder() {
-        return playerOrder;
+    public PlayerList getPlayerList() {
+        return playerList;
     }
 
 }
