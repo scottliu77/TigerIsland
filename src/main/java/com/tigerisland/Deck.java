@@ -1,5 +1,8 @@
 package com.tigerisland;
 
+import com.tigerisland.game.Terrain;
+import com.tigerisland.game.Tile;
+
 import java.util.ArrayList;
 import java.util.Collections;
 

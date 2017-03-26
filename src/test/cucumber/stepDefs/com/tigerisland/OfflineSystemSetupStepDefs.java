@@ -1,6 +1,9 @@
 package com.tigerisland;
 
-import cucumber.api.PendingException;
+import com.tigerisland.game.PlayerList;
+import com.tigerisland.game.Game;
+import com.tigerisland.game.Terrain;
+import com.tigerisland.game.Tile;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -14,7 +17,7 @@ public class OfflineSystemSetupStepDefs {
 
     private TigerIsland tigerIsland;
     private Game aGame;
-    private PlayerOrder playerOrder;
+    private PlayerList playerList;
     private Deck deck;
     private Boolean gameRunning = false;
 
@@ -23,13 +26,13 @@ public class OfflineSystemSetupStepDefs {
         tigerIsland = new TigerIsland();
         tigerIsland.parseArguments(new String[]{});
         aGame = tigerIsland.match.games.get(0);
-        assertTrue(aGame.gameSettings.globalSettings.offline);
+        assertTrue(aGame.getGameSettings().globalSettings.offline);
     }
 
     @And("^that offline game has players$")
     public void thatGameHasPlayers() throws Throwable {
-        assertTrue(aGame.gameSettings.globalSettings.offline);
-        playerOrder = aGame.gameSettings.getPlayerOrder();
+        assertTrue(aGame.getGameSettings().globalSettings.offline);
+        playerList = aGame.getGameSettings().getPlayerList();
     }
 
     @When("^the offline game has not yet started$")
@@ -39,7 +42,7 @@ public class OfflineSystemSetupStepDefs {
 
     @Then("^then the game has a tile deck$")
     public void thenTheGameHasATileDeck() throws Throwable {
-        deck = aGame.gameSettings.getDeck();
+        deck = aGame.getGameSettings().getDeck();
         assertTrue(deck != null);
     }
 

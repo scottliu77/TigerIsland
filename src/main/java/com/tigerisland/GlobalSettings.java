@@ -113,7 +113,7 @@ public class GlobalSettings {
 
     private void validatePlayerCount() throws ArgumentParserException {
         if (playerCount < minPlayers || playerCount > maxPlayers) {
-            throw new ArgumentParserException("com.tigerisland.Player count must be within the range of " + minPlayers + " to " + maxPlayers + ".", parser);
+            throw new ArgumentParserException("com.tigerisland.game.Player count must be within the range of " + minPlayers + " to " + maxPlayers + ".", parser);
         }
     }
 

@@ -15,7 +15,7 @@ public class TigerIsland {
 
     public TigerIsland() {}
 
-    protected void parseArguments(String[] args) throws ArgumentParserException {
+    public void parseArguments(String[] args) throws ArgumentParserException {
 
         parser = ArgumentParsers.newArgumentParser("TigerParser")
                 .defaultHelp(true)
@@ -67,6 +67,10 @@ public class TigerIsland {
 
     private void run() {
         match.run();
+    }
+
+    public Match getMatch() {
+        return match;
     }
 
     public static void main(String[] args) throws Exception {

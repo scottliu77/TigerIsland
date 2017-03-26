@@ -1,5 +1,6 @@
 package com.tigerisland;
 
+import com.tigerisland.game.Game;
 import com.tigerisland.messenger.*;
 
 import java.util.ArrayList;
