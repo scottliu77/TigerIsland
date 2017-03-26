@@ -34,6 +34,14 @@ public class Board{
         }
     }
 
+    public void setPlacedHexes(ArrayList<PlacedHex> placedHexes){
+        this.placedHexes = placedHexes;
+    }
+
+    public void addSettlements(Settlement settlement){
+        this.settlements.add(settlement);
+    }
+
     public void placeTile(Tile tile, Location centerLoc, int rotation) throws InvalidMoveException {
         if(!isPlacedProperlyAtHeight1(centerLoc, rotation) && !isPlacedProperlyOnExistingTiles(centerLoc, rotation))
             throw new InvalidMoveException("Illegal Placement Location");
@@ -533,5 +541,7 @@ public class Board{
         }
         return null;
     }
+
+
 
 }
