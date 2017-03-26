@@ -117,7 +117,7 @@ public class LocalServerTest {
     }
 
 
-    @Test
+    @Ignore("Ignoring testing for local server receiving messenger") @Test
     public void testLocalServerCanReceiveMessagesFromMessager() throws InterruptedException, IOException {
 
         Thread localServerThread = new Thread(localServer);
