@@ -311,7 +311,10 @@ public class Board{
         Terrain specifiedTerrain = isHexLocationValid(loc);
         areAdjacentLocationsValid(loc, settledLoc);
         ArrayList<PlacedHex> allExpandableHexes = getAllExpandableAdjacentHexesToSettlement(settlement, specifiedTerrain);
-        villageExpansionChecks(player, allExpandableHexes);
+        while (!allExpandableHexes.isEmpty()) {
+            villageExpansionChecks(player, settlement, allExpandableHexes);
+            allExpandableHexes = getAllExpandableAdjacentHexesToSettlement(settlement, specifiedTerrain);
+        }
     }
 
     public Settlement isSettledLocationValid(Player player, Location settledLoc) throws InvalidMoveException {
@@ -357,8 +360,7 @@ public class Board{
         }
     }
 
-    public ArrayList<PlacedHex> getAllExpandableAdjacentHexesToSettlement
-            (Settlement settlement, Terrain specifiedTerrain) throws InvalidMoveException {
+    public ArrayList<PlacedHex> getAllExpandableAdjacentHexesToSettlement(Settlement settlement, Terrain specifiedTerrain) {
         ArrayList<PlacedHex> allExpandableHexes = new ArrayList<PlacedHex>();
         ArrayList<PlacedHex> hexesInSettlement = settlement.getHexesInSettlement();
         ArrayList<PlacedHex> adjacentHexesToSettledHex;
@@ -375,13 +377,15 @@ public class Board{
             }
         }
         if (allExpandableHexes.isEmpty()) {
-            throw new InvalidMoveException("There are no valid hexes which to expand upon");
+            return null;
         } else {
             return allExpandableHexes;
         }
     }
 
-    public void villageExpansionChecks(Player player, ArrayList<PlacedHex> allExpandableHexes) throws InvalidMoveException {
+    public void villageExpansionChecks(Player player, Settlement settlement,
+                                       ArrayList<PlacedHex> allExpandableHexes) throws InvalidMoveException {
+        ArrayList<PlacedHex> hexesInSettlement = settlement.getHexesInSettlement();
         for (PlacedHex potentialHex : allExpandableHexes) {
             potentialHex.setExpansionStatus(false);
             int hexHeight = potentialHex.getHex().getHeight();
@@ -391,9 +395,11 @@ public class Board{
             } else {
                 potentialHex.getHex().addPiecesToHex(player.getPieceSet().placeMultipleVillagers(hexHeight), hexHeight);
                 player.getScore().addPoints(hexScore);
+                hexesInSettlement.add(potentialHex);
             }
         }
     }
+
 
     public boolean isAnAvailableEdgeSpace(Location loc){
         int bot = 0;
