@@ -220,23 +220,23 @@ public class BuildOptionStepDefs{
         }
     }
 
-<<<<<<< HEAD
     @When("^a player tries to place a tiger in the settlement$")
     public void attemptToPlaceTiger() throws InvalidMoveException {
         try {
             board.placeTiger(player, hexToPlaceTiger.getLocation());
-        } catch(Exception e) {
-=======
+        } catch (Exception e) {
+            caughtErrorMessage = e.getMessage();
+        }
+    }
+
     @When("^a player tries to place a totoro on the hex bridging the gap$")
     public void attemptToPlaceTotoroBetweenTwoSmallSettlements(){
         try {
             board.placeTotoro(player, hexToPlaceTotoro.getLocation());
         } catch (InvalidMoveException e) {
->>>>>>> 9916526a936372509833159b6b8233d6e6416898
             caughtErrorMessage = e.getMessage();
         }
     }
-
 
     @Then("^the move is rejected")
     public void expectedAndCaughtErrorMessageDontMatch(){
