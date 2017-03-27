@@ -17,6 +17,9 @@ public class Location{
         this.y = loc.y;
     }
 
+    public int getX(){ return this.x; }
+    public int getY(){ return this.y; }
+
     public static Location rotateHexLeft(Location loc, int rotation) {
         Location shiftLocation = Rotation.calculateRotation(rotation);
         return Location.add(loc, shiftLocation);

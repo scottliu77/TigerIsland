@@ -29,6 +29,10 @@ public class PlacedHex {
         return hex.getPieceType().equals("Empty");
     }
 
+    public int getHeight(){return hex.getHeight();}
+
+    public boolean isNotVolcano(){ return hex.isNotVolcano(); }
+
     public boolean getExpansionStatus() { return this.toBeExpanded; }
 
     public void setExpansionStatus(boolean status) { this.toBeExpanded = status; }

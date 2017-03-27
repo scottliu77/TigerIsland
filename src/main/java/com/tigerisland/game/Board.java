@@ -43,6 +43,32 @@ public class Board{
     }
 
     public void placeTile(Tile tile, Location centerLoc, int rotation) throws InvalidMoveException {
+        if(isALegalTilePlacment(centerLoc, rotation)){
+            placeHex(tile.getCenterHex(), centerLoc);
+            placeHex(tile.getRightHex(), Location.rotateHexLeft(centerLoc, rotation));
+            placeHex(tile.getLeftHex(), Location.rotateHexLeft(centerLoc, rotation + 60));
+        }
+        else {
+            try{
+                throwTilePlacementException(centerLoc, rotation);
+            }
+            catch(InvalidMoveException ex){
+                throw ex;
+            }
+        }
+    }
+
+    public boolean isALegalTilePlacment(Location centerLoc, int rotation) {
+        if( (!isPlacedProperlyAtHeight1(centerLoc, rotation) && !isPlacedProperlyOnExistingTiles(centerLoc, rotation))
+                || totoroExistsUnderTile(centerLoc, rotation)
+                || tigerExistsUnderTile(centerLoc, rotation)
+                || completelyCoversSettlement(centerLoc, rotation)  )
+            return false;
+        else
+            return true;
+    }
+
+    private void throwTilePlacementException(Location centerLoc, int rotation) throws InvalidMoveException {
         if(!isPlacedProperlyAtHeight1(centerLoc, rotation) && !isPlacedProperlyOnExistingTiles(centerLoc, rotation))
             throw new InvalidMoveException("Illegal Placement Location");
         else if(totoroExistsUnderTile(centerLoc, rotation))
@@ -51,11 +77,6 @@ public class Board{
             throw new InvalidMoveException("Tiger exists under tile");
         else if(completelyCoversSettlement(centerLoc, rotation))
             throw new InvalidMoveException("Whole settlement exists under tile");
-        else {
-            placeHex(tile.getCenterHex(), centerLoc);
-            placeHex(tile.getRightHex(), Location.rotateHexLeft(centerLoc, rotation));
-            placeHex(tile.getLeftHex(), Location.rotateHexLeft(centerLoc, rotation + 60));
-        }
     }
 
     private boolean isPlacedProperlyAtHeight1(Location centerLoc, int rotation){
@@ -563,6 +584,11 @@ public class Board{
         return null;
     }
 
-
+    public ArrayList<PlacedHex> getPlacedHexes(){
+        return placedHexes;
+    }
+    public ArrayList<Location> getEdgeSpaces(){
+        return edgeSpaces;
+    }
 
 }
