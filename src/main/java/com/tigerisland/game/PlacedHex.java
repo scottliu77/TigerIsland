@@ -4,10 +4,12 @@ public class PlacedHex {
 
     private Hex hex;
     private Location location;
+    private boolean toBeExpanded;
 
     public PlacedHex(Hex hex, Location location){
         this.hex = hex;
         this.location = location;
+        this.toBeExpanded = false;
     }
 
     public PlacedHex(PlacedHex placedHex){
@@ -27,4 +29,7 @@ public class PlacedHex {
         return hex.getPieceType().equals("Empty");
     }
 
+    public boolean getExpansionStatus() { return this.toBeExpanded; }
+
+    public void setExpansionStatus(boolean status) { this.toBeExpanded = status; }
 }

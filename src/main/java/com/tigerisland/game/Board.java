@@ -282,13 +282,8 @@ public class Board{
         Settlement settlement = isSettledLocationValid(player, settledLoc);
         Terrain specifiedTerrain = isHexLocationValid(loc);
         areAdjacentLocationsValid(loc, settledLoc);
-        ArrayList<PlacedHex> allExpandableHexes = getAllExpandableAdjacentHexesToSettlement(settlement);
-        while (allExpandableHexes != null) {
-            villageExpansionChecks(player, specifiedTerrain, allExpandableHexes);
-            updateSettlements();
-            allExpandableHexes = getAllExpandableAdjacentHexesToSettlement(settlement);
-        }
-
+        ArrayList<PlacedHex> allExpandableHexes = getAllExpandableAdjacentHexesToSettlement(settlement, specifiedTerrain);
+        villageExpansionChecks(player, allExpandableHexes);
     }
 
     public Settlement isSettledLocationValid(Player player, Location settledLoc) throws InvalidMoveException {
@@ -334,38 +329,41 @@ public class Board{
         }
     }
 
-    public ArrayList<PlacedHex> getAllExpandableAdjacentHexesToSettlement(Settlement settlement) {
+    public ArrayList<PlacedHex> getAllExpandableAdjacentHexesToSettlement
+            (Settlement settlement, Terrain specifiedTerrain) throws InvalidMoveException {
         ArrayList<PlacedHex> allExpandableHexes = new ArrayList<PlacedHex>();
         ArrayList<PlacedHex> hexesInSettlement = settlement.getHexesInSettlement();
         ArrayList<PlacedHex> adjacentHexesToSettledHex;
         for (PlacedHex settledHex : hexesInSettlement) {
-            adjacentHexesToSettledHex = settlement.findAdjacentHexesFromPlacedHex(settledHex, hexesInSettlement);
+            adjacentHexesToSettledHex = settlement.findAdjacentHexesFromPlacedHex(settledHex, placedHexes);
             for (PlacedHex adjacentHex : adjacentHexesToSettledHex) {
-                if (adjacentHex.isEmpty() && adjacentHex.getHex().getHexTerrain() != Terrain.VOLCANO) {
-                    allExpandableHexes.add(adjacentHex);
+                if (adjacentHex.isEmpty() && adjacentHex.getHex().getHexTerrain() == specifiedTerrain) {
+                    if (!adjacentHex.getExpansionStatus()) {
+                        adjacentHex.setExpansionStatus(true);
+                        allExpandableHexes.add(adjacentHex);
+                    }
+
                 }
             }
         }
-
         if (allExpandableHexes.isEmpty()) {
-            return null;
+            throw new InvalidMoveException("There are no valid hexes which to expand upon");
         } else {
             return allExpandableHexes;
         }
     }
 
-    public void villageExpansionChecks(Player player, Terrain specifiedTerrain,
-                                       ArrayList<PlacedHex> allExpandableHexes) throws InvalidMoveException {
+    public void villageExpansionChecks(Player player, ArrayList<PlacedHex> allExpandableHexes) throws InvalidMoveException {
         for (PlacedHex potentialHex : allExpandableHexes) {
+            potentialHex.setExpansionStatus(false);
             int hexHeight = potentialHex.getHex().getHeight();
             int hexScore = hexHeight * hexHeight;
-            if (potentialHex.getHex().getHexTerrain() != specifiedTerrain){
-                continue;
-            } else if (player.getPieceSet().getNumberOfVillagersRemaining() != hexHeight){
+            if (player.getPieceSet().getNumberOfVillagersRemaining() - hexHeight < 0){
                 throw new InvalidMoveException("Player does not have enough pieces to populate the target hex");
+            } else {
+                potentialHex.getHex().addPiecesToHex(player.getPieceSet().placeMultipleVillagers(hexHeight), hexHeight);
+                player.getScore().addPoints(hexScore);
             }
-            potentialHex.getHex().addPiecesToHex(player.getPieceSet().placeMultipleVillagers(hexHeight), hexHeight);
-            player.getScore().addPoints(hexScore);
         }
     }
 

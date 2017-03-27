@@ -450,7 +450,7 @@ public class BoardTest{
        }
    }
 
-   @Test
+    @Test
     public void testSettlementLocationIsNotValid() {
         Player player = new Player(Color.BLACK);
         Location invalidSettlementLocation = new Location(0,1);
@@ -460,9 +460,9 @@ public class BoardTest{
         } catch (InvalidMoveException e) {
             assertTrue(e.getMessage().equals("This hex does not exist"));
         }
-   }
+    }
 
-   @Test
+    @Test
     public void testLocationDoesNotBelongInASettlement() {
         Player player = new Player(Color.BLACK);
         String tileID = "fakeTileID";
@@ -472,14 +472,14 @@ public class BoardTest{
         placedHexes.add(emptyPlacedHex);
         board.placedHexes = this.placedHexes;
 
-       try {
-           board.isSettledLocationValid(player, loc);
-       } catch (InvalidMoveException e) {
-           assertTrue(e.getMessage().equals("This hex does not belong in a settlement"));
-       }
-   }
+        try {
+            board.isSettledLocationValid(player, loc);
+        } catch (InvalidMoveException e) {
+            assertTrue(e.getMessage().equals("This hex does not belong in a settlement"));
+        }
+    }
 
-   @Test
+    @Test
     public void testSettlementLocationDoesNotBelongToPlayer() {
         Player player1 = new Player(Color.BLACK);
         String tileID = "fakeTileID";
@@ -497,9 +497,9 @@ public class BoardTest{
         } catch (InvalidMoveException e) {
             assertTrue(e.getMessage().equals("Settlement hex does not belong to the current player"));
         }
-   }
+    }
 
-   @Test
+    @Test
     public void testIsValidSettlementLocation() {
         Player player = new Player(Color.BLACK);
         String tileID = "fakeTileID";
@@ -516,7 +516,7 @@ public class BoardTest{
         } catch (InvalidMoveException e) {
             assertTrue(settlement != null);
         }
-   }
+    }
     @Test
     public void testSettlementLocationIsNotValidForExpansion() {
         Player player = new Player(Color.BLACK);
@@ -548,7 +548,6 @@ public class BoardTest{
 
     @Test
     public void testSettledLocationDoesNotBelongToPlayer() {
-        Player player1 = new Player(Color.BLACK);
         String tileID = "fakeTileID";
         Location loc = new Location(0,1);
         Hex blackHex = new Hex(tileID, Terrain.GRASSLANDS);
@@ -645,6 +644,7 @@ public class BoardTest{
         try {
             lake = board.isHexLocationValid(loc);
         } catch (InvalidMoveException e) {
+            System.out.println(e.getMessage());
             assertTrue(lake.getType() == "Lake");
         }
     }
@@ -670,6 +670,452 @@ public class BoardTest{
             board.areAdjacentLocationsValid(loc1, loc2);
         } catch (InvalidMoveException e) {
             assertTrue(e.getMessage().equals("Hexes are not adjacent to one another"));
+        }
+    }
+
+    @Test
+    public void testNoAdjacentHexesExistForSize1() {
+        Player player = new Player(Color.BLACK);
+        String tileID = "fakeTileID";
+        Location loc = new Location(0,0);
+        Hex settledHex = new Hex(tileID, Terrain.LAKE);
+        settledHex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        PlacedHex blackSettledHex = new PlacedHex(settledHex, loc);
+        placedHexes.add(blackSettledHex);
+        board.placedHexes = this.placedHexes;
+        Settlement settlement = new Settlement(blackSettledHex, placedHexes);
+        board.settlements.add(settlement);
+
+        try {
+            settlement = board.isSettledLocationValid(player, loc);
+            System.out.println("The settlement exists with a size of: " + settlement.size());
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            ArrayList<PlacedHex> allExpandableHexes = board.getAllExpandableAdjacentHexesToSettlement(settlement, Terrain.ROCKY);
+            System.out.println("The number of expandable hexes are: " + allExpandableHexes.size());
+        } catch (InvalidMoveException e) {
+            System.out.println(e.getMessage());
+            assertTrue(e.getMessage().equals("There are no valid hexes which to expand upon"));
+        }
+    }
+
+    @Test
+    public void testNoValidExpandableHexesExistForSize1() {
+        Player player = new Player(Color.BLACK);
+        String tileID = "fakeTileID";
+        Location loc = new Location(0,0);
+        Hex settledHex = new Hex(tileID, Terrain.LAKE);
+        settledHex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        PlacedHex blackSettledHex = new PlacedHex(settledHex, loc);
+        placedHexes.add(blackSettledHex);
+        board.placedHexes = this.placedHexes;
+        Settlement settlement = new Settlement(blackSettledHex, placedHexes);
+        board.settlements.add(settlement);
+
+        try {
+            settlement = board.isSettledLocationValid(player, loc);
+            System.out.println("The settlement exists with a size of: " + settlement.size());
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        }
+
+        Location newLoc1 = new Location(0,-1);
+        Location newLoc2 = new Location(0,1);
+        Location newLoc3 = new Location(1,0);
+
+        Hex newHex1 = new Hex("fakeID1", Terrain.ROCKY);
+        Hex newHex2 = new Hex("fakeID2", Terrain.VOLCANO);
+        Hex newHex3 = new Hex("fakeID3", Terrain.ROCKY);
+
+        PlacedHex placedHex1 = new PlacedHex(newHex1, newLoc1);
+        PlacedHex placedHex2 = new PlacedHex(newHex2, newLoc2);
+        PlacedHex placedHex3 = new PlacedHex(newHex3, newLoc3);
+
+        placedHexes.add(placedHex1);
+        placedHexes.add(placedHex2);
+        placedHexes.add(placedHex3);
+        board.placedHexes = this.placedHexes;
+
+        try {
+            ArrayList<PlacedHex> allExpandableHexes = board.getAllExpandableAdjacentHexesToSettlement(settlement, Terrain.LAKE);
+            System.out.println("The number of expandable hexes are: " + allExpandableHexes.size());
+        } catch (InvalidMoveException e) {
+            System.out.println(e.getMessage());
+            assertTrue(e.getMessage().equals("There are no valid hexes which to expand upon"));
+        }
+    }
+
+    @Test
+    public void testNoValidExpandableHexesExistForSize2() {
+        Player player = new Player(Color.BLACK);
+        String tileID = "fakeTileID";
+        Location loc = new Location(0,0);
+        Hex settledHex = new Hex(tileID, Terrain.LAKE);
+        settledHex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+
+        String tileID2 = "fakeTileID2";
+        Location loc2 = new Location(0,1);
+        Hex secondSettledHex= new Hex(tileID2, Terrain.GRASSLANDS);
+        secondSettledHex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+
+        PlacedHex blackSettledHex = new PlacedHex(settledHex, loc);
+        PlacedHex blackSettledHex2 = new PlacedHex(secondSettledHex, loc2);
+
+        placedHexes.add(blackSettledHex);
+        placedHexes.add(blackSettledHex2);
+        board.placedHexes = this.placedHexes;
+        Settlement settlement = new Settlement(blackSettledHex, placedHexes);
+        board.settlements.add(settlement);
+
+        try {
+            settlement = board.isSettledLocationValid(player, loc);
+            System.out.println("The settlement exists with a size of: " + settlement.size());
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        }
+
+        Location newLoc1 = new Location(0,-1);
+        Location newLoc2 = new Location(1,0);
+
+        Hex newHex1 = new Hex("fakeID1", Terrain.ROCKY);
+        Hex newHex2 = new Hex("fakeID2", Terrain.VOLCANO);
+
+        PlacedHex placedHex1 = new PlacedHex(newHex1, newLoc1);
+        PlacedHex placedHex2 = new PlacedHex(newHex2, newLoc2);
+
+        placedHexes.add(placedHex1);
+        placedHexes.add(placedHex2);
+        board.placedHexes = this.placedHexes;
+
+        try {
+            ArrayList<PlacedHex> allExpandableHexes = board.getAllExpandableAdjacentHexesToSettlement(settlement, Terrain.LAKE);
+            System.out.println("The number of expandable hexes are: " + allExpandableHexes.size());
+        } catch (InvalidMoveException e) {
+            System.out.println(e.getMessage());
+            assertTrue(e.getMessage().equals("There are no valid hexes which to expand upon"));
+        }
+    }
+
+    @Test
+    public void testExpandableHexesExistForSize1() {
+        Player player = new Player(Color.BLACK);
+        String tileID = "fakeTileID";
+        Location loc = new Location(0,0);
+        Hex settledHex = new Hex(tileID, Terrain.LAKE);
+        settledHex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        PlacedHex blackSettledHex = new PlacedHex(settledHex, loc);
+        placedHexes.add(blackSettledHex);
+        board.placedHexes = this.placedHexes;
+        Settlement settlement = new Settlement(blackSettledHex, placedHexes);
+        board.settlements.add(settlement);
+
+        try {
+            settlement = board.isSettledLocationValid(player, loc);
+            System.out.println("The settlement exists with a size of: " + settlement.size());
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        }
+
+        Location newLoc1 = new Location(0,-1);
+        Location newLoc2 = new Location(0,1);
+        Location newLoc3 = new Location(1,0);
+
+        Hex newHex1 = new Hex("fakeID1", Terrain.ROCKY);
+        Hex newHex2 = new Hex("fakeID2", Terrain.ROCKY);
+        Hex newHex3 = new Hex("fakeID3", Terrain.ROCKY);
+
+        PlacedHex placedHex1 = new PlacedHex(newHex1, newLoc1);
+        PlacedHex placedHex2 = new PlacedHex(newHex2, newLoc2);
+        PlacedHex placedHex3 = new PlacedHex(newHex3, newLoc3);
+
+        placedHexes.add(placedHex1);
+        placedHexes.add(placedHex2);
+        placedHexes.add(placedHex3);
+        board.placedHexes = this.placedHexes;
+
+        try {
+            ArrayList<PlacedHex> allExpandableHexes = board.getAllExpandableAdjacentHexesToSettlement(settlement, Terrain.ROCKY);
+            System.out.println("The number of expandable hexes are: " + allExpandableHexes.size());
+        } catch (InvalidMoveException e) {
+            assertTrue(e.getMessage().equals("There are no valid hexes which to expand upon"));
+        }
+    }
+
+    @Test
+    public void testExpandableHexesExistForSize2() {
+        Player player = new Player(Color.BLACK);
+        String tileID = "fakeTileID";
+        Location loc = new Location(0,0);
+        Hex settledHex = new Hex(tileID, Terrain.GRASSLANDS);
+        settledHex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+
+        String tileID2 = "fakeTileID2";
+        Location loc2 = new Location(0,1);
+        Hex secondSettledHex= new Hex(tileID2, Terrain.GRASSLANDS);
+        secondSettledHex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+
+        PlacedHex blackSettledHex = new PlacedHex(settledHex, loc);
+        PlacedHex blackSettledHex2 = new PlacedHex(secondSettledHex, loc2);
+
+        placedHexes.add(blackSettledHex);
+        placedHexes.add(blackSettledHex2);
+        board.placedHexes = this.placedHexes;
+        Settlement settlement = new Settlement(blackSettledHex, placedHexes);
+        board.settlements.add(settlement);
+
+        try {
+            settlement = board.isSettledLocationValid(player, loc);
+            System.out.println("The settlement exists with a size of: " + settlement.size());
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        }
+
+        Location newLoc1 = new Location(0,-1);
+        Location newLoc2 = new Location(1,0);
+
+        Hex newHex1 = new Hex("fakeID1", Terrain.ROCKY);
+        Hex newHex2 = new Hex("fakeID2", Terrain.ROCKY);
+
+        PlacedHex placedHex1 = new PlacedHex(newHex1, newLoc1);
+        PlacedHex placedHex2 = new PlacedHex(newHex2, newLoc2);
+
+        placedHexes.add(placedHex1);
+        placedHexes.add(placedHex2);
+        board.placedHexes = this.placedHexes;
+
+        try {
+            ArrayList<PlacedHex> allExpandableHexes = board.getAllExpandableAdjacentHexesToSettlement(settlement, Terrain.ROCKY);
+            System.out.println("The number of expandable hexes are: " + allExpandableHexes.size());
+        } catch (InvalidMoveException e) {
+            System.out.println(e.getMessage());
+            assertTrue(e.getMessage().equals("There are no valid hexes which to expand upon"));
+        }
+    }
+
+    @Test
+    public void testCannotMakeExpansionMoveSize1() {
+        Player player = new Player(Color.BLACK);
+        String tileID = "fakeTileID";
+        Location loc = new Location(0,0);
+        Hex settledHex = new Hex(tileID, Terrain.GRASSLANDS);
+        settledHex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        PlacedHex blackSettledHex = new PlacedHex(settledHex, loc);
+
+        placedHexes.add(blackSettledHex);
+        board.placedHexes = this.placedHexes;
+        Settlement settlement = new Settlement(blackSettledHex, placedHexes);
+        board.settlements.add(settlement);
+
+        try {
+            settlement = board.isSettledLocationValid(player, loc);
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            player.getPieceSet().placeMultipleVillagers(19);
+        } catch(InvalidMoveException e) {
+            e.printStackTrace();
+        }
+
+        Location newLoc1 = new Location(0,-1);
+        Location newLoc2 = new Location(1,0);
+
+        Hex newHex1 = new Hex("fakeID1", Terrain.ROCKY);
+        Hex newHex2 = new Hex("fakeID2", Terrain.ROCKY);
+
+        PlacedHex placedHex1 = new PlacedHex(newHex1, newLoc1);
+        PlacedHex placedHex2 = new PlacedHex(newHex2, newLoc2);
+
+        placedHexes.add(placedHex1);
+        placedHexes.add(placedHex2);
+        board.placedHexes = this.placedHexes;
+
+        ArrayList<PlacedHex> allExpandableHexes = new ArrayList<PlacedHex>();
+
+        try {
+            allExpandableHexes = board.getAllExpandableAdjacentHexesToSettlement(settlement, Terrain.ROCKY);
+        } catch (InvalidMoveException e) {
+            assertTrue(e.getMessage().equals("There are no valid hexes which to expand upon"));
+        }
+
+        try {
+            board.villageExpansionChecks(player, allExpandableHexes);
+        } catch (InvalidMoveException e) {
+            assertTrue(e.getMessage().equals("Player does not have enough pieces to populate the target hex"));
+        }
+    }
+
+    @Test
+    public void testCanMakeExpansionMoveSize1() {
+        Player player = new Player(Color.BLACK);
+        String tileID = "fakeTileID";
+        Location loc = new Location(0,0);
+        Hex settledHex = new Hex(tileID, Terrain.GRASSLANDS);
+        settledHex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        PlacedHex blackSettledHex = new PlacedHex(settledHex, loc);
+
+        placedHexes.add(blackSettledHex);
+        board.placedHexes = this.placedHexes;
+        Settlement settlement = new Settlement(blackSettledHex, placedHexes);
+        board.settlements.add(settlement);
+
+        try {
+            settlement = board.isSettledLocationValid(player, loc);
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        }
+
+        Location newLoc1 = new Location(0,-1);
+        Location newLoc2 = new Location(1,0);
+
+        Hex newHex1 = new Hex("fakeID1", Terrain.ROCKY);
+        Hex newHex2 = new Hex("fakeID2", Terrain.ROCKY);
+
+        PlacedHex placedHex1 = new PlacedHex(newHex1, newLoc1);
+        PlacedHex placedHex2 = new PlacedHex(newHex2, newLoc2);
+
+        placedHexes.add(placedHex1);
+        placedHexes.add(placedHex2);
+        board.placedHexes = this.placedHexes;
+
+        ArrayList<PlacedHex> allExpandableHexes = new ArrayList<PlacedHex>();
+
+        try {
+            allExpandableHexes = board.getAllExpandableAdjacentHexesToSettlement(settlement, Terrain.ROCKY);
+        } catch (InvalidMoveException e) {
+            assertTrue(e.getMessage().equals("There are no valid hexes which to expand upon"));
+        }
+
+        try {
+            board.villageExpansionChecks(player, allExpandableHexes);
+        } catch (InvalidMoveException e) {
+            assertTrue(e.getMessage().equals("Player does not have enough pieces to populate the target hex"));
+        }
+    }
+
+    @Test
+    public void testCannotMakeExpansionMoveSize2() {
+        Player player = new Player(Color.BLACK);
+        String tileID = "fakeTileID";
+        Location loc = new Location(0,0);
+        Hex settledHex = new Hex(tileID, Terrain.GRASSLANDS);
+        settledHex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+
+        String tileID2 = "fakeTileID2";
+        Location loc2 = new Location(0,1);
+        Hex secondSettledHex= new Hex(tileID2, Terrain.GRASSLANDS);
+        secondSettledHex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+
+        PlacedHex blackSettledHex = new PlacedHex(settledHex, loc);
+        PlacedHex blackSettledHex2 = new PlacedHex(secondSettledHex, loc2);
+
+        placedHexes.add(blackSettledHex);
+        placedHexes.add(blackSettledHex2);
+        board.placedHexes = this.placedHexes;
+        Settlement settlement = new Settlement(blackSettledHex, placedHexes);
+        board.settlements.add(settlement);
+
+        try {
+            settlement = board.isSettledLocationValid(player, loc);
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            player.getPieceSet().placeMultipleVillagers(19);
+        } catch(InvalidMoveException e) {
+            e.printStackTrace();
+        }
+
+        Location newLoc1 = new Location(0,-1);
+        Location newLoc2 = new Location(1,0);
+
+        Hex newHex1 = new Hex("fakeID1", Terrain.ROCKY);
+        Hex newHex2 = new Hex("fakeID2", Terrain.ROCKY);
+
+        PlacedHex placedHex1 = new PlacedHex(newHex1, newLoc1);
+        PlacedHex placedHex2 = new PlacedHex(newHex2, newLoc2);
+
+        placedHexes.add(placedHex1);
+        placedHexes.add(placedHex2);
+        board.placedHexes = this.placedHexes;
+
+        ArrayList<PlacedHex> allExpandableHexes = new ArrayList<PlacedHex>();
+
+        try {
+            allExpandableHexes = board.getAllExpandableAdjacentHexesToSettlement(settlement, Terrain.ROCKY);
+        } catch (InvalidMoveException e) {
+            assertTrue(e.getMessage().equals("There are no valid hexes which to expand upon"));
+        }
+
+        try {
+            board.villageExpansionChecks(player, allExpandableHexes);
+        } catch (InvalidMoveException e) {
+            assertTrue(e.getMessage().equals("Player does not have enough pieces to populate the target hex"));
+        }
+    }
+
+    @Test
+    public void testCanMakeExpansionMoveSize2() {
+        Player player = new Player(Color.BLACK);
+        String tileID = "fakeTileID";
+        Location loc = new Location(0,0);
+        Hex settledHex = new Hex(tileID, Terrain.GRASSLANDS);
+        settledHex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+
+        String tileID2 = "fakeTileID2";
+        Location loc2 = new Location(0,1);
+        Hex secondSettledHex= new Hex(tileID2, Terrain.GRASSLANDS);
+        secondSettledHex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+
+        PlacedHex blackSettledHex = new PlacedHex(settledHex, loc);
+        PlacedHex blackSettledHex2 = new PlacedHex(secondSettledHex, loc2);
+
+        placedHexes.add(blackSettledHex);
+        placedHexes.add(blackSettledHex2);
+        board.placedHexes = this.placedHexes;
+        Settlement settlement = new Settlement(blackSettledHex, placedHexes);
+        board.settlements.add(settlement);
+
+        try {
+            settlement = board.isSettledLocationValid(player, loc);
+            System.out.println("The settlement exists with a size of: " + settlement.size());
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        }
+
+        Location newLoc1 = new Location(0,-1);
+        Location newLoc2 = new Location(1,0);
+
+        Hex newHex1 = new Hex("fakeID1", Terrain.ROCKY);
+        Hex newHex2 = new Hex("fakeID2", Terrain.ROCKY);
+
+        PlacedHex placedHex1 = new PlacedHex(newHex1, newLoc1);
+        PlacedHex placedHex2 = new PlacedHex(newHex2, newLoc2);
+
+        placedHexes.add(placedHex1);
+        placedHexes.add(placedHex2);
+        board.placedHexes = this.placedHexes;
+
+        ArrayList<PlacedHex> allExpandableHexes = new ArrayList<PlacedHex>();
+
+        try {
+            allExpandableHexes = board.getAllExpandableAdjacentHexesToSettlement(settlement, Terrain.ROCKY);
+            System.out.println("The number of expandable hexes are: " + allExpandableHexes.size());
+        } catch (InvalidMoveException e) {
+            System.out.println(e.getMessage());
+            assertTrue(e.getMessage().equals("There are no valid hexes which to expand upon"));
+        }
+
+        try {
+            board.villageExpansionChecks(player, allExpandableHexes);
+        } catch (InvalidMoveException e) {
+            System.out.println(e.getMessage());
+            assertTrue(e.getMessage().equals("Player does not have enough pieces to populate the target hex"));
         }
     }
 }
