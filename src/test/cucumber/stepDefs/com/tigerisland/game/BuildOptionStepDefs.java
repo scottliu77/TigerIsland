@@ -200,6 +200,15 @@ public class BuildOptionStepDefs{
         }
     }
 
+    @When("^a player tries to place a totoro on the hex bridging the gap$")
+    public void attemptToPlaceTotoroBetweenTwoSmallSettlements(){
+        try {
+            board.placeTotoro(player, hexToPlaceTotoro.getLocation());
+        } catch (InvalidMoveException e) {
+            caughtErrorMessage = e.getMessage();
+        }
+    }
+
 
     @Then("^the move is rejected")
     public void expectedAndCaughtErrorMessageDontMatch(){
@@ -220,6 +229,14 @@ public class BuildOptionStepDefs{
         assertTrue(finalNumberOfVillagersRemaining == originalNumberOfVillagersRemaining);
     }
 
+    @And("^another settlement too small to accept a totoro$")
+    public void addAnotherSmallSettlementCloseToTheFirst(){
+        PlacedHex placedHex5 = setUpAnotherSettlement();
+        Settlement settlement = new Settlement(placedHex5, placedHexes);
+        board.setPlacedHexes(placedHexes);
+        board.addSettlements(settlement);
+    }
+
     private PlacedHex setUpSettlement(){
         Hex hex1 = new Hex("hex1", Terrain.LAKE);
         Hex hex2 = new Hex("hex2", Terrain.LAKE);
@@ -233,7 +250,7 @@ public class BuildOptionStepDefs{
 
         Location loc1 = new Location(0,0);
         Location loc2 = new Location(0,-1);
-        Location loc3 = new Location(0,1);
+        Location loc3 = new Location(0,-2);
         Location loc4 = new Location(1,0);
 
         PlacedHex placedHex1 = new PlacedHex(hex1, loc1);
@@ -247,6 +264,35 @@ public class BuildOptionStepDefs{
         placedHexes.add(placedHex4);
 
         return placedHex1;
+    }
+
+    private PlacedHex setUpAnotherSettlement(){
+        Hex hex5 = new Hex("hex5", Terrain.LAKE);
+        Hex hex6 = new Hex("hex6", Terrain.JUNGLE);
+        Hex hex7 = new Hex("hex7", Terrain.VOLCANO);
+        Hex hex8 = new Hex("hex8", Terrain.GRASSLANDS);
+
+        hex5.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 2);
+        hex6.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 4);
+        hex8.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 6);
+
+
+        Location loc5 = new Location(-1,1);
+        Location loc6 = new Location(-2,1);
+        Location loc7 = new Location(-3,3);
+        Location loc8 = new Location(-2,2);
+
+        PlacedHex placedHex5 = new PlacedHex(hex5, loc5);
+        PlacedHex placedHex6 = new PlacedHex(hex6, loc6);
+        PlacedHex placedHex7 = new PlacedHex(hex7, loc7);
+        PlacedHex placedHex8 = new PlacedHex(hex8, loc8);
+
+        placedHexes.add(placedHex5);
+        placedHexes.add(placedHex6);
+        placedHexes.add(placedHex7);
+        placedHexes.add(placedHex8);
+
+        return placedHex5;
     }
 
 

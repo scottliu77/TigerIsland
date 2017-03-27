@@ -462,6 +462,10 @@ public class Board{
             throw new InvalidMoveException("Cannot place totoro in a settlement already containing a Totoro");
         }
 
+        if(tempPlacedHexWasConnectingTwoSmallSettlements(settlement, tempPlacedHex)){
+            throw new InvalidMoveException("Cannot place totoro in a settlement of size 4 or smaller!");
+        }
+
         placedHexes.remove(tempPlacedHex);
         placedHex.getHex().addPiecesToHex(player.getPieceSet().placeTotoro(), 1);
         int minimumSizeRequireForTotoroAfterPlacement = SIZE_REQUIRED_FOR_TOTORO + 1;
@@ -470,7 +474,19 @@ public class Board{
         if(settlement.size() < minimumSizeRequireForTotoroAfterPlacement) {
             throw new InvalidMoveException("Cannot place totoro in a settlement of size 4 or smaller!");
         }
+    }
 
+    private boolean tempPlacedHexWasConnectingTwoSmallSettlements(Settlement settlement, PlacedHex tempPlacedHex){
+        ArrayList<PlacedHex> hexesInSettlement = settlement.getHexesInSettlement();
+        hexesInSettlement.remove(tempPlacedHex);
+        placedHexes.remove(tempPlacedHex);
+        for(PlacedHex currentHex : hexesInSettlement){
+            Settlement settlementWithoutTempHex = new Settlement(currentHex, placedHexes);
+            if(settlementWithoutTempHex.size() >= SIZE_REQUIRED_FOR_TOTORO) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public void placeTiger(Player player, Location location) throws InvalidMoveException{
