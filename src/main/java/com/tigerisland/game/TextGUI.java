@@ -1,5 +1,6 @@
 package com.tigerisland.game;
 
+import javax.print.attribute.standard.Chromaticity;
 import java.util.ArrayList;
 
 public class TextGUI {
@@ -207,6 +208,7 @@ public class TextGUI {
             map[centerX+1][(yDimensionMax-1)-(centerY+1)] = '-';
             char hexContentCount = Integer.toString(hex.getPieceCount()).charAt(0);
             map[centerX+2][(yDimensionMax-1)-(centerY+1)] = hexContentCount;
+
         }
     }
 

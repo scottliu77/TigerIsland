@@ -31,7 +31,7 @@ public class Hex {
         this.height = hex.getHeight();
         this.pieceCount = hex.getPieceCount();
         this.piece = hex.getPiece();
-        this.tileID = hex.getTileID();
+        this.tileID = hex.getTileID() + " clone";
     }
 
     public Terrain getHexTerrain() {
