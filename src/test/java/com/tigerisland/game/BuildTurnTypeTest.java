@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
 
-public class BuildActionTypeTest {
+public class BuildTurnTypeTest {
 
     @Test
     public void testCanCreateMoveType() {

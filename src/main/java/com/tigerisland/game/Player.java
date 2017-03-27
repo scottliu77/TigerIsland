@@ -18,6 +18,11 @@ public class Player {
         this.pieceSet = new PieceSet(player.getPieceSet());
     }
 
+    public void updatePlayerState(Player updatedPlayer) {
+        score = updatedPlayer.getScore();
+        pieceSet = updatedPlayer.getPieceSet();
+    }
+
     public Score getScore() {
         return score;
     }

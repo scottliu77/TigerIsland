@@ -9,7 +9,7 @@ import java.util.concurrent.BlockingQueue;
 
 public class Messenger implements Runnable {
 
-    protected BlockingQueue<String> outboundQueue;
+    protected BlockingQueue<Message> outboundQueue;
     private GlobalSettings globalSettings;
     private PrintWriter writer;
     private Socket socket;
@@ -18,12 +18,12 @@ public class Messenger implements Runnable {
     public Messenger(GlobalSettings globalSettings) {
         this.outboundQueue = globalSettings.outboundQueue;
         this.globalSettings = globalSettings;
-        this.offline = globalSettings.offline;
+        this.offline = globalSettings.getServerSettings().offline;
     }
 
     public void run() {
         try {
-            socket = new Socket(globalSettings.IPaddress, globalSettings.port);
+            socket = new Socket(globalSettings.getServerSettings().IPaddress, globalSettings.getServerSettings().port);
             writer = new PrintWriter(socket.getOutputStream(), true);
 
             while(true) {
@@ -40,7 +40,7 @@ public class Messenger implements Runnable {
 
     }
 
-    protected String removeMessageFromQueue() throws InterruptedException {
+    protected Message removeMessageFromQueue() throws InterruptedException {
         return outboundQueue.take();
     }
 

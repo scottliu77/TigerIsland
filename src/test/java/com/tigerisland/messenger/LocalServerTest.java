@@ -1,6 +1,7 @@
 package com.tigerisland.messenger;
 
 import com.tigerisland.GlobalSettings;
+import com.tigerisland.ServerSettings;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -36,7 +37,7 @@ public class LocalServerTest {
         localServerThread.start();
 
         try {
-            Socket socket = new Socket(globalSettings.defaultIPaddress, globalSettings.defaultPort);
+            Socket socket = new Socket(ServerSettings.defaultIPaddress, ServerSettings.defaultPort);
             PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
             writer.println("Hello");
             writer.println("END");
@@ -56,7 +57,7 @@ public class LocalServerTest {
         localServerThread.start();
 
         try {
-            Socket socket = new Socket(globalSettings.defaultIPaddress, globalSettings.defaultPort);
+            Socket socket = new Socket(ServerSettings.defaultIPaddress, ServerSettings.defaultPort);
             PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
             writer.println("END");
             socket.close();
@@ -75,7 +76,7 @@ public class LocalServerTest {
         localServerThread.start();
 
         try {
-            Socket socket = new Socket(globalSettings.defaultIPaddress, globalSettings.defaultPort);
+            Socket socket = new Socket(ServerSettings.defaultIPaddress, ServerSettings.defaultPort);
             PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
             writer.println("Hello");
             writer.println("END");
@@ -95,7 +96,7 @@ public class LocalServerTest {
         localServerThread.start();
 
         try {
-            Socket socket = new Socket(globalSettings.defaultIPaddress, globalSettings.defaultPort);
+            Socket socket = new Socket(ServerSettings.defaultIPaddress, ServerSettings.defaultPort);
             PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
             writer.println("Hello");
             writer.println("Goodbye");
@@ -108,9 +109,9 @@ public class LocalServerTest {
         localServerThread.join();
 
         ArrayList<String> messagesProcessed = new ArrayList<String>();
-        for(String message : globalSettings.messagesReceived) {
-            messagesProcessed.add(message);
-            System.out.println(message);
+        for(Message message : globalSettings.messagesReceived) {
+            messagesProcessed.add(message.toString());
+            System.out.println(message.toString());
         }
 
         assertTrue(messagesProcessed.size() == 2);
@@ -123,8 +124,8 @@ public class LocalServerTest {
         Thread localServerThread = new Thread(localServer);
         localServerThread.start();
 
-        globalSettings.outboundQueue.add("Hello");
-        globalSettings.outboundQueue.add("END");
+        globalSettings.outboundQueue.add(new Message("Hello"));
+        globalSettings.outboundQueue.add(new Message("END"));
 
         messenger = new Messenger(globalSettings);
 

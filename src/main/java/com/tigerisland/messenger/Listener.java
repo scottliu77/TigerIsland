@@ -1,6 +1,7 @@
 package com.tigerisland.messenger;
 
 import com.tigerisland.GlobalSettings;
+import com.tigerisland.ServerSettings;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,19 +11,19 @@ import java.util.concurrent.BlockingQueue;
 
 public class Listener implements Runnable {
 
-    protected BlockingQueue<String> inboundQueue;
-    private GlobalSettings globalSettings;
+    protected BlockingQueue<Message> inboundQueue;
+    private ServerSettings serverSettings;
     private BufferedReader reader;
     private Socket socket;
 
     public Listener(GlobalSettings globalSettings) {
         this.inboundQueue = globalSettings.inboundQueue;
-        this.globalSettings = globalSettings;
+        this.serverSettings = globalSettings.getServerSettings();
     }
 
     public void run() {
         try {
-            socket = new Socket(globalSettings.IPaddress, globalSettings.port);
+            socket = new Socket(serverSettings.IPaddress, serverSettings.port);
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             while(!Thread.currentThread().isInterrupted()) {
@@ -40,7 +41,7 @@ public class Listener implements Runnable {
     }
 
     protected void addMessageToQueue(String message) throws InterruptedException {
-        inboundQueue.put(message);
+        inboundQueue.put(new Message(message));
     }
 
 

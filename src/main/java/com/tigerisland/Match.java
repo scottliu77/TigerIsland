@@ -22,32 +22,8 @@ public class Match {
         setup();
     }
 
-    private void setup() {
-        if(globalSettings.offline) {
-            setupOfflineMatch();
-        } else {
-            setupOnlineMatch();
-        }
-    }
-
-    private void setupOfflineMatch() {
-        configureOfflineGameSettings();
-        constructOfflineGames();
-    }
-
-    private void configureOfflineGameSettings() {
-        gameSettings.setDeck();
-        gameSettings.setPlayOrder();
-    }
-
-    private void constructOfflineGames() {
-        for(int game = 0; game < globalSettings.gameCount; game++) {
-            games.add(game, new Game(gameSettings));
-        }
-    }
-
     public void run() {
-        if(globalSettings.offline) {
+        if(globalSettings.getServerSettings().offline) {
             createLocalServerAndStartThreads();
         } else {
             createAndStartAllThreads();
@@ -98,6 +74,30 @@ public class Match {
             messagerThread.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void setup() {
+        if(globalSettings.getServerSettings().offline) {
+            setupOfflineMatch();
+        } else {
+            setupOnlineMatch();
+        }
+    }
+
+    private void setupOfflineMatch() {
+        configureOfflineGameSettings();
+        constructOfflineGames();
+    }
+
+    private void configureOfflineGameSettings() {
+        gameSettings.setDeck();
+        gameSettings.setPlayOrder();
+    }
+
+    private void constructOfflineGames() {
+        for(int game = 0; game < globalSettings.gameCount; game++) {
+            games.add(game, new Game(1, gameSettings));
         }
     }
 

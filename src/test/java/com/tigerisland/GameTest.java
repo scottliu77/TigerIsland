@@ -18,7 +18,7 @@ public class GameTest {
     @Before
     public void createGame() {
         this.gameSettings = new GameSettings(globalSettings);
-        this.game = new Game(gameSettings);
+        this.game = new Game(1, gameSettings);
     }
 
     @Before

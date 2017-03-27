@@ -24,19 +24,20 @@ public class EndConditionsStepDefs {
         tigerIsland = new TigerIsland();
         tigerIsland.parseArguments(new String[]{});
         this.game = tigerIsland.getMatch().games.get(0);
-        this.player = this.game.getGameSettings().getPlayerList().getCurrentPlayer();
-        this.players = this.game.getGameSettings().getPlayerList().getPlayerList();
+        this.player = this.game.getGameSettings().getPlayerSet().getCurrentPlayer();
+        this.players = this.game.getGameSettings().getPlayerSet().getPlayerList();
     }
 
     @Given("^it is a player's turn$")
     public void aPlayerHasNoMorePiecesLeft() throws Throwable {
-        assertTrue(player == game.getGameSettings().getPlayerList().getCurrentPlayer());
+        assertTrue(player == game.getGameSettings().getPlayerSet().getCurrentPlayer());
     }
 
     @When("^they play their last piece$")
     public void theirTurnEnds() throws Throwable {
         player.getPieceSet().placeMultipleVillagers(20);
         for(int totoros = 0; totoros < 3; totoros++) { player.getPieceSet().placeTotoro(); }
+        for(int tigers = 0; tigers < 2; tigers++) { player.getPieceSet().placeTiger(); }
     }
 
     @When("^that player is unable to build$")
@@ -76,7 +77,7 @@ public class EndConditionsStepDefs {
     @Then("^then the player who placed all their pieces wins$")
     public void thenThePlayerWhoPlacedAllTheirPiecesWins() throws Throwable {
         Player winner = EndConditions.calculateWinner(player, players);
-        assertTrue(winner != player);
+        assertTrue(winner == player);
     }
 
 

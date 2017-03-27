@@ -21,7 +21,7 @@ public class TigerIsland {
                 .defaultHelp(true)
                 .description("Specify TigerIsland match globalSettings.");
         parser.addArgument("-o", "--offline").type(Arguments.booleanType())
-                .setDefault(GlobalSettings.defaultOffline)
+                .setDefault(ServerSettings.defaultOffline)
                 .help("Toggle running system in offline mode, AI v. AI");
         parser.addArgument("-g", "--games").type(Integer.class)
                 .setDefault(GlobalSettings.defaultGames)
@@ -31,18 +31,18 @@ public class TigerIsland {
                 .help("Specify the number of players in each match");
         parser.addArgument("-t", "--turnTime").type(Float.class)
                 .setDefault(GlobalSettings.defaultTurnTime)
-                .help("Specify the time allowed per turn");
+                .help("Specify the time allowed per turnState");
         parser.addArgument("-i", "--ipaddress").type(String.class)
-                .setDefault(GlobalSettings.defaultIPaddress)
+                .setDefault(ServerSettings.defaultIPaddress)
                 .help("Specify the ip address of the TigerHost server");
         parser.addArgument("-p", "--port").type(Integer.class)
-                .setDefault(GlobalSettings.defaultPort)
+                .setDefault(ServerSettings.defaultPort)
                 .help("Specify the port used by the TigerHost server");
         parser.addArgument("--username").type(String.class)
-                .setDefault(GlobalSettings.defaultUsername)
+                .setDefault(ServerSettings.defaultUsername)
                 .help("Specify username used by the TigerHost server");
         parser.addArgument("--password").type(String.class)
-                .setDefault(GlobalSettings.defaultPassword)
+                .setDefault(ServerSettings.defaultPassword)
                 .help("Specify password used by the TigerHost server");
 
         parsedArguments = parser.parseArgs(args);

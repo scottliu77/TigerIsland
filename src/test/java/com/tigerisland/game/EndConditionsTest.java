@@ -1,8 +1,12 @@
 package com.tigerisland.game;
 
+import com.tigerisland.GameSettings;
+import com.tigerisland.GlobalSettings;
 import com.tigerisland.InvalidMoveException;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertTrue;
 
@@ -13,7 +17,9 @@ import static org.junit.Assert.assertTrue;
 
 public class EndConditionsTest {
 
+    private Game game;
     private Player currentPlayer;
+    private ArrayList<Player> players;
     private Board board;
     private Tile tile;
     private Tile tile2;
@@ -33,11 +39,16 @@ public class EndConditionsTest {
         this.location3 = new Location(-2, 0);
 
         this.board = new Board();
-        this.currentPlayer = new Player(Color.BLACK);
 
         board.placeTile(tile, location, 0);
         board.placeTile(tile2, location2, 60);
         board.placeTile(tile3, location3, 120);
+
+        PlayerSet tempPlayerSet = new PlayerSet(new GlobalSettings());
+        this.players = tempPlayerSet.getPlayerList();
+
+        this.currentPlayer = tempPlayerSet.getCurrentPlayer();
+
     }
 
     @Test
@@ -134,5 +145,41 @@ public class EndConditionsTest {
 
         board.updateSettlements();
         assertTrue(EndConditions.noValidMoves(currentPlayer, board));
+    }
+
+    @Test
+    public void testCanGetWinnerWhenPlayerCantMakeAValidMove() throws InvalidMoveException {
+        currentPlayer.getPieceSet().placeMultipleVillagers(20);
+        Player winner = EndConditions.calculateWinner(currentPlayer, players);
+        assertTrue(winner != currentPlayer);
+    }
+
+    @Test
+    public void testCanGetWinnerWhenPlayerPlaysLastPieceCurrentPlayerWins() throws InvalidMoveException {
+        currentPlayer.getPieceSet().placeMultipleVillagers(20);
+        for(int totoros = 0; totoros < 3; totoros++) { currentPlayer.getPieceSet().placeTotoro(); }
+        for(int tigers = 0; tigers < 2; tigers++) { currentPlayer.getPieceSet().placeTiger(); }
+        currentPlayer.getScore().addPoints(1);
+        Player winner = EndConditions.calculateWinner(currentPlayer, players);
+        assertTrue(winner == currentPlayer);
+    }
+
+    @Test
+    public void testCanGetWinnerWhenPlayerPlaysLastPieceCurrentPlayerLoses() throws InvalidMoveException {
+        currentPlayer.getPieceSet().placeMultipleVillagers(20);
+        for(int totoros = 0; totoros < 3; totoros++) { currentPlayer.getPieceSet().placeTotoro(); }
+        for(int tigers = 0; tigers < 2; tigers++) { currentPlayer.getPieceSet().placeTiger(); }
+        players.get(1).getScore().addPoints(1);
+        Player winner = EndConditions.calculateWinner(currentPlayer, players);
+        assertTrue(winner != currentPlayer);
+    }
+
+    @Test
+    public void testCanGetWinnerWhenPlayerPlaysLastPieceScoresTied() throws InvalidMoveException {
+        currentPlayer.getPieceSet().placeMultipleVillagers(20);
+        for(int totoros = 0; totoros < 3; totoros++) { currentPlayer.getPieceSet().placeTotoro(); }
+        for(int tigers = 0; tigers < 2; tigers++) { currentPlayer.getPieceSet().placeTiger(); }
+        Player winner = EndConditions.calculateWinner(currentPlayer, players);
+        assertTrue(winner == currentPlayer);
     }
 }

@@ -32,14 +32,14 @@ public class MessengerTest {
     
     @Ignore("Skipping messenger processes outbound queue test") @Test
     public void testCanRemoveMessageFromQueue() throws InterruptedException {
-        messenger.outboundQueue.add("New message");
-        assertTrue(messenger.removeMessageFromQueue().equals("New message"));
+        messenger.outboundQueue.add(new Message("New message"));
+        assertTrue(messenger.removeMessageFromQueue().toString().equals("New message"));
     }
 
     @Ignore("Skipping write to messenger test") @Test
     public void testCanWriteToMessageQueueFromOutsideProcess() throws InterruptedException {
-        globalSettings.outboundQueue.add("New message");
-        assertTrue(messenger.removeMessageFromQueue().equals("New message"));
+        globalSettings.outboundQueue.add(new Message("New message"));
+        assertTrue(messenger.removeMessageFromQueue().toString().equals("New message"));
     }
 
 }

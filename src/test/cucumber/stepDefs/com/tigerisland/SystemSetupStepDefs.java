@@ -14,7 +14,7 @@ public class SystemSetupStepDefs {
 
     private TigerIsland tigerIsland;
     private Game aGame;
-    private PlayerList playerList;
+    private PlayerSet playerSet;
     private Board board;
 
     private boolean gameRunning = false;
@@ -28,7 +28,7 @@ public class SystemSetupStepDefs {
 
     @And("^that game has players$")
     public void thatGameHasPlayers() throws Throwable {
-        playerList = aGame.getGameSettings().getPlayerList();
+        playerSet = aGame.getGameSettings().getPlayerSet();
     }
 
     @When("^the game has not yet started$")
@@ -38,7 +38,7 @@ public class SystemSetupStepDefs {
 
     @Then("^all players have (\\d+) points$")
     public void allPlayersHavePoints(int arg0) throws Throwable {
-        for(Player player: playerList.getPlayerList()) {
+        for(Player player: playerSet.getPlayerList()) {
             if(player.getScore().getScoreValue() != arg0) {
                 assertTrue(false);
             }
@@ -53,7 +53,7 @@ public class SystemSetupStepDefs {
 
     @Then("^all players have (\\d+) villagers$")
     public void allPlayersHaveVillagers(int arg0) throws Throwable {
-        for(Player player: playerList.getPlayerList()) {
+        for(Player player: playerSet.getPlayerList()) {
             if(player.getPieceSet().getNumberOfVillagersRemaining() != arg0) {
                 assertTrue(false);
             }
@@ -63,7 +63,7 @@ public class SystemSetupStepDefs {
 
     @Then("^all players have (\\d+) totoros$")
     public void allPlayersHaveTotoros(int arg0) throws Throwable {
-        for(Player player: playerList.getPlayerList()) {
+        for(Player player: playerSet.getPlayerList()) {
             if(player.getPieceSet().getNumberOfTotoroRemaining() != arg0) {
                 assertTrue(false);
             }

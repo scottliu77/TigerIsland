@@ -1,6 +1,7 @@
 package com.tigerisland.messenger;
 
 import com.tigerisland.GlobalSettings;
+import com.tigerisland.ServerSettings;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,11 +25,11 @@ public class LocalServer implements Runnable {
     public LocalServer(GlobalSettings globalSettings) {
         this.globalSettings = globalSettings;
         try {
-            this.addr = InetAddress.getByName(globalSettings.IPaddress);
+            this.addr = InetAddress.getByName(globalSettings.getServerSettings().IPaddress);
         } catch (UnknownHostException exception) {
             exception.printStackTrace();
         }
-        this.port = globalSettings.port;
+        this.port = globalSettings.getServerSettings().port;
     }
 
     public void run() {
@@ -60,11 +61,11 @@ public class LocalServer implements Runnable {
     private static class Messenger implements Callable<Boolean> {
 
         private Socket dummySocket;
-        private BlockingQueue<String> messagesReceived;
+        private BlockingQueue<Message> messagesReceived;
         private BufferedReader reader;
         private String message;
 
-        Messenger(Socket socket, BlockingQueue<String> messagesReceived) {
+        Messenger(Socket socket, BlockingQueue<Message> messagesReceived) {
             this.dummySocket = socket;
             this.messagesReceived = messagesReceived;
         }
@@ -77,11 +78,11 @@ public class LocalServer implements Runnable {
                    message = reader.readLine();
                    if (message == null) {
                        return true;
-                   } else if (message.equals(GlobalSettings.END_CODE)) {
+                   } else if (message.equals(ServerSettings.END_CODE)) {
                        return false;
                    } else {
                        try {
-                           messagesReceived.put(message);
+                           messagesReceived.put(new Message(message));
                        } catch (InterruptedException e) {
                            e.printStackTrace();
                        }

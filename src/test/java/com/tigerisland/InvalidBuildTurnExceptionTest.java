@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
 
-public class InvalidBuildActionExceptionTest {
+public class InvalidBuildTurnExceptionTest {
 
     @Test
     public void testCanThrowInvalidMoveException() {

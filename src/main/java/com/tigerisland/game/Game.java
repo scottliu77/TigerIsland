@@ -6,148 +6,85 @@ import com.tigerisland.InvalidMoveException;
 import java.util.concurrent.BlockingQueue;
 
 public class Game implements Runnable {
-    private static final int TOTORO_POINT_VALUE = 200;
-    private static final int VILLAGER_POINT_VALUE = 1;
-    private static final int TIGER_POINT_VALUE = 75;
+
+    public final int gameID;
+    private int moveID;
 
     protected GameSettings gameSettings;
     protected Board board;
-    protected TilePlacement currentTilePlacement;
-    protected BuildAction currentBuildAction;
+    protected Turn turnState;
     protected BlockingQueue inboundQueue;
 
-    public Game(GameSettings gameSettings){
+    public Game(int gameID, GameSettings gameSettings){
+        this.gameID = gameID;
         this.gameSettings = gameSettings;
-        board = new Board();
-        this.inboundQueue = gameSettings.globalSettings.inboundQueue;
+        this.board = new Board();
+        this.inboundQueue = gameSettings.getGlobalSettings().inboundQueue;
     }
 
     public void run() {
-        // TODO add checking for interrupted exception
-        while(gameIsNotOver()) {
-            takeTurn();
-            gameSettings.getPlayerList().setNextPlayer();
-        }
-
-        // TODO fancy game-ending stuff
-    }
-
-    protected boolean gameIsNotOver() {
-        return EndConditions.noEndConditionsAreMet(gameSettings.getPlayerList().getCurrentPlayer(), board);
-    }
-
-    protected void takeTurn() {
         try {
-            proccessMessages();
-            placeTile(currentTilePlacement);
+            while(true) {
 
-            switch (currentBuildAction.getBuildActionType()) {
-                case VILLAGECREATION:
-                    createVillage(currentBuildAction);
-                case VILLAGEEXPANSION:
-                    expandVillage(currentBuildAction);
-                case TOTOROPLACEMENT:
-                    placeTotoro(currentBuildAction);
-                case TIGERPLACEMENT:
-                    placeTiger(currentBuildAction);
+                if(!Thread.currentThread().isInterrupted()) {
+                    throw new InterruptedException();
+                }
+
+                if(!takeAnotherTurn()) {
+                    break;
+                }
+
             }
+        } catch (InterruptedException exception) {
+            // do something about being interrupted
+
         } catch (InvalidMoveException exception) {
-            // runInvalidMoveEndCondtion();
+            // do something about making an invalid move
+
+        } finally {
+            EndConditions.calculateWinner(gameSettings.getPlayerSet().getCurrentPlayer(), gameSettings.getPlayerSet().getPlayerList());
+            // TODO return winner information or display to screen
         }
     }
 
-    protected void proccessMessages() {
-        currentTilePlacement = null;
-        currentBuildAction = null;
+    private Boolean takeAnotherTurn() throws InvalidMoveException, InterruptedException {
 
-        // Read message from inbound queue
-        getTilePlacementFromMessage();
-        getBuildActionFromMessage();
+        packageTurnState();
+
+        turnState = Move.placeTile(turnState);
+
+        if(EndConditions.noValidMoves(gameSettings.getPlayerSet().getCurrentPlayer(), board)) {
+            return false;
+        }
+
+        turnState = Move.takeBuildAction(turnState);
+
+        if(EndConditions.playerIsOutOfPieces(gameSettings.getPlayerSet().getCurrentPlayer())) {
+            return false;
+        }
+
+        unpackageTurnState(turnState);
+
+        gameSettings.getPlayerSet().setNextPlayer();
+        moveID++;
+
+        return true;
     }
 
-    protected void getTilePlacementFromMessage() {
-        // TODO replace with assembler from string message
-        Tile newTile = new Tile(Terrain.LAKE, Terrain.GRASSLANDS);
-        Location newLocation = new Location(0, 1);
-        int newRotation = 60;
-        currentTilePlacement = new TilePlacement(newTile, newLocation, newRotation);
+    private Turn packageTurnState() throws InterruptedException, InvalidMoveException {
+
+        turnState = new Turn(gameSettings.getPlayerSet().getCurrentPlayer(), board);
+
+        turnState.updateTilePlacement(gameID, moveID, inboundQueue);
+        turnState.updatedBuildAction(gameID, moveID, inboundQueue);
+
+        return turnState;
+
     }
 
-    protected void getBuildActionFromMessage() {
-        // TODO replace with assembler from string message
-        Player currentPlayer = gameSettings.getPlayerList().getCurrentPlayer();
-        Location placementLocation = new Location(0, 1);
-        currentBuildAction = new BuildAction(currentPlayer, placementLocation, BuildActionType.VILLAGECREATION);
-    }
-
-
-    protected void placeTile(TilePlacement tilePlacement) throws InvalidMoveException {
-        // Save create temp copy of board
-        Board tempBoard = new Board(board);
-
-        //Update Settlements before and after placing a tile to avoid problems when settlements change
-        tempBoard.updateSettlements();
-        tempBoard.placeTile(tilePlacement.getTile(), tilePlacement.getLocation(), tilePlacement.getRotation());
-        tempBoard.updateSettlements();
-
-        // Update board state
-        board = tempBoard;
-    }
-
-    protected void createVillage(BuildAction buildAction) throws InvalidMoveException {
-        // Save temp copies of board and game
-        Player tempPlayer = new Player(gameSettings.getPlayerList().getCurrentPlayer());
-        Board tempBoard = new Board(board);
-
-        tempBoard.createVillage(tempPlayer, buildAction.getLocation());
-        tempPlayer.getPieceSet().placeVillager();
-        tempPlayer.getScore().addPoints(VILLAGER_POINT_VALUE);
-        tempBoard.updateSettlements();
-
-        // Update board and game state
-        gameSettings.getPlayerList().updatePlayerState(tempPlayer);
-        board = tempBoard;
-    }
-
-    protected void expandVillage(BuildAction buildAction) throws InvalidMoveException {
-        // Save temp copies of board and player
-        Player tempPlayer = new Player(gameSettings.getPlayerList().getCurrentPlayer());
-        Board tempBoard = new Board(board);
-
-        tempBoard.expandVillage(tempPlayer, buildAction.getLocation(), buildAction.getSettlementLocation());
-        tempBoard.updateSettlements();
-
-        // Update board and player state
-        gameSettings.getPlayerList().updatePlayerState(tempPlayer);
-        board = tempBoard;
-    }
-
-    protected void placeTotoro(BuildAction buildAction) throws InvalidMoveException {
-        // Save temp copies of board and game
-        Player tempPlayer = new Player(gameSettings.getPlayerList().getCurrentPlayer());
-        Board tempBoard = new Board(board);
-
-        tempBoard.placeTotoro(tempPlayer, buildAction.getLocation());
-        tempBoard.updateSettlements();
-        tempPlayer.getScore().addPoints(TOTORO_POINT_VALUE);
-
-        // Update board and game state
-        gameSettings.getPlayerList().updatePlayerState(tempPlayer);
-        board = tempBoard;
-    }
-
-    protected void placeTiger(BuildAction buildAction) throws InvalidMoveException {
-        // Save temp copies of board and game
-        Player tempPlayer = new Player(gameSettings.getPlayerList().getCurrentPlayer());
-        Board tempBoard = new Board(board);
-
-        tempBoard.placeTiger(tempPlayer, buildAction.getLocation());
-        tempBoard.updateSettlements();
-        tempPlayer.getScore().addPoints(TIGER_POINT_VALUE);
-
-        // Update board and game state
-        gameSettings.getPlayerList().updatePlayerState(tempPlayer);
-        board = tempBoard;
+    private void unpackageTurnState(Turn turnState) {
+        gameSettings.getPlayerSet().getCurrentPlayer().updatePlayerState(turnState.getPlayer());
+        board = turnState.getBoard();
     }
 
     public GameSettings getGameSettings() {
@@ -156,5 +93,13 @@ public class Game implements Runnable {
 
     public Board getBoard() {
         return board;
+    }
+
+    public int getGameID() {
+        return gameID;
+    }
+
+    public int getMoveID() {
+        return moveID;
     }
 }

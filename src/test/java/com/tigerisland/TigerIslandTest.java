@@ -39,7 +39,7 @@ public class TigerIslandTest {
         } catch (ArgumentParserException e) {
             e.printStackTrace();
         }
-        assertTrue(tigerIsland.globalSettings.offline == true);
+        assertTrue(tigerIsland.globalSettings.getServerSettings().offline == true);
     }
 
 //    @Test
@@ -59,7 +59,7 @@ public class TigerIslandTest {
         } catch (ArgumentParserException e) {
             e.printStackTrace();
         }
-        assertTrue(tigerIsland.globalSettings.offline == true);
+        assertTrue(tigerIsland.globalSettings.getServerSettings().offline == true);
 
     }
 
@@ -70,7 +70,7 @@ public class TigerIslandTest {
         } catch (ArgumentParserException e) {
             e.printStackTrace();
         }
-        assertTrue(tigerIsland.globalSettings.offline == true);
+        assertTrue(tigerIsland.globalSettings.getServerSettings().offline == true);
     }
 
     @Test
@@ -137,7 +137,7 @@ public class TigerIslandTest {
     public void testCanCreateMatchUsingRealisticInput() {
         try {
             tigerIsland.parseArguments(argsRealisticExample);
-            assertTrue(tigerIsland.globalSettings.username.equals("username"));
+            assertTrue(tigerIsland.globalSettings.getServerSettings().username.equals("username"));
         } catch (ArgumentParserException exception) {
             assertTrue(false);
         }

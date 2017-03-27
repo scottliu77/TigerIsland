@@ -1,6 +1,6 @@
 package com.tigerisland;
 
-import com.tigerisland.game.PlayerList;
+import com.tigerisland.game.PlayerSet;
 import com.tigerisland.game.Game;
 import com.tigerisland.game.Terrain;
 import com.tigerisland.game.Tile;
@@ -17,7 +17,7 @@ public class OfflineSystemSetupStepDefs {
 
     private TigerIsland tigerIsland;
     private Game aGame;
-    private PlayerList playerList;
+    private PlayerSet playerSet;
     private Deck deck;
     private Boolean gameRunning = false;
 
@@ -26,13 +26,13 @@ public class OfflineSystemSetupStepDefs {
         tigerIsland = new TigerIsland();
         tigerIsland.parseArguments(new String[]{});
         aGame = tigerIsland.match.games.get(0);
-        assertTrue(aGame.getGameSettings().globalSettings.offline);
+        assertTrue(aGame.getGameSettings().getGlobalSettings().getServerSettings().offline);
     }
 
     @And("^that offline game has players$")
     public void thatGameHasPlayers() throws Throwable {
-        assertTrue(aGame.getGameSettings().globalSettings.offline);
-        playerList = aGame.getGameSettings().getPlayerList();
+        assertTrue(aGame.getGameSettings().getGlobalSettings().getServerSettings().offline);
+        playerSet = aGame.getGameSettings().getPlayerSet();
     }
 
     @When("^the offline game has not yet started$")

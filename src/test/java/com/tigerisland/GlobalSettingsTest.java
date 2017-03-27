@@ -1,5 +1,6 @@
 package com.tigerisland;
 
+import com.tigerisland.messenger.Message;
 import gherkin.formatter.model.Examples;
 import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
@@ -27,9 +28,9 @@ public class GlobalSettingsTest {
     @Test
     public void testCanCreateSettingsWithFullConstructor() {
         try {
-            GlobalSettings globalSettings = new GlobalSettings(GlobalSettings.defaultOffline, GlobalSettings.defaultGames,
-                    GlobalSettings.defaultPlayers, GlobalSettings.defaultTurnTime, GlobalSettings.defaultIPaddress,
-                    GlobalSettings.defaultPort, GlobalSettings.defaultUsername, GlobalSettings.defaultPassword, parser);
+            GlobalSettings globalSettings = new GlobalSettings(ServerSettings.defaultOffline, GlobalSettings.defaultGames,
+                    GlobalSettings.defaultPlayers, GlobalSettings.defaultTurnTime, ServerSettings.defaultIPaddress,
+                    ServerSettings.defaultPort, ServerSettings.defaultUsername, ServerSettings.defaultPassword, parser);
         } catch (ArgumentParserException e) {
             e.printStackTrace();
         }
@@ -38,13 +39,13 @@ public class GlobalSettingsTest {
     }
     @Test
     public void testCanGetOfflineStatus() {
-        assertTrue(globalSettings.offline);
+        assertTrue(globalSettings.getServerSettings().offline);
     }
 
     @Test
     public void testCannotSetTooFewPlayers() {
         try {
-            GlobalSettings globalSettings = new GlobalSettings(GlobalSettings.defaultOffline, GlobalSettings.defaultGames, GlobalSettings.minPlayers - 1, GlobalSettings.defaultTurnTime);
+            GlobalSettings globalSettings = new GlobalSettings(ServerSettings.defaultOffline, GlobalSettings.defaultGames, GlobalSettings.minPlayers - 1, GlobalSettings.defaultTurnTime);
             assertTrue(false);
         } catch (ArgumentParserException e) {
             assertTrue(true);
@@ -54,7 +55,7 @@ public class GlobalSettingsTest {
     @Test
     public void testCannotSetTooManyPlayers() {
         try {
-            GlobalSettings globalSettings = new GlobalSettings(GlobalSettings.defaultOffline, GlobalSettings.defaultGames, GlobalSettings.maxPlayers + 1, GlobalSettings.defaultTurnTime);
+            GlobalSettings globalSettings = new GlobalSettings(ServerSettings.defaultOffline, GlobalSettings.defaultGames, GlobalSettings.maxPlayers + 1, GlobalSettings.defaultTurnTime);
             assertTrue(false);
         } catch (ArgumentParserException e) {
             assertTrue(true);
@@ -64,7 +65,7 @@ public class GlobalSettingsTest {
     @Test
     public void testCannotSetTooFewGames() {
         try {
-            GlobalSettings globalSettings = new GlobalSettings(GlobalSettings.defaultOffline, GlobalSettings.minGames - 1, GlobalSettings.defaultPlayers, GlobalSettings.defaultTurnTime);
+            GlobalSettings globalSettings = new GlobalSettings(ServerSettings.defaultOffline, GlobalSettings.minGames - 1, GlobalSettings.defaultPlayers, GlobalSettings.defaultTurnTime);
             assertTrue(false);
         } catch (ArgumentParserException e) {
             assertTrue(true);
@@ -74,7 +75,7 @@ public class GlobalSettingsTest {
     @Test
     public void testCannotSetTooManyGames() {
         try {
-            GlobalSettings globalSettings = new GlobalSettings(GlobalSettings.defaultOffline, GlobalSettings.maxGames + 1, GlobalSettings.defaultPlayers, GlobalSettings.defaultTurnTime);
+            GlobalSettings globalSettings = new GlobalSettings(ServerSettings.defaultOffline, GlobalSettings.maxGames + 1, GlobalSettings.defaultPlayers, GlobalSettings.defaultTurnTime);
             assertTrue(false);
         } catch (ArgumentParserException e) {
             assertTrue(true);
@@ -84,7 +85,7 @@ public class GlobalSettingsTest {
     @Test
     public void testCannotSetTooShortOfRounds() {
         try {
-            GlobalSettings globalSettings = new GlobalSettings(GlobalSettings.defaultOffline, GlobalSettings.defaultGames, GlobalSettings.defaultPlayers, GlobalSettings.minTurnTime - 1);
+            GlobalSettings globalSettings = new GlobalSettings(ServerSettings.defaultOffline, GlobalSettings.defaultGames, GlobalSettings.defaultPlayers, GlobalSettings.minTurnTime - 1);
             assertTrue(false);
         } catch (ArgumentParserException e) {
             assertTrue(true);
@@ -94,7 +95,7 @@ public class GlobalSettingsTest {
     @Test
     public void testCannotSetTooLongOfRounds() {
         try {
-            GlobalSettings globalSettings = new GlobalSettings(GlobalSettings.defaultOffline, GlobalSettings.defaultGames, GlobalSettings.defaultPlayers, GlobalSettings.maxTurnTime + 1);
+            GlobalSettings globalSettings = new GlobalSettings(ServerSettings.defaultOffline, GlobalSettings.defaultGames, GlobalSettings.defaultPlayers, GlobalSettings.maxTurnTime + 1);
             assertTrue(false);
         } catch (ArgumentParserException e) {
             assertTrue(true);
@@ -119,8 +120,8 @@ public class GlobalSettingsTest {
     @Test
     public void testCanUseInboundQueue() {
         try {
-            globalSettings.inboundQueue.add("New inbound string");
-            assertTrue(globalSettings.inboundQueue.remove().equals("New inbound string"));
+            globalSettings.inboundQueue.add(new Message("New inbound string"));
+            assertTrue(globalSettings.inboundQueue.remove().toString().equals("New inbound string"));
         } catch (Exception exception) {
             assert false;
         }
@@ -129,8 +130,8 @@ public class GlobalSettingsTest {
     @Test
     public void testCanUseOutboundQueue() {
         try {
-            globalSettings.outboundQueue.add("New outbound string");
-            assertTrue(globalSettings.outboundQueue.remove().equals("New outbound string"));
+            globalSettings.outboundQueue.add(new Message("New outbound string"));
+            assertTrue(globalSettings.outboundQueue.remove().toString().equals("New outbound string"));
         } catch (Exception exception) {
             assert false;
         }
