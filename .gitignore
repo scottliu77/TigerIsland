@@ -6,3 +6,4 @@ out/
 !/cucumber/
 !/src/test/cucumber/
 /target/
+/classes/

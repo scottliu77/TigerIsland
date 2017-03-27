@@ -2,6 +2,7 @@ package com.tigerisland;
 
 
 import com.tigerisland.game.*;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -21,9 +22,11 @@ public class BuildOptionStepDefs{
     private ArrayList<PlacedHex> placedHexes;
     private Player player;
     private PlacedHex hexToPlaceTotoro;
+    private PlacedHex hexToPlaceTiger;
     private String caughtErrorMessage;
     private String expectedErrorMessage;
     private Location locationToPlaceTotoro;
+    private Location locationToPlaceTiger;
     private int originalNumberOfTotoroRemaining;
     private int originalNumberOfVillagersRemaining;
 
@@ -102,6 +105,27 @@ public class BuildOptionStepDefs{
 
     }
 
+    @Given("^a hex is of level three or greater$")
+    public void addVolcanoHexOfLevelThreeToBoard() {
+        expectedErrorMessage = "Cannot place a piece on a volcano hex";
+        Hex volcanoHex = new Hex("volcanoHex", Terrain.VOLCANO, 3);
+        locationToPlaceTiger = new Location(0,0);
+        hexToPlaceTiger = new PlacedHex(volcanoHex, locationToPlaceTiger);
+        placedHexes.add(hexToPlaceTiger);
+        board.setPlacedHexes(placedHexes);
+
+    }
+
+    @Given("^a hex is not a volcano$")
+    public void addNonVolcanoHexOfHeightLessThanThreeToBoard() {
+        expectedErrorMessage = "Cannot build Tiger playground on hex of level less than 3";
+        Hex hex = new Hex("hex", Terrain.GRASSLANDS, 2);
+        locationToPlaceTiger = new Location(0,0);
+        hexToPlaceTiger = new PlacedHex(hex, locationToPlaceTiger);
+        placedHexes.add(hexToPlaceTiger);
+        board.setPlacedHexes(placedHexes);
+    }
+
     @When("^a player tries to place a totoro in the settlement$")
     public void attemptToPlaceTotoro() throws InvalidMoveException {
         try {
@@ -156,6 +180,24 @@ public class BuildOptionStepDefs{
         }
     }
 
+    @When("^a player tries to place a tiger on a volcano$")
+    public void attemptToPlaceTigerOnVolcano() throws InvalidMoveException {
+        try {
+            board.placeTiger(player, hexToPlaceTiger.getLocation());
+        } catch (InvalidMoveException e) {
+            caughtErrorMessage = e.getMessage();
+        }
+    }
+
+    @When("^a player tries to place a tiger on a hex of height three or less$")
+    public void attemptToPlaceTigerOnHexOfHeightThreeOrLess() throws InvalidMoveException{
+        try {
+            board.placeTiger(player, hexToPlaceTiger.getLocation());
+        } catch (InvalidMoveException e) {
+            caughtErrorMessage = e.getMessage();
+        }
+    }
+
     @Then("^the move is rejected")
     public void expectedAndCaughtErrorMessageDontMatch(){
         assertTrue(caughtErrorMessage.equals(expectedErrorMessage));
@@ -203,7 +245,6 @@ public class BuildOptionStepDefs{
 
         return placedHex1;
     }
-
 
 
 
