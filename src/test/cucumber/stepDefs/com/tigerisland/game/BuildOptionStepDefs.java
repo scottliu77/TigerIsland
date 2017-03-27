@@ -60,10 +60,30 @@ public class BuildOptionStepDefs{
         Location loc5 = new Location(0,-2);
         PlacedHex placedHex5 = new PlacedHex(hex5, loc5);
         placedHexes.add(placedHex5);
-        Hex hex6 = new Hex("hex5", Terrain.GRASSLANDS);
+        Hex hex6 = new Hex("hex6", Terrain.GRASSLANDS);
         Location loc6 = new Location(0,-3);
         hexToPlaceTotoro = new PlacedHex(hex6, loc6);
         placedHexes.add(hexToPlaceTotoro);
+        Settlement settlement = new Settlement(placedHex1, placedHexes);
+
+        board.setPlacedHexes(placedHexes);
+        board.addSettlements(settlement);
+
+    }
+
+    @Given("^a settlement already containing a tiger$")
+    public void addSettlementWithTigerToBoard() {
+        expectedErrorMessage = "Cannot place Tiger in a settlement already containing a Tiger";
+        PlacedHex placedHex1 = setUpSettlement();
+        Hex hex5 = new Hex("hex5", Terrain.LAKE);
+        hex5.addPiecesToHex(new Piece(Color.BLACK, PieceType.TIGER), 1);
+        Location loc5 = new Location(0,-2);
+        PlacedHex placedHex5 = new PlacedHex(hex5, loc5);
+        placedHexes.add(placedHex5);
+        Hex hex6 = new Hex("hex6", Terrain.LAKE, 3);
+        Location loc6 = new Location(0, -3);
+        hexToPlaceTiger = new PlacedHex(hex6, loc6);
+        placedHexes.add(hexToPlaceTiger);
         Settlement settlement = new Settlement(placedHex1, placedHexes);
 
         board.setPlacedHexes(placedHexes);
@@ -196,6 +216,15 @@ public class BuildOptionStepDefs{
         try {
             board.placeTiger(player, hexToPlaceTiger.getLocation());
         } catch (InvalidMoveException e) {
+            caughtErrorMessage = e.getMessage();
+        }
+    }
+
+    @When("^a player tries to place a tiger in the settlement$")
+    public void attemptToPlaceTiger() throws InvalidMoveException {
+        try {
+            board.placeTiger(player, hexToPlaceTiger.getLocation());
+        } catch(Exception e) {
             caughtErrorMessage = e.getMessage();
         }
     }

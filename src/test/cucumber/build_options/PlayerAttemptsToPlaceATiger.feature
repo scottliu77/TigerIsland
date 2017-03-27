@@ -14,3 +14,8 @@ Feature: Placing Tiger Conditions
     Given a hex is not a volcano
     When a player tries to place a tiger on a hex
     Then the move is rejected
+
+  Scenario: When attempting to place a tiger on a settlement with a tiger in it, the build fails
+    Given a settlement already containing a tiger
+    When a player tries to place a tiger in the settlement
+    Then the move is rejected
