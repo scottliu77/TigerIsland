@@ -126,6 +126,17 @@ public class BuildOptionStepDefs{
         board.setPlacedHexes(placedHexes);
     }
 
+    @Given("^an occupied hex")
+    public void addAnOccupiedHexToBoard() {
+        expectedErrorMessage = "Target hex already contains piece(s)";
+        Hex hex = new Hex("hex", Terrain.GRASSLANDS, 2);
+        hex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        locationToPlaceTiger = new Location(0,0);
+        hexToPlaceTiger = new PlacedHex(hex, locationToPlaceTiger);
+        placedHexes.add(hexToPlaceTiger);
+        board.setPlacedHexes(placedHexes);
+    }
+
     @When("^a player tries to place a totoro in the settlement$")
     public void attemptToPlaceTotoro() throws InvalidMoveException {
         try {
@@ -180,7 +191,7 @@ public class BuildOptionStepDefs{
         }
     }
 
-    @When("^a player tries to place a tiger on a volcano$")
+    @When("^a player tries to place a tiger on a hex$")
     public void attemptToPlaceTigerOnVolcano() throws InvalidMoveException {
         try {
             board.placeTiger(player, hexToPlaceTiger.getLocation());
@@ -189,14 +200,6 @@ public class BuildOptionStepDefs{
         }
     }
 
-    @When("^a player tries to place a tiger on a hex of height three or less$")
-    public void attemptToPlaceTigerOnHexOfHeightThreeOrLess() throws InvalidMoveException{
-        try {
-            board.placeTiger(player, hexToPlaceTiger.getLocation());
-        } catch (InvalidMoveException e) {
-            caughtErrorMessage = e.getMessage();
-        }
-    }
 
     @Then("^the move is rejected")
     public void expectedAndCaughtErrorMessageDontMatch(){
