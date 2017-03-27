@@ -1,6 +1,5 @@
 package com.tigerisland.game;
 
-import com.sun.media.jfxmedia.events.BufferListener;
 import com.tigerisland.InvalidMoveException;
 import com.tigerisland.messenger.Message;
 import com.tigerisland.messenger.MessageType;
@@ -88,7 +87,7 @@ public class Turn {
         Location location = new Location(message.getX(), message.getY());
         if (buildActionType == BuildActionType.VILLAGEEXPANSION) {
             Location expandLocation = new Location(message.getNewX(), message.getNewY());
-            buildAction = new BuildAction(player, expandLocation, location);
+            buildAction = new BuildAction(player, location, expandLocation);
         } else {
             buildAction = new BuildAction(player, location, buildActionType);
         }

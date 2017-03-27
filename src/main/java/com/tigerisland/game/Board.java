@@ -122,9 +122,16 @@ public class Board{
     }
 
     private void placeHex(Hex hex, Location loc) throws InvalidMoveException {
-        int newHeight = (hexExistsAtLocation(loc))?(hexAt(loc).getHeight()+1):(1);
-        hex.setHeight(newHeight);
-        addHexToListOfPlacedHexes(hex, loc);
+        if(hexExistsAtLocation(loc)) {
+            PlacedHex replacedHex = placedHexAtLocation(loc);
+            int newHeight = hexAt(loc).getHeight() + 1;
+            hex.setHeight(newHeight);
+            placedHexes.set(placedHexes.indexOf(replacedHex), new PlacedHex(hex, loc));
+        } else {
+            hex.setHeight(1);
+            addHexToListOfPlacedHexes(hex, loc);
+            updateListOfEdgeSpaces(loc);
+        }
         updateListOfEdgeSpaces(loc);
     }
 
@@ -419,7 +426,7 @@ public class Board{
     }
 
     private boolean hexAvailableForSettlement(Hex currentHex) {
-        return currentHex.getPieceCount() == 0;
+        return currentHex.getPieceCount() <= 0;
     }
 
     private boolean ownedBySamePlayer(Hex hex, Player player){

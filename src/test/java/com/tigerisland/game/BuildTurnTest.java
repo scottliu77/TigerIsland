@@ -27,7 +27,7 @@ public class BuildTurnTest {
 
         this.tilePlacement = new TilePlacement(tile, location, rotation);
         this.villageCreationBuildAction = new BuildAction(player, location, BuildActionType.VILLAGECREATION);
-        this.villageExpansionBuildAction = new BuildAction(player, location, settlementLocation);
+        this.villageExpansionBuildAction = new BuildAction(player, settlementLocation, location);
     }
 
     @Test

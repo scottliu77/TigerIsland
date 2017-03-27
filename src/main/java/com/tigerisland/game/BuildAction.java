@@ -16,7 +16,7 @@ public class BuildAction {
     }
 
     // Expand settlement
-    BuildAction(Player player, Location locationToBeExpanded, Location settlementLocation){
+    BuildAction(Player player, Location settlementLocation, Location locationToBeExpanded){
         this.player = player;
         this.location = locationToBeExpanded;
         this.settlementLocation = settlementLocation;
