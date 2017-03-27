@@ -23,11 +23,14 @@ public class Turn {
     public void updateTilePlacement(int gameID, int moveID, BlockingQueue<Message> inboundMessages) throws InterruptedException, InvalidMoveException {
         while(true) {
             for(Message message : inboundMessages) {
-                if(message.getGameID() == gameID) {
+                if(message.getMessageType() != MessageType.PROCESSED) {
                     if(message.getMoveNumber() == moveID) {
-                        if(message.getMessageType() == MessageType.TILEPLACEMENT) {
-                            parseTilePlacement(message);
-                            return;
+                        if(message.getGameID() == gameID) {
+                            if(message.getMessageType() == MessageType.TILEPLACEMENT) {
+                                parseTilePlacement(message);
+                                message.setProcessed();
+                                return;
+                            }
                         }
                     }
                 }
@@ -61,20 +64,26 @@ public class Turn {
     public void updatedBuildAction(int gameID, int moveID, BlockingQueue<Message> inboundMessages) throws InterruptedException {
         while(true) {
             for(Message message : inboundMessages) {
-                if(message.getGameID() == gameID) {
-                    if(message.getMoveNumber() == moveID) {
-                        if(message.getMessageType() == MessageType.VILLAGECREATION) {
-                            parseBuildAction(message, BuildActionType.VILLAGECREATION);
-                            return;
-                        } else if (message.getMessageType() == MessageType.VILLAGEXPANSION) {
-                            parseBuildAction(message, BuildActionType.VILLAGEEXPANSION);
-                            return;
-                        } else if (message.getMessageType() == MessageType.TOTOROPLACEMENT) {
-                            parseBuildAction(message, BuildActionType.TOTOROPLACEMENT);
-                            return;
-                        } else if (message.getMessageType() == MessageType.TIGERPLACEMENT) {
-                            parseBuildAction(message, BuildActionType.TIGERPLACEMENT);
-                            return;
+                if(message.getMessageType() != MessageType.PROCESSED) {
+                    if(message.getGameID() == gameID) {
+                        if(message.getMoveNumber() == moveID) {
+                            if(message.getMessageType() == MessageType.VILLAGECREATION) {
+                                parseBuildAction(message, BuildActionType.VILLAGECREATION);
+                                message.setProcessed();
+                                return;
+                            } else if (message.getMessageType() == MessageType.VILLAGEXPANSION) {
+                                parseBuildAction(message, BuildActionType.VILLAGEEXPANSION);
+                                message.setProcessed();
+                                return;
+                            } else if (message.getMessageType() == MessageType.TOTOROPLACEMENT) {
+                                parseBuildAction(message, BuildActionType.TOTOROPLACEMENT);
+                                message.setProcessed();
+                                return;
+                            } else if (message.getMessageType() == MessageType.TIGERPLACEMENT) {
+                                parseBuildAction(message, BuildActionType.TIGERPLACEMENT);
+                                message.setProcessed();
+                                return;
+                            }
                         }
                     }
                 }

@@ -145,4 +145,8 @@ public class Message {
     public MessageType getMessageType() {
         return messageType;
     }
+
+    public void setProcessed() {
+        messageType = MessageType.PROCESSED;
+    }
 }
