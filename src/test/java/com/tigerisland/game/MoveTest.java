@@ -98,7 +98,6 @@ public class MoveTest {
         createInitialVillage();
 
         inboundMessages.add(new Message("GAME 1 MOVE 1 EXPAND 1 -3 AT 2 -3"));
-        inboundMessages.remove();
         turn.updatedBuildAction(1, 1, inboundMessages);
         turn = Move.takeBuildAction(turn);
 
