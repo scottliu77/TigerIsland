@@ -400,7 +400,6 @@ public class Board{
         }
     }
 
-
     public boolean isAnAvailableEdgeSpace(Location loc){
         int bot = 0;
         int top = edgeSpaces.size()-1;
@@ -456,22 +455,9 @@ public class Board{
         return currentHex.getPieceCount() <= 0;
     }
 
-    private boolean ownedBySamePlayer(Hex hex, Player player){
-        return player.getPlayerColor().equals(hex.getPieceColor());
-    }
-
-    public ArrayList<Location> locationsOfPlacedHexes(){
-        ArrayList<Location> locationsOfPlacedHexes = new ArrayList<Location>();
-        for(PlacedHex placedHex : placedHexes){
-            locationsOfPlacedHexes.add(placedHex.getLocation());
-        }
-        return  locationsOfPlacedHexes;
-    }
-
 
     //TODO: Make sure if a totoro is placed between two settlements and one can accept it but the other
     //TODO: has a totoro, that the build should succeed
-
     public void placeTotoro(Player player, Location location) throws InvalidMoveException{
         PlacedHex placedHex = placedHexAtLocation(location);
         if (placedHex == null) {
@@ -537,15 +523,6 @@ public class Board{
         if(settlement.size() < minimumSizeRequireForTigerAfterPlacement) {
             throw new InvalidMoveException("Cannot place Tiger in a settlement of size smaller than 1");
         }
-    }
-
-
-    public ArrayList<Hex> hexesOfPlacedHexes(){
-        ArrayList<Hex> hexesOfPlacedHexes = new ArrayList<Hex>();
-        for(PlacedHex placedHex : placedHexes){
-            hexesOfPlacedHexes.add(placedHex.getHex());
-        }
-        return  hexesOfPlacedHexes;
     }
 
     public void updateSettlements(){

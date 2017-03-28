@@ -5,9 +5,8 @@ import java.util.ArrayList;
 
 public class TextGUI {
 
-    private ArrayList<Location> placedHexLocations;
+    private ArrayList<PlacedHex> placedHexes;
     private ArrayList<Location> edgeSpaces;
-    private ArrayList<Hex> placedHexTiles;
 
     private int leftMost;
     private int rightMost;
@@ -21,15 +20,9 @@ public class TextGUI {
     private int yDimensionMax;
     private char[][] map;
 
-    public static void printPlacedHexLocations(ArrayList<Location> placedHexLocations) {
+    public static void printPlacedHexes(ArrayList<PlacedHex> placedHexes) {
         System.out.println("HexLocations:");
-        Location.printLocations(placedHexLocations);
-        System.out.println();
-    }
-
-    public static void printPlacedHexTiles(ArrayList<Hex> placedHexTiles) {
-        System.out.println("HexDescription");
-        Hex.printHexes(placedHexTiles);
+        PlacedHex.printPlacedHexes(placedHexes);
         System.out.println();
     }
 
@@ -40,17 +33,15 @@ public class TextGUI {
     }
 
     public static void printMap(Board board){
-        ArrayList<Location> placedHexLocations = board.locationsOfPlacedHexes();
+        ArrayList<PlacedHex> placedHexes = board.getPlacedHexes();
         ArrayList<Location> edgeSpaces = board.edgeSpaces;
-        ArrayList<Hex> placedHexTiles = board.hexesOfPlacedHexes();
-        TextGUI map = new TextGUI(placedHexLocations, edgeSpaces, placedHexTiles);
+        TextGUI map = new TextGUI(placedHexes, edgeSpaces);
         map.constructMap();
     }
 
-    public TextGUI(ArrayList<Location> placedHexLocations, ArrayList<Location> edgeSpaces, ArrayList<Hex> placedHexTiles){
-        this.placedHexLocations = placedHexLocations;
+    public TextGUI(ArrayList<PlacedHex> placedHexes, ArrayList<Location> edgeSpaces){
+        this.placedHexes = placedHexes;
         this.edgeSpaces = edgeSpaces;
-        this.placedHexTiles = placedHexTiles;
     }
 
     public void constructMap(){
@@ -174,10 +165,10 @@ public class TextGUI {
     }
 
     private void placeHexesOnMap(){
-        for(int ii=0; ii<placedHexTiles.size(); ii++){
-            Hex hex = placedHexTiles.get(ii);
-            int x = placedHexLocations.get(ii).x;
-            int y = placedHexLocations.get(ii).y;
+        for(int ii=0; ii<placedHexes.size(); ii++){
+            Hex hex = placedHexes.get(ii).getHex();
+            int x = placedHexes.get(ii).getLocation().x;
+            int y = placedHexes.get(ii).getLocation().y;
 
             int centerX = 4 + (x*2-leftMost)*3 + y*3;
             int centerY = 4 + (topMost-y)*5;
