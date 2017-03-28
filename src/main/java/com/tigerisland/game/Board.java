@@ -468,6 +468,10 @@ public class Board{
         return  locationsOfPlacedHexes;
     }
 
+
+    //TODO: Make sure if a totoro is placed between two settlements and one can accept it but the other
+    //TODO: has a totoro, that the build should succeed
+
     public void placeTotoro(Player player, Location location) throws InvalidMoveException{
         PlacedHex placedHex = placedHexAtLocation(location);
         if (placedHex == null) {
@@ -479,42 +483,26 @@ public class Board{
         if (placedHex.getHex().getHexTerrain() == Terrain.VOLCANO) {
             throw new InvalidMoveException("Cannot place a piece on a volcano hex");
         }
-        PlacedHex tempPlacedHex = new PlacedHex(placedHex);
-        Player tempPlayer = new Player(player);
-        tempPlacedHex.getHex().addPiecesToHex(tempPlayer.getPieceSet().placeVillager(), 1);
-        placedHexes.add(tempPlacedHex);
-        Settlement settlement = new Settlement(tempPlacedHex, placedHexes);
-
-        if(settlement.containsTotoro()){
-            throw new InvalidMoveException("Cannot place totoro in a settlement already containing a Totoro");
+        ArrayList<Settlement> adjacentSettlementsToTargetLocation = findAdjacentSettlementsToLocation(placedHex.getLocation());
+        boolean noAdjacentSettlementWithoutTotoro = false;
+        removeSettlementsThatCantAcceptTotoroFromList(adjacentSettlementsToTargetLocation);
+        if(adjacentSettlementsToTargetLocation.size() == 0){
+            throw new InvalidMoveException("Settlement already contains a totoro or is too small");
         }
-
-        if(tempPlacedHexWasConnectingTwoSmallSettlements(settlement, tempPlacedHex)){
-            throw new InvalidMoveException("Cannot place totoro in a settlement of size 4 or smaller!");
-        }
-
-        placedHexes.remove(tempPlacedHex);
         placedHex.getHex().addPiecesToHex(player.getPieceSet().placeTotoro(), 1);
-        int minimumSizeRequireForTotoroAfterPlacement = SIZE_REQUIRED_FOR_TOTORO + 1;
-        settlement = new Settlement(placedHex, placedHexes);
 
-        if(settlement.size() < minimumSizeRequireForTotoroAfterPlacement) {
-            throw new InvalidMoveException("Cannot place totoro in a settlement of size 4 or smaller!");
-        }
     }
 
-    private boolean tempPlacedHexWasConnectingTwoSmallSettlements(Settlement settlement, PlacedHex tempPlacedHex){
-        ArrayList<PlacedHex> hexesInSettlement = settlement.getHexesInSettlement();
-        hexesInSettlement.remove(tempPlacedHex);
-        placedHexes.remove(tempPlacedHex);
-        for(PlacedHex currentHex : hexesInSettlement){
-            Settlement settlementWithoutTempHex = new Settlement(currentHex, placedHexes);
-            if(settlementWithoutTempHex.size() >= SIZE_REQUIRED_FOR_TOTORO) {
-                return false;
+    private void removeSettlementsThatCantAcceptTotoroFromList(ArrayList<Settlement> adjacentSettlementsToTargetLocation) {
+        Iterator<Settlement> iter = adjacentSettlementsToTargetLocation.iterator();
+        while(iter.hasNext()){
+            Settlement adjacentSettlement = iter.next();
+            if(adjacentSettlement.containsTotoro() || adjacentSettlement.size()<SIZE_REQUIRED_FOR_TOTORO) {
+                iter.remove();
             }
         }
-        return true;
     }
+
 
     public void placeTiger(Player player, Location location) throws InvalidMoveException{
         PlacedHex placedHex = placedHexAtLocation(location);
@@ -595,6 +583,36 @@ public class Board{
     }
     public ArrayList<Location> getEdgeSpaces(){
         return edgeSpaces;
+    }
+
+    public ArrayList<Settlement> findAdjacentSettlementsToLocation(Location targetLoc){
+        ArrayList<Settlement> adjacentSettlements = new ArrayList<Settlement>();
+        ArrayList<PlacedHex> adjacentHexesToLocation = findAdjacentHexesFromLocation(targetLoc);
+        HashSet<PlacedHex> visitedHexes = new HashSet<PlacedHex>();
+        for(PlacedHex adjacentHex : adjacentHexesToLocation){
+            if(adjacentHex.isEmpty()){
+                continue;
+            }
+            Settlement settlement = new Settlement(adjacentHex, placedHexes);
+            if(visitedHexes.contains(settlement.getHexesInSettlement().get(0))){
+                continue;
+            }
+            for(PlacedHex hexInSettlement : settlement.getHexesInSettlement()){
+                visitedHexes.add(hexInSettlement);
+            }
+            adjacentSettlements.add(settlement);
+        }
+        return adjacentSettlements;
+    }
+
+    protected ArrayList<PlacedHex> findAdjacentHexesFromLocation(Location loc) {
+        ArrayList<PlacedHex> adjacentHexes = new ArrayList<PlacedHex>();
+        for(PlacedHex hex : placedHexes) {
+            if(loc.isAdjacentTo(hex.getLocation())){
+                adjacentHexes.add(hex);
+            }
+        }
+        return  adjacentHexes;
     }
 
 }

@@ -444,7 +444,7 @@ public class BoardTest{
         board.settlements.add(settlement);
 
         try {
-            board.placeTotoro(player, emptyPlacedHexToTryToPlaceTigerOn.getLocation()); //this says totoro. Should it say tiger?
+            board.placeTiger(player, emptyPlacedHexToTryToPlaceTigerOn.getLocation()); //this says totoro. Should it say tiger?
         } catch (InvalidMoveException e) {
             assertTrue(e.getMessage().equals("Cannot place Tiger in a settlement already containing a Tiger"));
         }

@@ -108,6 +108,9 @@ public class AI_Info {
 
     public static ArrayList<Location> returnValidTotoroPlacments(Player player, Board board){
         //ToDo
+        ArrayList<Location> listOfValidPlacements = new ArrayList<Location>();
+        ArrayList<PlacedHex> placedHexes = board.getPlacedHexes();
+
         return null;
     }
 
