@@ -6,7 +6,7 @@ public class TilePlacement {
     private Location location = null;
     private int rotation;
 
-    TilePlacement(Tile tile, Location location, int rotation) {
+    public TilePlacement(Tile tile, Location location, int rotation) {
         this.tile = tile;
         this.location = location;
         this.rotation = rotation;

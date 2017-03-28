@@ -10,23 +10,24 @@ import static org.junit.Assert.*;
 
 public class AI_InfoTest {
     Board board;
+    Tile testTile;
     Player p1;
     Player p2;
 
     @Before
     public void setUp() {
         this.board = new Board();
+        this.testTile = new Tile(Terrain.GRASSLANDS, Terrain.GRASSLANDS);
         this.p1 = new Player(Color.BLUE);
         this.p2 = new Player(Color.PURPLE);
     }
 
     @Test
     public void tilePlacementInfoTest1(){
-        ArrayList[] legalPlacements = AI_Info.returnValidTilePlacements(board);
-        int size = legalPlacements[0].size();
-        for(int ii=0; ii<size; ii++){
-            Location loc = (Location)(legalPlacements[0].get(ii));
-            int rot = (Integer)(legalPlacements[1].get(ii));
+        ArrayList<TilePlacement> legalPlacements = AI_Info.returnValidTilePlacements(testTile, board);
+        for(int ii=0; ii<legalPlacements.size(); ii++){
+            Location loc = legalPlacements.get(ii).getLocation();
+            int rot = legalPlacements.get(ii).getRotation();
             assert(board.isALegalTilePlacment(loc,rot));
         }
     }
@@ -35,15 +36,13 @@ public class AI_InfoTest {
     public void tilePlacementInfoTest2() throws InvalidMoveException {
         placeTilesForTest2();
 
-        ArrayList[] legalPlacements = AI_Info.returnValidTilePlacements(board);
-        int size = legalPlacements[0].size();
-        for(int ii=0; ii<size; ii++){
-            Location loc = (Location)(legalPlacements[0].get(ii));
-            int rot = (Integer)(legalPlacements[1].get(ii));
+        ArrayList<TilePlacement> legalPlacements = AI_Info.returnValidTilePlacements(testTile, board);
+        for(int ii=0; ii<legalPlacements.size(); ii++){
+            Location loc = legalPlacements.get(ii).getLocation();
+            int rot = legalPlacements.get(ii).getRotation();
             assert(board.isALegalTilePlacment(loc,rot));
         }
     }
-
     public void placeTilesForTest2() throws  InvalidMoveException{
         Tile tile1 = new Tile(Terrain.JUNGLE,Terrain.JUNGLE);
         Location loc1 = new Location(0,0);
