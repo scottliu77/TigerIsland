@@ -48,7 +48,7 @@ public class Game implements Runnable {
         }
     }
 
-    private Boolean takeAnotherTurn() throws InvalidMoveException, InterruptedException {
+    protected Boolean takeAnotherTurn() throws InvalidMoveException, InterruptedException {
 
         packageTurnState();
 
@@ -72,7 +72,7 @@ public class Game implements Runnable {
         return true;
     }
 
-    private Turn packageTurnState() throws InterruptedException, InvalidMoveException {
+    protected Turn packageTurnState() throws InterruptedException, InvalidMoveException {
 
         turnState = new Turn(gameSettings.getPlayerSet().getCurrentPlayer(), board);
 
@@ -83,7 +83,7 @@ public class Game implements Runnable {
 
     }
 
-    private void unpackageTurnState(Turn turnState) {
+    protected void unpackageTurnState(Turn turnState) {
         gameSettings.getPlayerSet().getCurrentPlayer().updatePlayerState(turnState.getPlayer());
         board = turnState.getBoard();
     }
