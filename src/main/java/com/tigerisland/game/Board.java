@@ -310,9 +310,12 @@ public class Board{
         Settlement settlement = isSettledLocationValid(player, settledLoc);
         Terrain specifiedTerrain = isHexLocationValid(loc);
         areAdjacentLocationsValid(loc, settledLoc);
-        ArrayList<PlacedHex> allExpandableHexes = getAllExpandableAdjacentHexesToSettlement(settlement, specifiedTerrain);
+        ArrayList<PlacedHex> allExpandableHexes = new ArrayList<PlacedHex>();
+        allExpandableHexes = getAllExpandableAdjacentHexesToSettlement(settlement, specifiedTerrain);
         while (!allExpandableHexes.isEmpty()) {
+            System.out.println("Before: " + player.getPieceSet().getNumberOfVillagersRemaining());
             villageExpansionChecks(player, settlement, allExpandableHexes);
+            System.out.println("After: " + player.getPieceSet().getNumberOfVillagersRemaining());
             allExpandableHexes = getAllExpandableAdjacentHexesToSettlement(settlement, specifiedTerrain);
         }
     }
@@ -377,7 +380,7 @@ public class Board{
             }
         }
         if (allExpandableHexes.isEmpty()) {
-            return null;
+            return new ArrayList<PlacedHex>();
         } else {
             return allExpandableHexes;
         }
