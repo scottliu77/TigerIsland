@@ -38,7 +38,7 @@ public class BuildOptionStepDefs{
 
     @Given("^a settlement too small to accept a totoro$")
     public void addSmallSettlementToBoard(){
-        expectedErrorMessage = "Cannot place totoro in a settlement of size 4 or smaller!";
+        expectedErrorMessage = "Settlement already contains a totoro or is too small";
         hexToPlaceTotoro = setUpSettlement();
         placedHexes.remove(hexToPlaceTotoro);
         Hex hex1 = new Hex("hex1", Terrain.LAKE);
@@ -52,7 +52,7 @@ public class BuildOptionStepDefs{
 
     @Given("^a settlement already containing a totoro$")
     public void addSettlementWithTotoroToBoard(){
-        expectedErrorMessage = "Cannot place totoro in a settlement already containing a Totoro";
+        expectedErrorMessage = "Settlement already contains a totoro or is too small";
         PlacedHex placedHex1 = setUpSettlement();
         Hex hex5 = new Hex("hex5", Terrain.LAKE);
         hex5.addPiecesToHex(new Piece(Color.BLACK, PieceType.TOTORO), 1);
@@ -95,7 +95,7 @@ public class BuildOptionStepDefs{
         PlacedHex placedHex1 = setUpSettlement();
         Hex hex5 = new Hex("hex5", Terrain.LAKE);
         hex5.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
-        Location loc5 = new Location(0,-2);
+        Location loc5 = new Location(1,-2);
         hexToPlaceTotoro = new PlacedHex(hex5, loc5);
         placedHexes.add(hexToPlaceTotoro);
         Hex hex6 = new Hex("hex6", Terrain.GRASSLANDS);
@@ -199,9 +199,9 @@ public class BuildOptionStepDefs{
     @When("^a player tries to place a totoro on a volcano$")
     public void attemptToPlaceTotoroOnVolcano() throws InvalidMoveException {
         expectedErrorMessage = "Cannot place a piece on a volcano hex";
-        Hex hex6 = new Hex("volcanoHex", Terrain.VOLCANO);
-        Location loc6 = new Location(2,0);
-        hexToPlaceTotoro = new PlacedHex(hex6, loc6);
+        Hex hex = new Hex("volcanoHex", Terrain.VOLCANO);
+        Location loc = new Location(2,0);
+        hexToPlaceTotoro = new PlacedHex(hex, loc);
         placedHexes.add(hexToPlaceTotoro);
         try {
             board.placeTotoro(player, hexToPlaceTotoro.getLocation());
@@ -264,6 +264,17 @@ public class BuildOptionStepDefs{
         board.settlements.add(settlement);
     }
 
+    @And("^a nearby settlement containing a totoro$")
+    public void addAnotherSettlementContainingATotoroCloseToTheFirst(){
+        PlacedHex totoroHex = setUpAnotherSettlementWithATotoro();
+        Hex hex = new Hex("targetHex", Terrain.GRASSLANDS);
+        Location loc = new Location(-1, 1);
+        PlacedHex targetHex = new PlacedHex(hex, loc);
+        placedHexes.add(targetHex);
+        hexToPlaceTotoro = targetHex;
+        Settlement settlement = new Settlement(totoroHex, placedHexes);
+    }
+
     private PlacedHex setUpSettlement(){
         Hex hex1 = new Hex("hex1", Terrain.LAKE);
         Hex hex2 = new Hex("hex2", Terrain.LAKE);
@@ -321,6 +332,36 @@ public class BuildOptionStepDefs{
 
         return placedHex5;
     }
+
+    private PlacedHex setUpAnotherSettlementWithATotoro(){
+        Hex hex5 = new Hex("hex5", Terrain.LAKE);
+        Hex hex6 = new Hex("hex6", Terrain.JUNGLE);
+        Hex hex7 = new Hex("hex7", Terrain.VOLCANO);
+        Hex hex8 = new Hex("hex8", Terrain.GRASSLANDS);
+
+        hex5.addPiecesToHex(new Piece(Color.BLACK, PieceType.TOTORO), 1);
+        hex6.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 4);
+        hex8.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 6);
+
+
+        Location loc5 = new Location(-1,2);
+        Location loc6 = new Location(-2,1);
+        Location loc7 = new Location(-3,3);
+        Location loc8 = new Location(-2,2);
+
+        PlacedHex placedHex5 = new PlacedHex(hex5, loc5);
+        PlacedHex placedHex6 = new PlacedHex(hex6, loc6);
+        PlacedHex placedHex7 = new PlacedHex(hex7, loc7);
+        PlacedHex placedHex8 = new PlacedHex(hex8, loc8);
+
+        placedHexes.add(placedHex5);
+        placedHexes.add(placedHex6);
+        placedHexes.add(placedHex7);
+        placedHexes.add(placedHex8);
+
+        return placedHex5;
+    }
+
 
 
 

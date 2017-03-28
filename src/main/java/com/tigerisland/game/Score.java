@@ -4,6 +4,10 @@ import com.tigerisland.InvalidMoveException;
 
 public class Score {
 
+    public static final int TOTORO_POINT_VALUE = 200;
+    public static final int VILLAGER_POINT_VALUE = 1;
+    public static final int TIGER_POINT_VALUE = 75;
+
     private int score;
 
     public Score() {

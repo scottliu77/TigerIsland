@@ -3,6 +3,7 @@ package com.tigerisland;
 import com.tigerisland.game.Color;
 import com.tigerisland.game.Piece;
 import com.tigerisland.game.Player;
+import com.tigerisland.game.PlayerType;
 import org.junit.Test;
 import org.junit.Before;
 
@@ -116,5 +117,18 @@ public class PlayerTest {
         playerCopy.getPieceSet().placeMultipleVillagers(4);
         playerWhite = playerCopy;
         assertTrue(playerWhite.getPieceSet().getNumberOfVillagersRemaining() == 16);
+    }
+
+    @Test
+    public void testCanSetAndGetPlayerType() {
+        playerWhite.setPlayerType(PlayerType.BasicAI);
+        assertTrue(playerWhite.getPlayerType() == PlayerType.BasicAI);
+    }
+
+    @Test
+    public void testCanUpdatePlayerState() {
+        Player playerCopy = new Player(Color.ORANGE);
+        playerWhite.updatePlayerState(playerCopy);
+        assertTrue(playerCopy.getPlayerColor() == Color.ORANGE);
     }
 }

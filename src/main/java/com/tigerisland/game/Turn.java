@@ -16,8 +16,8 @@ public class Turn {
     private BuildAction buildAction;
 
     public Turn(Player player, Board board) {
-        this.player = player;
-        this.board = board;
+        this.player = new Player(player);
+        this.board = new Board(board);
     }
 
     public void updateTilePlacement(int gameID, int moveID, BlockingQueue<Message> inboundMessages) throws InterruptedException, InvalidMoveException {
@@ -100,14 +100,6 @@ public class Turn {
         } else {
             buildAction = new BuildAction(player, location, buildActionType);
         }
-    }
-
-    public void updatePlayer(Player newPlayer) {
-        player = newPlayer;
-    }
-
-    public void updateBoard(Board newBoard) {
-        board = newBoard;
     }
 
     public Player getPlayer() {

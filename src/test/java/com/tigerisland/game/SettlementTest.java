@@ -137,4 +137,10 @@ public class SettlementTest {
         assertFalse(settlement.containsTotoro());
     }
 
+    @Test
+    public void testCanGetSettlementColor() {
+        settlement = new Settlement(placedHex1, allPlacedHexes);
+        assertTrue(settlement.getColor() == Color.BLACK);
+    }
+
 }

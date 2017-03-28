@@ -17,6 +17,7 @@ public class Game implements Runnable {
 
     public Game(int gameID, GameSettings gameSettings){
         this.gameID = gameID;
+        this.moveID = 1;
         this.gameSettings = gameSettings;
         this.board = new Board();
         this.inboundQueue = gameSettings.getGlobalSettings().inboundQueue;

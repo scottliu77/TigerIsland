@@ -48,8 +48,7 @@ public class TurnTest {
 
     @Test
     public void testCanUpdateAndGetPlayer() throws InvalidMoveException {
-        player.getScore().addPoints(5);
-        turn.updatePlayer(player);
+        turn.getPlayer().getScore().addPoints(5);
         assertTrue(turn.getPlayer().getScore().getScoreValue() == 5);
     }
 
@@ -57,8 +56,7 @@ public class TurnTest {
     public void testCanUpdateAndGetBoard() throws InvalidMoveException {
         Tile tile = new Tile(Terrain.GRASSLANDS, Terrain.GRASSLANDS);
         Location loc = new Location(0, 0);
-        board.placeTile(tile, loc, 0);
-        turn.updateBoard(board);
+        turn.getBoard().placeTile(tile, loc, 0);
         assertTrue(turn.getBoard().hexExistsAtLocation(new Location(0, 0)));
     }
 

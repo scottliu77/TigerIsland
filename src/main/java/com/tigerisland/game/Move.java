@@ -4,19 +4,11 @@ import com.tigerisland.InvalidMoveException;
 
 public final class Move {
 
-    private static final int TOTORO_POINT_VALUE = 200;
-    private static final int VILLAGER_POINT_VALUE = 1;
-    private static final int TIGER_POINT_VALUE = 75;
-
     public static Turn placeTile(Turn turnState) throws InvalidMoveException {
 
-        Board tempBoard = new Board(turnState.getBoard());
-
-        tempBoard.updateSettlements();
-        tempBoard.placeTile(turnState.getTilePlacement().getTile(), turnState.getTilePlacement().getLocation(), turnState.getTilePlacement().getRotation());
-        tempBoard.updateSettlements();
-
-        turnState.updateBoard(tempBoard);
+        turnState.getBoard().updateSettlements();
+        turnState.getBoard().placeTile(turnState.getTilePlacement().getTile(), turnState.getTilePlacement().getLocation(), turnState.getTilePlacement().getRotation());
+        turnState.getBoard().updateSettlements();
 
         return turnState;
     }
@@ -37,60 +29,33 @@ public final class Move {
 
     public static Turn createVillage(Turn turnState) throws InvalidMoveException {
 
-        Player tempPlayer = new Player(turnState.getPlayer());
-        Board tempBoard = new Board(turnState.getBoard());
 
-        tempBoard.createVillage(tempPlayer, turnState.getBuildAction().getLocation());
-        tempPlayer.getPieceSet().placeVillager();
-        tempPlayer.getScore().addPoints(VILLAGER_POINT_VALUE);
-        tempBoard.updateSettlements();
-
-        turnState.updatePlayer(tempPlayer);
-        turnState.updateBoard(tempBoard);
+        turnState.getBoard().createVillage(turnState.getPlayer(), turnState.getBuildAction().getLocation());
+        turnState.getBoard().updateSettlements();
 
         return turnState;
     }
 
     public static Turn expandVillage(Turn turnState) throws InvalidMoveException {
 
-        Player tempPlayer = new Player(turnState.getPlayer());
-        Board tempBoard = new Board(turnState.getBoard());
-
-        tempBoard.expandVillage(tempPlayer, turnState.getBuildAction().getLocation(), turnState.getBuildAction().getSettlementLocation());
-        tempBoard.updateSettlements();
-
-        turnState.updatePlayer(tempPlayer);
-        turnState.updateBoard(tempBoard);
+        turnState.getBoard().expandVillage(turnState.getPlayer(), turnState.getBuildAction().getLocation(), turnState.getBuildAction().getSettlementLocation());
+        turnState.getBoard().updateSettlements();
 
         return turnState;
     }
 
     public static Turn placeTotoro(Turn turnState) throws InvalidMoveException {
 
-        Player tempPlayer = new Player(turnState.getPlayer());
-        Board tempBoard = new Board(turnState.getBoard());
-
-        tempBoard.placeTotoro(tempPlayer, turnState.getBuildAction().getLocation());
-        tempBoard.updateSettlements();
-        tempPlayer.getScore().addPoints(TOTORO_POINT_VALUE);
-
-        turnState.updatePlayer(tempPlayer);
-        turnState.updateBoard(tempBoard);
+        turnState.getBoard().placeTotoro(turnState.getPlayer(), turnState.getBuildAction().getLocation());
+        turnState.getBoard().updateSettlements();
 
         return turnState;
     }
 
     public static Turn placeTiger(Turn turnState) throws InvalidMoveException {
 
-        Player tempPlayer = new Player(turnState.getPlayer());
-        Board tempBoard = new Board(turnState.getBoard());
-
-        tempBoard.placeTiger(tempPlayer, turnState.getBuildAction().getLocation());
-        tempBoard.updateSettlements();
-        tempPlayer.getScore().addPoints(TIGER_POINT_VALUE);
-
-        turnState.updatePlayer(tempPlayer);
-        turnState.updateBoard(tempBoard);
+        turnState.getBoard().placeTiger(turnState.getPlayer(), turnState.getBuildAction().getLocation());
+        turnState.getBoard().updateSettlements();
 
         return turnState;
     }

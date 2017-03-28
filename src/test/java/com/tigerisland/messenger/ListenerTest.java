@@ -44,4 +44,13 @@ public class ListenerTest {
         globalSettings.inboundQueue.add(new Message("New message"));
         assertTrue(listener.inboundQueue.remove().equals("New message"));
     }
+
+    @Ignore("Skipping can cleanup processed messages in queue") @Test
+    public void testCanCleanupProcessedMessagesInQueue() throws InterruptedException {
+        globalSettings.inboundQueue.add(new Message("Processed message"));
+        globalSettings.inboundQueue.take().setProcessed();
+        sleep(1);
+        assertTrue(globalSettings.inboundQueue.size() == 0);
+
+    }
 }

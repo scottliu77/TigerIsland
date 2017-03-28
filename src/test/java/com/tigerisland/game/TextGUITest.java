@@ -59,19 +59,10 @@ public class TextGUITest {
     }
 
     @Test
-    public void testCanPrintPlacedHexLocations() {
-        TextGUI.printPlacedHexLocations(board.locationsOfPlacedHexes());
-    }
+    public void testCanPrintPlacedHexLocations() { TextGUI.printPlacedHexes(board.getPlacedHexes()); }
 
     @Test
-    public void testCanPrintEdgeSpaces() {
-        TextGUI.printEdgeSpaces(board.edgeSpaces);
-    }
-
-    @Test
-    public void testCanPrintPlacedHexTiles() {
-        TextGUI.printPlacedHexTiles(board.hexesOfPlacedHexes());
-    }
+    public void testCanPrintEdgeSpaces() { TextGUI.printEdgeSpaces(board.edgeSpaces); }
 
     @Test
     public void testCanPrintMap() { TextGUI.printMap(board); }

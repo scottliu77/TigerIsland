@@ -54,10 +54,6 @@ public class Settlement {
         return false;
     }
 
-    public ArrayList<PlacedHex> getHexesInSettlement(){
-        return hexesInSettlement;
-    }
-
     private void findHexesInSettlement(PlacedHex startHex, ArrayList<PlacedHex> allPlacedHexes){
         Queue<PlacedHex> hexesToBeAnalyzed = new LinkedList<PlacedHex>();
         hexesToBeAnalyzed.add(startHex);
@@ -84,15 +80,6 @@ public class Settlement {
         return firstPieceColor.equals(secondPieceColor);
     }
 
-    private HashMap<Location, PlacedHex> getAllPlacedHexesAsMap(ArrayList<PlacedHex> allPlacedHexes){
-        HashMap<Location, PlacedHex> allPlacedHexesMap = new HashMap<Location, PlacedHex>();
-        for(int i = 0;i<allPlacedHexes.size();i++){
-            PlacedHex currentHex = allPlacedHexes.get(i);
-            allPlacedHexesMap.put(currentHex.getLocation(), currentHex);
-        }
-        return allPlacedHexesMap;
-    }
-
     protected ArrayList<PlacedHex> findAdjacentHexesFromPlacedHex(PlacedHex placedHex, ArrayList<PlacedHex> allPlacedHexes) {
         Location location = placedHex.getLocation();
         ArrayList<PlacedHex> adjacentHexes = new ArrayList<PlacedHex>();
@@ -115,6 +102,14 @@ public class Settlement {
                 numberOfHexesUnderTile += 1;
         }
         return hexesInSettlement.size()==numberOfHexesUnderTile;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public ArrayList<PlacedHex> getHexesInSettlement(){
+        return hexesInSettlement;
     }
 
 }

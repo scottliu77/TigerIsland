@@ -5,6 +5,7 @@ public class Player {
     private Score score;
     private Color color;
     private PieceSet pieceSet;
+    private PlayerType playerType;
 
     public Player(Color color) {
         this.color = color;
@@ -14,7 +15,7 @@ public class Player {
 
     public Player(Player player){
         this.score = new Score(player.getScore());
-        this.color = getPlayerColor();
+        this.color = player.getPlayerColor();
         this.pieceSet = new PieceSet(player.getPieceSet());
     }
 
@@ -35,4 +36,11 @@ public class Player {
         return pieceSet;
     }
 
+    public void setPlayerType(PlayerType playerType) {
+        this.playerType = playerType;
+    }
+
+    public PlayerType getPlayerType() {
+        return playerType;
+    }
 }

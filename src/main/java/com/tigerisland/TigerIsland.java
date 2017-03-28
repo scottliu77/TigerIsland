@@ -22,7 +22,7 @@ public class TigerIsland {
                 .description("Specify TigerIsland match globalSettings.");
         parser.addArgument("-o", "--offline").type(Arguments.booleanType())
                 .setDefault(ServerSettings.defaultOffline)
-                .help("Toggle running system in offline mode, AI v. AI");
+                .help("Toggle running system in offline mode, moveProcessor v. moveProcessor");
         parser.addArgument("-g", "--games").type(Integer.class)
                 .setDefault(GlobalSettings.defaultGames)
                 .help("Specify the number of games to be call concurrently in each match");

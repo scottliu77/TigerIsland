@@ -9,6 +9,8 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
 
+import static java.lang.Thread.sleep;
+
 public class Listener implements Runnable {
 
     protected BlockingQueue<Message> inboundQueue;
@@ -29,6 +31,7 @@ public class Listener implements Runnable {
             while(!Thread.currentThread().isInterrupted()) {
                 try {
                     addMessageToQueue(reader.readLine());
+                    cleanupMessageQueue();
                 } catch (IOException exception) {
                     exception.printStackTrace();
                 } catch (InterruptedException exception) {
@@ -42,6 +45,14 @@ public class Listener implements Runnable {
 
     protected void addMessageToQueue(String message) throws InterruptedException {
         inboundQueue.put(new Message(message));
+    }
+
+    private void cleanupMessageQueue() {
+        for(Message message : inboundQueue) {
+            if(message.getMessageType() == MessageType.PROCESSED) {
+                inboundQueue.remove(message);
+            }
+        }
     }
 
 

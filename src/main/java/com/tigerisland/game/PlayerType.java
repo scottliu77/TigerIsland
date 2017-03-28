@@ -1,7 +1,19 @@
 package com.tigerisland.game;
 
-/**
- * Created by Dax on 3/27/2017.
- */
 public enum PlayerType {
+
+    HUMAN("Human"),
+    BasicAI("BasicAI"),
+    SERVER("Server");
+
+    private String typeString;
+
+    PlayerType(String typeString) {
+        this.typeString = typeString;
+    }
+
+    public String getTypeString() {
+        return typeString;
+    }
+
 }

@@ -1,8 +1,6 @@
 package com.tigerisland;
 
-import com.tigerisland.game.Color;
-import com.tigerisland.game.Game;
-import com.tigerisland.game.Player;
+import com.tigerisland.game.*;
 import org.junit.Test;
 import org.junit.Before;
 
@@ -36,6 +34,33 @@ public class GameTest {
     @Test
     public void testCanCreateGame() {
         assertTrue(game != null);
+    }
+
+    @Test
+    public void testCanGetBoard() {
+        Board retrievedBoard = game.getBoard();
+        assertTrue(retrievedBoard != null);
+    }
+
+    @Test
+    public void testCanTakeAnotherTurn() {
+
+    }
+
+    @Test
+    public void testCanGetGameSettings() {
+        GameSettings retrievedGameSettings = game.getGameSettings();
+        assertTrue(retrievedGameSettings != null);
+    }
+
+    @Test
+    public void testCanGetGameID() {
+        assertTrue(game.getGameID() == 1);
+    }
+
+    @Test
+    public void testCanGetMoveID() {
+        assertTrue(game.getMoveID() == 1);
     }
 
 }

@@ -1,5 +1,7 @@
 package com.tigerisland.game;
 
+import java.util.ArrayList;
+
 public class PlacedHex {
 
     private Hex hex;
@@ -36,4 +38,19 @@ public class PlacedHex {
     public boolean getExpansionStatus() { return this.toBeExpanded; }
 
     public void setExpansionStatus(boolean status) { this.toBeExpanded = status; }
+
+
+    public static void printPlacedHexes(ArrayList<PlacedHex> list){
+        for(int ii = 0; ii < list.size(); ii++){
+            Location loc = list.get(ii).getLocation();
+            String locString = "<"+Integer.toString(loc.getX())+","+Integer.toString(loc.getY())+">";
+            Hex hex = list.get(ii).getHex();
+            String hexTerrain = "T="+hex.getHexTerrain().getType();
+            String hexHeight = "H="+Integer.toString(hex.getHeight());
+            String hexPieceType = hex.getPieceType();
+            String hexPieceCount = Integer.toString(hex.getPieceCount());
+            String hexID = "ID="+hex.getIDFirstChars(8);
+            System.out.println(locString + " : " + hexTerrain + " : " + hexHeight + " : " + hexPieceType + '-' + hexPieceCount + " : " + hexID);
+        }
+    }
 }

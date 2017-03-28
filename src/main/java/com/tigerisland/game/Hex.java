@@ -84,18 +84,6 @@ public class Hex {
         this.pieceCount = count;
     }
 
-    public static void printHexes(ArrayList<Hex> list){
-        for(int ii = 0; ii < list.size(); ii++){
-            Hex hex = list.get(ii);
-            String hexTerrain = "T="+hex.terrain.getType();
-            String hexHeight = "H="+Integer.toString(hex.getHeight());
-            String hexPieceType = hex.getPieceType();
-            String hexPieceCount = Integer.toString(hex.getPieceCount());
-            String hexID = "ID="+hex.getIDFirstChars(8);
-            System.out.println(hexTerrain + " : " + hexHeight + " : " + hexPieceType + '-' + hexPieceCount + " : " + hexID);
-        }
-    }
-
     public boolean isNotVolcano() {
         return !this.getHexTerrain().equals(Terrain.VOLCANO);
     }

@@ -1,7 +1,19 @@
 package com.tigerisland.game;
 
-/**
- * Created by Dax on 3/27/2017.
- */
+import org.junit.Test;
+
+import static org.junit.Assert.assertTrue;
+
 public class PlayerTypeTest {
+
+    @Test
+    public void testCanCreatePlayerType() {
+        PlayerType playerType = PlayerType.BasicAI;
+        assertTrue(playerType != null);
+    }
+
+    @Test
+    public void testCanGetPlayerTypeString() {
+        assertTrue(PlayerType.BasicAI.getTypeString().equals("BasicAI"));
+    }
 }
