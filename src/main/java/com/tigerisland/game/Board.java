@@ -34,14 +34,6 @@ public class Board{
         }
     }
 
-    public void setPlacedHexes(ArrayList<PlacedHex> placedHexes){
-        this.placedHexes = placedHexes;
-    }
-
-    public void addSettlements(Settlement settlement){
-        this.settlements.add(settlement);
-    }
-
     public void placeTile(Tile tile, Location centerLoc, int rotation) throws InvalidMoveException {
         if(isALegalTilePlacment(centerLoc, rotation)){
             placeHex(tile.getCenterHex(), centerLoc);
@@ -59,7 +51,7 @@ public class Board{
     }
 
     public boolean isALegalTilePlacment(Location centerLoc, int rotation) {
-        if( (!isPlacedProperlyAtHeight1(centerLoc, rotation) && !isPlacedProperlyOnExistingTiles(centerLoc, rotation))
+        if( (!tileIsPlacedProperlyAtHeight1(centerLoc, rotation) && !isPlacedProperlyOnExistingTiles(centerLoc, rotation))
                 || totoroExistsUnderTile(centerLoc, rotation)
                 || tigerExistsUnderTile(centerLoc, rotation)
                 || completelyCoversSettlement(centerLoc, rotation)  )
@@ -69,7 +61,7 @@ public class Board{
     }
 
     private void throwTilePlacementException(Location centerLoc, int rotation) throws InvalidMoveException {
-        if(!isPlacedProperlyAtHeight1(centerLoc, rotation) && !isPlacedProperlyOnExistingTiles(centerLoc, rotation))
+        if(!tileIsPlacedProperlyAtHeight1(centerLoc, rotation) && !isPlacedProperlyOnExistingTiles(centerLoc, rotation))
             throw new InvalidMoveException("Illegal Placement Location");
         else if(totoroExistsUnderTile(centerLoc, rotation))
             throw new InvalidMoveException("Totoro exists under tile");
@@ -79,7 +71,7 @@ public class Board{
             throw new InvalidMoveException("Whole settlement exists under tile");
     }
 
-    private boolean isPlacedProperlyAtHeight1(Location centerLoc, int rotation){
+    private boolean tileIsPlacedProperlyAtHeight1(Location centerLoc, int rotation){
         boolean areAllUnoccupiedLocations =
             !hexExistsAtLocation(centerLoc) &&
             !hexExistsAtLocation(Location.rotateHexLeft(centerLoc, rotation)) &&
@@ -298,7 +290,7 @@ public class Board{
             throw new InvalidMoveException("Target hex does not exist");
         } else if (targetHex.getHeight() != 1) {
             throw new InvalidMoveException("Cannot create village above height 1");
-        } else if (!hexAvailableForSettlement(targetHex)) {
+        } else if (targetHex.getPieceCount() > 0) {
             throw new InvalidMoveException("Target hex already contains piece(s)");
         } else if (targetHex.getHexTerrain() == Terrain.VOLCANO) {
             throw new InvalidMoveException("Cannot place a piece on a volcano hex");
@@ -419,7 +411,7 @@ public class Board{
 
     public boolean playerHasSettlementThatCouldAcceptTotoro(Player player){
         for(Settlement settlement : settlements) {
-            if (settlementBelongsToCurrentPlayer(settlement, player) && settlement.size() >= SIZE_REQUIRED_FOR_TOTORO && settlement.containsTotoro() == false) {
+            if (settlement.getColor() == player.getPlayerColor() && settlement.size() >= SIZE_REQUIRED_FOR_TOTORO && settlement.containsTotoro() == false) {
                 return settlement.isExpandable(placedHexes);
             }
         }
@@ -428,7 +420,7 @@ public class Board{
 
     public boolean playerHasSettlementThatCouldAcceptTiger(Player player) {
         for(Settlement settlement : settlements) {
-            if (settlementBelongsToCurrentPlayer(settlement, player) && settlement.containsTiger() == false) {
+            if (settlement.getColor() == player.getPlayerColor() && settlement.containsTiger() == false) {
                 if (settlementNextToTigerReadyHex(settlement, HEIGHT_REQUIRED_FOR_TIGER)) {
                     return settlement.isExpandable(placedHexes);
                 }
@@ -448,18 +440,6 @@ public class Board{
         return false;
     }
 
-    private boolean settlementBelongsToCurrentPlayer(Settlement settlement, Player player){
-        return settlement.color.equals(player.getPlayerColor());
-    }
-
-    private boolean hexAvailableForSettlement(Hex currentHex) {
-        return currentHex.getPieceCount() <= 0;
-    }
-
-    private boolean ownedBySamePlayer(Hex hex, Player player){
-        return player.getPlayerColor().equals(hex.getPieceColor());
-    }
-
     public ArrayList<Location> locationsOfPlacedHexes(){
         ArrayList<Location> locationsOfPlacedHexes = new ArrayList<Location>();
         for(PlacedHex placedHex : placedHexes){
@@ -469,19 +449,19 @@ public class Board{
     }
 
     public void placeTotoro(Player player, Location location) throws InvalidMoveException{
-        PlacedHex placedHex = placedHexAtLocation(location);
-        if (placedHex == null) {
+        PlacedHex targetHex = placedHexAtLocation(location);
+        if (targetHex == null) {
             throw new InvalidMoveException("Target hex does not exist");
         }
-        if (placedHex.getHex().getPieceCount() > 0) {
+        if (targetHex.getHex().getPieceCount() > 0) {
             throw new InvalidMoveException("Target hex already contains piece(s)");
         }
-        if (placedHex.getHex().getHexTerrain() == Terrain.VOLCANO) {
+        if (targetHex.getHex().getHexTerrain() == Terrain.VOLCANO) {
             throw new InvalidMoveException("Cannot place a piece on a volcano hex");
         }
-        PlacedHex tempPlacedHex = new PlacedHex(placedHex);
-        Player tempPlayer = new Player(player);
-        tempPlacedHex.getHex().addPiecesToHex(tempPlayer.getPieceSet().placeVillager(), 1);
+
+        PlacedHex tempPlacedHex = new PlacedHex(targetHex);
+        tempPlacedHex.getHex().addPiecesToHex(player.getPieceSet().placeVillager(), 1);
         placedHexes.add(tempPlacedHex);
         Settlement settlement = new Settlement(tempPlacedHex, placedHexes);
 
@@ -494,9 +474,9 @@ public class Board{
         }
 
         placedHexes.remove(tempPlacedHex);
-        placedHex.getHex().addPiecesToHex(player.getPieceSet().placeTotoro(), 1);
+        targetHex.getHex().addPiecesToHex(player.getPieceSet().placeTotoro(), 1);
         int minimumSizeRequireForTotoroAfterPlacement = SIZE_REQUIRED_FOR_TOTORO + 1;
-        settlement = new Settlement(placedHex, placedHexes);
+        settlement = new Settlement(targetHex, placedHexes);
 
         if(settlement.size() < minimumSizeRequireForTotoroAfterPlacement) {
             throw new InvalidMoveException("Cannot place totoro in a settlement of size 4 or smaller!");
@@ -543,10 +523,9 @@ public class Board{
 
         placedHexes.remove(tempPlacedHex);
         placedHex.getHex().addPiecesToHex(player.getPieceSet().placeTiger(), 1);
-        int minimumSizeRequireForTigerAfterPlacement = 2;
         settlement = new Settlement(placedHex, placedHexes);
 
-        if(settlement.size() < minimumSizeRequireForTigerAfterPlacement) {
+        if(settlement.size() < 1) {
             throw new InvalidMoveException("Cannot place Tiger in a settlement of size smaller than 1");
         }
     }
