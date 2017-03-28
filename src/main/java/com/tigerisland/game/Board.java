@@ -313,9 +313,7 @@ public class Board{
         ArrayList<PlacedHex> allExpandableHexes = new ArrayList<PlacedHex>();
         allExpandableHexes = getAllExpandableAdjacentHexesToSettlement(settlement, specifiedTerrain);
         while (!allExpandableHexes.isEmpty()) {
-            System.out.println("Before: " + player.getPieceSet().getNumberOfVillagersRemaining());
             villageExpansionChecks(player, settlement, allExpandableHexes);
-            System.out.println("After: " + player.getPieceSet().getNumberOfVillagersRemaining());
             allExpandableHexes = getAllExpandableAdjacentHexesToSettlement(settlement, specifiedTerrain);
         }
     }
