@@ -479,7 +479,6 @@ public class Board{
         }
     }
 
-
     public void placeTiger(Player player, Location location) throws InvalidMoveException{
         PlacedHex targetHex = placedHexAtLocation(location);
 
@@ -547,6 +546,7 @@ public class Board{
     public ArrayList<PlacedHex> getPlacedHexes(){
         return placedHexes;
     }
+
     public ArrayList<Location> getEdgeSpaces(){
         return edgeSpaces;
     }
