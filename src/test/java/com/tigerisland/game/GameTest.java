@@ -5,6 +5,7 @@ import com.tigerisland.GlobalSettings;
 import com.tigerisland.InvalidMoveException;
 import com.tigerisland.game.*;
 import com.tigerisland.messenger.Message;
+import com.tigerisland.messenger.MessageType;
 import org.junit.Test;
 import org.junit.Before;
 
@@ -25,10 +26,16 @@ public class GameTest {
         this.gameSettings = new GameSettings(globalSettings);
         this.inboundMessages = gameSettings.getGlobalSettings().inboundQueue;
         this.gameSettings.setPlayOrder();
+        setAllPlayersToServer();
         this.game = new Game(1, gameSettings);
         placeDummyTilePlacementAndBuildInQueue();
     }
 
+    private void setAllPlayersToServer() {
+        for(Player player : gameSettings.getPlayerSet().getPlayerList()) {
+            player.setPlayerType(PlayerType.SERVER);
+        }
+    }
     @Before
     public void createPlayerWithNoPieces() {
         try {

@@ -1,11 +1,14 @@
 package com.tigerisland.game;
 
+import com.tigerisland.AI.AI;
+
 public class Player {
 
     private Score score;
     private Color color;
     private PieceSet pieceSet;
     private PlayerType playerType;
+    private AI playerAI;
 
     public Player(Color color) {
         this.color = color;
@@ -17,6 +20,12 @@ public class Player {
         this.score = new Score(player.getScore());
         this.color = player.getPlayerColor();
         this.pieceSet = new PieceSet(player.getPieceSet());
+        this.playerType = player.getPlayerType();
+        try {
+            this.playerAI = new AI(player.getPlayerAI());
+        } catch (NullPointerException exception) {
+            // Ignore this
+        }
     }
 
     public void updatePlayerState(Player updatedPlayer) {
@@ -38,9 +47,14 @@ public class Player {
 
     public void setPlayerType(PlayerType playerType) {
         this.playerType = playerType;
+        this.playerAI = new AI(playerType);
     }
 
     public PlayerType getPlayerType() {
         return playerType;
+    }
+
+    public AI getPlayerAI() {
+        return playerAI;
     }
 }

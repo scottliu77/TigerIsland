@@ -1,5 +1,11 @@
 package com.tigerisland.game;
 
+import com.tigerisland.AI.DummyAI;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.*;
+
 public enum PlayerType {
 
     HUMAN("Human"),
@@ -16,4 +22,12 @@ public enum PlayerType {
         return typeString;
     }
 
+    public static EnumSet<PlayerType> AITypes() {
+        return EnumSet.of(BasicAI);
+    }
+
+    public static PlayerType pickRandomAItype() {
+        List<PlayerType> types = Collections.unmodifiableList(Arrays.asList(BasicAI));
+        return types.get(new Random().nextInt(AITypes().size()));
+    }
 }

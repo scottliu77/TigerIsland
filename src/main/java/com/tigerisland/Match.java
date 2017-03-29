@@ -78,6 +78,7 @@ public class Match {
     }
 
     private void setup() {
+        gameSettings.setPlayOrder();
         if(globalSettings.getServerSettings().offline) {
             setupOfflineMatch();
         } else {
@@ -92,7 +93,6 @@ public class Match {
 
     private void configureOfflineGameSettings() {
         gameSettings.setDeck();
-        gameSettings.setPlayOrder();
     }
 
     private void constructOfflineGames() {

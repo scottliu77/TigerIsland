@@ -1,5 +1,6 @@
-package com.tigerisland;
+package com.tigerisland.game;
 
+import com.tigerisland.InvalidMoveException;
 import com.tigerisland.game.Color;
 import com.tigerisland.game.Piece;
 import com.tigerisland.game.Player;

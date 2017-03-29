@@ -1,5 +1,7 @@
 package com.tigerisland.game;
 
+import com.tigerisland.GameSettings;
+import com.tigerisland.GlobalSettings;
 import com.tigerisland.InvalidMoveException;
 import com.tigerisland.messenger.Message;
 import org.junit.Before;
@@ -15,6 +17,7 @@ public class TurnTest {
     private Player player;
     private Board board;
     private Turn turn;
+    private GameSettings gameSettings;
     private BlockingQueue<Message> inboundMessages;
 
     @Before
@@ -22,7 +25,8 @@ public class TurnTest {
         player = new Player(Color.BLACK);
         board = new Board();
         turn = new Turn(player, board);
-        inboundMessages = new LinkedBlockingQueue<Message>();
+        gameSettings = new GameSettings(new GlobalSettings());
+        inboundMessages = gameSettings.getGlobalSettings().inboundQueue;
         inboundMessages.add(new Message("GAME 1 MOVE 1 PLACE RG AT 0 0 0"));
         inboundMessages.add(new Message("GAME 1 MOVE 1 BUILD villager AT 0 1"));
     }
@@ -34,14 +38,14 @@ public class TurnTest {
 
     @Test
     public void testCanUpdateAndGetTilePlacement() throws InvalidMoveException, InterruptedException {
-        turn.updateTilePlacement(1, 1 , inboundMessages );
+        turn.updateTilePlacement(new TurnInfo(1, gameSettings) );
         TilePlacement tilePlacement = turn.getTilePlacement();
         assertTrue(tilePlacement != null);
     }
 
     @Test
     public void testCanUpdateAndGetBuildAction() throws InterruptedException {
-        turn.updatedBuildAction(1, 1, inboundMessages);
+        turn.updatedBuildAction(new TurnInfo(1, gameSettings));
         BuildAction buildAction = turn.getBuildAction();
         assertTrue(buildAction != null);
     }

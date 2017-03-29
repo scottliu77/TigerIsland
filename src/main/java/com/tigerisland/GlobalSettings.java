@@ -10,6 +10,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class GlobalSettings {
 
+    // TODO Change this before releasing to production
+    public final Boolean testing = true;
+
     public final static int defaultGames = 1;
     public final static int defaultPlayers = 2;
     public final static float defaultTurnTime = 20;

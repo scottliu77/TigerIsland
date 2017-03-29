@@ -20,12 +20,12 @@ public class Turn {
         this.board = new Board(board);
     }
 
-    public void updateTilePlacement(int gameID, int moveID, BlockingQueue<Message> inboundMessages) throws InterruptedException, InvalidMoveException {
+    public void updateTilePlacement(TurnInfo turnInfo) throws InterruptedException, InvalidMoveException {
         while(true) {
-            for(Message message : inboundMessages) {
+            for(Message message : turnInfo.inboundMessages) {
                 if(message.getMessageType() != MessageType.PROCESSED) {
-                    if(message.getMoveNumber() == moveID) {
-                        if(message.getGameID() == gameID) {
+                    if(message.getMoveNumber() == turnInfo.getMoveID()) {
+                        if(message.getGameID() == turnInfo.gameID) {
                             if(message.getMessageType() == MessageType.TILEPLACEMENT) {
                                 parseTilePlacement(message);
                                 message.setProcessed();
@@ -61,12 +61,12 @@ public class Turn {
         throw new InvalidMoveException("That terrain type does not exist");
     }
 
-    public void updatedBuildAction(int gameID, int moveID, BlockingQueue<Message> inboundMessages) throws InterruptedException {
+    public void updatedBuildAction(TurnInfo turnInfo) throws InterruptedException {
         while(true) {
-            for(Message message : inboundMessages) {
+            for(Message message : turnInfo.inboundMessages) {
                 if(message.getMessageType() != MessageType.PROCESSED) {
-                    if(message.getGameID() == gameID) {
-                        if(message.getMoveNumber() == moveID) {
+                    if(message.getGameID() == turnInfo.gameID) {
+                        if(message.getMoveNumber() == turnInfo.getMoveID()) {
                             if(message.getMessageType() == MessageType.VILLAGECREATION) {
                                 parseBuildAction(message, BuildActionType.VILLAGECREATION);
                                 message.setProcessed();

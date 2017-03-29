@@ -1,6 +1,7 @@
 package com.tigerisland;
 
 import com.tigerisland.game.PlayerSet;
+import com.tigerisland.game.PlayerType;
 
 public class GameSettings {
 
@@ -27,6 +28,10 @@ public class GameSettings {
     public void setPlayOrder() {
         if(globalSettings.getServerSettings().offline) {
             playerSet = new PlayerSet(globalSettings);
+            playerSet.setRandomAItypes();
+            if(globalSettings.testing) {
+                playerSet.getPlayerList().get(0).setPlayerType(PlayerType.HUMAN);
+            }
         } else {
             // TODO Server implementation of play order(?)
         }

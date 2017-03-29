@@ -3,24 +3,20 @@ package com.tigerisland.game;
 import com.tigerisland.GameSettings;
 import com.tigerisland.InvalidMoveException;
 
-import java.util.concurrent.BlockingQueue;
-
 public class Game implements Runnable {
 
     public final int gameID;
-    private int moveID;
 
     protected GameSettings gameSettings;
     protected Board board;
     protected Turn turnState;
-    protected BlockingQueue inboundQueue;
+    protected TurnInfo turnInfo;
 
     public Game(int gameID, GameSettings gameSettings){
         this.gameID = gameID;
-        this.moveID = 1;
+        this.turnInfo = new TurnInfo(gameID, gameSettings);
         this.gameSettings = gameSettings;
         this.board = new Board();
-        this.inboundQueue = gameSettings.getGlobalSettings().inboundQueue;
     }
 
     public void run() {
@@ -67,7 +63,7 @@ public class Game implements Runnable {
         unpackageTurnState(turnState);
 
         gameSettings.getPlayerSet().setNextPlayer();
-        moveID++;
+        turnInfo.incrementMoveNumber();
 
         return true;
     }
@@ -76,11 +72,28 @@ public class Game implements Runnable {
 
         turnState = new Turn(gameSettings.getPlayerSet().getCurrentPlayer(), board);
 
-        turnState.updateTilePlacement(gameID, moveID, inboundQueue);
-        turnState.updatedBuildAction(gameID, moveID, inboundQueue);
+        ifAIPickTilePlacement();
+
+        turnState.updateTilePlacement(turnInfo);
+
+        ifAIPickBuildAction();
+
+        turnState.updatedBuildAction(turnInfo);
 
         return turnState;
 
+    }
+
+    private void ifAIPickTilePlacement() {
+        if(turnState.getPlayer().getPlayerType() != PlayerType.SERVER) {
+            turnState.getPlayer().getPlayerAI().pickBuildAction(turnInfo, turnState);
+        }
+    }
+
+    private void ifAIPickBuildAction() {
+        if(turnState.getPlayer().getPlayerType() != PlayerType.SERVER) {
+            turnState.getPlayer().getPlayerAI().pickBuildAction(turnInfo, turnState);
+        }
     }
 
     protected void unpackageTurnState(Turn turnState) {
@@ -101,6 +114,6 @@ public class Game implements Runnable {
     }
 
     public int getMoveID() {
-        return moveID;
+        return turnInfo.getMoveID();
     }
 }

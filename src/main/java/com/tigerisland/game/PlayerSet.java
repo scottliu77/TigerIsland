@@ -17,6 +17,12 @@ public class PlayerSet {
         }
     }
 
+    public void setRandomAItypes() {
+        for(Player player : players) {
+            player.setPlayerType(PlayerType.pickRandomAItype());
+        }
+    }
+
     public void shufflePlayerList(){
         Collections.shuffle(players);
     }

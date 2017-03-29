@@ -1,5 +1,7 @@
 package com.tigerisland.game;
 
+import com.tigerisland.GameSettings;
+import com.tigerisland.GlobalSettings;
 import com.tigerisland.InvalidMoveException;
 import com.tigerisland.messenger.Message;
 import org.junit.Before;
@@ -18,6 +20,7 @@ public class MoveTest {
     private Player player;
     private Board board;
     private Turn turn;
+    private GameSettings gameSettings;
     private BlockingQueue<Message> inboundMessages;
 
     @Before
@@ -26,7 +29,8 @@ public class MoveTest {
         board = new Board();
         createBasicMocks();
         turn = new Turn(player, board);
-        inboundMessages = new LinkedBlockingQueue<Message>();
+        gameSettings = new GameSettings(new GlobalSettings());
+        inboundMessages = gameSettings.getGlobalSettings().inboundQueue;
     }
 
     private void createBasicMocks() {
@@ -79,7 +83,7 @@ public class MoveTest {
     @Test
     public void testCanPlaceTile() throws InvalidMoveException, InterruptedException {
         inboundMessages.add(new Message("GAME 1 MOVE 1 PLACE RG AT 2 0 60"));
-        turn.updateTilePlacement(1, 1, inboundMessages);
+        turn.updateTilePlacement(new TurnInfo(1, gameSettings));
         turn = Move.placeTile(turn);
         assertTrue(board != turn.getBoard());
     }
@@ -93,7 +97,7 @@ public class MoveTest {
 
     private void createInitialVillage() throws InvalidMoveException, InterruptedException {
         inboundMessages.add(new Message("GAME 1 MOVE 1 BUILD villager AT 1 -3"));
-        turn.updatedBuildAction(1, 1, inboundMessages);
+        turn.updatedBuildAction(new TurnInfo(1, gameSettings));
         turn = Move.takeBuildAction(turn);
     }
 
@@ -109,7 +113,7 @@ public class MoveTest {
         createInitialVillage();
 
         inboundMessages.add(new Message("GAME 1 MOVE 1 EXPAND 1 -3 AT 2 -3"));
-        turn.updatedBuildAction(1, 1, inboundMessages);
+        turn.updatedBuildAction(new TurnInfo(1, gameSettings));
         turn = Move.takeBuildAction(turn);
 
         TextGUI.printMap(turn.getBoard());
@@ -123,7 +127,7 @@ public class MoveTest {
         createInitialVillage();
 
         inboundMessages.add(new Message("GAME 1 MOVE 1 EXPAND 1 -3 AT 2 -3"));
-        turn.updatedBuildAction(1, 1, inboundMessages);
+        turn.updatedBuildAction(new TurnInfo(1, gameSettings));
         turn = Move.takeBuildAction(turn);
 
         TextGUI.printMap(turn.getBoard());
@@ -136,19 +140,19 @@ public class MoveTest {
     public void testCanPlaceTotoro() throws InterruptedException, InvalidMoveException {
 
         inboundMessages.add(new Message("GAME 1 MOVE 1 BUILD villager AT 2 -1"));
-        turn.updatedBuildAction(1, 1, inboundMessages);
+        turn.updatedBuildAction(new TurnInfo(1, gameSettings));
         turn = Move.takeBuildAction(turn);
 
         inboundMessages.add(new Message("GAME 1 MOVE 1 EXPAND 2 -1 AT 3 -2"));
-        turn.updatedBuildAction(1, 1, inboundMessages);
+        turn.updatedBuildAction(new TurnInfo(1, gameSettings));
         turn = Move.takeBuildAction(turn);
 
         inboundMessages.add(new Message("GAME 1 MOVE 1 EXPAND 2 -1 AT 2 -2"));
-        turn.updatedBuildAction(1, 1, inboundMessages);
+        turn.updatedBuildAction(new TurnInfo(1, gameSettings));
         turn = Move.takeBuildAction(turn);
 
         inboundMessages.add(new Message("GAME 1 MOVE 1 BUILD totoro AT 1 -1"));
-        turn.updatedBuildAction(1, 1, inboundMessages);
+        turn.updatedBuildAction(new TurnInfo(1, gameSettings));
         turn = Move.takeBuildAction(turn);
 
 
@@ -159,21 +163,21 @@ public class MoveTest {
     public void testCanPlaceTotoroAndGetAdjustedScore() throws InterruptedException, InvalidMoveException {
 
         inboundMessages.add(new Message("GAME 1 MOVE 1 BUILD villager AT 2 -1"));
-        turn.updatedBuildAction(1, 1, inboundMessages);
+        turn.updatedBuildAction(new TurnInfo(1, gameSettings));
         turn = Move.takeBuildAction(turn);
 
         inboundMessages.add(new Message("GAME 1 MOVE 1 EXPAND 2 -1 AT 3 -2"));
-        turn.updatedBuildAction(1, 1, inboundMessages);
+        turn.updatedBuildAction(new TurnInfo(1, gameSettings));
         turn = Move.takeBuildAction(turn);
 
         inboundMessages.add(new Message("GAME 1 MOVE 1 EXPAND 2 -1 AT 2 -2"));
-        turn.updatedBuildAction(1, 1, inboundMessages);
+        turn.updatedBuildAction(new TurnInfo(1, gameSettings));
         turn = Move.takeBuildAction(turn);
 
         int preTotoroScore = turn.getPlayer().getScore().getScoreValue();
 
         inboundMessages.add(new Message("GAME 1 MOVE 1 BUILD totoro AT 1 -1"));
-        turn.updatedBuildAction(1, 1, inboundMessages);
+        turn.updatedBuildAction(new TurnInfo(1, gameSettings));
         turn = Move.takeBuildAction(turn);
 
         assertTrue(turn.getPlayer().getScore().getScoreValue() - preTotoroScore == Score.TOTORO_POINT_VALUE);
@@ -183,11 +187,11 @@ public class MoveTest {
     public void testCanPlaceTiger() throws InterruptedException, InvalidMoveException {
 
         inboundMessages.add(new Message("GAME 1 MOVE 1 BUILD villager AT 2 -1"));
-        turn.updatedBuildAction(1, 1, inboundMessages);
+        turn.updatedBuildAction(new TurnInfo(1, gameSettings));
         turn = Move.takeBuildAction(turn);
 
         inboundMessages.add(new Message("GAME 1 MOVE 1 BUILD tiger AT 1 -1"));
-        turn.updatedBuildAction(1, 1, inboundMessages);
+        turn.updatedBuildAction(new TurnInfo(1, gameSettings));
         turn = Move.takeBuildAction(turn);
 
         assertTrue(turn.getPlayer().getPieceSet().getNumberOfTigersRemaining() == 1);
@@ -198,11 +202,11 @@ public class MoveTest {
     public void testCanPlaceTigerAndGetAdjustedScore() throws InterruptedException, InvalidMoveException {
 
         inboundMessages.add(new Message("GAME 1 MOVE 1 BUILD villager AT 2 -1"));
-        turn.updatedBuildAction(1, 1, inboundMessages);
+        turn.updatedBuildAction(new TurnInfo(1, gameSettings));
         turn = Move.takeBuildAction(turn);
 
         inboundMessages.add(new Message("GAME 1 MOVE 1 BUILD tiger AT 1 -1"));
-        turn.updatedBuildAction(1, 1, inboundMessages);
+        turn.updatedBuildAction(new TurnInfo(1, gameSettings));
         turn = Move.takeBuildAction(turn);
 
         assertTrue(turn.getPlayer().getScore().getScoreValue() == Score.TIGER_POINT_VALUE + Score.VILLAGER_POINT_VALUE);

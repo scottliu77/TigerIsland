@@ -6,14 +6,14 @@ import java.util.regex.Pattern;
 public class Message {
 
     // WARNING! patterns based on temporary protocol, subject to change
-    private final Pattern gidPattern = Pattern.compile("GAME \\d+");
-    private final Pattern moveNumberPattern = Pattern.compile("MOVE \\d+");
+    public static final Pattern gidPattern = Pattern.compile("GAME \\d+");
+    public static final Pattern moveNumberPattern = Pattern.compile("MOVE \\d+");
     //GAME <gid> MOVE <#> PLACE <tile> AT <x> <y> <orientation>
-    private final Pattern placeTilePattern = Pattern.compile("PLACE \\w+ AT -?\\d+ -?\\d+ -?\\d+");
+    public static final Pattern placeTilePattern = Pattern.compile("PLACE \\w+ AT -?\\d+ -?\\d+ -?\\d+");
     //GAME <gid> MOVE <#> BUILD <piece> AT <x> <y>
-    private final Pattern buildPattern = Pattern.compile("BUILD \\w+ AT -?\\d+ -?\\d+");
+    public static final Pattern buildPattern = Pattern.compile("BUILD \\w+ AT -?\\d+ -?\\d+");
     //GAME <gid> MOVE <#> EXPAND <x> <y> AT <new_x> <new_y>
-    private final Pattern expandPattern = Pattern.compile("EXPAND -?\\d+ -?\\d+ AT -?\\d+ -?\\d+");
+    public static final Pattern expandPattern = Pattern.compile("EXPAND -?\\d+ -?\\d+ AT -?\\d+ -?\\d+");
 
     private String message;
     private Integer gid;
