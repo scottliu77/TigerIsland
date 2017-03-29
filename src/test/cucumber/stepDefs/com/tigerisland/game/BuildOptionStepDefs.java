@@ -156,6 +156,17 @@ public class BuildOptionStepDefs{
         board.placedHexes = placedHexes;
     }
 
+    @Given("^a hex is not part of a settlement$")
+    public void aHexIsNotPartOfASettlement() throws Throwable {
+        expectedErrorMessage = "Settlement already contains a tiger or is too small";
+        Hex hex6 = new Hex("hex6", Terrain.LAKE, 3);
+        Location loc6 = new Location(0, -3);
+        hexToPlaceTiger = new PlacedHex(hex6, loc6);
+        placedHexes.add(hexToPlaceTiger);
+
+        board.placedHexes = placedHexes;
+    }
+
     @When("^a player tries to place a totoro in the settlement$")
     public void attemptToPlaceTotoro() throws InvalidMoveException {
         try {
@@ -361,8 +372,4 @@ public class BuildOptionStepDefs{
 
         return placedHex5;
     }
-
-
-
-
 }
