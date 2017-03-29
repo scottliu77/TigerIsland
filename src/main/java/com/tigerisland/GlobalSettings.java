@@ -10,8 +10,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class GlobalSettings {
 
-    // TODO Change this before releasing to production
-    public final Boolean testing = true;
+    public final Boolean manualTesting;
 
     public final static int defaultGames = 1;
     public final static int defaultPlayers = 2;
@@ -41,6 +40,8 @@ public class GlobalSettings {
        this.gameCount = defaultGames;
        this.playerCount = defaultPlayers;
        this.turnTime = defaultTurnTime;
+       this.manualTesting = false;
+
        this.parser = ArgumentParsers.newArgumentParser("com.tigerisland.TigerIsland ArgumentParser");
 
        this.serverSettings = new ServerSettings();
@@ -50,6 +51,8 @@ public class GlobalSettings {
         this.gameCount = gameCount;
         this.playerCount = playerCount;
         this.turnTime = turnTime;
+        this.manualTesting = false;
+
         this.parser = ArgumentParsers.newArgumentParser("com.tigerisland.TigerIsland ArgumentParser");
 
         this.serverSettings = new ServerSettings();
@@ -63,10 +66,12 @@ public class GlobalSettings {
         }
     }
 
-    public GlobalSettings(Boolean offline, int gameCount, int playerCount, float turnTime, String IPaddress, int port, String username, String password, ArgumentParser parser) throws ArgumentParserException {
+    public GlobalSettings(Boolean offline, int gameCount, int playerCount, float turnTime, String IPaddress, int port, String username, String password, Boolean manualTesting, ArgumentParser parser) throws ArgumentParserException {
         this.gameCount = gameCount;
         this.playerCount = playerCount;
         this.turnTime = turnTime;
+        this.manualTesting = manualTesting;
+
         this.parser = parser;
 
         this.serverSettings = new ServerSettings(IPaddress, port, username, password, offline);

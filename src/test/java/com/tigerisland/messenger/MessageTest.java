@@ -8,7 +8,7 @@ public class MessageTest {
 
     @Test
     public void testCanCreateMessage() {
-        Message message = new Message("testing 1 2 3");
+        Message message = new Message("manualTesting 1 2 3");
         assertTrue(message != null);
     }
 

@@ -29,7 +29,7 @@ public class GameSettings {
         if(globalSettings.getServerSettings().offline) {
             playerSet = new PlayerSet(globalSettings);
             playerSet.setRandomAItypes();
-            if(globalSettings.testing) {
+            if(globalSettings.manualTesting) {
                 playerSet.getPlayerList().get(0).setPlayerType(PlayerType.HUMAN);
             }
         } else {
