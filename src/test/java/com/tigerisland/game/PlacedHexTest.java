@@ -53,4 +53,9 @@ public class PlacedHexTest {
         placedHex.setExpansionStatus(status);
         assertTrue(placedHex.getExpansionStatus());
     }
+
+    @Test
+    public void testCanCheckVolcanoStatus() {
+        assertTrue(placedHex.isNotVolcano());
+    }
 }
