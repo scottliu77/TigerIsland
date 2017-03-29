@@ -22,6 +22,8 @@ public class BuildOptionStepDefs{
     private Player player;
     private PlacedHex hexToPlaceTotoro;
     private PlacedHex hexToPlaceTiger;
+    private PlacedHex hexToExpandInto;
+    private PlacedHex hexInSettlement;
     private String caughtErrorMessage;
     private String expectedErrorMessage;
     private Location locationToPlaceTotoro;
@@ -167,6 +169,100 @@ public class BuildOptionStepDefs{
         board.placedHexes = placedHexes;
     }
 
+    // NEWLY ADDED
+    @Given("^a settlement that is of your own color and an adjacent Volcano hex$")
+    public void aSettlementAdjacentToAVolcano() {
+        expectedErrorMessage = "Cannot expand into a Volcano";
+
+        Location loc1 = new Location(0,1);
+        Hex hex1 = new Hex("TileID1", Terrain.VOLCANO);
+        hexToExpandInto = new PlacedHex(hex1, loc1);
+        placedHexes.add(hexToExpandInto);
+
+        Location loc2 = new Location(0,2);
+        Hex hex2 = new Hex("TileID1", Terrain.ROCKY);
+        hex2.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        hexInSettlement = new PlacedHex(hex2, loc2);
+        placedHexes.add(hexInSettlement);
+
+        Settlement settlement = new Settlement(hexInSettlement, placedHexes);
+        board.placedHexes = this.placedHexes;
+        board.settlements.add(settlement);
+    }
+
+    @Given("^a settlement with valid adjacent hexes$")
+    public void aSettlementWithValidAdjacentHexes() {
+        Location loc = new Location(0,0);
+        Hex hex = new Hex("TileID1", Terrain.ROCKY);
+        hex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        hexInSettlement = new PlacedHex(hex, loc);
+        placedHexes.add(hexInSettlement);
+
+        Location loc1 = new Location(0,1);
+        Hex hex1 = new Hex("TileID1", Terrain.LAKE);
+        hexToExpandInto = new PlacedHex(hex1, loc1);
+        placedHexes.add(hexToExpandInto);
+
+        Location loc2 = new Location(-1,2);
+        Hex hex2 = new Hex("TileID1", Terrain.LAKE);
+        PlacedHex pHex2 = new PlacedHex(hex2, loc2);
+        placedHexes.add(pHex2);
+
+        Location loc3 = new Location(0,2);
+        Hex hex3 = new Hex("TileID2", Terrain.LAKE);
+        PlacedHex pHex3 = new PlacedHex(hex3, loc3);
+        placedHexes.add(pHex3);
+
+        Location loc4 = new Location(1,2);
+        Hex hex4 = new Hex("TileID2", Terrain.LAKE);
+        PlacedHex pHex4 = new PlacedHex(hex4, loc4);
+        placedHexes.add(pHex4);
+
+        Settlement settlement = new Settlement(hexInSettlement, placedHexes);
+        board.placedHexes = this.placedHexes;
+        board.settlements.add(settlement);
+    }
+
+    @Given("^a player has fewer pieces than needed to expand$")
+    public void aPlayerHasFewerPiecesThanNeededToExpand() {
+        expectedErrorMessage = "Player does not have enough pieces to populate the target hex";
+        Location loc = new Location(0,0);
+        Hex hex = new Hex("TileID1", Terrain.ROCKY);
+        hex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        hexInSettlement = new PlacedHex(hex, loc);
+        placedHexes.add(hexInSettlement);
+
+        Location loc1 = new Location(0,1);
+        Hex hex1 = new Hex("TileID1", Terrain.LAKE);
+        hexToExpandInto = new PlacedHex(hex1, loc1);
+        placedHexes.add(hexToExpandInto);
+
+        Location loc2 = new Location(-1,2);
+        Hex hex2 = new Hex("TileID1", Terrain.LAKE);
+        PlacedHex pHex2 = new PlacedHex(hex2, loc2);
+        placedHexes.add(pHex2);
+
+        Location loc3 = new Location(0,2);
+        Hex hex3 = new Hex("TileID2", Terrain.LAKE);
+        PlacedHex pHex3 = new PlacedHex(hex3, loc3);
+        placedHexes.add(pHex3);
+
+        Location loc4 = new Location(1,2);
+        Hex hex4 = new Hex("TileID2", Terrain.LAKE);
+        PlacedHex pHex4 = new PlacedHex(hex4, loc4);
+        placedHexes.add(pHex4);
+
+        Settlement settlement = new Settlement(hexInSettlement, placedHexes);
+        board.placedHexes = this.placedHexes;
+        board.settlements.add(settlement);
+
+        try {
+            player.getPieceSet().placeMultipleVillagers(17);
+        } catch(InvalidMoveException e) {
+            e.printStackTrace();
+        }
+    }
+
     @When("^a player tries to place a totoro in the settlement$")
     public void attemptToPlaceTotoro() throws InvalidMoveException {
         try {
@@ -248,6 +344,16 @@ public class BuildOptionStepDefs{
         }
     }
 
+    // NEWLY ADDED
+    @When("^a player attempts to expand$")
+    public void aPlayerAttemptsToExpand() {
+        try {
+            board.expandVillage(player, hexToExpandInto.getLocation(), hexInSettlement.getLocation());
+        } catch (InvalidMoveException e) {
+            caughtErrorMessage = e.getMessage();
+        }
+    }
+
     @Then("^the move is rejected")
     public void expectedAndCaughtErrorMessageDontMatch(){
         assertTrue(caughtErrorMessage.equals(expectedErrorMessage));
@@ -256,6 +362,12 @@ public class BuildOptionStepDefs{
     @Then("^the move is accepted")
     public void expectedAndCaughtErrorMessageMatch(){
         assertTrue(caughtErrorMessage  == null);
+    }
+
+    // NEWLY ADDED
+    @Then("^the player has the correct amount of remaining villagers$")
+    public void checkThePlayerHasTheCorrectAmountOfRemainingVillagers() {
+        assertTrue(player.getPieceSet().getNumberOfVillagersRemaining() == 16);
     }
 
     @And("^the player's inventory updates properly")
