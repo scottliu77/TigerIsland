@@ -1,12 +1,12 @@
-package com.tigerisland;
+package com.tigerisland.AI;
 
+import com.tigerisland.AI.AI_Info;
+import com.tigerisland.InvalidMoveException;
 import com.tigerisland.game.*;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-
-import static org.junit.Assert.*;
 
 public class AI_InfoTest {
     Board board;
