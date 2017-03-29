@@ -1190,4 +1190,51 @@ public class BoardTest{
             System.out.println(e.getMessage());
         }
     }
+
+    @Test
+    public void testPlayerCannotPopulateAllExpandableHexes() {
+        Player player = new Player(Color.BLACK);
+
+        Location loc = new Location(0,0);
+        Hex hex = new Hex("TileID1", Terrain.ROCKY);
+        hex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        PlacedHex pHex = new PlacedHex(hex, loc);
+        placedHexes.add(pHex);
+
+        Location loc1 = new Location(0,1);
+        Hex hex1 = new Hex("TileID1", Terrain.LAKE);
+        PlacedHex pHex1 = new PlacedHex(hex1, loc1);
+        placedHexes.add(pHex1);
+
+        Location loc2 = new Location(-1,2);
+        Hex hex2 = new Hex("TileID1", Terrain.LAKE);
+        PlacedHex pHex2 = new PlacedHex(hex2, loc2);
+        placedHexes.add(pHex2);
+
+        Location loc3 = new Location(0,2);
+        Hex hex3 = new Hex("TileID2", Terrain.LAKE);
+        PlacedHex pHex3 = new PlacedHex(hex3, loc3);
+        placedHexes.add(pHex3);
+
+        Location loc4 = new Location(1,2);
+        Hex hex4 = new Hex("TileID2", Terrain.LAKE);
+        PlacedHex pHex4 = new PlacedHex(hex4, loc4);
+        placedHexes.add(pHex4);
+
+        Settlement settlement = new Settlement(pHex, placedHexes);
+        board.placedHexes = this.placedHexes;
+        board.settlements.add(settlement);
+
+        try {
+            player.getPieceSet().placeMultipleVillagers(17);
+        } catch(InvalidMoveException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            board.expandVillage(player, loc1, loc);
+        } catch (InvalidMoveException e) {
+            assertTrue(e.getMessage().equals("Player does not have enough pieces to populate the target hex"));
+        }
+    }
 }

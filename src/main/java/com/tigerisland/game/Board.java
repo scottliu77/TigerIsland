@@ -456,7 +456,6 @@ public class Board{
         TotoroPlacer.placeTotoro(player, targetHex, adjacentSettlementsToTargetLocation);
     }
 
-
     public void placeTiger(Player player, Location location) throws InvalidMoveException{
         PlacedHex targetHex = placedHexAtLocation(location);
 
@@ -524,6 +523,7 @@ public class Board{
     public ArrayList<PlacedHex> getPlacedHexes(){
         return placedHexes;
     }
+
     public ArrayList<Location> getEdgeSpaces(){
         return edgeSpaces;
     }

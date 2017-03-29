@@ -30,7 +30,7 @@ public class GlobalSettingsTest {
         try {
             GlobalSettings globalSettings = new GlobalSettings(ServerSettings.defaultOffline, GlobalSettings.defaultGames,
                     GlobalSettings.defaultPlayers, GlobalSettings.defaultTurnTime, ServerSettings.defaultIPaddress,
-                    ServerSettings.defaultPort, ServerSettings.defaultUsername, ServerSettings.defaultPassword, parser);
+                    ServerSettings.defaultPort, ServerSettings.defaultUsername, ServerSettings.defaultPassword, false, parser);
         } catch (ArgumentParserException e) {
             e.printStackTrace();
         }

@@ -1,4 +1,4 @@
-package com.tigerisland;
+package com.tigerisland.AI;
 
 import com.tigerisland.game.*;
 
