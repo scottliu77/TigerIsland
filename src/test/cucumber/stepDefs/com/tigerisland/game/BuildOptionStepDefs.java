@@ -169,7 +169,6 @@ public class BuildOptionStepDefs{
         board.placedHexes = placedHexes;
     }
 
-    // NEWLY ADDED
     @Given("^a settlement that is of your own color and an adjacent Volcano hex$")
     public void aSettlementAdjacentToAVolcano() {
         expectedErrorMessage = "Cannot expand into a Volcano";
@@ -344,7 +343,6 @@ public class BuildOptionStepDefs{
         }
     }
 
-    // NEWLY ADDED
     @When("^a player attempts to expand$")
     public void aPlayerAttemptsToExpand() {
         try {
@@ -364,7 +362,6 @@ public class BuildOptionStepDefs{
         assertTrue(caughtErrorMessage  == null);
     }
 
-    // NEWLY ADDED
     @Then("^the player has the correct amount of remaining villagers$")
     public void checkThePlayerHasTheCorrectAmountOfRemainingVillagers() {
         assertTrue(player.getPieceSet().getNumberOfVillagersRemaining() == 16);
