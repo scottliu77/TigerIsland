@@ -19,3 +19,10 @@ Feature: Placing Tiger Conditions
     Given a settlement already containing a tiger
     When a player tries to place a tiger in the settlement
     Then the move is rejected
+
+  Scenario: When attempting to place a tiger on a hex not part of a settlement, the build fails
+    Given a hex is not part of a settlement
+    When a player tries to place a tiger on a hex
+    Then the move is rejected
+
+
