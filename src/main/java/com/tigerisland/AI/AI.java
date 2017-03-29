@@ -42,12 +42,19 @@ public class AI {
     }
 
     private String pickSafeTilePlacement() {
+        String tileString = createTileString();
         if(turnState.getBoard().getPlacedHexes().size() == 0) {
-            return assembleMessage("PLACE GG AT 0 0 0");
+            return assembleMessage("PLACE " + tileString + " AT 0 0 0");
         } else {
             Location adjacentLocation = findFirstPlaceableHexOnRight();
-            return assembleMessage("PLACE GG AT " + adjacentLocation.getX() + " " + adjacentLocation.getY() + " 0");
+            return assembleMessage("PLACE " + tileString + " AT " + adjacentLocation.getX() + " " + adjacentLocation.getY() + " 0");
         }
+    }
+
+    private String createTileString() {
+        Character leftTerrain = turnInfo.getTile().getLeftHex().getHexTerrain().getTerrainChar();
+        Character rightTerrain = turnInfo.getTile().getRightHex().getHexTerrain().getTerrainChar();
+        return Character.toString(leftTerrain) + Character.toString(rightTerrain);
     }
 
     private Location findFirstPlaceableHexOnRight() {

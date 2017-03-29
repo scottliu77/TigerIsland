@@ -1,6 +1,5 @@
 package com.tigerisland.game;
 
-import javax.print.attribute.standard.Chromaticity;
 import java.util.ArrayList;
 
 public class TextGUI {
@@ -173,7 +172,7 @@ public class TextGUI {
             int centerX = 4 + (x*2-leftMost)*3 + y*3;
             int centerY = 4 + (topMost-y)*5;
 
-            char hexTerrain = hex.getHexTerrain().getType().charAt(0);
+            char hexTerrain = hex.getHexTerrain().getTerrainString().charAt(0);
             map[centerX-1][(yDimensionMax-1)-(centerY-1)] = hexTerrain;
             map[centerX][(yDimensionMax-1)-(centerY-1)] = '-';
             char hexHeight = Integer.toString(hex.getHeight()).charAt(0);

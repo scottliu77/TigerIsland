@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 import static org.junit.Assert.assertTrue;
 
@@ -97,7 +96,7 @@ public class MoveTest {
 
     private void createInitialVillage() throws InvalidMoveException, InterruptedException {
         inboundMessages.add(new Message("GAME 1 MOVE 1 BUILD villager AT 1 -3"));
-        turn.updatedBuildAction(new TurnInfo(1, gameSettings));
+        turn.updateBuildAction(new TurnInfo(1, gameSettings));
         turn = Move.takeBuildAction(turn);
     }
 
@@ -113,7 +112,7 @@ public class MoveTest {
         createInitialVillage();
 
         inboundMessages.add(new Message("GAME 1 MOVE 1 EXPAND 1 -3 AT 2 -3"));
-        turn.updatedBuildAction(new TurnInfo(1, gameSettings));
+        turn.updateBuildAction(new TurnInfo(1, gameSettings));
         turn = Move.takeBuildAction(turn);
 
         TextGUI.printMap(turn.getBoard());
@@ -127,7 +126,7 @@ public class MoveTest {
         createInitialVillage();
 
         inboundMessages.add(new Message("GAME 1 MOVE 1 EXPAND 1 -3 AT 2 -3"));
-        turn.updatedBuildAction(new TurnInfo(1, gameSettings));
+        turn.updateBuildAction(new TurnInfo(1, gameSettings));
         turn = Move.takeBuildAction(turn);
 
         TextGUI.printMap(turn.getBoard());
@@ -140,19 +139,19 @@ public class MoveTest {
     public void testCanPlaceTotoro() throws InterruptedException, InvalidMoveException {
 
         inboundMessages.add(new Message("GAME 1 MOVE 1 BUILD villager AT 2 -1"));
-        turn.updatedBuildAction(new TurnInfo(1, gameSettings));
+        turn.updateBuildAction(new TurnInfo(1, gameSettings));
         turn = Move.takeBuildAction(turn);
 
         inboundMessages.add(new Message("GAME 1 MOVE 1 EXPAND 2 -1 AT 3 -2"));
-        turn.updatedBuildAction(new TurnInfo(1, gameSettings));
+        turn.updateBuildAction(new TurnInfo(1, gameSettings));
         turn = Move.takeBuildAction(turn);
 
         inboundMessages.add(new Message("GAME 1 MOVE 1 EXPAND 2 -1 AT 2 -2"));
-        turn.updatedBuildAction(new TurnInfo(1, gameSettings));
+        turn.updateBuildAction(new TurnInfo(1, gameSettings));
         turn = Move.takeBuildAction(turn);
 
         inboundMessages.add(new Message("GAME 1 MOVE 1 BUILD totoro AT 1 -1"));
-        turn.updatedBuildAction(new TurnInfo(1, gameSettings));
+        turn.updateBuildAction(new TurnInfo(1, gameSettings));
         turn = Move.takeBuildAction(turn);
 
 
@@ -163,21 +162,21 @@ public class MoveTest {
     public void testCanPlaceTotoroAndGetAdjustedScore() throws InterruptedException, InvalidMoveException {
 
         inboundMessages.add(new Message("GAME 1 MOVE 1 BUILD villager AT 2 -1"));
-        turn.updatedBuildAction(new TurnInfo(1, gameSettings));
+        turn.updateBuildAction(new TurnInfo(1, gameSettings));
         turn = Move.takeBuildAction(turn);
 
         inboundMessages.add(new Message("GAME 1 MOVE 1 EXPAND 2 -1 AT 3 -2"));
-        turn.updatedBuildAction(new TurnInfo(1, gameSettings));
+        turn.updateBuildAction(new TurnInfo(1, gameSettings));
         turn = Move.takeBuildAction(turn);
 
         inboundMessages.add(new Message("GAME 1 MOVE 1 EXPAND 2 -1 AT 2 -2"));
-        turn.updatedBuildAction(new TurnInfo(1, gameSettings));
+        turn.updateBuildAction(new TurnInfo(1, gameSettings));
         turn = Move.takeBuildAction(turn);
 
         int preTotoroScore = turn.getPlayer().getScore().getScoreValue();
 
         inboundMessages.add(new Message("GAME 1 MOVE 1 BUILD totoro AT 1 -1"));
-        turn.updatedBuildAction(new TurnInfo(1, gameSettings));
+        turn.updateBuildAction(new TurnInfo(1, gameSettings));
         turn = Move.takeBuildAction(turn);
 
         assertTrue(turn.getPlayer().getScore().getScoreValue() - preTotoroScore == Score.TOTORO_POINT_VALUE);
@@ -187,11 +186,11 @@ public class MoveTest {
     public void testCanPlaceTiger() throws InterruptedException, InvalidMoveException {
 
         inboundMessages.add(new Message("GAME 1 MOVE 1 BUILD villager AT 2 -1"));
-        turn.updatedBuildAction(new TurnInfo(1, gameSettings));
+        turn.updateBuildAction(new TurnInfo(1, gameSettings));
         turn = Move.takeBuildAction(turn);
 
         inboundMessages.add(new Message("GAME 1 MOVE 1 BUILD tiger AT 1 -1"));
-        turn.updatedBuildAction(new TurnInfo(1, gameSettings));
+        turn.updateBuildAction(new TurnInfo(1, gameSettings));
         turn = Move.takeBuildAction(turn);
 
         assertTrue(turn.getPlayer().getPieceSet().getNumberOfTigersRemaining() == 1);
@@ -202,11 +201,11 @@ public class MoveTest {
     public void testCanPlaceTigerAndGetAdjustedScore() throws InterruptedException, InvalidMoveException {
 
         inboundMessages.add(new Message("GAME 1 MOVE 1 BUILD villager AT 2 -1"));
-        turn.updatedBuildAction(new TurnInfo(1, gameSettings));
+        turn.updateBuildAction(new TurnInfo(1, gameSettings));
         turn = Move.takeBuildAction(turn);
 
         inboundMessages.add(new Message("GAME 1 MOVE 1 BUILD tiger AT 1 -1"));
-        turn.updatedBuildAction(new TurnInfo(1, gameSettings));
+        turn.updateBuildAction(new TurnInfo(1, gameSettings));
         turn = Move.takeBuildAction(turn);
 
         assertTrue(turn.getPlayer().getScore().getScoreValue() == Score.TIGER_POINT_VALUE + Score.VILLAGER_POINT_VALUE);

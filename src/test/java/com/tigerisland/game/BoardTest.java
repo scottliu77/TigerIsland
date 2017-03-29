@@ -645,7 +645,7 @@ public class BoardTest{
             lake = board.isHexLocationValid(loc);
         } catch (InvalidMoveException e) {
             System.out.println(e.getMessage());
-            assertTrue(lake.getType() == "Lake");
+            assertTrue(lake.getTerrainString() == "Lake");
         }
     }
 

@@ -1,6 +1,5 @@
 package com.tigerisland.game;
 
-import com.tigerisland.game.Terrain;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -21,6 +20,6 @@ public class TerrainTest {
 
     @Test
     public void testCanGetTerrainString() {
-        assertTrue(terrainType.getType() == "Grasslands");
+        assertTrue(terrainType.getTerrainString() == "Grasslands");
     }
 }

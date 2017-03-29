@@ -1,5 +1,6 @@
 package com.tigerisland.AI;
 
+import com.tigerisland.Deck;
 import com.tigerisland.GameSettings;
 import com.tigerisland.GlobalSettings;
 import com.tigerisland.InvalidMoveException;
@@ -19,15 +20,18 @@ public class AITest {
     private Turn turnState;
     private TurnInfo turnInfo;
     private AI testAI;
+    private GameSettings gameSettings;
     private BlockingQueue<Message> inboundMessages;
+    private Deck deck;
 
     @Before
     public void createMocks() {
+        gameSettings = new GameSettings(new GlobalSettings());
         testPlayer = new Player(Color.BLACK);
         testPlayerType = PlayerType.BasicAI;
         testPlayer.setPlayerType(testPlayerType);
         turnState = new Turn(testPlayer, new Board());
-        turnInfo = new TurnInfo(1, new GameSettings(new GlobalSettings()));
+        turnInfo = new TurnInfo(1, gameSettings);
         testAI = new AI(testPlayerType);
         inboundMessages = turnInfo.inboundMessages;
     }
@@ -39,9 +43,10 @@ public class AITest {
 
     @Test
     public void testCanPickInitialTilePlacement() {
+        turnInfo.drawANewTile();
         testAI.pickTilePlacement(turnInfo, turnState);
         Message message = inboundMessages.remove();
-        assertTrue(message.toString().equals("GAME 1 MOVE 1 PLACE GG AT 0 0 0"));
+        assertTrue(message.toString().contains("AT 0 0 0"));
     }
 
     @Test

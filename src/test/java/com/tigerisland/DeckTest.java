@@ -19,6 +19,7 @@ public class DeckTest{
     @Before
     public void createDeck() {
         this.deck = new Deck();
+        deck.createOfflineDeck();
         this.baseDeck = deck.tileDeck;
     }
 

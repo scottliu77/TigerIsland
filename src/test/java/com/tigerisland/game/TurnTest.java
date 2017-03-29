@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 import static org.junit.Assert.assertTrue;
 
@@ -45,7 +44,7 @@ public class TurnTest {
 
     @Test
     public void testCanUpdateAndGetBuildAction() throws InterruptedException {
-        turn.updatedBuildAction(new TurnInfo(1, gameSettings));
+        turn.updateBuildAction(new TurnInfo(1, gameSettings));
         BuildAction buildAction = turn.getBuildAction();
         assertTrue(buildAction != null);
     }

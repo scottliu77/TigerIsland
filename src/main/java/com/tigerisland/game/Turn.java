@@ -4,8 +4,6 @@ import com.tigerisland.InvalidMoveException;
 import com.tigerisland.messenger.Message;
 import com.tigerisland.messenger.MessageType;
 
-import java.util.concurrent.BlockingQueue;
-
 import static java.lang.Thread.sleep;
 
 public class Turn {
@@ -24,7 +22,7 @@ public class Turn {
         while(true) {
             for(Message message : turnInfo.inboundMessages) {
                 if(message.getMessageType() != MessageType.PROCESSED) {
-                    if(message.getMoveNumber() == turnInfo.getMoveID()) {
+                    if(message.getMoveID() == turnInfo.getMoveID()) {
                         if(message.getGameID() == turnInfo.gameID) {
                             if(message.getMessageType() == MessageType.TILEPLACEMENT) {
                                 parseTilePlacement(message);
@@ -61,12 +59,12 @@ public class Turn {
         throw new InvalidMoveException("That terrain type does not exist");
     }
 
-    public void updatedBuildAction(TurnInfo turnInfo) throws InterruptedException {
+    public void updateBuildAction(TurnInfo turnInfo) throws InterruptedException {
         while(true) {
             for(Message message : turnInfo.inboundMessages) {
                 if(message.getMessageType() != MessageType.PROCESSED) {
                     if(message.getGameID() == turnInfo.gameID) {
-                        if(message.getMoveNumber() == turnInfo.getMoveID()) {
+                        if(message.getMoveID() == turnInfo.getMoveID()) {
                             if(message.getMessageType() == MessageType.VILLAGECREATION) {
                                 parseBuildAction(message, BuildActionType.VILLAGECREATION);
                                 message.setProcessed();

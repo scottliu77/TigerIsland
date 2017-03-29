@@ -33,13 +33,13 @@ public class MessageTest {
     @Test
     public void testCanSendAndGetMoveID() {
         Message message = new Message("GAME 1 MOVE 1");
-        assertTrue(message.getMoveNumber() == 1);
+        assertTrue(message.getMoveID() == 1);
     }
 
     @Test
     public void testMessagesNotContainingMoveIDsetNull() {
         Message message = new Message("Game 1");
-        assertTrue(message.getMoveNumber() == null);
+        assertTrue(message.getMoveID() == null);
     }
 
     @Test

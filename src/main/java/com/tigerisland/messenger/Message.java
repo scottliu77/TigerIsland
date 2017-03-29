@@ -8,17 +8,17 @@ public class Message {
     // WARNING! patterns based on temporary protocol, subject to change
     public static final Pattern gidPattern = Pattern.compile("GAME \\d+");
     public static final Pattern moveNumberPattern = Pattern.compile("MOVE \\d+");
-    //GAME <gid> MOVE <#> PLACE <tile> AT <x> <y> <orientation>
+    //GAME <gameID> MOVE <#> PLACE <tile> AT <x> <y> <orientation>
     public static final Pattern placeTilePattern = Pattern.compile("PLACE \\w+ AT -?\\d+ -?\\d+ -?\\d+");
-    //GAME <gid> MOVE <#> BUILD <piece> AT <x> <y>
+    //GAME <gameID> MOVE <#> BUILD <piece> AT <x> <y>
     public static final Pattern buildPattern = Pattern.compile("BUILD \\w+ AT -?\\d+ -?\\d+");
-    //GAME <gid> MOVE <#> EXPAND <x> <y> AT <new_x> <new_y>
+    //GAME <gameID> MOVE <#> EXPAND <x> <y> AT <new_x> <new_y>
     public static final Pattern expandPattern = Pattern.compile("EXPAND -?\\d+ -?\\d+ AT -?\\d+ -?\\d+");
 
     private String message;
-    private Integer gid;
+    private Integer gameID;
     private MessageType messageType;
-    private Integer moveNumber;
+    private Integer moveID;
 
     private String tile;
     private Integer x;
@@ -39,14 +39,14 @@ public class Message {
     private void checkForGameID() {
         Matcher gidMatcher = gidPattern.matcher(message);
         while(gidMatcher.find()) {
-            gid = Integer.valueOf(gidMatcher.group().replaceAll("\\D+", ""));
+            gameID = Integer.valueOf(gidMatcher.group().replaceAll("\\D+", ""));
         }
     }
 
     private void checkForMoveNumber() {
         Matcher moveMatcher = moveNumberPattern.matcher(message);
         while(moveMatcher.find()) {
-            moveNumber = Integer.valueOf(moveMatcher.group().replaceAll("\\D+", ""));
+            moveID = Integer.valueOf(moveMatcher.group().replaceAll("\\D+", ""));
         }
     }
 
@@ -107,11 +107,11 @@ public class Message {
     }
 
     public Integer getGameID() {
-        return gid;
+        return gameID;
     }
 
-    public Integer getMoveNumber() {
-        return moveNumber;
+    public Integer getMoveID() {
+        return moveID;
     }
 
     public String getTileString() {

@@ -15,13 +15,13 @@ public class GameSettings {
 
     public GameSettings(GlobalSettings settings) {
         this.globalSettings = settings;
+        setDeck();
     }
 
     public void setDeck() {
+        deck = new Deck();
         if(globalSettings.getServerSettings().offline) {
-            deck = new Deck();
-        } else {
-            // TODO Server implementation of deck(?)
+            deck.createOfflineDeck();
         }
     }
 

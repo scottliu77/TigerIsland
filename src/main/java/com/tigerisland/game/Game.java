@@ -51,16 +51,17 @@ public class Game implements Runnable {
         turnState = Move.placeTile(turnState);
 
         if(EndConditions.noValidMoves(gameSettings.getPlayerSet().getCurrentPlayer(), board)) {
+            unpackageTurnState(turnState);
             return false;
         }
 
         turnState = Move.takeBuildAction(turnState);
 
+        unpackageTurnState(turnState);
+
         if(EndConditions.playerIsOutOfPieces(gameSettings.getPlayerSet().getCurrentPlayer())) {
             return false;
         }
-
-        unpackageTurnState(turnState);
 
         gameSettings.getPlayerSet().setNextPlayer();
         turnInfo.incrementMoveNumber();
@@ -72,13 +73,15 @@ public class Game implements Runnable {
 
         turnState = new Turn(gameSettings.getPlayerSet().getCurrentPlayer(), board);
 
+        turnInfo.drawANewTile();
+
         ifAIPickTilePlacement();
 
         turnState.updateTilePlacement(turnInfo);
 
         ifAIPickBuildAction();
 
-        turnState.updatedBuildAction(turnInfo);
+        turnState.updateBuildAction(turnInfo);
 
         return turnState;
 

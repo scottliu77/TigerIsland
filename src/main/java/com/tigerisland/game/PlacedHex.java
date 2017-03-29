@@ -45,7 +45,7 @@ public class PlacedHex {
             Location loc = list.get(ii).getLocation();
             String locString = "<"+Integer.toString(loc.getX())+","+Integer.toString(loc.getY())+">";
             Hex hex = list.get(ii).getHex();
-            String hexTerrain = "T="+hex.getHexTerrain().getType();
+            String hexTerrain = "T="+hex.getHexTerrain().getTerrainString();
             String hexHeight = "H="+Integer.toString(hex.getHeight());
             String hexPieceType = hex.getPieceType();
             String hexPieceCount = Integer.toString(hex.getPieceCount());

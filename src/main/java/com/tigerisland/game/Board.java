@@ -99,7 +99,7 @@ public class Board{
             !(hexAt(centerLoc).getTileID().equals(hexAt(loc2).getTileID())) ||
             !(hexAt(loc1).getTileID().equals(hexAt(loc2).getTileID()));
         boolean volcanosOverlap =
-            (hexExistsAtLocation(centerLoc))?(hexAt(centerLoc).getHexTerrain().getType().equals("Volcano")):(false);
+            (hexExistsAtLocation(centerLoc))?(hexAt(centerLoc).getHexTerrain().getTerrainString().equals("Volcano")):(false);
         return (areAllOccupiedLocations && areAllTheSameHeight && isOn2OrMoreTiles && volcanosOverlap);
     }
 

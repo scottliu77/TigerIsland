@@ -67,7 +67,7 @@ public class OfflineSystemSetupStepDefs {
         for (Terrain terrainType1 : Terrain.values()) {
             for (Terrain terrainType2 : Terrain.values()) {
                 if (terrainType1 != Terrain.VOLCANO && terrainType2 != Terrain.VOLCANO) {
-                    uniqueTerrainCombinations.add(terrainType1.getType() + terrainType2.getType());
+                    uniqueTerrainCombinations.add(terrainType1.getTerrainString() + terrainType2.getTerrainString());
                 }
             }
         }
@@ -77,7 +77,7 @@ public class OfflineSystemSetupStepDefs {
     private ArrayList<String> getAllStringCombinationsFoundInDeck() {
         ArrayList<String> combinationsFound = new ArrayList<String>();
         for(Tile tile: deck.tileDeck) {
-            combinationsFound.add(tile.getLeftHex().getHexTerrain().getType() + tile.getRightHex().getHexTerrain().getType());
+            combinationsFound.add(tile.getLeftHex().getHexTerrain().getTerrainString() + tile.getRightHex().getHexTerrain().getTerrainString());
         }
         return combinationsFound;
     }

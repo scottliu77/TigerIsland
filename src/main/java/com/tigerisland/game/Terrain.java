@@ -8,14 +8,18 @@ public enum Terrain {
     LAKE("Lake"),
     ROCKY("Rocky");
 
-    private String type;
+    private String terrain;
 
-    Terrain(String type) {
-        this.type = type;
+    Terrain(String terrain) {
+        this.terrain = terrain;
     }
 
-    public String getType() {
-        return type;
+    public String getTerrainString() {
+        return terrain;
     }
 
+    public Character getTerrainChar() {
+        return terrain.charAt(0);
+    }
 }
+

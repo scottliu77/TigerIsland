@@ -9,6 +9,7 @@ public class TurnInfo {
 
     public final int gameID;
     private int moveID;
+    private Tile currentTile;
     private GameSettings gameSettings;
     public final BlockingQueue<Message> inboundMessages;
 
@@ -27,7 +28,15 @@ public class TurnInfo {
         moveID++;
     }
 
+    public void drawANewTile() {
+        currentTile = gameSettings.getDeck().drawTile();
+    }
+
     public GameSettings getGameSettings() {
         return gameSettings;
+    }
+
+    public Tile getTile() {
+        return currentTile;
     }
 }

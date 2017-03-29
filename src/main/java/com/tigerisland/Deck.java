@@ -12,6 +12,9 @@ public class Deck {
 
     public Deck() {
         this.tileDeck = new ArrayList<Tile>();
+    }
+
+    public void createOfflineDeck() {
         this.populateDeck();
         this.shuffleDeck();
     }
@@ -40,4 +43,7 @@ public class Deck {
         return tileDeck.size();
     }
 
+    public Tile drawTile() {
+        return tileDeck.remove(0);
+    }
 }

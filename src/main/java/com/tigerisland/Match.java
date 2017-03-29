@@ -80,19 +80,11 @@ public class Match {
     private void setup() {
         gameSettings.setPlayOrder();
         if(globalSettings.getServerSettings().offline) {
-            setupOfflineMatch();
+            constructOfflineGames();
         } else {
-            setupOnlineMatch();
+            constructOfflineGames();
+            // TODO change to constructOfflineGames when needed
         }
-    }
-
-    private void setupOfflineMatch() {
-        configureOfflineGameSettings();
-        constructOfflineGames();
-    }
-
-    private void configureOfflineGameSettings() {
-        gameSettings.setDeck();
     }
 
     private void constructOfflineGames() {
@@ -100,10 +92,4 @@ public class Match {
             games.add(game, new Game(1, gameSettings));
         }
     }
-
-    private void setupOnlineMatch() {
-        configureOfflineGameSettings(); // temporary usage
-        // TODO constructOnlineGames()
-    }
-
 }
