@@ -48,7 +48,7 @@ public final class Move {
 
         turnState.getBoard().placeTotoro(turnState.getPlayer(), turnState.getBuildAction().getLocation());
         turnState.getBoard().updateSettlements();
-
+        turnState.getPlayer().getScore().addPoints(Score.TOTORO_POINT_VALUE);
         return turnState;
     }
 
@@ -56,6 +56,7 @@ public final class Move {
 
         turnState.getBoard().placeTiger(turnState.getPlayer(), turnState.getBuildAction().getLocation());
         turnState.getBoard().updateSettlements();
+        turnState.getPlayer().getScore().addPoints(Score.TIGER_POINT_VALUE);
 
         return turnState;
     }

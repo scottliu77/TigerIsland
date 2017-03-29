@@ -7,6 +7,7 @@ import java.util.*;
 public class Board{
     static final int SIZE_REQUIRED_FOR_TOTORO = 5;
     static final int HEIGHT_REQUIRED_FOR_TIGER = 3;
+    static final int SIZE_REQUIRED_FOR_TIGER = 1;
 
     protected ArrayList<PlacedHex> placedHexes;
     protected ArrayList<Location> edgeSpaces;
@@ -449,8 +450,6 @@ public class Board{
         return  locationsOfPlacedHexes;
     }
 
-    //TODO: Make sure if a totoro is placed between two settlements and one can accept it but the other
-    //TODO: has a totoro, that the build should succeed
     public void placeTotoro(Player player, Location location) throws InvalidMoveException{
         PlacedHex targetHex = placedHexAtLocation(location);
         if (targetHex == null) {
@@ -463,15 +462,11 @@ public class Board{
             throw new InvalidMoveException("Cannot place a piece on a volcano hex");
         }
         ArrayList<Settlement> adjacentSettlementsToTargetLocation = findAdjacentSettlementsToLocation(targetHex.getLocation());
-        boolean noAdjacentSettlementWithoutTotoro = false;
         removeSettlementsThatCantAcceptTotoroFromList(adjacentSettlementsToTargetLocation);
         if(adjacentSettlementsToTargetLocation.size() == 0){
             throw new InvalidMoveException("Settlement already contains a totoro or is too small");
         }
         targetHex.getHex().addPiecesToHex(player.getPieceSet().placeTotoro(), 1);
-        player.getScore().addPoints(Score.TOTORO_POINT_VALUE);
-
-
     }
 
     private void removeSettlementsThatCantAcceptTotoroFromList(ArrayList<Settlement> adjacentSettlementsToTargetLocation) {
@@ -486,37 +481,36 @@ public class Board{
 
 
     public void placeTiger(Player player, Location location) throws InvalidMoveException{
-        PlacedHex placedHex = placedHexAtLocation(location);
+        PlacedHex targetHex = placedHexAtLocation(location);
 
-        if (placedHex == null) {
+        if (targetHex == null) {
             throw new InvalidMoveException("Target hex does not exist");
         }
-        if (placedHex.getHex().getPieceCount() > 0) {
+        if (targetHex.getHex().getPieceCount() > 0) {
             throw new InvalidMoveException("Target hex already contains piece(s)");
         }
-        if (placedHex.getHex().getHexTerrain() == Terrain.VOLCANO) {
+        if (targetHex.getHex().getHexTerrain() == Terrain.VOLCANO) {
             throw new InvalidMoveException("Cannot place a piece on a volcano hex");
         }
-        if (placedHex.getHex().getHeight() < 3){
+        if (targetHex.getHex().getHeight() < 3){
             throw new InvalidMoveException("Cannot build Tiger playground on hex of level less than 3");
         }
-        PlacedHex tempPlacedHex = new PlacedHex(placedHex);
-        Player tempPlayer = new Player(player);
-        tempPlacedHex.getHex().addPiecesToHex(tempPlayer.getPieceSet().placeVillager(), 1);
-        placedHexes.add(tempPlacedHex);
-        Settlement settlement = new Settlement(tempPlacedHex, placedHexes);
 
-        if(settlement.containsTiger()){
-            throw new InvalidMoveException("Cannot place Tiger in a settlement already containing a Tiger");
+        ArrayList<Settlement> adjacentSettlementsToTargetLocation = findAdjacentSettlementsToLocation(targetHex.getLocation());
+        removeSettlementsThatCantAcceptTigerFromList(adjacentSettlementsToTargetLocation);
+        if(adjacentSettlementsToTargetLocation.size() == 0){
+            throw new InvalidMoveException("Settlement already contains a tiger or is too small");
         }
+        targetHex.getHex().addPiecesToHex(player.getPieceSet().placeTiger(), 1);
+    }
 
-        placedHexes.remove(tempPlacedHex);
-        placedHex.getHex().addPiecesToHex(player.getPieceSet().placeTiger(), 1);
-        player.getScore().addPoints(Score.TIGER_POINT_VALUE);
-        settlement = new Settlement(placedHex, placedHexes);
-
-        if(settlement.size() < 1) {
-            throw new InvalidMoveException("Cannot place Tiger in a settlement of size smaller than 1");
+    private void removeSettlementsThatCantAcceptTigerFromList(ArrayList<Settlement> adjacentSettlementsToTargetLocation) {
+        Iterator<Settlement> iter = adjacentSettlementsToTargetLocation.iterator();
+        while(iter.hasNext()){
+            Settlement adjacentSettlement = iter.next();
+            if(adjacentSettlement.containsTiger() || adjacentSettlement.size()<SIZE_REQUIRED_FOR_TIGER) {
+                iter.remove();
+            }
         }
     }
 

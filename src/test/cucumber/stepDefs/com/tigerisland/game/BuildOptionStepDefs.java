@@ -72,7 +72,7 @@ public class BuildOptionStepDefs{
 
     @Given("^a settlement already containing a tiger$")
     public void addSettlementWithTigerToBoard() {
-        expectedErrorMessage = "Cannot place Tiger in a settlement already containing a Tiger";
+        expectedErrorMessage = "Settlement already contains a tiger or is too small";
         PlacedHex placedHex1 = setUpSettlement();
         Hex hex5 = new Hex("hex5", Terrain.LAKE);
         hex5.addPiecesToHex(new Piece(Color.BLACK, PieceType.TIGER), 1);

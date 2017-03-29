@@ -420,7 +420,7 @@ public class BoardTest{
         try {
             board.placeTiger(player, targetLocation);
         } catch (InvalidMoveException e) {
-            assertTrue(e.getMessage().equals("Cannot place Tiger in a settlement of size smaller than 1"));
+            assertTrue(e.getMessage().equals("Settlement already contains a tiger or is too small"));
         }
     }
 
@@ -446,7 +446,7 @@ public class BoardTest{
         try {
             board.placeTiger(player, emptyPlacedHexToTryToPlaceTigerOn.getLocation()); //this says totoro. Should it say tiger?
         } catch (InvalidMoveException e) {
-            assertTrue(e.getMessage().equals("Cannot place Tiger in a settlement already containing a Tiger"));
+            assertTrue(e.getMessage().equals("Settlement already contains a tiger or is too small"));
         }
     }
 
