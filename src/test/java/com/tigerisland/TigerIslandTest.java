@@ -142,4 +142,14 @@ public class TigerIslandTest {
             assertTrue(false);
         }
     }
+
+    @Test
+    public void testCanSetManualInputFlag() {
+        try {
+            tigerIsland.parseArguments(new String[]{"--manual", "true"});
+            assertTrue(tigerIsland.globalSettings.manualTesting == true);
+        } catch (ArgumentParserException exception) {
+            assertTrue(false);
+        }
+    }
 }

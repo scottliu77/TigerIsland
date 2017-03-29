@@ -44,6 +44,9 @@ public class TigerIsland {
         parser.addArgument("--password").type(String.class)
                 .setDefault(ServerSettings.defaultPassword)
                 .help("Specify password used by the TigerHost server");
+        parser.addArgument("-m", "--manual").type(Arguments.booleanType())
+                .setDefault(false)
+                .help("Run the system with Player 1 as a human user");
 
         parsedArguments = parser.parseArgs(args);
 
@@ -55,9 +58,10 @@ public class TigerIsland {
         int port = parsedArguments.get("port");
         String username = parsedArguments.get("username");
         String password = parsedArguments.get("password");
+        Boolean manualTesting = parsedArguments.get("manual");
 
         try {
-            this.globalSettings = new GlobalSettings(offline, gameCount, playerCount, turnTime, ipaddress, port, username, password, parser);
+            this.globalSettings = new GlobalSettings(offline, gameCount, playerCount, turnTime, ipaddress, port, username, password, manualTesting, parser);
         } catch (ArgumentParserException exception) {
             throw exception;
         }
