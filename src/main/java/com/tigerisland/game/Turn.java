@@ -1,6 +1,7 @@
 package com.tigerisland.game;
 
 import com.tigerisland.InvalidMoveException;
+import com.tigerisland.messenger.ConsoleOut;
 import com.tigerisland.messenger.Message;
 import com.tigerisland.messenger.MessageType;
 

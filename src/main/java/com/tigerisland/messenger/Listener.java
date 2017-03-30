@@ -28,14 +28,18 @@ public class Listener implements Runnable {
             socket = new Socket(serverSettings.IPaddress, serverSettings.port);
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            while(!Thread.currentThread().isInterrupted()) {
+            while(true) {
                 try {
                     addMessageToQueue(reader.readLine());
                     cleanupMessageQueue();
                 } catch (IOException exception) {
-                    exception.printStackTrace();
+                    System.out.println("EXCEPTION: Listener is now closing");
+                    Thread.interrupted();
+                    return;
                 } catch (InterruptedException exception) {
-                    break;
+                    System.out.println("INTERRUPT: Listener is now closing");
+                    socket.close();
+                    return;
                 }
             }
         } catch (IOException exception) {
@@ -44,6 +48,7 @@ public class Listener implements Runnable {
     }
 
     protected void addMessageToQueue(String message) throws InterruptedException {
+        checkForEndMessage(message);
         inboundQueue.put(new Message(message));
     }
 
@@ -52,6 +57,12 @@ public class Listener implements Runnable {
             if(message.getMessageType() == MessageType.PROCESSED) {
                 inboundQueue.remove(message);
             }
+        }
+    }
+
+    private void checkForEndMessage(String message) throws InterruptedException {
+        if(message.equals("END")) {
+            throw new InterruptedException();
         }
     }
 

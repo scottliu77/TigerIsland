@@ -42,7 +42,7 @@ public class ListenerTest {
     @Ignore("Skipping can write to listener's message queue via outside process") @Test
     public void testCanWriteToMessageQueueFromOutsideProcess() throws InterruptedException {
         globalSettings.inboundQueue.add(new Message("New message"));
-        assertTrue(listener.inboundQueue.remove().equals("New message"));
+        assertTrue(listener.inboundQueue.remove().toString().equals("New message"));
     }
 
     @Ignore("Skipping can cleanup processed messages in queue") @Test

@@ -48,10 +48,10 @@ public class PlayerSetTest {
 
     @Test
     public void testThatPlayerOrderLoopsAfterLastPlayer() {
-        for(int turns = 0; turns < 9; turns ++) {
+        for(int turns = 0; turns < 3; turns ++) {
             playerSet.setNextPlayer();
         }
-        assertTrue(playerSet.getCurrentPlayer().getPlayerColor() == Color.BLACK);
+        assertTrue(playerSet.getCurrentPlayer().getPlayerColor() == Color.WHITE);
     }
 
     @Test

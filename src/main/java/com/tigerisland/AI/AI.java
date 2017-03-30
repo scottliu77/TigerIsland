@@ -1,9 +1,7 @@
 package com.tigerisland.AI;
 
-import com.tigerisland.game.Location;
-import com.tigerisland.game.PlayerType;
-import com.tigerisland.game.Turn;
-import com.tigerisland.game.TurnInfo;
+import com.tigerisland.game.*;
+import com.tigerisland.messenger.ConsoleOut;
 import com.tigerisland.messenger.Message;
 
 public class AI {
@@ -12,7 +10,7 @@ public class AI {
     private final PlayerType AIType;
     private Turn turnState;
     private TurnInfo turnInfo;
-    private Location tileLocation;
+    private Location safeTileLocation;
 
     public AI(PlayerType AIType) {
         this.AIType = AIType;
@@ -23,7 +21,7 @@ public class AI {
         this.AIType = aiCopy.AIType;
         this.turnState = aiCopy.turnState;
         this.turnInfo = aiCopy.turnInfo;
-        this.tileLocation = aiCopy.tileLocation;
+        this.safeTileLocation = aiCopy.safeTileLocation;
     }
 
     public void pickTilePlacement(TurnInfo turnInfo, Turn turnState) {
@@ -38,16 +36,18 @@ public class AI {
                 break;
             }
             sendMessage(message);
+            ConsoleOut.printGameMessage(turnInfo.gameID, message);
         }
     }
 
     private String pickSafeTilePlacement() {
         String tileString = createTileString();
         if(turnState.getBoard().getPlacedHexes().size() == 0) {
+            safeTileLocation = new Location(0, 0);
             return assembleMessage("PLACE " + tileString + " AT 0 0 0");
         } else {
-            Location adjacentLocation = findFirstPlaceableHexOnRight();
-            return assembleMessage("PLACE " + tileString + " AT " + adjacentLocation.getX() + " " + adjacentLocation.getY() + " 0");
+            safeTileLocation = findFirstPlaceableHexOnRight();
+            return assembleMessage("PLACE " + tileString + " AT " + safeTileLocation.getX() + " " + safeTileLocation.getY() + " 0");
         }
     }
 
@@ -60,7 +60,8 @@ public class AI {
     private Location findFirstPlaceableHexOnRight() {
         int highestX = 0;
         int associatedY = 0;
-        for(Location loc : turnState.getBoard().locationsOfPlacedHexes()) {
+        for(PlacedHex hex : turnState.getBoard().getPlacedHexes()) {
+            Location loc = hex.getLocation();
             if(loc.getX() >= highestX) {
                 highestX = loc.getX();
                 associatedY = loc.getY();
@@ -81,24 +82,15 @@ public class AI {
                 break;
             }
             sendMessage(message);
+            ConsoleOut.printGameMessage(turnInfo.gameID, message);
         }
     }
 
     private String pickSafeBuildAction() {
-        Location openHex = findFirstBuildableHexOnRight();
-        return assembleMessage("BUILD villager AT " + openHex.getX() + " " + openHex.getY());
-    }
+        int openX = safeTileLocation.getX() + 1;
+        int openY = safeTileLocation.getY();
 
-    private Location findFirstBuildableHexOnRight() {
-        int highestX = 0;
-        int associatedY = 0;
-        for(Location loc : turnState.getBoard().locationsOfPlacedHexes()) {
-            if(loc.getX() >= highestX && turnState.getBoard().hexAt(loc).getPieceCount() == 0) {
-                highestX = loc.getX();
-                associatedY = loc.getY();
-            }
-        }
-        return new Location(highestX, associatedY);
+        return assembleMessage("BUILD villager AT " + openX + " " + openY);
     }
 
     private void unpackAIsettings(TurnInfo turnInfo, Turn turnState) {

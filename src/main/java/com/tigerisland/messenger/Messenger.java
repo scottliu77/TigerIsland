@@ -9,15 +9,17 @@ import java.util.concurrent.BlockingQueue;
 
 public class Messenger implements Runnable {
 
-    protected BlockingQueue<Message> outboundQueue;
     private GlobalSettings globalSettings;
+    protected BlockingQueue<Message> outboundQueue;
+    protected BlockingQueue<Message> inboundQueue;
     private PrintWriter writer;
     private Socket socket;
     final boolean offline;
 
     public Messenger(GlobalSettings globalSettings) {
-        this.outboundQueue = globalSettings.outboundQueue;
         this.globalSettings = globalSettings;
+        this.outboundQueue = globalSettings.outboundQueue;
+        this.inboundQueue = globalSettings.inboundQueue;
         this.offline = globalSettings.getServerSettings().offline;
     }
 
@@ -30,10 +32,11 @@ public class Messenger implements Runnable {
                 try {
                     writer.println(removeMessageFromQueue());
                 } catch (InterruptedException exception) {
-                    break;
+                    closeLocalServerAndListener();
+                    System.out.println("INTERRUPT: Messenger is now closing");
+                    return;
                 }
             }
-            closeLocalServer();
         } catch (IOException exception) {
             return;
         }
@@ -44,11 +47,12 @@ public class Messenger implements Runnable {
         return outboundQueue.take();
     }
 
-    private void closeLocalServer() {
+    private void closeLocalServerAndListener() {
         if (offline) {
             try {
                 PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
                 writer.println("END");
+                inboundQueue.add(new Message("END"));
                 socket.close();
             } catch(IOException exception) {
                 exception.printStackTrace();

@@ -17,6 +17,15 @@ public class PlayerSet {
         }
     }
 
+    public PlayerSet(PlayerSet playerSet) {
+        this.playerCount = playerSet.getPlayerList().size();
+        this.currentPlayer = playerSet.currentPlayer;
+        this.players = new ArrayList<Player>();
+        for(Player player : playerSet.getPlayerList()) {
+            this.players.add(new Player(player));
+        }
+    }
+
     public void setRandomAItypes() {
         for(Player player : players) {
             player.setPlayerType(PlayerType.pickRandomAItype());
@@ -32,7 +41,7 @@ public class PlayerSet {
     }
 
     public void setNextPlayer(){
-        if (currentPlayer == playerCount) {
+        if (currentPlayer == playerCount - 1) {
             currentPlayer = 0;
         } else {
             currentPlayer++;

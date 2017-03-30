@@ -1,6 +1,7 @@
 package com.tigerisland.game;
 
 import com.tigerisland.GameSettings;
+import com.tigerisland.InvalidMoveException;
 import com.tigerisland.messenger.Message;
 
 import java.util.concurrent.BlockingQueue;
@@ -28,8 +29,12 @@ public class TurnInfo {
         moveID++;
     }
 
-    public void drawANewTile() {
-        currentTile = gameSettings.getDeck().drawTile();
+    public void drawANewTile() throws InvalidMoveException {
+        try {
+            currentTile = gameSettings.getDeck().drawTile();
+        } catch (IndexOutOfBoundsException exception) {
+            throw new InvalidMoveException("Cannot draw a tile from empty deck");
+        }
     }
 
     public GameSettings getGameSettings() {

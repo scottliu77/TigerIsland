@@ -1,5 +1,6 @@
 package com.tigerisland;
 
+import com.tigerisland.messenger.ConsoleOut;
 import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.impl.Arguments;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
@@ -70,6 +71,7 @@ public class TigerIsland {
     }
 
     private void run() {
+        ConsoleOut.printClientMessage("Starting TigerIsland tournament");
         match.run();
     }
 

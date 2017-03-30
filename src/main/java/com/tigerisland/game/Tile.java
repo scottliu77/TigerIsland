@@ -16,6 +16,12 @@ public class Tile {
         this.rightHex = new Hex(this.uniqueID , right);
     }
 
+    public Tile(Tile tile) {
+        this.volcanoHex = tile.getCenterHex();
+        this.leftHex = tile.getLeftHex();
+        this.rightHex = tile.getRightHex();
+    }
+
     public Hex getCenterHex() {
         return volcanoHex;
     }

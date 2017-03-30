@@ -2,6 +2,7 @@ package com.tigerisland.game;
 
 import com.tigerisland.GameSettings;
 import com.tigerisland.InvalidMoveException;
+import com.tigerisland.messenger.ConsoleOut;
 
 public class Game implements Runnable {
 
@@ -11,11 +12,12 @@ public class Game implements Runnable {
     protected Board board;
     protected Turn turnState;
     protected TurnInfo turnInfo;
+    protected Player currentPlayer;
 
     public Game(int gameID, GameSettings gameSettings){
+        this.gameSettings = new GameSettings(gameSettings);
         this.gameID = gameID;
-        this.turnInfo = new TurnInfo(gameID, gameSettings);
-        this.gameSettings = gameSettings;
+        this.turnInfo = new TurnInfo(gameID, this.gameSettings);
         this.board = new Board();
     }
 
@@ -23,7 +25,7 @@ public class Game implements Runnable {
         try {
             while(true) {
 
-                if(!Thread.currentThread().isInterrupted()) {
+                if(Thread.currentThread().isInterrupted()) {
                     throw new InterruptedException();
                 }
 
@@ -33,24 +35,28 @@ public class Game implements Runnable {
 
             }
         } catch (InterruptedException exception) {
-            // do something about being interrupted
+            ConsoleOut.printGameMessage(gameID, "was INTERRUPTED");
 
         } catch (InvalidMoveException exception) {
-            // do something about making an invalid move
+            ConsoleOut.printGameMessage(gameID, "had an INVALID MOVE\t( " + exception.getMessage() + " )\n");
 
         } finally {
-            EndConditions.calculateWinner(gameSettings.getPlayerSet().getCurrentPlayer(), gameSettings.getPlayerSet().getPlayerList());
-            // TODO return winner information or display to screen
+            Player winner = EndConditions.calculateWinner(gameSettings.getPlayerSet().getCurrentPlayer(), gameSettings.getPlayerSet().getPlayerList());
+            ConsoleOut.printGameMessage(gameID, "The winner was player " + winner.getPlayerType().getTypeString() + " " + winner.getPlayerColor().getColorString() );
         }
     }
 
     protected Boolean takeAnotherTurn() throws InvalidMoveException, InterruptedException {
 
+        currentPlayer = gameSettings.getPlayerSet().getCurrentPlayer();
+
+        ConsoleOut.printGameMessage(gameID, turnInfo.getMoveID(), "Player COLOR: " + currentPlayer.getPlayerColor().getColorString() + " TYPE: " + currentPlayer.getPlayerType().getTypeString());
+
         packageTurnState();
 
         turnState = Move.placeTile(turnState);
 
-        if(EndConditions.noValidMoves(gameSettings.getPlayerSet().getCurrentPlayer(), board)) {
+        if(EndConditions.noValidMoves(currentPlayer, board)) {
             unpackageTurnState(turnState);
             return false;
         }
@@ -59,7 +65,7 @@ public class Game implements Runnable {
 
         unpackageTurnState(turnState);
 
-        if(EndConditions.playerIsOutOfPieces(gameSettings.getPlayerSet().getCurrentPlayer())) {
+        if(EndConditions.playerIsOutOfPieces(currentPlayer)) {
             return false;
         }
 
@@ -89,7 +95,7 @@ public class Game implements Runnable {
 
     private void ifAIPickTilePlacement() {
         if(turnState.getPlayer().getPlayerType() != PlayerType.SERVER) {
-            turnState.getPlayer().getPlayerAI().pickBuildAction(turnInfo, turnState);
+            turnState.getPlayer().getPlayerAI().pickTilePlacement(turnInfo, turnState);
         }
     }
 
@@ -102,6 +108,7 @@ public class Game implements Runnable {
     protected void unpackageTurnState(Turn turnState) {
         gameSettings.getPlayerSet().getCurrentPlayer().updatePlayerState(turnState.getPlayer());
         board = turnState.getBoard();
+        //TextGUI.printMap(board);
     }
 
     public GameSettings getGameSettings() {

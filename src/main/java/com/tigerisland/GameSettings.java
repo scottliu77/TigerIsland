@@ -18,6 +18,12 @@ public class GameSettings {
         setDeck();
     }
 
+    public GameSettings(GameSettings gameSettings) {
+        this.globalSettings = gameSettings.getGlobalSettings();
+        this.deck = new Deck(gameSettings.getDeck());
+        this.playerSet = new PlayerSet(gameSettings.getPlayerSet());
+    }
+
     public void setDeck() {
         deck = new Deck();
         if(globalSettings.getServerSettings().offline) {

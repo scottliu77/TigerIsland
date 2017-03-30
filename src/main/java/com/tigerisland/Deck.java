@@ -14,6 +14,13 @@ public class Deck {
         this.tileDeck = new ArrayList<Tile>();
     }
 
+    public Deck(Deck deck) {
+        this.tileDeck = new ArrayList<Tile>();
+        for(Tile tile : deck.tileDeck) {
+            this.tileDeck.add(new Tile(tile));
+        }
+    }
+
     public void createOfflineDeck() {
         this.populateDeck();
         this.shuffleDeck();

@@ -48,7 +48,7 @@ public class LocalServerTest {
 
         localServerThread.join();
 
-        assertTrue(globalSettings.messagesReceived.remove().equals("Hello"));
+        assertTrue(globalSettings.messagesReceived.remove().toString().equals("Hello"));
     }
 
     @Ignore("Skipping direct pass END_CODE to local server test") @Test
@@ -90,7 +90,7 @@ public class LocalServerTest {
         assertTrue(localServerThread.isAlive() == false);
     }
 
-    @Ignore("Skipping success messages to local server test") @Test
+    @Ignore("Skipping successive messages to local server test") @Test
     public void testCanRetrieveSuccessiveMessages() throws InterruptedException {
         Thread localServerThread = new Thread(localServer);
         localServerThread.start();
@@ -141,13 +141,13 @@ public class LocalServerTest {
         messengerThread.join();
 
         localServerThread.join();
-
+//
 //        ArrayList<String> messagesProcessed = new ArrayList<String>();
-//        for(String message : globalSettings.messagesReceived) {
-//            messagesProcessed.add(message);
+//        for(Message message : globalSettings.messagesReceived) {
+//            messagesProcessed.add(message.toString());
 //            System.out.println(message);
 //        }
 
-        assertTrue(globalSettings.messagesReceived.remove().equals("Hello"));
+        assertTrue(globalSettings.messagesReceived.remove().toString().equals("Hello"));
     }
 }

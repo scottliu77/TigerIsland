@@ -42,7 +42,7 @@ public class AITest {
     }
 
     @Test
-    public void testCanPickInitialTilePlacement() {
+    public void testCanPickInitialTilePlacement() throws InvalidMoveException {
         turnInfo.drawANewTile();
         testAI.pickTilePlacement(turnInfo, turnState);
         Message message = inboundMessages.remove();
@@ -51,9 +51,12 @@ public class AITest {
 
     @Test
     public void testCanPickInitialBuildAction() throws InvalidMoveException {
+        turnInfo.drawANewTile();
+        testAI.pickTilePlacement(turnInfo, turnState);
+        Message message = inboundMessages.remove();
         turnState.getBoard().placeTile(new Tile(Terrain.GRASSLANDS, Terrain.GRASSLANDS), new Location(0, 0), 0);
         testAI.pickBuildAction(turnInfo, turnState);
-        Message message = inboundMessages.remove();
+        message = inboundMessages.remove();
         assertTrue(message.toString().equals("GAME 1 MOVE 1 BUILD villager AT 1 0"));
     }
 }

@@ -7,6 +7,7 @@ import com.tigerisland.messenger.Message;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.xml.soap.Text;
 import java.util.concurrent.BlockingQueue;
 
 import static org.junit.Assert.assertTrue;
@@ -81,9 +82,10 @@ public class MoveTest {
 
     @Test
     public void testCanPlaceTile() throws InvalidMoveException, InterruptedException {
-        inboundMessages.add(new Message("GAME 1 MOVE 1 PLACE RG AT 2 0 60"));
+        inboundMessages.add(new Message("GAME 1 MOVE 1 PLACE RG AT 2 0 0"));
         turn.updateTilePlacement(new TurnInfo(1, gameSettings));
         turn = Move.placeTile(turn);
+
         assertTrue(board != turn.getBoard());
     }
 
