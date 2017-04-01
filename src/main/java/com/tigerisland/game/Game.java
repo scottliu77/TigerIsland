@@ -83,11 +83,9 @@ public class Game implements Runnable {
 
         ifAIPickTilePlacement();
 
-        turnState.updateTilePlacement(turnInfo);
-
         ifAIPickBuildAction();
 
-        turnState.updateBuildAction(turnInfo);
+        turnState.updateTurnState(turnInfo);
 
         return turnState;
 

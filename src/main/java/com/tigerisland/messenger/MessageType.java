@@ -5,11 +5,10 @@ import java.util.EnumSet;
 public enum  MessageType {
 
     AUTH("AUTH"),
-    TILEPLACEMENT("TILEPLACEMENT"),
-    VILLAGECREATION("BUILDACTION"),
-    VILLAGEXPANSION("BUILDACTION"),
-    TOTOROPLACEMENT("BUILDACTION"),
-    TIGERPLACEMENT("BUILDACTION"),
+    FOUNDSETTLEMENT("BUILDACTION"),
+    EXPANDSETTLEMENT("BUILDACTION"),
+    BUILDTOTORO("BUILDACTION"),
+    BUILDTIGER("BUILDACTION"),
     PROCESSED("STATUS");
 
     private String subtype;
@@ -23,6 +22,6 @@ public enum  MessageType {
     }
 
     public static EnumSet<MessageType> buildActions() {
-        return EnumSet.of(VILLAGECREATION, VILLAGEXPANSION, TOTOROPLACEMENT, TIGERPLACEMENT);
+        return EnumSet.of(FOUNDSETTLEMENT, EXPANDSETTLEMENT, BUILDTOTORO, BUILDTIGER);
     }
 }

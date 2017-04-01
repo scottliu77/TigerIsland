@@ -4,21 +4,27 @@ import java.util.*;
 
 public class Location{
 
-    protected int x;
-    protected int y;
+    public final Integer x;
+    public final Integer y;
+    public final Integer z;
 
     public Location(int x, int y){
         this.x = x;
         this.y = y;
+        this.z = null;
+    }
+
+    public Location(int x, int y, int z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
     }
 
     public Location(Location loc){
         this.x = loc.x;
         this.y = loc.y;
+        this.z = loc.z;
     }
-
-    public int getX(){ return this.x; }
-    public int getY(){ return this.y; }
 
     public static Location rotateHexLeft(Location loc, int rotation) {
         Location shiftLocation = Rotation.calculateRotation(rotation);

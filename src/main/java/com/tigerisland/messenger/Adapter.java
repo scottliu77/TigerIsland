@@ -1,5 +1,7 @@
 package com.tigerisland.messenger;
 
+import com.tigerisland.game.Location;
+
 public final class Adapter {
 
     public static int convertOrientationToDegrees(int code) {
@@ -50,5 +52,18 @@ public final class Adapter {
                 break;
         }
         return code;
+    }
+
+    public static Location convertLocationCubeToAxial(Location cubeLoc) {
+        int x = cubeLoc.z * -1;
+        int y = cubeLoc.x * -1;
+        return new Location(x, y);
+    }
+
+    public static Location convertLocationAxialToCube(Location axialLoc) {
+        int x = axialLoc.y * -1;
+        int z = axialLoc.x * -1;
+        int y = -x - z;
+        return new Location(x, y, z);
     }
 }

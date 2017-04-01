@@ -35,7 +35,7 @@ public class DummyAI {
 
     private static Boolean checkValidTilePlacementMessage(String messageString) {
         Message checkMessage = new Message(messageString);
-        if(checkMessage.getMessageType() == MessageType.TILEPLACEMENT) {
+        if(checkMessage.getTile() != null) {
             return true;
         } else {
             return false;

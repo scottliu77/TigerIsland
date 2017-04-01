@@ -46,7 +46,7 @@ public class AITest {
         turnInfo.drawANewTile();
         testAI.pickTilePlacement(turnInfo, turnState);
         Message message = inboundMessages.remove();
-        assertTrue(message.toString().contains("AT 0 0 0"));
+        assertTrue(message.message.contains("AT 0 0 0"));
     }
 
     @Test
@@ -57,6 +57,6 @@ public class AITest {
         turnState.getBoard().placeTile(new Tile(Terrain.GRASSLANDS, Terrain.GRASSLANDS), new Location(0, 0), 0);
         testAI.pickBuildAction(turnInfo, turnState);
         message = inboundMessages.remove();
-        assertTrue(message.toString().equals("GAME 1 MOVE 1 BUILD villager AT 1 0"));
+        assertTrue(message.message.equals("GAME 1 MOVE 1 BUILD villager AT 1 0"));
     }
 }

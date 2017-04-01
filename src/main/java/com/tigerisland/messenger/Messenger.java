@@ -31,6 +31,7 @@ public class Messenger implements Runnable {
             while(true) {
                 try {
                     writer.println(removeMessageFromQueue());
+
                 } catch (InterruptedException exception) {
                     closeLocalServerAndListener();
                     System.out.println("INTERRUPT: Messenger is now closing");

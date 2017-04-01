@@ -3,7 +3,7 @@ package com.tigerisland.game;
 public class BuildAction {
 
     private Location location = null;
-    private Location settlementLocation = null;
+    private Terrain expandTerrain = null;
     private Player player = null;
 
     private BuildActionType buildActionType;
@@ -16,10 +16,10 @@ public class BuildAction {
     }
 
     // Expand settlement
-    BuildAction(Player player, Location settlementLocation, Location locationToBeExpanded){
+    BuildAction(Player player, Location location, Terrain expandTerrain){
         this.player = player;
-        this.location = locationToBeExpanded;
-        this.settlementLocation = settlementLocation;
+        this.location = location;
+        this.expandTerrain = expandTerrain;
         this.buildActionType = BuildActionType.VILLAGEEXPANSION;
     }
 
@@ -27,7 +27,9 @@ public class BuildAction {
         return this.location;
     }
 
-    public Location getSettlementLocation() { return this.settlementLocation; }
+    public Terrain getExpandTerrain() {
+        return this.expandTerrain;
+    }
 
     public Player getPlayer() {
         return this.player;

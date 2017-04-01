@@ -650,26 +650,11 @@ public class BoardTest{
     }
 
     @Test
-    public void testInvalidAdjacentLocations() {
-        Location loc1 = new Location(0,0);
-        Location loc2 = new Location(2,2);
-
+    public void testForVolcanoTargetExpansion() {
         try {
-            board.areAdjacentLocationsValid(loc1, loc2);
+            board.checkForVolcano(Terrain.VOLCANO);
         } catch (InvalidMoveException e) {
-            assertTrue(e.getMessage().equals("Hexes are not adjacent to one another"));
-        }
-    }
-
-    @Test
-    public void testValidAdjacentLocations() {
-        Location loc1 = new Location(0,0);
-        Location loc2 = new Location(1,0);
-
-        try {
-            board.areAdjacentLocationsValid(loc1, loc2);
-        } catch (InvalidMoveException e) {
-            assertTrue(e.getMessage().equals("Hexes are not adjacent to one another"));
+            assertTrue(e.getMessage().equals("Cannot expand into a Volcano"));
         }
     }
 
@@ -1144,7 +1129,7 @@ public class BoardTest{
         board.settlements.add(settlement);
 
         try {
-            board.expandVillage(player, loc2, loc3);
+            board.expandVillage(player, loc3, Terrain.LAKE);
         } catch (InvalidMoveException e) {
             System.out.println(e.getMessage());
         }
@@ -1185,7 +1170,7 @@ public class BoardTest{
         board.settlements.add(settlement);
 
         try {
-            board.expandVillage(player, loc1, loc);
+            board.expandVillage(player, loc, Terrain.LAKE);
         } catch (InvalidMoveException e) {
             System.out.println(e.getMessage());
         }
@@ -1232,7 +1217,7 @@ public class BoardTest{
         }
 
         try {
-            board.expandVillage(player, loc1, loc);
+            board.expandVillage(player, loc, Terrain.LAKE);
         } catch (InvalidMoveException e) {
             assertTrue(e.getMessage().equals("Player does not have enough pieces to populate the target hex"));
         }
@@ -1273,7 +1258,7 @@ public class BoardTest{
         board.settlements.add(settlement);
 
         try {
-            board.expandVillage(player, loc1, loc);
+            board.expandVillage(player, loc, Terrain.LAKE);
         } catch (InvalidMoveException e) {
             System.out.println(e.getMessage());
         }

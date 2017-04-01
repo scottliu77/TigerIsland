@@ -27,7 +27,7 @@ public final class Move {
         throw new InvalidMoveException();
     }
 
-    public static Turn createVillage(Turn turnState) throws InvalidMoveException {
+    private static Turn createVillage(Turn turnState) throws InvalidMoveException {
 
 
         turnState.getBoard().createVillage(turnState.getPlayer(), turnState.getBuildAction().getLocation());
@@ -36,15 +36,15 @@ public final class Move {
         return turnState;
     }
 
-    public static Turn expandVillage(Turn turnState) throws InvalidMoveException {
+    private static Turn expandVillage(Turn turnState) throws InvalidMoveException {
 
-        turnState.getBoard().expandVillage(turnState.getPlayer(), turnState.getBuildAction().getLocation(), turnState.getBuildAction().getSettlementLocation());
+        turnState.getBoard().expandVillage(turnState.getPlayer(), turnState.getBuildAction().getLocation(), turnState.getBuildAction().getExpandTerrain());
         turnState.getBoard().updateSettlements();
 
         return turnState;
     }
 
-    public static Turn placeTotoro(Turn turnState) throws InvalidMoveException {
+    private static Turn placeTotoro(Turn turnState) throws InvalidMoveException {
 
         turnState.getBoard().placeTotoro(turnState.getPlayer(), turnState.getBuildAction().getLocation());
         turnState.getBoard().updateSettlements();
@@ -52,7 +52,7 @@ public final class Move {
         return turnState;
     }
 
-    public static Turn placeTiger(Turn turnState) throws InvalidMoveException {
+    private static Turn placeTiger(Turn turnState) throws InvalidMoveException {
 
         turnState.getBoard().placeTiger(turnState.getPlayer(), turnState.getBuildAction().getLocation());
         turnState.getBoard().updateSettlements();

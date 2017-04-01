@@ -121,7 +121,7 @@ public class GlobalSettingsTest {
     public void testCanUseInboundQueue() {
         try {
             globalSettings.inboundQueue.add(new Message("New inbound string"));
-            assertTrue(globalSettings.inboundQueue.remove().toString().equals("New inbound string"));
+            assertTrue(globalSettings.inboundQueue.remove().message.equals("New inbound string"));
         } catch (Exception exception) {
             assert false;
         }
@@ -131,7 +131,7 @@ public class GlobalSettingsTest {
     public void testCanUseOutboundQueue() {
         try {
             globalSettings.outboundQueue.add(new Message("New outbound string"));
-            assertTrue(globalSettings.outboundQueue.remove().toString().equals("New outbound string"));
+            assertTrue(globalSettings.outboundQueue.remove().message.equals("New outbound string"));
         } catch (Exception exception) {
             assert false;
         }

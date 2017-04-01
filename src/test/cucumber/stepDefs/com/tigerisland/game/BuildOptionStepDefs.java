@@ -23,6 +23,7 @@ public class BuildOptionStepDefs{
     private PlacedHex targetHex;
     private PlacedHex hexToExpandInto;
     private PlacedHex hexInSettlement;
+    private Terrain expandTerrain;
 
     private String caughtErrorMessage;
     private String expectedErrorMessage;
@@ -179,6 +180,8 @@ public class BuildOptionStepDefs{
         hexToExpandInto = new PlacedHex(hex1, loc1);
         placedHexes.add(hexToExpandInto);
 
+        expandTerrain = hex1.getHexTerrain();
+
         Location loc2 = new Location(0,2);
         Hex hex2 = new Hex("TileID1", Terrain.ROCKY);
         hex2.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
@@ -188,6 +191,7 @@ public class BuildOptionStepDefs{
         Settlement settlement = new Settlement(hexInSettlement, placedHexes);
         board.placedHexes = this.placedHexes;
         board.settlements.add(settlement);
+
     }
 
     @Given("^a settlement with valid adjacent hexes$")
@@ -202,6 +206,8 @@ public class BuildOptionStepDefs{
         Hex hex1 = new Hex("TileID1", Terrain.LAKE);
         hexToExpandInto = new PlacedHex(hex1, loc1);
         placedHexes.add(hexToExpandInto);
+
+        expandTerrain = hex1.getHexTerrain();
 
         Location loc2 = new Location(-1,2);
         Hex hex2 = new Hex("TileID1", Terrain.LAKE);
@@ -226,6 +232,7 @@ public class BuildOptionStepDefs{
     @Given("^a player has fewer pieces than needed to expand$")
     public void aPlayerHasFewerPiecesThanNeededToExpand() {
         expectedErrorMessage = "Player does not have enough pieces to populate the target hex";
+
         Location loc = new Location(0,0);
         Hex hex = new Hex("TileID1", Terrain.ROCKY);
         hex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
@@ -236,6 +243,8 @@ public class BuildOptionStepDefs{
         Hex hex1 = new Hex("TileID1", Terrain.LAKE);
         hexToExpandInto = new PlacedHex(hex1, loc1);
         placedHexes.add(hexToExpandInto);
+
+        expandTerrain = hex1.getHexTerrain();
 
         Location loc2 = new Location(-1,2);
         Hex hex2 = new Hex("TileID1", Terrain.LAKE);
@@ -393,7 +402,7 @@ public class BuildOptionStepDefs{
     @When("^a player attempts to expand$")
     public void aPlayerAttemptsToExpand() {
         try {
-            board.expandVillage(player, hexToExpandInto.getLocation(), hexInSettlement.getLocation());
+            board.expandVillage(player, hexInSettlement.getLocation(), expandTerrain);
         } catch (InvalidMoveException e) {
             caughtErrorMessage = e.getMessage();
         }

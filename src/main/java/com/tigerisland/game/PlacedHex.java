@@ -43,7 +43,7 @@ public class PlacedHex {
     public static void printPlacedHexes(ArrayList<PlacedHex> list){
         for(int ii = 0; ii < list.size(); ii++){
             Location loc = list.get(ii).getLocation();
-            String locString = "<"+Integer.toString(loc.getX())+","+Integer.toString(loc.getY())+">";
+            String locString = "<"+Integer.toString(loc.x)+","+Integer.toString(loc.y)+">";
             Hex hex = list.get(ii).getHex();
             String hexTerrain = "T="+hex.getHexTerrain().getTerrainString();
             String hexHeight = "H="+Integer.toString(hex.getHeight());

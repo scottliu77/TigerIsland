@@ -299,10 +299,10 @@ public class Board{
         player.getScore().addPoints(Score.VILLAGER_POINT_VALUE);
     }
 
-    public void expandVillage(Player player, Location loc, Location settledLoc) throws InvalidMoveException {
+    public void expandVillage(Player player, Location settledLoc, Terrain expandTerrain) throws InvalidMoveException {
         Settlement settlement = isSettledLocationValid(player, settledLoc);
-        Terrain specifiedTerrain = isHexLocationValid(loc);
-        areAdjacentLocationsValid(loc, settledLoc);
+        Terrain specifiedTerrain = expandTerrain;
+        checkForVolcano(expandTerrain);
         ArrayList<PlacedHex> allExpandableHexes = new ArrayList<PlacedHex>();
         allExpandableHexes = getAllExpandableAdjacentHexesToSettlement(settlement, specifiedTerrain);
         while (!allExpandableHexes.isEmpty()) {
@@ -346,11 +346,11 @@ public class Board{
         }
     }
 
-    public void areAdjacentLocationsValid(Location loc, Location settledLoc) throws InvalidMoveException {
-        if (settledLoc.isAdjacentTo(loc)) {
+    public void checkForVolcano(Terrain expandTerrain) throws InvalidMoveException {
+        if (expandTerrain != Terrain.VOLCANO) {
             return;
         } else{
-            throw new InvalidMoveException("Hexes are not adjacent to one another");
+            throw new InvalidMoveException("Cannot expand into a Volcano");
         }
     }
 

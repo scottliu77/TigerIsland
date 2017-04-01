@@ -47,7 +47,7 @@ public class AI {
             return assembleMessage("PLACE " + tileString + " AT 0 0 0");
         } else {
             safeTileLocation = findFirstPlaceableHexOnRight();
-            return assembleMessage("PLACE " + tileString + " AT " + safeTileLocation.getX() + " " + safeTileLocation.getY() + " 0");
+            return assembleMessage("PLACE " + tileString + " AT " + safeTileLocation.x + " " + safeTileLocation.y + " 0");
         }
     }
 
@@ -62,9 +62,9 @@ public class AI {
         int associatedY = 0;
         for(PlacedHex hex : turnState.getBoard().getPlacedHexes()) {
             Location loc = hex.getLocation();
-            if(loc.getX() >= highestX) {
-                highestX = loc.getX();
-                associatedY = loc.getY();
+            if(loc.x >= highestX) {
+                highestX = loc.x;
+                associatedY = loc.y;
             }
         }
         return new Location(highestX + 1, associatedY);
@@ -87,8 +87,8 @@ public class AI {
     }
 
     private String pickSafeBuildAction() {
-        int openX = safeTileLocation.getX() + 1;
-        int openY = safeTileLocation.getY();
+        int openX = safeTileLocation.x + 1;
+        int openY = safeTileLocation.y;
 
         return assembleMessage("BUILD villager AT " + openX + " " + openY);
     }

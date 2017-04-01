@@ -9,7 +9,7 @@ public class BuildTurnTest {
 
     private Tile tile;
     private Location location;
-    private Location settlementLocation;
+    private Terrain settlementTerrain;
     private Player player;
     private int rotation;
 
@@ -21,13 +21,13 @@ public class BuildTurnTest {
     public void createDefaultMoves() {
         this.tile = new Tile(Terrain.LAKE, Terrain.GRASSLANDS);
         this.location = new Location(0, 1);
-        this.settlementLocation = new Location(1,0);
+        this.settlementTerrain = Terrain.GRASSLANDS;
         this.player = new Player(Color.ORANGE);
         this.rotation = 0;
 
         this.tilePlacement = new TilePlacement(tile, location, rotation);
         this.villageCreationBuildAction = new BuildAction(player, location, BuildActionType.VILLAGECREATION);
-        this.villageExpansionBuildAction = new BuildAction(player, settlementLocation, location);
+        this.villageExpansionBuildAction = new BuildAction(player, location, Terrain.GRASSLANDS);
     }
 
     @Test
@@ -79,7 +79,7 @@ public class BuildTurnTest {
 
     @Test
     public void testCanGetSettlementLocation() {
-        assertTrue(settlementLocation == villageExpansionBuildAction.getSettlementLocation());
+        assertTrue(settlementTerrain == villageExpansionBuildAction.getExpandTerrain());
     }
 
     @Test

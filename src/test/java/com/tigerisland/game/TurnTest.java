@@ -26,8 +26,7 @@ public class TurnTest {
         turn = new Turn(player, board);
         gameSettings = new GameSettings(new GlobalSettings());
         inboundMessages = gameSettings.getGlobalSettings().inboundQueue;
-        inboundMessages.add(new Message("GAME 1 MOVE 1 PLACE RG AT 0 0 0"));
-        inboundMessages.add(new Message("GAME 1 MOVE 1 BUILD villager AT 0 1"));
+        inboundMessages.add(new Message("GAME 1 MOVE 1 PLACE ROCKY+LAKE AT 0 0 0 1 FOUNDED SETTLEMENT AT 0 0 0"));
     }
 
     @Test
@@ -37,14 +36,14 @@ public class TurnTest {
 
     @Test
     public void testCanUpdateAndGetTilePlacement() throws InvalidMoveException, InterruptedException {
-        turn.updateTilePlacement(new TurnInfo(1, gameSettings) );
+        turn.updateTurnState(new TurnInfo(1, gameSettings) );
         TilePlacement tilePlacement = turn.getTilePlacement();
         assertTrue(tilePlacement != null);
     }
 
     @Test
-    public void testCanUpdateAndGetBuildAction() throws InterruptedException {
-        turn.updateBuildAction(new TurnInfo(1, gameSettings));
+    public void testCanUpdateAndGetBuildAction() throws InterruptedException, InvalidMoveException {
+        turn.updateTurnState(new TurnInfo(1, gameSettings));
         BuildAction buildAction = turn.getBuildAction();
         assertTrue(buildAction != null);
     }

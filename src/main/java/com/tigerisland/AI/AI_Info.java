@@ -66,10 +66,10 @@ public class AI_Info {
         y_upperBound = Integer.MIN_VALUE;
         ArrayList<Location> edgeSpaces = board.getEdgeSpaces();
         for(int ii=0; ii<edgeSpaces.size(); ii++){
-            x_lowerBound = Math.min(edgeSpaces.get(ii).getX(), x_lowerBound);
-            x_upperBound = Math.max(edgeSpaces.get(ii).getX(), x_upperBound);
-            y_lowerBound = Math.min(edgeSpaces.get(ii).getY(), y_lowerBound);
-            y_upperBound = Math.max(edgeSpaces.get(ii).getY(), y_upperBound);
+            x_lowerBound = Math.min(edgeSpaces.get(ii).x, x_lowerBound);
+            x_upperBound = Math.max(edgeSpaces.get(ii).x, x_upperBound);
+            y_lowerBound = Math.min(edgeSpaces.get(ii).y, y_lowerBound);
+            y_upperBound = Math.max(edgeSpaces.get(ii).y, y_upperBound);
         }
     }
 

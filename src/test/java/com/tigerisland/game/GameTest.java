@@ -49,8 +49,7 @@ public class GameTest {
     }
 
     private void placeDummyTilePlacementAndBuildInQueue() {
-        inboundMessages.add(new Message("GAME 1 MOVE 1 PLACE RG AT 0 0 60"));
-        inboundMessages.add(new Message("GAME 1 MOVE 1 BUILD villager AT 0 1"));
+        inboundMessages.add(new Message("GAME 1 MOVE 1 GAME 1 MOVE 1 PLACE ROCKY+GRASSLANDS AT 0 0 0 1 FOUND SETTLEMENT AT -1 -1 0"));
     }
 
     @Test
