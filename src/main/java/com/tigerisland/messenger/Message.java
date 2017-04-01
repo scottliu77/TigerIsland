@@ -8,7 +8,7 @@ public class Message {
     // WARNING! patterns based on temporary protocol, subject to change
     public static final Pattern gidPattern = Pattern.compile("GAME \\d+");
     public static final Pattern moveNumberPattern = Pattern.compile("MOVE \\d+");
-    //GAME <gameID> MOVE <#> PLACE <tile> AT <x> <y> <orientation>
+    //GAME <gameID> MOVE <#> PLACE <tile> AT <x> <y> <orientationDegrees>
     public static final Pattern placeTilePattern = Pattern.compile("PLACE \\w+ AT -?\\d+ -?\\d+ -?\\d+");
     //GAME <gameID> MOVE <#> BUILD <piece> AT <x> <y>
     public static final Pattern buildPattern = Pattern.compile("BUILD \\w+ AT -?\\d+ -?\\d+");
@@ -25,7 +25,10 @@ public class Message {
     private Integer y;
     private Integer newX;
     private Integer newY;
-    private Integer orientation;
+
+    private Integer orientationCode;
+    private Integer orientationDegrees;
+
     private String piece;
     private String terrain;
 
@@ -63,7 +66,8 @@ public class Message {
             tile = match.split("\\s+")[1];
             x = Integer.valueOf( match.split("\\s+")[3]);
             y = Integer.valueOf( match.split("\\s+")[4]);
-            orientation = Integer.valueOf( match.split("\\s+")[5]);
+            orientationCode = Integer.valueOf( match.split("\\s+")[5]);
+            orientationDegrees = Adapter.convertOrientationToDegrees(orientationCode);
             messageType = MessageType.TILEPLACEMENT;
         }
     }
@@ -134,8 +138,8 @@ public class Message {
         return newY;
     }
 
-    public Integer getOrientation() {
-        return orientation;
+    public Integer getOrientationDegrees() {
+        return orientationDegrees;
     }
 
     public String getPieceString() {

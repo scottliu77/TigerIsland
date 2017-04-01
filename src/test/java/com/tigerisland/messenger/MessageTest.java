@@ -68,8 +68,8 @@ public class MessageTest {
 
     @Test
     public void testCanSendTilePlacementMessageAndGetOrientation() {
-        Message message = new Message("PLACE VG AT 0 1 60");
-        assertTrue(message.getOrientation() == 60);
+        Message message = new Message("PLACE VG AT 0 1 1");
+        assertTrue(message.getOrientationDegrees() == 60);
     }
 
     @Test
@@ -116,7 +116,7 @@ public class MessageTest {
 
     @Test
     public void testCanSendTilePlacementMessageAndGetType() {
-        Message message = new Message("PLACE VG AT 0 1 60");
+        Message message = new Message("PLACE VG AT 0 1 1");
         assertTrue(message.getMessageType() == MessageType.TILEPLACEMENT);
     }
 

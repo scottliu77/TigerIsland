@@ -1,7 +1,6 @@
 package com.tigerisland.game;
 
 import com.tigerisland.InvalidMoveException;
-import com.tigerisland.messenger.ConsoleOut;
 import com.tigerisland.messenger.Message;
 import com.tigerisland.messenger.MessageType;
 
@@ -43,7 +42,7 @@ public class Turn {
         Terrain rightTerrain = getTerrainMatch(message.getTileString().substring(1, 2));
         Tile tile = new Tile(leftTerrain, rightTerrain);
         Location loc = new Location(message.getX(), message.getY());
-        int rotation = message.getOrientation();
+        int rotation = message.getOrientationDegrees();
         tilePlacement = new TilePlacement(tile, loc, rotation);
     }
 
