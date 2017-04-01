@@ -2,8 +2,6 @@ package com.tigerisland.game;
 
 
 import com.tigerisland.InvalidMoveException;
-import com.tigerisland.game.*;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -20,14 +18,16 @@ public class BuildOptionStepDefs{
     private Board board;
     private ArrayList<PlacedHex> placedHexes;
     private Player player;
-    private PlacedHex hexToPlaceTotoro;
-    private PlacedHex hexToPlaceTiger;
+
+    private PlacedHex targetHex;
     private PlacedHex hexToExpandInto;
     private PlacedHex hexInSettlement;
+
     private String caughtErrorMessage;
     private String expectedErrorMessage;
-    private Location locationToPlaceTotoro;
-    private Location locationToPlaceTiger;
+
+    private Location targetLocation;
+
     private int originalNumberOfTotoroRemaining;
     private int originalNumberOfVillagersRemaining;
 
@@ -41,12 +41,12 @@ public class BuildOptionStepDefs{
     @Given("^a settlement too small to accept a totoro$")
     public void addSmallSettlementToBoard(){
         expectedErrorMessage = "Settlement already contains a totoro or is too small";
-        hexToPlaceTotoro = setUpSettlement();
-        placedHexes.remove(hexToPlaceTotoro);
+        targetHex = setUpSettlement();
+        placedHexes.remove(targetHex);
         Hex hex1 = new Hex("hex1", Terrain.LAKE);
         Location loc1 = new Location(0,0);
-        hexToPlaceTotoro = new PlacedHex(hex1, loc1);
-        placedHexes.add(0, hexToPlaceTotoro);
+        targetHex = new PlacedHex(hex1, loc1);
+        placedHexes.add(0, targetHex);
         Settlement settlement = new Settlement(placedHexes.get(1), placedHexes);
         board.placedHexes = placedHexes;
         board.settlements.add(settlement);
@@ -63,8 +63,8 @@ public class BuildOptionStepDefs{
         placedHexes.add(placedHex5);
         Hex hex6 = new Hex("hex6", Terrain.GRASSLANDS);
         Location loc6 = new Location(0,-3);
-        hexToPlaceTotoro = new PlacedHex(hex6, loc6);
-        placedHexes.add(hexToPlaceTotoro);
+        targetHex = new PlacedHex(hex6, loc6);
+        placedHexes.add(targetHex);
         Settlement settlement = new Settlement(placedHex1, placedHexes);
 
         board.placedHexes = placedHexes;
@@ -83,8 +83,8 @@ public class BuildOptionStepDefs{
         placedHexes.add(placedHex5);
         Hex hex6 = new Hex("hex6", Terrain.LAKE, 3);
         Location loc6 = new Location(0, -3);
-        hexToPlaceTiger = new PlacedHex(hex6, loc6);
-        placedHexes.add(hexToPlaceTiger);
+        targetHex = new PlacedHex(hex6, loc6);
+        placedHexes.add(targetHex);
         Settlement settlement = new Settlement(placedHex1, placedHexes);
 
         board.placedHexes = placedHexes;
@@ -98,8 +98,8 @@ public class BuildOptionStepDefs{
         Hex hex5 = new Hex("hex5", Terrain.LAKE);
         hex5.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
         Location loc5 = new Location(1,-2);
-        hexToPlaceTotoro = new PlacedHex(hex5, loc5);
-        placedHexes.add(hexToPlaceTotoro);
+        targetHex = new PlacedHex(hex5, loc5);
+        placedHexes.add(targetHex);
         Hex hex6 = new Hex("hex6", Terrain.GRASSLANDS);
         Location loc6 = new Location(0,-3);
         PlacedHex placedHex6 = new PlacedHex(hex6, loc6);
@@ -117,10 +117,10 @@ public class BuildOptionStepDefs{
         Hex hex5 = new Hex("hex5", Terrain.LAKE);
         hex5.addPiecesToHex(new Piece(Color.BLACK, PieceType.TOTORO), 1);
         Location loc5 = new Location(0,-2);
-        hexToPlaceTotoro = new PlacedHex(hex5, loc5);
-        placedHexes.add(hexToPlaceTotoro);
+        targetHex = new PlacedHex(hex5, loc5);
+        placedHexes.add(targetHex);
         Settlement settlement = new Settlement(placedHex1, placedHexes);
-        locationToPlaceTotoro = new Location(0,-3);
+        targetLocation = new Location(0,-3);
         board.placedHexes = placedHexes;
         board.settlements.add(settlement);
 
@@ -130,9 +130,9 @@ public class BuildOptionStepDefs{
     public void addVolcanoHexOfLevelThreeToBoard() {
         expectedErrorMessage = "Cannot place a piece on a volcano hex";
         Hex volcanoHex = new Hex("volcanoHex", Terrain.VOLCANO, 3);
-        locationToPlaceTiger = new Location(0,0);
-        hexToPlaceTiger = new PlacedHex(volcanoHex, locationToPlaceTiger);
-        placedHexes.add(hexToPlaceTiger);
+        targetLocation = new Location(0,0);
+        targetHex = new PlacedHex(volcanoHex, targetLocation);
+        placedHexes.add(targetHex);
         board.placedHexes = placedHexes;
 
     }
@@ -141,20 +141,20 @@ public class BuildOptionStepDefs{
     public void addNonVolcanoHexOfHeightLessThanThreeToBoard() {
         expectedErrorMessage = "Cannot build Tiger playground on hex of level less than 3";
         Hex hex = new Hex("hex", Terrain.GRASSLANDS, 2);
-        locationToPlaceTiger = new Location(0,0);
-        hexToPlaceTiger = new PlacedHex(hex, locationToPlaceTiger);
-        placedHexes.add(hexToPlaceTiger);
+        targetLocation = new Location(0,0);
+        targetHex = new PlacedHex(hex, targetLocation);
+        placedHexes.add(targetHex);
         board.placedHexes = placedHexes;
     }
 
     @Given("^an occupied hex")
     public void addAnOccupiedHexToBoard() {
         expectedErrorMessage = "Target hex already contains piece(s)";
-        Hex hex = new Hex("hex", Terrain.GRASSLANDS, 2);
+        Hex hex = new Hex("hex", Terrain.GRASSLANDS, 1);
         hex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
-        locationToPlaceTiger = new Location(0,0);
-        hexToPlaceTiger = new PlacedHex(hex, locationToPlaceTiger);
-        placedHexes.add(hexToPlaceTiger);
+        targetLocation = new Location(0,0);
+        targetHex = new PlacedHex(hex, targetLocation);
+        placedHexes.add(targetHex);
         board.placedHexes = placedHexes;
     }
 
@@ -163,8 +163,8 @@ public class BuildOptionStepDefs{
         expectedErrorMessage = "Settlement already contains a tiger or is too small";
         Hex hex6 = new Hex("hex6", Terrain.LAKE, 3);
         Location loc6 = new Location(0, -3);
-        hexToPlaceTiger = new PlacedHex(hex6, loc6);
-        placedHexes.add(hexToPlaceTiger);
+        targetHex = new PlacedHex(hex6, loc6);
+        placedHexes.add(targetHex);
 
         board.placedHexes = placedHexes;
     }
@@ -265,7 +265,7 @@ public class BuildOptionStepDefs{
     @When("^a player tries to place a totoro in the settlement$")
     public void attemptToPlaceTotoro() throws InvalidMoveException {
         try {
-            board.placeTotoro(player, hexToPlaceTotoro.getLocation());
+            board.placeTotoro(player, targetHex.getLocation());
         } catch (InvalidMoveException e) {
             caughtErrorMessage = e.getMessage();
         }
@@ -275,7 +275,7 @@ public class BuildOptionStepDefs{
     public void attemptToPlaceTotoroOnOccupiedHex() throws InvalidMoveException {
         expectedErrorMessage = "Target hex already contains piece(s)";
         try {
-            board.placeTotoro(player, hexToPlaceTotoro.getLocation());
+            board.placeTotoro(player, targetHex.getLocation());
         } catch (InvalidMoveException e) {
             caughtErrorMessage = e.getMessage();
         }
@@ -284,7 +284,7 @@ public class BuildOptionStepDefs{
     @When("^a player tries to place a totoro on an unplaced hex adjacent to the settlement$")
     public void attemptToPlaceTotoroOnUnplacedHex() throws InvalidMoveException {
         try {
-            board.placeTotoro(player, locationToPlaceTotoro);
+            board.placeTotoro(player, targetLocation);
         } catch (InvalidMoveException e) {
             caughtErrorMessage = e.getMessage();
         }
@@ -292,11 +292,11 @@ public class BuildOptionStepDefs{
 
     @When("^a player tries to place a totoro validly$")
     public void attemptToPlaceTotoroValidly() throws InvalidMoveException {
-        locationToPlaceTotoro = new Location(0,-3);
+        targetLocation = new Location(0,-3);
         originalNumberOfTotoroRemaining = player.getPieceSet().getNumberOfTotoroRemaining();
         originalNumberOfVillagersRemaining = player.getPieceSet().getNumberOfVillagersRemaining();
         try {
-            board.placeTotoro(player, locationToPlaceTotoro);
+            board.placeTotoro(player, targetLocation);
         } catch (InvalidMoveException e) {
             caughtErrorMessage = e.getMessage();
         }
@@ -307,10 +307,10 @@ public class BuildOptionStepDefs{
         expectedErrorMessage = "Cannot place a piece on a volcano hex";
         Hex hex = new Hex("volcanoHex", Terrain.VOLCANO);
         Location loc = new Location(2,0);
-        hexToPlaceTotoro = new PlacedHex(hex, loc);
-        placedHexes.add(hexToPlaceTotoro);
+        targetHex = new PlacedHex(hex, loc);
+        placedHexes.add(targetHex);
         try {
-            board.placeTotoro(player, hexToPlaceTotoro.getLocation());
+            board.placeTotoro(player, targetHex.getLocation());
         } catch (InvalidMoveException e) {
             caughtErrorMessage = e.getMessage();
         }
@@ -319,7 +319,7 @@ public class BuildOptionStepDefs{
     @When("^a player tries to place a tiger on a hex$")
     public void attemptToPlaceTigerOnVolcano() throws InvalidMoveException {
         try {
-            board.placeTiger(player, hexToPlaceTiger.getLocation());
+            board.placeTiger(player, targetHex.getLocation());
         } catch (InvalidMoveException e) {
             caughtErrorMessage = e.getMessage();
         }
@@ -328,7 +328,7 @@ public class BuildOptionStepDefs{
     @When("^a player tries to place a tiger in the settlement$")
     public void attemptToPlaceTiger() throws InvalidMoveException {
         try {
-            board.placeTiger(player, hexToPlaceTiger.getLocation());
+            board.placeTiger(player, targetHex.getLocation());
         } catch (Exception e) {
             caughtErrorMessage = e.getMessage();
         }
@@ -337,7 +337,7 @@ public class BuildOptionStepDefs{
     @When("^a player tries to place a totoro on the hex bridging the gap$")
     public void attemptToPlaceTotoroBetweenTwoSmallSettlements(){
         try {
-            board.placeTotoro(player, hexToPlaceTotoro.getLocation());
+            board.placeTotoro(player, targetHex.getLocation());
         } catch (InvalidMoveException e) {
             caughtErrorMessage = e.getMessage();
         }
@@ -391,7 +391,7 @@ public class BuildOptionStepDefs{
         Location loc = new Location(-1, 1);
         PlacedHex targetHex = new PlacedHex(hex, loc);
         placedHexes.add(targetHex);
-        hexToPlaceTotoro = targetHex;
+        this.targetHex = targetHex;
         Settlement settlement = new Settlement(totoroHex, placedHexes);
     }
 
@@ -481,4 +481,44 @@ public class BuildOptionStepDefs{
 
         return placedHex5;
     }
+
+    @Given("a Volcano hex")
+    public void addVolcanoHexToBoard(){
+        expectedErrorMessage = "Cannot place a piece on a volcano hex";
+        Hex volcanoHex = new Hex("volcanoHex", Terrain.VOLCANO, 1);
+        targetLocation = new Location(0,0);
+        targetHex = new PlacedHex(volcanoHex, targetLocation);
+        placedHexes.add(targetHex);
+        board.placedHexes = placedHexes;
+    }
+
+    @Given("a player has no more villagers")
+    public void placeAllVillagers() throws InvalidMoveException {
+        expectedErrorMessage = "No villagers remaining in game inventory.";
+        originalNumberOfVillagersRemaining = player.getPieceSet().getNumberOfVillagersRemaining();
+        for (int i = originalNumberOfVillagersRemaining; i >= 0; i--){
+            player.getPieceSet().placeVillager();
+        }
+    }
+
+    @And("there is a valid hex")
+    public void addHeight1EmptyNonVolcanicHex(){
+        expectedErrorMessage = "No villagers remaining in game inventory.";
+        Hex hex = new Hex("hex1", Terrain.LAKE, 1);
+        targetLocation = new Location(0,0);
+        targetHex = new PlacedHex(hex, targetLocation);
+        placedHexes.add(targetHex);
+        board.placedHexes = placedHexes;
+    }
+
+    @When("a player attempts to create new village on the hex")
+    public void attemptToCreateNewVillageOnHex(){
+        try {
+            board.createVillage(player, targetLocation);
+        } catch (InvalidMoveException e) {
+            caughtErrorMessage = e.getMessage();
+        }
+    }
+
+
 }
