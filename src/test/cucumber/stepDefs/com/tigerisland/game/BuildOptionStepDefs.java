@@ -2,6 +2,7 @@ package com.tigerisland.game;
 
 
 import com.tigerisland.InvalidMoveException;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -262,6 +263,52 @@ public class BuildOptionStepDefs{
         }
     }
 
+    @Given("^a Volcano hex$")
+    public void addVolcanoHexToBoard(){
+        expectedErrorMessage = "Cannot place a piece on a volcano hex";
+        Hex volcanoHex = new Hex("volcanoHex", Terrain.VOLCANO, 1);
+        targetLocation = new Location(0,0);
+        targetHex = new PlacedHex(volcanoHex, targetLocation);
+        placedHexes.add(targetHex);
+        board.placedHexes = placedHexes;
+    }
+
+    @Given("^a nonvolcanic hex of height greater than one$")
+    public void createHexOnHeightGreaterThanOne() throws Throwable {
+        expectedErrorMessage = "Cannot create village above height 1";
+        Hex hex = new Hex("hex", Terrain.VOLCANO, 2);
+        targetLocation = new Location(0,0);
+        targetHex = new PlacedHex(hex, targetLocation);
+        placedHexes.add(targetHex);
+        board.placedHexes = placedHexes;
+    }
+
+    @Given("^a nonexistent hex location$")
+    public void aNonexistentHexLocation() throws Throwable {
+        expectedErrorMessage = "Target hex does not exist";
+        targetLocation = new Location(0,0);
+    }
+
+    @And("^there is a valid hex$")
+    public void addHeight1EmptyNonVolcanicHex(){
+        Hex hex = new Hex("hex1", Terrain.LAKE, 1);
+        targetLocation = new Location(0,0);
+        targetHex = new PlacedHex(hex, targetLocation);
+        placedHexes.add(targetHex);
+        board.placedHexes = placedHexes;
+    }
+
+    @And("^the player has no villagers$")
+    public void thePlayerHasNoVillagers() throws Throwable {
+        expectedErrorMessage = "No villagers remaining in game inventory.";
+        originalNumberOfVillagersRemaining = player.getPieceSet().getNumberOfVillagersRemaining();
+        try {
+            player.getPieceSet().placeMultipleVillagers(originalNumberOfVillagersRemaining);
+        } catch(InvalidMoveException e) {
+            e.printStackTrace();
+        }
+    }
+
     @When("^a player tries to place a totoro in the settlement$")
     public void attemptToPlaceTotoro() throws InvalidMoveException {
         try {
@@ -347,6 +394,15 @@ public class BuildOptionStepDefs{
     public void aPlayerAttemptsToExpand() {
         try {
             board.expandVillage(player, hexToExpandInto.getLocation(), hexInSettlement.getLocation());
+        } catch (InvalidMoveException e) {
+            caughtErrorMessage = e.getMessage();
+        }
+    }
+
+    @When("^a player attempts to create new village on the hex$")
+    public void attemptToCreateNewVillageOnHex(){
+        try {
+            board.createVillage(player, targetLocation);
         } catch (InvalidMoveException e) {
             caughtErrorMessage = e.getMessage();
         }
@@ -481,44 +537,4 @@ public class BuildOptionStepDefs{
 
         return placedHex5;
     }
-
-    @Given("a Volcano hex")
-    public void addVolcanoHexToBoard(){
-        expectedErrorMessage = "Cannot place a piece on a volcano hex";
-        Hex volcanoHex = new Hex("volcanoHex", Terrain.VOLCANO, 1);
-        targetLocation = new Location(0,0);
-        targetHex = new PlacedHex(volcanoHex, targetLocation);
-        placedHexes.add(targetHex);
-        board.placedHexes = placedHexes;
-    }
-
-    @Given("a player has no more villagers")
-    public void placeAllVillagers() throws InvalidMoveException {
-        expectedErrorMessage = "No villagers remaining in game inventory.";
-        originalNumberOfVillagersRemaining = player.getPieceSet().getNumberOfVillagersRemaining();
-        for (int i = originalNumberOfVillagersRemaining; i >= 0; i--){
-            player.getPieceSet().placeVillager();
-        }
-    }
-
-    @And("there is a valid hex")
-    public void addHeight1EmptyNonVolcanicHex(){
-        expectedErrorMessage = "No villagers remaining in game inventory.";
-        Hex hex = new Hex("hex1", Terrain.LAKE, 1);
-        targetLocation = new Location(0,0);
-        targetHex = new PlacedHex(hex, targetLocation);
-        placedHexes.add(targetHex);
-        board.placedHexes = placedHexes;
-    }
-
-    @When("a player attempts to create new village on the hex")
-    public void attemptToCreateNewVillageOnHex(){
-        try {
-            board.createVillage(player, targetLocation);
-        } catch (InvalidMoveException e) {
-            caughtErrorMessage = e.getMessage();
-        }
-    }
-
-
 }
