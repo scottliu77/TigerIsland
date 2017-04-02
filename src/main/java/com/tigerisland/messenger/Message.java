@@ -38,6 +38,7 @@ public class Message {
         this.message = message;
         checkForGameID();
         checkForMoveID();
+        checkForPlayerID();
         checkStringForDetails();
     }
 
@@ -52,6 +53,13 @@ public class Message {
         Matcher moveMatcher = moveIDPattern.matcher(message);
         while(moveMatcher.find()) {
             moveID = Integer.valueOf(moveMatcher.group().replaceAll("\\D+", ""));
+        }
+    }
+
+    private void checkForPlayerID() {
+        Matcher playerMatcher = playerIDPattern.matcher(message);
+        while(playerMatcher.find()) {
+            playerID = Integer.valueOf(playerMatcher.group().replaceAll("\\D+", ""));
         }
     }
 
@@ -173,6 +181,10 @@ public class Message {
 
     public Integer getMoveID() {
         return moveID;
+    }
+
+    public Integer getPlayerID() {
+        return playerID;
     }
 
     public Tile getTile() {

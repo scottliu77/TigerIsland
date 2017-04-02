@@ -61,8 +61,6 @@ public class Game implements Runnable {
 
         currentPlayer = gameSettings.getPlayerSet().getCurrentPlayer();
 
-        ConsoleOut.printGameMessage(gameID, turnInfo.getMoveID(), "Player COLOR: " + currentPlayer.getPlayerColor().getColorString() + " TYPE: " + currentPlayer.getPlayerType().getTypeString());
-
         packageTurnState();
 
         turnState = Move.placeTile(turnState);
@@ -92,9 +90,7 @@ public class Game implements Runnable {
 
         turnInfo.drawANewTile();
 
-        ifAIPickTilePlacement();
-
-        ifAIPickBuildAction();
+        ifAIPickTilePlacementAndBuildAction();
 
         turnState.updateTurnState(turnInfo);
 
@@ -102,22 +98,15 @@ public class Game implements Runnable {
 
     }
 
-    private void ifAIPickTilePlacement() {
+    private void ifAIPickTilePlacementAndBuildAction() {
         if(turnState.getPlayer().getPlayerType() != PlayerType.SERVER) {
-            turnState.getPlayer().getPlayerAI().pickTilePlacement(turnInfo, turnState);
-        }
-    }
-
-    private void ifAIPickBuildAction() {
-        if(turnState.getPlayer().getPlayerType() != PlayerType.SERVER) {
-            turnState.getPlayer().getPlayerAI().pickBuildAction(turnInfo, turnState);
+            turnState.getPlayer().getPlayerAI().pickTilePlacementAndBuildAction(turnInfo, turnState);
         }
     }
 
     protected void unpackageTurnState(Turn turnState) {
         gameSettings.getPlayerSet().getCurrentPlayer().updatePlayerState(turnState.getPlayer());
         board = turnState.getBoard();
-        //TextGUI.printMap(board);
     }
 
     public GameSettings getGameSettings() {

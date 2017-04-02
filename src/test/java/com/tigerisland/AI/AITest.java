@@ -9,6 +9,7 @@ import com.tigerisland.messenger.Message;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.xml.soap.Text;
 import java.util.concurrent.BlockingQueue;
 
 import static org.junit.Assert.assertTrue;
@@ -44,7 +45,7 @@ public class AITest {
     @Test
     public void testCanPickInitialTilePlacement() throws InvalidMoveException {
         turnInfo.drawANewTile();
-        testAI.pickTilePlacement(turnInfo, turnState);
+        testAI.pickTilePlacementAndBuildAction(turnInfo, turnState);
         Message message = inboundMessages.remove();
         assertTrue(message.message.contains("AT 0 0 0"));
     }
@@ -52,11 +53,9 @@ public class AITest {
     @Test
     public void testCanPickInitialBuildAction() throws InvalidMoveException {
         turnInfo.drawANewTile();
-        testAI.pickTilePlacement(turnInfo, turnState);
+        testAI.pickTilePlacementAndBuildAction(turnInfo, turnState);
         Message message = inboundMessages.remove();
-        turnState.getBoard().placeTile(new Tile(Terrain.GRASSLANDS, Terrain.GRASSLANDS), new Location(0, 0), 0);
-        testAI.pickBuildAction(turnInfo, turnState);
-        message = inboundMessages.remove();
-        assertTrue(message.message.equals("GAME 1 MOVE 1 BUILD villager AT 1 0"));
+        System.out.println(message);
+        assertTrue(message.message.contains("FOUND SETTLEMENT AT 0 1 -1"));
     }
 }
