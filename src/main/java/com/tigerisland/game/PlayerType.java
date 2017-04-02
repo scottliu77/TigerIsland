@@ -1,9 +1,5 @@
 package com.tigerisland.game;
 
-import com.tigerisland.AI.DummyAI;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.*;
 
 public enum PlayerType {

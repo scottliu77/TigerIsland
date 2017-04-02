@@ -33,7 +33,7 @@ public class AI {
         unpackAIsettings(turnInfo, turnState);
 
         if(AIType == PlayerType.HUMAN) {
-            message = DummyAI.pickTilePlacementAndBuildAction(turnInfo, turnState);
+            message = HumanInput.pickTilePlacementAndBuildAction(turnInfo, turnState);
         } else {
             pickTilePlacement(turnInfo, turnState);
             pickBuildAction(turnInfo, turnState);

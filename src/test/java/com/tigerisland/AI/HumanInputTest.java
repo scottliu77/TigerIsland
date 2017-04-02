@@ -15,7 +15,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-public class DummyAITest {
+public class HumanInputTest {
 
     private Turn turnState;
     private TurnInfo turnInfo;
@@ -41,6 +41,6 @@ public class DummyAITest {
 //    public void testCanPassBuildMessageWithDummyAI() throws UnsupportedEncodingException {
 //        String message = "GAME 1 MOVE 1 PLACE RG AT 0 0 60";
 //        testMessage = new ByteArrayInputStream(message.getBytes("UTF-8"));
-//        DummyAI.pickTilePlacement(turnInfo, turnState);
+//        HumanInput.pickTilePlacement(turnInfo, turnState);
 //    }
 }
