@@ -1,6 +1,5 @@
 package com.tigerisland.game;
 
-import com.tigerisland.GameSettings;
 import com.tigerisland.GlobalSettings;
 import com.tigerisland.InvalidMoveException;
 import org.junit.Before;
@@ -71,7 +70,7 @@ public class EndConditionsTest {
             currentPlayer.getPieceSet().placeTotoro();
         }
         currentPlayer.getPieceSet().placeMultipleVillagers(19);
-        assertTrue(EndConditions.playerIsOutOfPieces(currentPlayer) == false);
+        assertTrue(EndConditions.playerIsOutOfPiecesOfTwoTypes(currentPlayer) == false);
     }
 
     @Test
@@ -83,7 +82,7 @@ public class EndConditionsTest {
             currentPlayer.getPieceSet().placeTiger();
         }
         currentPlayer.getPieceSet().placeMultipleVillagers(20);
-        assertTrue(EndConditions.playerIsOutOfPieces(currentPlayer));
+        assertTrue(EndConditions.playerIsOutOfPiecesOfTwoTypes(currentPlayer));
     }
 
     @Test

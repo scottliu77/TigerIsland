@@ -76,7 +76,7 @@ public class Game implements Runnable {
 
         unpackageTurnState(turnState);
 
-        if(EndConditions.playerIsOutOfPieces(currentPlayer)) {
+        if(EndConditions.playerIsOutOfPiecesOfTwoTypes(currentPlayer)) {
             return false;
         }
 

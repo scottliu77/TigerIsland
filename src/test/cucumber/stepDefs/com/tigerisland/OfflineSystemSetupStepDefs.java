@@ -4,6 +4,7 @@ import com.tigerisland.game.PlayerSet;
 import com.tigerisland.game.Game;
 import com.tigerisland.game.Terrain;
 import com.tigerisland.game.Tile;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -81,5 +82,4 @@ public class OfflineSystemSetupStepDefs {
         }
         return combinationsFound;
     }
-
 }
