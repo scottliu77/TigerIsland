@@ -23,6 +23,9 @@ public class Game implements Runnable {
 
     public void run() {
         try {
+
+            placeStartingTile();
+
             while(true) {
 
                 if(Thread.currentThread().isInterrupted()) {
@@ -44,6 +47,14 @@ public class Game implements Runnable {
             Player winner = EndConditions.calculateWinner(gameSettings.getPlayerSet().getCurrentPlayer(), gameSettings.getPlayerSet().getPlayerList());
             ConsoleOut.printGameMessage(gameID, "The winner was player " + winner.getPlayerType().getTypeString() + " " + winner.getPlayerColor().getColorString() );
         }
+    }
+
+    protected void placeStartingTile() throws InvalidMoveException {
+        board.placeHex(new Hex("00", Terrain.VOLCANO), new Location(0, 0));
+        board.placeHex(new Hex("00", Terrain.JUNGLE), new Location(-1, 1));
+        board.placeHex(new Hex("00", Terrain.LAKE), new Location(0, 1));
+        board.placeHex(new Hex("00", Terrain.GRASSLANDS), new Location(1, -1));
+        board.placeHex(new Hex("00", Terrain.ROCKY), new Location(0, -1));
     }
 
     protected Boolean takeAnotherTurn() throws InvalidMoveException, InterruptedException {

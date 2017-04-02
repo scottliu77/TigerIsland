@@ -134,7 +134,7 @@ public class Board{
         return false;
     }
 
-    private void placeHex(Hex hex, Location loc) throws InvalidMoveException {
+    protected void placeHex(Hex hex, Location loc) throws InvalidMoveException {
         if(hexExistsAtLocation(loc)) {
             PlacedHex replacedHex = placedHexAtLocation(loc);
             int newHeight = hexAt(loc).getHeight() + 1;

@@ -100,4 +100,9 @@ public class GameTest {
         assertTrue(game.getMoveID() == 1);
     }
 
+    @Test
+    public void testCanPlaceStartingTileOfGame() throws InvalidMoveException {
+        game.placeStartingTile();
+        assertTrue(game.getBoard().placedHexes.size() == 5);
+    }
 }
