@@ -296,7 +296,7 @@ public class Board{
             throw new InvalidMoveException("Cannot place a piece on a volcano hex");
         }
         hexAt(location).addPiecesToHex(player.getPieceSet().placeVillager(), 1);
-        player.getScore().addPoints(Score.VILLAGER_POINT_VALUE);
+
     }
 
     public void expandVillage(Player player, Location settledLoc, Terrain expandTerrain) throws InvalidMoveException {
@@ -453,12 +453,14 @@ public class Board{
         PlacedHex targetHex = placedHexAtLocation(location);
         ArrayList<Settlement> adjacentSettlementsToTargetLocation = findAdjacentSettlementsToLocation(location);
         TotoroPlacer.placeTotoro(player, targetHex, adjacentSettlementsToTargetLocation);
+        //player.getScore().addPoints(Score.TOTORO_POINT_VALUE);
     }
 
     public void placeTiger(Player player, Location location) throws InvalidMoveException{
         PlacedHex targetHex = placedHexAtLocation(location);
         ArrayList<Settlement> adjacentSettlementsToTargetLocation = findAdjacentSettlementsToLocation(location);
         TigerPlacer.placeTiger(player, targetHex, adjacentSettlementsToTargetLocation);
+       // player.getScore().addPoints(Score.TIGER_POINT_VALUE);
     }
 
     public void updateSettlements(){

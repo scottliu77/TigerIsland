@@ -45,3 +45,4 @@ Feature: Placing Totoro Conditions
     When a player tries to place a totoro validly
     Then the move is accepted
       And the player's inventory updates properly
+

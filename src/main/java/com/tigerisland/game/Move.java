@@ -32,7 +32,7 @@ public final class Move {
 
         turnState.getBoard().createVillage(turnState.getPlayer(), turnState.getBuildAction().getLocation());
         turnState.getBoard().updateSettlements();
-
+        turnState.getPlayer().getScore().addPoints(Score.VILLAGER_POINT_VALUE);
         return turnState;
     }
 

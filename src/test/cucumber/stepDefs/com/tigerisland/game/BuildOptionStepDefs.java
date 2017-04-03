@@ -33,6 +33,9 @@ public class BuildOptionStepDefs{
     private int originalNumberOfTotoroRemaining;
     private int originalNumberOfVillagersRemaining;
 
+    private Score originalScore;
+    private Score finalScore;
+
 
     public BuildOptionStepDefs() {
         this.board = new Board();
@@ -459,6 +462,7 @@ public class BuildOptionStepDefs{
         this.targetHex = targetHex;
         Settlement settlement = new Settlement(totoroHex, placedHexes);
     }
+
 
     private PlacedHex setUpSettlement(){
         Hex hex1 = new Hex("hex1", Terrain.LAKE);
