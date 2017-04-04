@@ -275,6 +275,124 @@ public class BuildOptionStepDefs{
         }
     }
 
+    @Given("^a settlement adjacent to another player's settlement$")
+    public void aSettlementAdjacentToAnotherPlayersSettlement() {
+        Location loc = new Location(0,0);
+        Hex hex = new Hex("TileID1", Terrain.ROCKY);
+        hex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        hexInSettlement = new PlacedHex(hex, loc);
+        placedHexes.add(hexInSettlement);
+
+        Location loc1 = new Location(0,1);
+        Hex hex1 = new Hex("TileID1", Terrain.LAKE);
+        hexToExpandInto = new PlacedHex(hex1, loc1);
+        placedHexes.add(hexToExpandInto);
+
+        expandTerrain = hex1.getHexTerrain();
+
+        Location loc2 = new Location(-1,2);
+        Hex hex2 = new Hex("TileID1", Terrain.LAKE);
+        hex2.addPiecesToHex(new Piece(Color.WHITE, PieceType.VILLAGER), 1);
+        PlacedHex pHex2 = new PlacedHex(hex2, loc2);
+        placedHexes.add(pHex2);
+
+        Location loc3 = new Location(0,2);
+        Hex hex3 = new Hex("TileID2", Terrain.LAKE);
+        hex3.addPiecesToHex(new Piece(Color.WHITE, PieceType.VILLAGER), 1);
+        PlacedHex pHex3 = new PlacedHex(hex3, loc3);
+        placedHexes.add(pHex3);
+
+        Location loc4 = new Location(1,2);
+        Hex hex4 = new Hex("TileID2", Terrain.LAKE);
+        hex4.addPiecesToHex(new Piece(Color.WHITE, PieceType.VILLAGER), 1);
+        PlacedHex pHex4 = new PlacedHex(hex4, loc4);
+        placedHexes.add(pHex4);
+
+        Settlement blackSettlement = new Settlement(hexInSettlement, placedHexes);
+        Settlement whiteSettlement = new Settlement(pHex2, placedHexes);
+        board.placedHexes = this.placedHexes;
+        board.settlements.add(blackSettlement);
+        board.settlements.add(whiteSettlement);
+    }
+
+    @Given("^a settlement adjacent to hexes of different heights$")
+    public void aSettlementAdjacentToHexesOfDifferentHeights() {
+        Location loc = new Location(0,0);
+        Hex hex = new Hex("TileID1", Terrain.ROCKY);
+        hex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        hexInSettlement = new PlacedHex(hex, loc);
+        placedHexes.add(hexInSettlement);
+
+        Location loc1 = new Location(0,1);
+        Hex hex1 = new Hex("TileID1", Terrain.LAKE, 2);
+        PlacedHex pHex1 = new PlacedHex(hex1, loc1);
+        placedHexes.add(pHex1);
+
+        expandTerrain = hex1.getHexTerrain();
+
+        Location loc2 = new Location(-1,2);
+        Hex hex2 = new Hex("TileID1", Terrain.LAKE, 3);
+        PlacedHex pHex2 = new PlacedHex(hex2, loc2);
+        placedHexes.add(pHex2);
+
+        Location loc3 = new Location(0,2);
+        Hex hex3 = new Hex("TileID2", Terrain.LAKE, 2);
+        PlacedHex pHex3 = new PlacedHex(hex3, loc3);
+        placedHexes.add(pHex3);
+
+        Location loc4 = new Location(1,2);
+        Hex hex4 = new Hex("TileID2", Terrain.LAKE, 4);
+        PlacedHex pHex4 = new PlacedHex(hex4, loc4);
+        placedHexes.add(pHex4);
+
+        Settlement settlement = new Settlement(hexInSettlement, placedHexes);
+        board.placedHexes = this.placedHexes;
+        board.settlements.add(settlement);
+    }
+
+    @Given("^a player has fewer pieces to expand across different heights$")
+    public void aPlayerHasFewerPiecesToExpandAcrossDifferentHeights() {
+        expectedErrorMessage = "Player does not have enough pieces to populate the target hex";
+
+        Location loc = new Location(0,0);
+        Hex hex = new Hex("TileID1", Terrain.ROCKY);
+        hex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        hexInSettlement = new PlacedHex(hex, loc);
+        placedHexes.add(hexInSettlement);
+
+        Location loc1 = new Location(0,1);
+        Hex hex1 = new Hex("TileID1", Terrain.LAKE, 2);
+        PlacedHex pHex1 = new PlacedHex(hex1, loc1);
+        placedHexes.add(pHex1);
+
+        expandTerrain = hex1.getHexTerrain();
+
+        Location loc2 = new Location(-1,2);
+        Hex hex2 = new Hex("TileID1", Terrain.LAKE, 3);
+        PlacedHex pHex2 = new PlacedHex(hex2, loc2);
+        placedHexes.add(pHex2);
+
+        Location loc3 = new Location(0,2);
+        Hex hex3 = new Hex("TileID2", Terrain.LAKE, 2);
+        PlacedHex pHex3 = new PlacedHex(hex3, loc3);
+        placedHexes.add(pHex3);
+
+        Location loc4 = new Location(1,2);
+        Hex hex4 = new Hex("TileID2", Terrain.LAKE, 4);
+        PlacedHex pHex4 = new PlacedHex(hex4, loc4);
+        placedHexes.add(pHex4);
+
+        Settlement settlement = new Settlement(hexInSettlement, placedHexes);
+        board.placedHexes = this.placedHexes;
+        board.settlements.add(settlement);
+
+        try {
+            player.getPieceSet().placeMultipleVillagers(11);
+        } catch(InvalidMoveException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Given("^a Volcano hex$")
     public void addVolcanoHexToBoard(){
         expectedErrorMessage = "Cannot place a piece on a volcano hex";
@@ -433,6 +551,16 @@ public class BuildOptionStepDefs{
     @Then("^the player has the correct amount of remaining villagers$")
     public void checkThePlayerHasTheCorrectAmountOfRemainingVillagers() {
         assertTrue(player.getPieceSet().getNumberOfVillagersRemaining() == 16);
+    }
+
+    @Then("^the player only expands on empty hexes$")
+    public void thePlayerOnlyExpandsOnEmptyHexes() {
+        assertTrue(player.getPieceSet().getNumberOfVillagersRemaining() == 19);
+    }
+
+    @Then("^the player expands if they have necessary amount of pieces$")
+    public void checkThePlayerSuccessfullyExpanded() {
+        assertTrue(player.getPieceSet().getNumberOfVillagersRemaining() == 9);
     }
 
     @And("^the player's inventory updates properly")

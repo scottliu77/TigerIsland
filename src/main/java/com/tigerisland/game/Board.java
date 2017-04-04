@@ -333,19 +333,6 @@ public class Board{
         return null;
     }
 
-    public Terrain isHexLocationValid(Location loc) throws InvalidMoveException {
-        Hex targetHex = hexAt(loc);
-        if(targetHex.getPieceCount() == -1) {
-            throw new InvalidMoveException("Target hex does not exist");
-        } else if (targetHex.getPieceCount() > 0) {
-            throw new InvalidMoveException("Target hex already has pieces on it and cannot be expanded upon");
-        } else if (targetHex.getHexTerrain() == Terrain.VOLCANO) {
-            throw new InvalidMoveException("Cannot expand into a Volcano");
-        } else{
-            return targetHex.getHexTerrain();
-        }
-    }
-
     public void checkForVolcano(Terrain expandTerrain) throws InvalidMoveException {
         if (expandTerrain != Terrain.VOLCANO) {
             return;

@@ -587,69 +587,6 @@ public class BoardTest{
     }
 
     @Test
-    public void testInvalidHexLocation() {
-        Location invalidLocation = new Location(0,0);
-
-        try {
-            board.isHexLocationValid(invalidLocation);
-        } catch (InvalidMoveException e) {
-            assertTrue(e.getMessage().equals("Target hex does not exist"));
-        }
-    }
-
-    @Test
-    public void testHexLocationAlreadyTaken() {
-        Player player = new Player(Color.BLACK);
-        String tileID = "fakeTileID";
-        Location loc = new Location(0,1);
-        Hex settledHex = new Hex(tileID, Terrain.LAKE);
-        settledHex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
-        PlacedHex blackSettledHex = new PlacedHex(settledHex, loc);
-        placedHexes.add(blackSettledHex);
-        board.placedHexes = this.placedHexes;
-
-        try {
-            board.isHexLocationValid(loc);
-        } catch (InvalidMoveException e) {
-            assertTrue(e.getMessage().equals("Target hex already has pieces on it and cannot be expanded upon"));
-        }
-    }
-
-    @Test
-    public void testInvalidHexTerrain() {
-        String tileID = "fakeTileID";
-        Location loc = new Location(0,1);
-        Hex volcanoHex = new Hex(tileID, Terrain.VOLCANO);
-        PlacedHex volcanoPlacedHex = new PlacedHex(volcanoHex, loc);
-        placedHexes.add(volcanoPlacedHex);
-        board.placedHexes = this.placedHexes;
-
-        try {
-            board.isHexLocationValid(loc);
-        } catch (InvalidMoveException e) {
-            assertTrue(e.getMessage().equals("Cannot expand into a Volcano"));
-        }
-    }
-
-    @Test
-    public void testValidHexTerrain() {
-        String tileID = "fakeTileID";
-        Location loc = new Location(0,1);
-        Hex validHex = new Hex(tileID, Terrain.LAKE);
-        PlacedHex lakeHex = new PlacedHex(validHex, loc);
-        placedHexes.add(lakeHex);
-        board.placedHexes = this.placedHexes;
-        Terrain lake = Terrain.GRASSLANDS;
-
-        try {
-            lake = board.isHexLocationValid(loc);
-        } catch (InvalidMoveException e) {
-            System.out.println(e.getMessage());
-            assertTrue(lake.getTerrainString() == "Lake");
-        }
-    }
-
-    @Test
     public void testForVolcanoTargetExpansion() {
         try {
             board.checkForVolcano(Terrain.VOLCANO);
@@ -1259,6 +1196,7 @@ public class BoardTest{
 
         try {
             board.expandVillage(player, loc, Terrain.LAKE);
+            System.out.println(player.getPieceSet().getNumberOfVillagersRemaining());
         } catch (InvalidMoveException e) {
             System.out.println(e.getMessage());
         }
