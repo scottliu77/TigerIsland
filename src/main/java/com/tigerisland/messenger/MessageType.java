@@ -13,6 +13,11 @@ public enum  MessageType {
     LASTROUNDOVER("ROUND"),
     MATCHSTARTED("MATCH"),
     MATCHOVER("MATCH"),
+    FORFEITTILE("GAMEOVER"),
+    FORFEITBUILD("GAMEOVER"),
+    FORFEITTIMEOUT("GAMEOVER"),
+    LOSTNOBUILD("GAMEOVER"),
+    GAMEOVER("GAMEOVER"),
     FOUNDSETTLEMENT("BUILDACTION"),
     EXPANDSETTLEMENT("BUILDACTION"),
     BUILDTOTORO("BUILDACTION"),
@@ -29,7 +34,4 @@ public enum  MessageType {
         return subtype;
     }
 
-    public static EnumSet<MessageType> buildActions() {
-        return EnumSet.of(FOUNDSETTLEMENT, EXPANDSETTLEMENT, BUILDTOTORO, BUILDTIGER);
-    }
 }

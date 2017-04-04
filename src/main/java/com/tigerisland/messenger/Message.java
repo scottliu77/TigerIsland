@@ -4,6 +4,7 @@ import com.tigerisland.game.Location;
 import com.tigerisland.game.Terrain;
 import com.tigerisland.game.Tile;
 
+import java.lang.reflect.Field;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -53,6 +54,11 @@ public class Message {
     public Message(String message) {
         this.message = message;
 
+        checkForGameID();
+        checkForMoveID();
+        // TODO: general player ID check conflicts with GAME over player check
+        checkForGeneralPlayerID();
+
         checkForEnterTournament();
         checkForAuthenticateTeam();
         checkForOurPlayerID();
@@ -65,10 +71,24 @@ public class Message {
         checkForLastRound();
         checkForLastChallenge();
 
-        checkForGameID();
-        checkForMoveID();
-        checkForGeneralPlayerID();
         checkStringForDetails();
+
+        checkForGameOver();
+
+        setAllUninitializedToNull();
+    }
+
+    private void setAllUninitializedToNull() {
+        Field[] fields = Message.class.getFields();
+        for(Field field : fields) {
+            if(field == null) {
+                try {
+                    field.set(this, null);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     private void checkForEnterTournament() {
@@ -302,6 +322,45 @@ public class Message {
             opponentScore = Integer.valueOf(match.split("\\s+")[8]);
 
             messageType = MessageType.MATCHOVER;
+        }
+    }
+
+    private void checkForGameOver() {
+        checkForIllegalTilePlacement();
+        checkForIllegalBuild();
+        checkForTimeout();
+        checkForUnableToBuild();
+    }
+
+    private void checkForIllegalTilePlacement() {
+        Matcher forfeitMatcher = ServerMessages.forfeitIllegalTilePlacementPattern.matcher(message);
+
+        while(forfeitMatcher.find()) {
+            messageType = MessageType.FORFEITTILE;
+        }
+    }
+
+    private void checkForIllegalBuild() {
+        Matcher forfeitMatcher = ServerMessages.forfeitIllegalBuildPattern.matcher(message);
+
+        while(forfeitMatcher.find()) {
+            messageType = MessageType.FORFEITBUILD;
+        }
+    }
+
+    private void checkForTimeout() {
+        Matcher forfeitMatcher = ServerMessages.forfeitTimeoutPattern.matcher(message);
+
+        while(forfeitMatcher.find()) {
+            messageType = MessageType.FORFEITTIMEOUT;
+        }
+    }
+
+    private void checkForUnableToBuild() {
+        Matcher forfeitMatcher = ServerMessages.lostUnableToBuildPattern.matcher(message);
+
+        while(forfeitMatcher.find()) {
+            messageType = MessageType.LOSTNOBUILD;
         }
     }
 
