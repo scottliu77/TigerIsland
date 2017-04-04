@@ -8,6 +8,8 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+import static org.junit.Assert.*;
+
 public class AI_InfoTest {
     Board board;
     Tile testTile;
@@ -83,6 +85,37 @@ public class AI_InfoTest {
         Tile tile10 = new Tile(Terrain.JUNGLE,Terrain.JUNGLE);
         Location loc10 = new Location(1,-2);
         board.placeTile(tile10, loc10, 60);
+    }
+
+    @Test
+    public void testReturnValidSettlementExpansions() throws InvalidMoveException{
+        placeTilesForValidExpansionTest();
+        board.updateSettlements();
+        ArrayList<SettlementAndTerrainListPair> possibleExpansions = AI_Info.returnValidVillageExpansions(p1, board);
+        SettlementAndTerrainListPair settlementAndTerrainListPair = possibleExpansions.get(0);
+        assertTrue(settlementAndTerrainListPair.getTerrainList().contains(Terrain.GRASSLANDS));
+        assertTrue(settlementAndTerrainListPair.getTerrainList().contains(Terrain.JUNGLE));
+        assertTrue(settlementAndTerrainListPair.getTerrainList().size() == 2);
+
+    }
+
+    public void placeTilesForValidExpansionTest() throws InvalidMoveException{
+        Tile tile1 = new Tile(Terrain.JUNGLE,Terrain.JUNGLE);
+        Location loc1 = new Location(0,0);
+
+
+        Tile tile2 = new Tile(Terrain.ROCKY,Terrain.ROCKY);
+        Location loc2 = new Location(-1,0);
+
+        Tile tile3 = new Tile(Terrain.GRASSLANDS,Terrain.GRASSLANDS);
+        Location loc3 = new Location(1,1);
+
+        board.placeTile(tile1, loc1, 240);
+        board.placeTile(tile2, loc2, 60);
+        board.placeTile(tile3, loc3, 180);
+
+        board.createVillage(p1, new Location(1, 0));
+
     }
 
 }

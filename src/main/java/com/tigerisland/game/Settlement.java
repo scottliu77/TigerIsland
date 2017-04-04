@@ -77,20 +77,19 @@ public class Settlement {
     }
 
     public ArrayList<Terrain> findTerrainsSettlementCouldExpandTo(ArrayList<PlacedHex> allPlacedHexes){
-        Queue<PlacedHex> hexesToBeAnalyzed = new LinkedList<PlacedHex>();
-        hexesToBeAnalyzed.addAll(hexesInSettlement);
-        HashSet<PlacedHex> visitedHexes = new HashSet<PlacedHex>();
+
+        HashSet<PlacedHex> hexesInSettlementSet = new HashSet<PlacedHex>();
+        hexesInSettlementSet.addAll(hexesInSettlement);
         ArrayList<Terrain> terrainsToExpandInto = new ArrayList<Terrain>();
-        while(!hexesToBeAnalyzed.isEmpty()) {
-            PlacedHex currentPlacedHex = hexesToBeAnalyzed.remove();
-            if(visitedHexes.contains(currentPlacedHex)){
-                continue;
-            }
-            visitedHexes.add(currentPlacedHex);
-            if(currentPlacedHex.isEmpty() && currentPlacedHex.isNotVolcano()) {
-                ArrayList<PlacedHex> adjacentHexesToCurrentHex = findAdjacentHexesFromPlacedHex(currentPlacedHex, allPlacedHexes);
-                hexesToBeAnalyzed.addAll(adjacentHexesToCurrentHex);
-                terrainsToExpandInto.add(currentPlacedHex.getHex().getHexTerrain());
+        for(PlacedHex hexInSettlement : hexesInSettlement){
+            ArrayList<PlacedHex> adjacentHexes = findAdjacentHexesFromPlacedHex(hexInSettlement, allPlacedHexes);
+            for(PlacedHex adjacentHexToSettlement : adjacentHexes){
+                if(!adjacentHexToSettlement.isNotVolcano()){
+                    continue;
+                }
+                if(!hexesInSettlementSet.contains(adjacentHexToSettlement) && !terrainsToExpandInto.contains(adjacentHexToSettlement.getHex().getHexTerrain())){
+                    terrainsToExpandInto.add(adjacentHexToSettlement.getHex().getHexTerrain());
+                }
             }
         }
         return terrainsToExpandInto;

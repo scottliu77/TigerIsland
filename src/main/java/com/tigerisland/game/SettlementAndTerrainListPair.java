@@ -14,4 +14,13 @@ public class SettlementAndTerrainListPair {
         this.settlement = settlement;
         this.terrainList = terrainList;
     }
+
+    public Settlement getSettlement(){
+        return settlement;
+    }
+
+    public ArrayList<Terrain> getTerrainList(){
+        return terrainList;
+    }
+
 }

@@ -90,6 +90,9 @@ public class AI_Info {
         //ToDo Test this
         ArrayList<SettlementAndTerrainListPair> validVillageExpansions = new ArrayList<SettlementAndTerrainListPair>();
         for(Settlement settlement : board.getSettlements()){
+            if(!settlement.getColor().equals(player.getPlayerColor())){
+                continue;
+            }
             ArrayList<Terrain> listOfTerrainsThisSettlementCanExpandInto = settlement.findTerrainsSettlementCouldExpandTo(board.getPlacedHexes());
             SettlementAndTerrainListPair settlementAndTerrainListPair = new SettlementAndTerrainListPair(settlement, listOfTerrainsThisSettlementCanExpandInto);
             validVillageExpansions.add(settlementAndTerrainListPair);
