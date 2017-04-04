@@ -1,9 +1,11 @@
 package com.tigerisland.messenger;
 
+import com.tigerisland.Match;
 import com.tigerisland.game.Location;
 import com.tigerisland.game.Terrain;
 import com.tigerisland.game.Tile;
 
+import java.lang.reflect.Field;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,7 +18,7 @@ public class Message {
     public static final Pattern moveIDPattern = Pattern.compile("MOVE \\d+");
     public static final Pattern playerIDPattern = Pattern.compile("PLAYER \\d+");
 
-    public static final Pattern placeTilePattern = Pattern.compile("PLACE(D)? \\w+ \\w+ AT -?\\d+ -?\\d+ -?\\d+ -?\\d+");
+    public static final Pattern placeTilePattern = Pattern.compile("PLACE(D)? \\w+[\\+ ]?\\w+ AT -?\\d+ -?\\d+ -?\\d+ -?\\d+");
 
     public static final Pattern foundSettlementPattern = Pattern.compile("FOUND(ED)? SETTLEMENT AT -?\\d+ -?\\d+ -?\\d+");
     public static final Pattern expandSettlementPattern = Pattern.compile("EXPAND(ED)? SETTLEMENT AT -?\\d+ -?\\d+ -?\\d+ \\w+");
@@ -36,6 +38,8 @@ public class Message {
 
     private String gameID;
     private Integer moveID;
+    private Double turnTime;
+
     private Integer playerID;
     private Integer opponentID;
 
@@ -53,6 +57,11 @@ public class Message {
     public Message(String message) {
         this.message = message;
 
+        checkForGameID();
+        checkForMoveID();
+        // TODO: general player ID check conflicts with GAME over player check
+        checkForGeneralPlayerID();
+
         checkForEnterTournament();
         checkForAuthenticateTeam();
         checkForOurPlayerID();
@@ -61,14 +70,16 @@ public class Message {
         checkForRoundStart();
         checkForMatchStart();
 
+        checkForMakeMove();
+
         checkForMatchOver();
         checkForLastRound();
         checkForLastChallenge();
 
-        checkForGameID();
-        checkForMoveID();
-        checkForGeneralPlayerID();
         checkStringForDetails();
+
+        checkForGameOver();
+
     }
 
     private void checkForEnterTournament() {
@@ -287,6 +298,31 @@ public class Message {
         }
     }
 
+    private void checkForMakeMove() {
+        Terrain leftTerrain, rightTerrain;
+        String cleanMessage = message.replaceAll("\\+", " ");
+
+        Matcher moveMatcher = ServerMessages.makeMovePattern.matcher(cleanMessage);
+
+        while(moveMatcher.find()) {
+            String match = moveMatcher.group();
+
+            gameID = match.split("\\s+")[5];
+
+            turnTime = Double.valueOf(match.split("\\s+")[7]);
+
+            moveID = Integer.valueOf(match.split("\\s+")[10]);
+
+            leftTerrain = Terrain.valueOf(match.split("\\s+")[12]);
+            rightTerrain = Terrain.valueOf(match.split("\\s+")[13]);
+
+            tile = new Tile(leftTerrain, rightTerrain);
+
+            messageType = MessageType.MAKEMOVE;
+        }
+
+    }
+
     private void checkForMatchOver() {
         Matcher matchMatcher = ServerMessages.matchOverPattern.matcher(message);
 
@@ -305,12 +341,55 @@ public class Message {
         }
     }
 
+    private void checkForGameOver() {
+        checkForIllegalTilePlacement();
+        checkForIllegalBuild();
+        checkForTimeout();
+        checkForUnableToBuild();
+    }
+
+    private void checkForIllegalTilePlacement() {
+        Matcher forfeitMatcher = ServerMessages.forfeitIllegalTilePlacementPattern.matcher(message);
+
+        while(forfeitMatcher.find()) {
+            messageType = MessageType.FORFEITTILE;
+        }
+    }
+
+    private void checkForIllegalBuild() {
+        Matcher forfeitMatcher = ServerMessages.forfeitIllegalBuildPattern.matcher(message);
+
+        while(forfeitMatcher.find()) {
+            messageType = MessageType.FORFEITBUILD;
+        }
+    }
+
+    private void checkForTimeout() {
+        Matcher forfeitMatcher = ServerMessages.forfeitTimeoutPattern.matcher(message);
+
+        while(forfeitMatcher.find()) {
+            messageType = MessageType.FORFEITTIMEOUT;
+        }
+    }
+
+    private void checkForUnableToBuild() {
+        Matcher forfeitMatcher = ServerMessages.lostUnableToBuildPattern.matcher(message);
+
+        while(forfeitMatcher.find()) {
+            messageType = MessageType.LOSTNOBUILD;
+        }
+    }
+
     public String getGameID() {
         return gameID;
     }
 
     public Integer getMoveID() {
         return moveID;
+    }
+
+    public Double getTurnTime() {
+        return turnTime;
     }
 
     public Integer getPlayerID() {

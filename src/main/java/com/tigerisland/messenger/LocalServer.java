@@ -13,6 +13,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.concurrent.*;
 
+import static java.lang.Thread.sleep;
+
 public class LocalServer implements Runnable {
 
     public static final int LOCAL_CHALLENGES = 3;
@@ -73,6 +75,7 @@ public class LocalServer implements Runnable {
             this.dummySocket = socket;
             this.globalSettings = globalSettings;
             this.messagesReceived = globalSettings.messagesReceived;
+            acknowledgeConnection();
         }
 
         public Boolean call() {
@@ -107,12 +110,15 @@ public class LocalServer implements Runnable {
             return true;
         }
 
+        private void acknowledgeConnection() {
+            writer.println("WELCOME TO ANOTHER EDITION OF THUNDERDOME!");
+        }
+
         private void checkForNewEntry() throws IOException {
             for(Message message : messagesReceived) {
                 if(message.getMessageType() == MessageType.ENTERTOURNAMENT) {
                     if(globalSettings.getServerSettings().tournamentPassword == ServerSettings.defaultTournamentPassword) {
                         ConsoleOut.printServerMessage("New tournament entry received");
-                        writer = new PrintWriter(dummySocket.getOutputStream(), true);
                         writer.println("TWO SHALL ENTER, ONE SHALL LEAVE");
                     }
                 }
@@ -125,15 +131,64 @@ public class LocalServer implements Runnable {
                     if(globalSettings.getServerSettings().username == ServerSettings.defaultUsername) {
                         if(globalSettings.getServerSettings().password == ServerSettings.defaultPassword) {
                             ConsoleOut.printServerMessage("New team identified [default]");
-                            writer = new PrintWriter(dummySocket.getOutputStream(), true);
                             writer.println("WAIT FOR THE TOURNAMENT TO BEGIN 7");
+                            startChallengeProtocol();
                         }
                     }
                 }
             }
         }
 
+        private void startChallengeProtocol() {
+            for(int challenge = 0; challenge < LOCAL_CHALLENGES; challenge++) {
 
+                sendNewChallenge(challenge);
+
+                if(challenge + 1 < LOCAL_CHALLENGES) {
+                    writer.println("WAIT FOR NEXT CHALLENGE TO BEGIN");
+                } else {
+                    writer.println("END OF CHALLENGES");
+                }
+            }
+            try {
+
+                sleep(1000);
+
+                writer.println("THANK YOU FOR PLAYING GOODBYE");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        private void sendNewChallenge(int challenge) {
+            writer.println("NEW CHALLENGE " + challenge + " YOU WILL PLAY " + LOCAL_ROUNDS + " MATCHES");
+
+            for(int round = 0; round < LOCAL_ROUNDS; round++) {
+                try {
+                    sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                sendNewRound();
+
+                if(round + 1 < LOCAL_ROUNDS) {
+                    writer.println("END OF ROUND " + round + " OF " + LOCAL_ROUNDS + " WAIT FOR NEXT MATCH");
+                } else {
+                    writer.println("END OF ROUND " + round + " OF " + LOCAL_ROUNDS);
+                }
+            }
+        }
+
+        private void sendNewRound() {
+
+            writer.println("NEW MATCH BEGINNING NOW YOUR OPPONENT IS PLAYER 13");
+
+            try {
+                sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }

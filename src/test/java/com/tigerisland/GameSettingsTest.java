@@ -28,6 +28,12 @@ public class GameSettingsTest {
     }
 
     @Test
+    public void testCanCreateGameSettingsViaCopyConstructor() {
+        GameSettings copyGameSettings = new GameSettings(gameSettings);
+        assertTrue(copyGameSettings != gameSettings);
+    }
+
+    @Test
     public void testCanCreateAndGetDeckOffline() {
         gameSettings.setDeck();
         assertTrue(gameSettings.getDeck() != null);

@@ -29,6 +29,12 @@ public class DeckTest{
     }
 
     @Test
+    public void testCanCreateDeckViaCopyConstructor() {
+        Deck deckCopy = new Deck(deck);
+        assertTrue(deckCopy != deck);
+    }
+
+    @Test
     public void testCanCreateNonEmptyDeck() {
         assertTrue(deck.getDeckSize() > 0);
     }

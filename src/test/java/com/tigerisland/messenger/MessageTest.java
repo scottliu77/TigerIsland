@@ -3,6 +3,7 @@ package com.tigerisland.messenger;
 import com.tigerisland.game.Terrain;
 import org.junit.Test;
 
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 public class MessageTest {
@@ -144,6 +145,76 @@ public class MessageTest {
         Message message = new Message("PLACE ROCKY+LAKE AT 0 0 -1 1");
         assertTrue(message.getTileLocation().x == 1);
     }
+
+    @Test
+    public void testCanGetTournamentPassword() {
+        Message message = new Message("ENTER THUNDERDOME tournamentPassword");
+        assertTrue(message.getTournamentPassword().equals("tournamentPassword"));
+    }
+
+    @Test
+    public void testCanGetTeamUsernameAndPassword() {
+        Message message = new Message("I AM username password");
+        assertTrue(message.getTeamUsername().equals("username") && message.getTeamPassword().equals("password"));
+    }
+
+    @Test
+    public void testCanGetChallengeIDandRoundCountvariantOne() {
+        Message message = new Message("NEW CHALLENGE 5 YOU WILL PLAY 2 MATCHES");
+        assertTrue(message.getChallengeID().equals("5") && message.getRoundCount() == 2);
+    }
+
+    @Test
+    public void testCanGetChallengeIDandRoundCountvariantTwo() {
+        Message message = new Message("NEW CHALLENGE A YOU WILL PLAY 1 MATCH");
+        assertTrue(message.getChallengeID().equals("A") && message.getRoundCount() == 1);
+    }
+
+    @Test
+    public void testCanGetOpponentIDandScore() {
+        // TODO Fix bad default first player is always 'our player' second is always 'opponent'
+        Message message = new Message("GAME A OVER PLAYER 7 25 PLAYER 13 100");
+        assertTrue(message.getPlayerID() == 7 && message.getPlayerScore() == 25);
+    }
+
+    @Test
+    public void testCanGetPlayerIDandScore() {
+        Message message = new Message("GAME A OVER PLAYER 7 25 PLAYER 13 100");
+        assertTrue(message.getOpponentID() == 13 && message.getOpponentScore() == 100);
+    }
+
+    @Test
+    public void testMakeMoveVariantOneGetGameID() {
+        Message message = new Message("MAKE YOUR MOVE IN GAME A WITHIN 1 SECOND: MOVE 1 PLACE ROCKY+LAKE");
+        assertTrue(message.getGameID().equals("A"));
+    }
+
+    @Test
+    public void testMakeMoveVariantOneGetTurnTime() {
+        Message message = new Message("MAKE YOUR MOVE IN GAME A WITHIN 1 SECOND: MOVE 1 PLACE ROCKY+LAKE");
+        assertTrue(message.getTurnTime() == 1);
+    }
+
+    @Test
+    public void testMakeMoveVariantTwoGetTurnTime() {
+        Message message = new Message("MAKE YOUR MOVE IN GAME A WITHIN 1.75 SECONDS: MOVE 1 PLACE ROCKY+LAKE");
+        assertTrue(message.getTurnTime() == 1.75);
+    }
+
+    @Test
+    public void testMakeMoveVariantOneGetMoveID() {
+        Message message = new Message("MAKE YOUR MOVE IN GAME A WITHIN 1 SECOND: MOVE 1 PLACE ROCKY+LAKE");
+        assertTrue(message.getMoveID() == 1);
+    }
+
+    @Test
+    public void testMakeMoveVariantOneGetTile() {
+        Message message = new Message("MAKE YOUR MOVE IN GAME A WITHIN 1 SECOND: MOVE 1 PLACE ROCKY+LAKE");
+        Boolean correctLeftHex = message.getTile().getLeftHex().getHexTerrain() == Terrain.ROCKY;
+        Boolean correctRightHex = message.getTile().getRightHex().getHexTerrain() == Terrain.LAKE;
+        assertTrue(correctLeftHex && correctRightHex);
+    }
+
 
 }
 

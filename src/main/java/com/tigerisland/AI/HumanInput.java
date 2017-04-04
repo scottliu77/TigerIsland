@@ -56,7 +56,7 @@ public class HumanInput {
 
     private static Boolean checkValidBuildActionMessage(String messageString) {
         Message checkMessage = new Message(messageString);
-        if(MessageType.buildActions().contains(checkMessage.getMessageType())) {
+        if(checkMessage.getMessageType().getSubtype().equals("BUILDACTION")) {
             return true;
         } else {
             return false;
