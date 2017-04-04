@@ -1,5 +1,6 @@
 package com.tigerisland.messenger;
 
+import com.tigerisland.Match;
 import com.tigerisland.game.Location;
 import com.tigerisland.game.Terrain;
 import com.tigerisland.game.Tile;
@@ -17,7 +18,7 @@ public class Message {
     public static final Pattern moveIDPattern = Pattern.compile("MOVE \\d+");
     public static final Pattern playerIDPattern = Pattern.compile("PLAYER \\d+");
 
-    public static final Pattern placeTilePattern = Pattern.compile("PLACE(D)? \\w+ \\w+ AT -?\\d+ -?\\d+ -?\\d+ -?\\d+");
+    public static final Pattern placeTilePattern = Pattern.compile("PLACE(D)? \\w+[\\+ ]?\\w+ AT -?\\d+ -?\\d+ -?\\d+ -?\\d+");
 
     public static final Pattern foundSettlementPattern = Pattern.compile("FOUND(ED)? SETTLEMENT AT -?\\d+ -?\\d+ -?\\d+");
     public static final Pattern expandSettlementPattern = Pattern.compile("EXPAND(ED)? SETTLEMENT AT -?\\d+ -?\\d+ -?\\d+ \\w+");
@@ -37,6 +38,8 @@ public class Message {
 
     private String gameID;
     private Integer moveID;
+    private Double turnTime;
+
     private Integer playerID;
     private Integer opponentID;
 
@@ -67,6 +70,8 @@ public class Message {
         checkForRoundStart();
         checkForMatchStart();
 
+        checkForMakeMove();
+
         checkForMatchOver();
         checkForLastRound();
         checkForLastChallenge();
@@ -75,20 +80,6 @@ public class Message {
 
         checkForGameOver();
 
-        setAllUninitializedToNull();
-    }
-
-    private void setAllUninitializedToNull() {
-        Field[] fields = Message.class.getFields();
-        for(Field field : fields) {
-            if(field == null) {
-                try {
-                    field.set(this, null);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
     }
 
     private void checkForEnterTournament() {
@@ -307,6 +298,31 @@ public class Message {
         }
     }
 
+    private void checkForMakeMove() {
+        Terrain leftTerrain, rightTerrain;
+        String cleanMessage = message.replaceAll("\\+", " ");
+
+        Matcher moveMatcher = ServerMessages.makeMovePattern.matcher(cleanMessage);
+
+        while(moveMatcher.find()) {
+            String match = moveMatcher.group();
+
+            gameID = match.split("\\s+")[5];
+
+            turnTime = Double.valueOf(match.split("\\s+")[7]);
+
+            moveID = Integer.valueOf(match.split("\\s+")[10]);
+
+            leftTerrain = Terrain.valueOf(match.split("\\s+")[12]);
+            rightTerrain = Terrain.valueOf(match.split("\\s+")[13]);
+
+            tile = new Tile(leftTerrain, rightTerrain);
+
+            messageType = MessageType.MAKEMOVE;
+        }
+
+    }
+
     private void checkForMatchOver() {
         Matcher matchMatcher = ServerMessages.matchOverPattern.matcher(message);
 
@@ -370,6 +386,10 @@ public class Message {
 
     public Integer getMoveID() {
         return moveID;
+    }
+
+    public Double getTurnTime() {
+        return turnTime;
     }
 
     public Integer getPlayerID() {
