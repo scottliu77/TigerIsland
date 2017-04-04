@@ -76,6 +76,26 @@ public class Settlement {
         }
     }
 
+    public ArrayList<Terrain> findTerrainsSettlementCouldExpandTo(ArrayList<PlacedHex> allPlacedHexes){
+        Queue<PlacedHex> hexesToBeAnalyzed = new LinkedList<PlacedHex>();
+        hexesToBeAnalyzed.addAll(hexesInSettlement);
+        HashSet<PlacedHex> visitedHexes = new HashSet<PlacedHex>();
+        ArrayList<Terrain> terrainsToExpandInto = new ArrayList<Terrain>();
+        while(!hexesToBeAnalyzed.isEmpty()) {
+            PlacedHex currentPlacedHex = hexesToBeAnalyzed.remove();
+            if(visitedHexes.contains(currentPlacedHex)){
+                continue;
+            }
+            visitedHexes.add(currentPlacedHex);
+            if(currentPlacedHex.isEmpty() && currentPlacedHex.isNotVolcano()) {
+                ArrayList<PlacedHex> adjacentHexesToCurrentHex = findAdjacentHexesFromPlacedHex(currentPlacedHex, allPlacedHexes);
+                hexesToBeAnalyzed.addAll(adjacentHexesToCurrentHex);
+                terrainsToExpandInto.add(currentPlacedHex.getHex().getHexTerrain());
+            }
+        }
+        return terrainsToExpandInto;
+    }
+
     private boolean ownedBySamePlayer(Color firstPieceColor, Color secondPieceColor){
         return firstPieceColor.equals(secondPieceColor);
     }

@@ -4,6 +4,8 @@ import com.tigerisland.game.*;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class AI_Info {
     private static int x_lowerBound;
@@ -84,9 +86,16 @@ public class AI_Info {
         return listOfValidPlacements;
     }
 
-    public static ArrayList<Location> returnValidVillageExpansions(Player player, Board board){
-        //ToDo Whoever made the settlement class, HELP ME!! :P
-        return null;
+    public static ArrayList<SettlementAndTerrainListPair> returnValidVillageExpansions(Player player, Board board){
+        //ToDo Test this
+        ArrayList<SettlementAndTerrainListPair> validVillageExpansions = new ArrayList<SettlementAndTerrainListPair>();
+        for(Settlement settlement : board.getSettlements()){
+            ArrayList<Terrain> listOfTerrainsThisSettlementCanExpandInto = settlement.findTerrainsSettlementCouldExpandTo(board.getPlacedHexes());
+            SettlementAndTerrainListPair settlementAndTerrainListPair = new SettlementAndTerrainListPair(settlement, listOfTerrainsThisSettlementCanExpandInto);
+            validVillageExpansions.add(settlementAndTerrainListPair);
+        }
+        return validVillageExpansions;
+        //Returns a list where every object in the list is a pair including a settlement and the list of terrains it can expand into
     }
 
     public static ArrayList<Location> returnValidTotoroPlacments(Player player, Board board){

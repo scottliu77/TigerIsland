@@ -518,4 +518,8 @@ public class Board{
         return  adjacentHexes;
     }
 
+    public ArrayList<Settlement> getSettlements(){
+        return settlements;
+    }
+
 }
