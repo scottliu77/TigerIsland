@@ -28,9 +28,8 @@ public class GlobalSettingsTest {
     @Test
     public void testCanCreateSettingsWithFullConstructor() {
         try {
-            GlobalSettings globalSettings = new GlobalSettings(ServerSettings.defaultOffline, GlobalSettings.defaultGames,
-                    GlobalSettings.defaultPlayers, GlobalSettings.defaultTurnTime, ServerSettings.defaultIPaddress,
-                    ServerSettings.defaultPort, ServerSettings.defaultUsername, ServerSettings.defaultPassword, false, parser);
+            GlobalSettings globalSettings = new GlobalSettings(ServerSettings.defaultOffline, GlobalSettings.defaultTurnTime, ServerSettings.defaultIPaddress,
+                    ServerSettings.defaultPort, ServerSettings.defaultTournamentPassword, ServerSettings.defaultUsername, ServerSettings.defaultPassword, false, parser);
         } catch (ArgumentParserException e) {
             e.printStackTrace();
         }
@@ -43,49 +42,9 @@ public class GlobalSettingsTest {
     }
 
     @Test
-    public void testCannotSetTooFewPlayers() {
-        try {
-            GlobalSettings globalSettings = new GlobalSettings(ServerSettings.defaultOffline, GlobalSettings.defaultGames, GlobalSettings.minPlayers - 1, GlobalSettings.defaultTurnTime);
-            assertTrue(false);
-        } catch (ArgumentParserException e) {
-            assertTrue(true);
-        }
-    }
-
-    @Test
-    public void testCannotSetTooManyPlayers() {
-        try {
-            GlobalSettings globalSettings = new GlobalSettings(ServerSettings.defaultOffline, GlobalSettings.defaultGames, GlobalSettings.maxPlayers + 1, GlobalSettings.defaultTurnTime);
-            assertTrue(false);
-        } catch (ArgumentParserException e) {
-            assertTrue(true);
-        }
-    }
-
-    @Test
-    public void testCannotSetTooFewGames() {
-        try {
-            GlobalSettings globalSettings = new GlobalSettings(ServerSettings.defaultOffline, GlobalSettings.minGames - 1, GlobalSettings.defaultPlayers, GlobalSettings.defaultTurnTime);
-            assertTrue(false);
-        } catch (ArgumentParserException e) {
-            assertTrue(true);
-        }
-    }
-
-    @Test
-    public void testCannotSetTooManyGames() {
-        try {
-            GlobalSettings globalSettings = new GlobalSettings(ServerSettings.defaultOffline, GlobalSettings.maxGames + 1, GlobalSettings.defaultPlayers, GlobalSettings.defaultTurnTime);
-            assertTrue(false);
-        } catch (ArgumentParserException e) {
-            assertTrue(true);
-        }
-    }
-
-    @Test
     public void testCannotSetTooShortOfRounds() {
         try {
-            GlobalSettings globalSettings = new GlobalSettings(ServerSettings.defaultOffline, GlobalSettings.defaultGames, GlobalSettings.defaultPlayers, GlobalSettings.minTurnTime - 1);
+            GlobalSettings globalSettings = new GlobalSettings(ServerSettings.defaultOffline, GlobalSettings.minTurnTime - 1);
             assertTrue(false);
         } catch (ArgumentParserException e) {
             assertTrue(true);
@@ -95,21 +54,11 @@ public class GlobalSettingsTest {
     @Test
     public void testCannotSetTooLongOfRounds() {
         try {
-            GlobalSettings globalSettings = new GlobalSettings(ServerSettings.defaultOffline, GlobalSettings.defaultGames, GlobalSettings.defaultPlayers, GlobalSettings.maxTurnTime + 1);
+            GlobalSettings globalSettings = new GlobalSettings(ServerSettings.defaultOffline, GlobalSettings.maxTurnTime + 1);
             assertTrue(false);
         } catch (ArgumentParserException e) {
             assertTrue(true);
         }
-    }
-
-    @Test
-    public void testCanGetNumberOfGamesInEachMatch() {
-        assertTrue(globalSettings.gameCount == GlobalSettings.defaultGames);
-    }
-
-    @Test
-    public void testCanGetNumberOfPlayersInEachMatch() {
-        assertTrue(globalSettings.playerCount == GlobalSettings.defaultPlayers);
     }
 
     @Test

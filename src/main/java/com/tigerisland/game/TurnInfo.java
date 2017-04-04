@@ -8,13 +8,13 @@ import java.util.concurrent.BlockingQueue;
 
 public class TurnInfo {
 
-    public final int gameID;
+    public final String gameID;
     private int moveID;
     private Tile currentTile;
     private GameSettings gameSettings;
     public final BlockingQueue<Message> inboundMessages;
 
-    public TurnInfo(int gameID, GameSettings gameSettings) {
+    public TurnInfo(String gameID, GameSettings gameSettings) {
         this.gameID = gameID;
         moveID = 1;
         this.gameSettings = gameSettings;

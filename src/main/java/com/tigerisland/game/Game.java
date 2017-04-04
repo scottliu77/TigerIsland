@@ -6,7 +6,7 @@ import com.tigerisland.messenger.ConsoleOut;
 
 public class Game implements Runnable {
 
-    public final int gameID;
+    public final String gameID;
 
     protected GameSettings gameSettings;
     protected Board board;
@@ -14,8 +14,8 @@ public class Game implements Runnable {
     protected TurnInfo turnInfo;
     protected Player currentPlayer;
 
-    public Game(int gameID, GameSettings gameSettings){
-        this.gameSettings = new GameSettings(gameSettings);
+    public Game(String gameID, GameSettings gameSettings){
+        this.gameSettings = gameSettings;
         this.gameID = gameID;
         this.turnInfo = new TurnInfo(gameID, this.gameSettings);
         this.board = new Board();
@@ -117,7 +117,7 @@ public class Game implements Runnable {
         return board;
     }
 
-    public int getGameID() {
+    public String getGameID() {
         return gameID;
     }
 

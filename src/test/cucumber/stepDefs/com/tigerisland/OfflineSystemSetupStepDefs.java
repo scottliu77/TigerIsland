@@ -16,7 +16,6 @@ import static org.junit.Assert.assertTrue;
 
 public class OfflineSystemSetupStepDefs {
 
-    private TigerIsland tigerIsland;
     private Game aGame;
     private PlayerSet playerSet;
     private Deck deck;
@@ -24,9 +23,7 @@ public class OfflineSystemSetupStepDefs {
 
     @Given("^an offline game is created$")
     public void aGameIsCreated() throws Throwable {
-        tigerIsland = new TigerIsland();
-        tigerIsland.parseArguments(new String[]{});
-        aGame = tigerIsland.match.games.get(0);
+        aGame = new Game("A", new GameSettings(new GlobalSettings()));
         assertTrue(aGame.getGameSettings().getGlobalSettings().getServerSettings().offline);
     }
 

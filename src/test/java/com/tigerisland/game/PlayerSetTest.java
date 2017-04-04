@@ -48,7 +48,7 @@ public class PlayerSetTest {
 
     @Test
     public void testThatPlayerOrderLoopsAfterLastPlayer() {
-        for(int turns = 0; turns < 3; turns ++) {
+        for(int turns = 0; turns < 1; turns ++) {
             playerSet.setNextPlayer();
         }
         assertTrue(playerSet.getCurrentPlayer().getPlayerColor() == Color.WHITE);
@@ -58,7 +58,7 @@ public class PlayerSetTest {
     public void testCanGetPlayerList() {
         ArrayList<Player> players = playerSet.getPlayerList();
         GlobalSettings globalSettings = new GlobalSettings();
-        assertTrue(players != null && players.size() ==  globalSettings.playerCount);
+        assertTrue(players != null && players.size() ==  globalSettings.players);
     }
 
     @Test

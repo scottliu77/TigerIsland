@@ -27,7 +27,7 @@ public class GameTest {
         this.inboundMessages = gameSettings.getGlobalSettings().inboundQueue;
         this.gameSettings.setPlayOrder();
         setAllPlayersToServer();
-        this.game = new Game(1, gameSettings);
+        this.game = new Game("A", gameSettings);
         placeDummyTilePlacementAndBuildInQueue();
     }
 
@@ -49,7 +49,7 @@ public class GameTest {
     }
 
     private void placeDummyTilePlacementAndBuildInQueue() {
-        inboundMessages.add(new Message("GAME 1 MOVE 1 GAME 1 MOVE 1 PLACE ROCKY+GRASSLANDS AT 0 0 0 1 FOUND SETTLEMENT AT -1 -1 0"));
+        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCKY+GRASSLANDS AT 0 0 0 1 FOUND SETTLEMENT AT -1 -1 0"));
     }
 
     @Test
@@ -92,7 +92,7 @@ public class GameTest {
 
     @Test
     public void testCanGetGameID() {
-        assertTrue(game.getGameID() == 1);
+        assertTrue(game.getGameID() == "A");
     }
 
     @Test

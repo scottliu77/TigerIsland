@@ -11,10 +11,14 @@ public class GameSettings {
 
     public GameSettings() {
         this.globalSettings = new GlobalSettings();
+        this.playerSet = new PlayerSet(globalSettings);
+        setPlayOrder();
     }
 
     public GameSettings(GlobalSettings settings) {
         this.globalSettings = settings;
+        this.playerSet = new PlayerSet(globalSettings);
+        setPlayOrder();
         setDeck();
     }
 

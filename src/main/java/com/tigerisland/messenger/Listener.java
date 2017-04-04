@@ -61,7 +61,7 @@ public class Listener implements Runnable {
     }
 
     private void checkForEndMessage(String message) throws InterruptedException {
-        if(message.equals("END")) {
+        if(message.equals("THANK YOU FOR PLAYING! GOODBYE")) {
             throw new InterruptedException();
         }
     }

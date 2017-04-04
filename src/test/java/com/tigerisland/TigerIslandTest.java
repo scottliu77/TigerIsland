@@ -94,16 +94,6 @@ public class TigerIslandTest {
     }
 
     @Test
-    public void testCanCreateMatchWithThreeGames() {
-        try {
-            tigerIsland.parseArguments(argsThreeGames);
-            assertTrue(tigerIsland.globalSettings.gameCount == 3);
-        } catch (ArgumentParserException exception) {
-            assertTrue(false);
-        }
-    }
-
-    @Test
     public void testCannotCreateMatchWithNegativeGames() {
         try {
             tigerIsland.parseArguments(argsNegativeGames);
@@ -120,16 +110,6 @@ public class TigerIslandTest {
             assertTrue(false);
         } catch (ArgumentParserException exception) {
             assertTrue(true);
-        }
-    }
-
-    @Test
-    public void testCanCreateMatchWithThreePlayers() {
-        try {
-            tigerIsland.parseArguments(argsThreePlayers);
-            assertTrue(tigerIsland.globalSettings.playerCount == 3);
-        } catch (ArgumentParserException exception) {
-            assertTrue(false);
         }
     }
 

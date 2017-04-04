@@ -15,8 +15,8 @@ public class MessageTest {
 
     @Test
     public void testCanSendAndGetGameID() {
-        Message message = new Message("GAME 1");
-        assertTrue(message.getGameID() == 1);
+        Message message = new Message("GAME A");
+        assertTrue(message.getGameID().equals("A"));
     }
 
     @Test

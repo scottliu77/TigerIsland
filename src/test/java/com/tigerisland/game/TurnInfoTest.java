@@ -15,7 +15,7 @@ public class TurnInfoTest {
     @Before
     public void createTurnInfo() {
         gameSettings = new GameSettings(new GlobalSettings());
-        turnInfo = new TurnInfo(1, gameSettings);
+        turnInfo = new TurnInfo("A", gameSettings);
     }
 
     @Test

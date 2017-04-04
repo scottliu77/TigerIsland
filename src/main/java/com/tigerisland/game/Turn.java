@@ -22,7 +22,7 @@ public class Turn {
         while(true) {
             for(Message message : turnInfo.inboundMessages) {
                 if(message.getMessageType() != MessageType.PROCESSED) {
-                    if(message.getGameID() == turnInfo.gameID) {
+                    if(message.getGameID().equals(turnInfo.gameID)) {
                         if(message.getMoveID() == turnInfo.getMoveID()) {
 
                             parseTilePlacement(message);

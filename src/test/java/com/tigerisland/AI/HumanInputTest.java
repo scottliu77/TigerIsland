@@ -29,7 +29,7 @@ public class HumanInputTest {
         turnState = new Turn(new Player(Color.BLACK), new Board());
         gameSettings = new GameSettings(new GlobalSettings());
         inboundMessages = gameSettings.getGlobalSettings().inboundQueue;
-        turnInfo = new TurnInfo(1, gameSettings);
+        turnInfo = new TurnInfo("A", gameSettings);
     }
 
     @After

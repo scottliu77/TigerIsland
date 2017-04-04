@@ -17,7 +17,7 @@ public class ListenerTest {
 
     @Before
     public void createListener() throws ArgumentParserException {
-        globalSettings = new GlobalSettings(true, 0, 0, 0);
+        globalSettings = new GlobalSettings(true, 0);
         listener = new Listener(globalSettings);
     }
 
@@ -36,13 +36,13 @@ public class ListenerTest {
     @Ignore("Skipping can add message to queue via listener") @Test
     public void testCanAddMessageToQueue() throws InterruptedException {
         listener.addMessageToQueue("New message");
-        assertTrue(listener.inboundQueue.remove().toString().equals("New message"));
+        assertTrue(listener.inboundQueue.remove().message.equals("New message"));
     }
 
     @Ignore("Skipping can write to listener's message queue via outside process") @Test
     public void testCanWriteToMessageQueueFromOutsideProcess() throws InterruptedException {
         globalSettings.inboundQueue.add(new Message("New message"));
-        assertTrue(listener.inboundQueue.remove().toString().equals("New message"));
+        assertTrue(listener.inboundQueue.remove().message.equals("New message"));
     }
 
     @Ignore("Skipping can cleanup processed messages in queue") @Test

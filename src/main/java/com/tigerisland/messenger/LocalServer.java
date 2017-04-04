@@ -6,15 +6,17 @@ import com.tigerisland.ServerSettings;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.*;
 
 public class LocalServer implements Runnable {
+
+    public static final int LOCAL_CHALLENGES = 3;
+    public static final int LOCAL_ROUNDS = 4;
 
     private GlobalSettings globalSettings;
     private InetAddress addr;
@@ -41,7 +43,7 @@ public class LocalServer implements Runnable {
             dummyListener = new ServerSocket(port, 50, addr);
 
             while (running) {
-                Callable<Boolean> messenger = new Messenger(dummyListener.accept(), globalSettings.messagesReceived);
+                Callable<Boolean> messenger = new Messenger(dummyListener.accept(), globalSettings);
                 Future<Boolean> futureBool = executor.submit(messenger);
                 try {
                     running = futureBool.get();
@@ -61,17 +63,23 @@ public class LocalServer implements Runnable {
     private static class Messenger implements Callable<Boolean> {
 
         private Socket dummySocket;
+        private GlobalSettings globalSettings;
         private BlockingQueue<Message> messagesReceived;
         private BufferedReader reader;
+        private PrintWriter writer;
         private String message;
 
-        Messenger(Socket socket, BlockingQueue<Message> messagesReceived) {
+        Messenger(Socket socket, GlobalSettings globalSettings) {
             this.dummySocket = socket;
-            this.messagesReceived = messagesReceived;
+            this.globalSettings = globalSettings;
+            this.messagesReceived = globalSettings.messagesReceived;
         }
 
         public Boolean call() {
             try {
+                writer = new PrintWriter(dummySocket.getOutputStream(), true);
+                writer.println("WELCOME TO ANOTHER EDITION OF THUNDERDOME!");
+
                 reader = new BufferedReader(new InputStreamReader(dummySocket.getInputStream()));
 
                 while(true) {
@@ -83,6 +91,9 @@ public class LocalServer implements Runnable {
                    } else {
                        try {
                            messagesReceived.put(new Message(message));
+                           checkForNewEntry();
+                           checkForAuthentication();
+
                        } catch (InterruptedException e) {
                            e.printStackTrace();
                        }
@@ -95,5 +106,34 @@ public class LocalServer implements Runnable {
 
             return true;
         }
+
+        private void checkForNewEntry() throws IOException {
+            for(Message message : messagesReceived) {
+                if(message.getMessageType() == MessageType.ENTERTOURNAMENT) {
+                    if(globalSettings.getServerSettings().tournamentPassword == ServerSettings.defaultTournamentPassword) {
+                        ConsoleOut.printServerMessage("New tournament entry received");
+                        writer = new PrintWriter(dummySocket.getOutputStream(), true);
+                        writer.println("TWO SHALL ENTER, ONE SHALL LEAVE");
+                    }
+                }
+            }
+        }
+
+        private void checkForAuthentication() throws IOException {
+            for(Message message : messagesReceived) {
+                if(message.getMessageType() == MessageType.ENTERTOURNAMENT) {
+                    if(globalSettings.getServerSettings().username == ServerSettings.defaultUsername) {
+                        if(globalSettings.getServerSettings().password == ServerSettings.defaultPassword) {
+                            ConsoleOut.printServerMessage("New team identified [default]");
+                            writer = new PrintWriter(dummySocket.getOutputStream(), true);
+                            writer.println("WAIT FOR THE TOURNAMENT TO BEGIN 7");
+                        }
+                    }
+                }
+            }
+        }
+
+
     }
+
 }

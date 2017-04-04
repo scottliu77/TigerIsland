@@ -1,5 +1,6 @@
 package com.tigerisland.game;
 
+import com.tigerisland.GameSettings;
 import com.tigerisland.GlobalSettings;
 
 import java.util.*;
@@ -11,8 +12,7 @@ public class PlayerSet {
     private ArrayList<Player> players = new ArrayList<Player>();
 
     public PlayerSet(GlobalSettings globalSettings) {
-        this.playerCount = globalSettings.playerCount;
-        for(int player = 0; player < this.playerCount; player++) {
+        for(int player = 0; player < GlobalSettings.players; player++) {
             players.add(player, new Player(Color.values()[player]));
         }
     }

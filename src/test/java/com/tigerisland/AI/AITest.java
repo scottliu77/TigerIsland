@@ -32,7 +32,7 @@ public class AITest {
         testPlayerType = PlayerType.BasicAI;
         testPlayer.setPlayerType(testPlayerType);
         turnState = new Turn(testPlayer, new Board());
-        turnInfo = new TurnInfo(1, gameSettings);
+        turnInfo = new TurnInfo("A", gameSettings);
         testAI = new AI(testPlayerType);
         inboundMessages = turnInfo.inboundMessages;
     }

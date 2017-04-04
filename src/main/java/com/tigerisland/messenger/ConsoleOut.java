@@ -12,15 +12,15 @@ public class ConsoleOut {
         System.out.println("SERVER: " + message);
     }
 
-    public static void printGameMessage(int gameID, String message) {
+    public static void printGameMessage(String gameID, String message) {
         System.out.println("GAME " + gameID + ": " + message);
     }
 
-    public static void printGameMessage(int gameID, int moveID, String message) {
+    public static void printGameMessage(String gameID, int moveID, String message) {
         System.out.println("GAME " + gameID + ": MOVE " + moveID + ", " + message);
     }
 
-    public static void printGameMessageDebugging(int gameID, BlockingQueue<Message> inboundMessages) {
+    public static void printGameMessageDebugging(String gameID, BlockingQueue<Message> inboundMessages) {
         for(Message message : inboundMessages) {
             System.out.println("\t" + message.toString() + "\t" + message.getMessageType().toString());
         }

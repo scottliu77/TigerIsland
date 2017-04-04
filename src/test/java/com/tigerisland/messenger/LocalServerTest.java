@@ -40,7 +40,7 @@ public class LocalServerTest {
             Socket socket = new Socket(ServerSettings.defaultIPaddress, ServerSettings.defaultPort);
             PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
             writer.println("Hello");
-            writer.println("END");
+            writer.println("THANK YOU FOR PLAYING! GOODBYE");
             socket.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -48,10 +48,10 @@ public class LocalServerTest {
 
         localServerThread.join();
 
-        assertTrue(globalSettings.messagesReceived.remove().toString().equals("Hello"));
+        assertTrue(globalSettings.messagesReceived.remove().message.equals("Hello"));
     }
 
-    @Ignore("Skipping direct pass END_CODE to local server test") @Test
+    @Ignore("BROKEN Skipping direct pass END_CODE to local server test") @Test
     public void testCanShutoffLocalServerWithEndCode() throws InterruptedException {
         Thread localServerThread = new Thread(localServer);
         localServerThread.start();
@@ -59,18 +59,19 @@ public class LocalServerTest {
         try {
             Socket socket = new Socket(ServerSettings.defaultIPaddress, ServerSettings.defaultPort);
             PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
-            writer.println("END");
+            writer.println("THANK YOU FOR PLAYING! GOODBYE");
             socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
 
         localServerThread.join();
 
         assertTrue(localServerThread.isAlive() == false);
     }
 
-    @Ignore("Skipping multiple writes with END_CODE to local server test") @Test
+    @Ignore("BROKEN Skipping multiple writes with END_CODE to local server test") @Test
     public void testCanShutoffLocalServerWithEndCodeAfterWriting() throws InterruptedException {
         Thread localServerThread = new Thread(localServer);
         localServerThread.start();
@@ -79,7 +80,7 @@ public class LocalServerTest {
             Socket socket = new Socket(ServerSettings.defaultIPaddress, ServerSettings.defaultPort);
             PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
             writer.println("Hello");
-            writer.println("END");
+            writer.println("THANK YOU FOR PLAYING! GOODBYE");
             socket.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -100,7 +101,7 @@ public class LocalServerTest {
             PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
             writer.println("Hello");
             writer.println("Goodbye");
-            writer.println("END");
+            writer.println("THANK YOU FOR PLAYING! GOODBYE");
             socket.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -125,7 +126,7 @@ public class LocalServerTest {
         localServerThread.start();
 
         globalSettings.outboundQueue.add(new Message("Hello"));
-        globalSettings.outboundQueue.add(new Message("END"));
+        globalSettings.outboundQueue.add(new Message("THANK YOU FOR PLAYING! GOODBYE"));
 
         messenger = new Messenger(globalSettings);
 

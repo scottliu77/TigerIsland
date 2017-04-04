@@ -44,16 +44,16 @@ public class Messenger implements Runnable {
 
     }
 
-    protected Message removeMessageFromQueue() throws InterruptedException {
-        return outboundQueue.take();
+    protected String removeMessageFromQueue() throws InterruptedException {
+        return outboundQueue.take().message;
     }
 
     private void closeLocalServerAndListener() {
         if (offline) {
             try {
                 PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
-                writer.println("END");
-                inboundQueue.add(new Message("END"));
+                writer.println("THANK YOU FOR PLAYING! GOODBYE");
+                inboundQueue.add(new Message("THANK YOU FOR PLAYING! GOODBYE"));
                 socket.close();
             } catch(IOException exception) {
                 exception.printStackTrace();

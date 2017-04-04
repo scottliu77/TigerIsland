@@ -12,7 +12,7 @@ public class TigerIsland {
     private ArgumentParser parser;
     private Namespace parsedArguments;
     protected GlobalSettings globalSettings;
-    protected Match match;
+    protected Tournament tournament;
 
     public TigerIsland() {}
 
@@ -24,12 +24,6 @@ public class TigerIsland {
         parser.addArgument("-o", "--offline").type(Arguments.booleanType())
                 .setDefault(ServerSettings.defaultOffline)
                 .help("Toggle running system in offline mode, AI v. AI");
-        parser.addArgument("-g", "--games").type(Integer.class)
-                .setDefault(GlobalSettings.defaultGames)
-                .help("Specify the number of games to be call concurrently in each match");
-        parser.addArgument("-n", "--players").type(Integer.class)
-                .setDefault(GlobalSettings.defaultPlayers)
-                .help("Specify the number of players in each match");
         parser.addArgument("-t", "--turnTime").type(Float.class)
                 .setDefault(GlobalSettings.defaultTurnTime)
                 .help("Specify the time allowed per turnState");
@@ -39,6 +33,9 @@ public class TigerIsland {
         parser.addArgument("-p", "--port").type(Integer.class)
                 .setDefault(ServerSettings.defaultPort)
                 .help("Specify the port used by the TigerHost server");
+        parser.addArgument("--tournamentPassword").type(String.class)
+                .setDefault(ServerSettings.defaultTournamentPassword)
+                .help("Specify tournament password");
         parser.addArgument("--username").type(String.class)
                 .setDefault(ServerSettings.defaultUsername)
                 .help("Specify username used by the TigerHost server");
@@ -52,31 +49,30 @@ public class TigerIsland {
         parsedArguments = parser.parseArgs(args);
 
         Boolean offline = parsedArguments.get("offline");
-        int gameCount = parsedArguments.get("games");
-        int playerCount = parsedArguments.get("players");
         float turnTime = parsedArguments.get("turnTime");
         String ipaddress = parsedArguments.get("ipaddress");
         int port = parsedArguments.get("port");
+        String tournamentPassword = parsedArguments.get("tournamentPassword");
         String username = parsedArguments.get("username");
         String password = parsedArguments.get("password");
         Boolean manualTesting = parsedArguments.get("manual");
 
         try {
-            this.globalSettings = new GlobalSettings(offline, gameCount, playerCount, turnTime, ipaddress, port, username, password, manualTesting, parser);
+            this.globalSettings = new GlobalSettings(offline, turnTime, ipaddress, port, tournamentPassword, username, password, manualTesting, parser);
         } catch (ArgumentParserException exception) {
             throw exception;
         }
 
-        match = new Match(globalSettings);
+        tournament = new Tournament(globalSettings);
     }
 
     private void run() {
         ConsoleOut.printClientMessage("Starting TigerIsland tournament");
-        match.run();
+        tournament.run();
     }
 
-    public Match getMatch() {
-        return match;
+    public Tournament getMatch() {
+        return tournament;
     }
 
     public static void main(String[] args) throws Exception {

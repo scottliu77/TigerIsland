@@ -16,7 +16,7 @@ public class MessengerTest {
 
     @Before
     public void createMessenger() throws ArgumentParserException {
-         globalSettings = new GlobalSettings(true, 0, 0, 0);
+         globalSettings = new GlobalSettings(true, 0);
          messenger = new Messenger(globalSettings);
     }
 
@@ -33,13 +33,13 @@ public class MessengerTest {
     @Ignore("Skipping messenger processes outbound queue test") @Test
     public void testCanRemoveMessageFromQueue() throws InterruptedException {
         messenger.outboundQueue.add(new Message("New message"));
-        assertTrue(messenger.removeMessageFromQueue().toString().equals("New message"));
+        assertTrue(messenger.removeMessageFromQueue().equals("New message"));
     }
 
     @Ignore("Skipping write to messenger test") @Test
     public void testCanWriteToMessageQueueFromOutsideProcess() throws InterruptedException {
         globalSettings.outboundQueue.add(new Message("New message"));
-        assertTrue(messenger.removeMessageFromQueue().toString().equals("New message"));
+        assertTrue(messenger.removeMessageFromQueue().equals("New message"));
     }
 
 }

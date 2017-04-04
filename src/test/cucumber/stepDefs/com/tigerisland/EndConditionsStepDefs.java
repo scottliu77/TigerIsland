@@ -17,16 +17,13 @@ import static org.junit.Assert.assertTrue;
 
 public class EndConditionsStepDefs {
 
-    private TigerIsland tigerIsland;
     private Game game;
     private Player player;
     private ArrayList<Player> players;
     private Deck deck;
 
     public EndConditionsStepDefs() throws ArgumentParserException {
-        tigerIsland = new TigerIsland();
-        tigerIsland.parseArguments(new String[]{});
-        this.game = tigerIsland.getMatch().games.get(0);
+        this.game = new Game("A", new GameSettings(new GlobalSettings()));
         this.player = this.game.getGameSettings().getPlayerSet().getCurrentPlayer();
         this.players = this.game.getGameSettings().getPlayerSet().getPlayerList();
         this.deck = new Deck();

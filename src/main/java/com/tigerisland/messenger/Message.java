@@ -9,7 +9,10 @@ import java.util.regex.Pattern;
 
 public class Message {
 
-    public static final Pattern gameIDPattern = Pattern.compile("GAME \\d+");
+    public static final Pattern enterTournamentPattern = Pattern.compile("ENTER THUNDERDOME \\w+");
+    public static final Pattern authenticationPattern = Pattern.compile("I AM \\w+ \\w+");
+
+    public static final Pattern gameIDPattern = Pattern.compile("GAME \\w+");
     public static final Pattern moveIDPattern = Pattern.compile("MOVE \\d+");
     public static final Pattern playerIDPattern = Pattern.compile("PLAYER \\d+");
 
@@ -22,9 +25,22 @@ public class Message {
 
     public final String message;
 
-    private Integer gameID;
+    private String tournamentPassword;
+    private String teamUsername;
+    private String teamPassword;
+
+    private Integer ourPlayerID;
+
+    private String challengeID;
+    private Integer roundCount;
+
+    private String gameID;
     private Integer moveID;
     private Integer playerID;
+    private Integer opponentID;
+
+    private Integer playerScore;
+    private Integer opponentScore;
 
     private MessageType messageType;
 
@@ -36,16 +52,53 @@ public class Message {
 
     public Message(String message) {
         this.message = message;
+
+        checkForEnterTournament();
+        checkForAuthenticateTeam();
+        checkForOurPlayerID();
+
+        checkForNewChallenge();
+        checkForRoundStart();
+        checkForMatchStart();
+
+        checkForMatchOver();
+        checkForLastRound();
+        checkForLastChallenge();
+
         checkForGameID();
         checkForMoveID();
-        checkForPlayerID();
+        checkForGeneralPlayerID();
         checkStringForDetails();
+    }
+
+    private void checkForEnterTournament() {
+        Matcher enterTournamentMatcher = enterTournamentPattern.matcher(message);
+        while(enterTournamentMatcher.find()) {
+            String match = enterTournamentMatcher.group();
+            tournamentPassword = match.split("\\s+")[2];
+
+            messageType = MessageType.ENTERTOURNAMENT;
+        }
+    }
+
+    private void checkForAuthenticateTeam() {
+        Matcher authenticateMatcher = authenticationPattern.matcher(message);
+        while(authenticateMatcher.find()) {
+            String match = authenticateMatcher.group();
+
+            teamUsername = match.split("\\s+")[2];
+            teamPassword = match.split("\\s+")[3];
+
+            messageType = MessageType.AUTHENTICATETEAM;
+        }
     }
 
     private void checkForGameID() {
         Matcher gidMatcher = gameIDPattern.matcher(message);
         while(gidMatcher.find()) {
-            gameID = Integer.valueOf(gidMatcher.group().replaceAll("\\D+", ""));
+            String match = gidMatcher.group();
+
+            gameID = match.split("\\s+")[1];
         }
     }
 
@@ -56,7 +109,48 @@ public class Message {
         }
     }
 
-    private void checkForPlayerID() {
+    private void checkForOurPlayerID() {
+        Matcher playerMatcher = ServerMessages.authWaitPlayerIDPattern.matcher(message);
+        while(playerMatcher.find()) {
+            ourPlayerID = Integer.valueOf(playerMatcher.group().replaceAll("\\D+", ""));
+
+            messageType = MessageType.PLAYERID;
+        }
+    }
+
+    private void checkForNewChallenge() {
+        Matcher challengeMatcher = ServerMessages.challengeNewPattern.matcher(message);
+        while(challengeMatcher.find()) {
+            String match = challengeMatcher.group();
+
+            challengeID = match.split("\\s+")[2];
+
+            roundCount = Integer.valueOf(match.split("\\s+")[6]);
+
+            messageType = MessageType.CHALLENGESTARTED;
+        }
+    }
+
+    private void checkForRoundStart() {
+        Matcher roundMatcher = ServerMessages.roundBeginPattern.matcher(message);
+        while(roundMatcher.find()) {
+
+            messageType = MessageType.ROUNDSTARTED;
+        }
+    }
+
+    private void checkForMatchStart() {
+        Matcher matchMatcher = ServerMessages.matchStartPattern.matcher(message);
+        while(matchMatcher.find()) {
+            String match = matchMatcher.group();
+
+            opponentID = Integer.valueOf(match.split("\\s+")[8]);
+
+            messageType = MessageType.MATCHSTARTED;
+        }
+    }
+
+    private void checkForGeneralPlayerID() {
         Matcher playerMatcher = playerIDPattern.matcher(message);
         while(playerMatcher.find()) {
             playerID = Integer.valueOf(playerMatcher.group().replaceAll("\\D+", ""));
@@ -175,7 +269,43 @@ public class Message {
         }
     }
 
-    public Integer getGameID() {
+    private void checkForLastChallenge() {
+        Matcher challengeMatcher = ServerMessages.challengeEndPattern.matcher(message);
+
+        while(challengeMatcher.find()) {
+
+            messageType = MessageType.LASTCHALLENGEOVER;
+        }
+    }
+
+    private void checkForLastRound() {
+        Matcher roundMatcher = ServerMessages.roundEndPattern.matcher(message);
+
+        while(roundMatcher.find()) {
+
+            messageType = MessageType.LASTROUNDOVER;
+        }
+    }
+
+    private void checkForMatchOver() {
+        Matcher matchMatcher = ServerMessages.matchOverPattern.matcher(message);
+
+        while(matchMatcher.find()) {
+            String match = matchMatcher.group();
+
+            gameID = match.split("\\s+")[1];
+
+            playerID = Integer.valueOf(match.split("\\s+")[4]);
+            playerScore = Integer.valueOf(match.split("\\s+")[5]);
+
+            opponentID = Integer.valueOf(match.split("\\s+")[7]);
+            opponentScore = Integer.valueOf(match.split("\\s+")[8]);
+
+            messageType = MessageType.MATCHOVER;
+        }
+    }
+
+    public String getGameID() {
         return gameID;
     }
 
@@ -185,6 +315,10 @@ public class Message {
 
     public Integer getPlayerID() {
         return playerID;
+    }
+
+    public Integer getOurPlayerID() {
+        return ourPlayerID;
     }
 
     public Tile getTile() {
@@ -213,5 +347,37 @@ public class Message {
 
     public void setProcessed() {
         messageType = MessageType.PROCESSED;
+    }
+
+    public String getTournamentPassword() {
+        return tournamentPassword;
+    }
+
+    public String getTeamUsername() {
+        return teamUsername;
+    }
+
+    public String getTeamPassword() {
+        return teamPassword;
+    }
+
+    public String getChallengeID() {
+        return challengeID;
+    }
+
+    public Integer getRoundCount() {
+        return roundCount;
+    }
+
+    public Integer getOpponentID() {
+        return opponentID;
+    }
+
+    public Integer getPlayerScore() {
+        return playerScore;
+    }
+
+    public Integer getOpponentScore() {
+        return opponentScore;
     }
 }

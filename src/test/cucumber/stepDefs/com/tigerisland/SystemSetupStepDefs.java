@@ -12,7 +12,6 @@ import static org.junit.Assert.assertTrue;
 
 public class SystemSetupStepDefs {
 
-    private TigerIsland tigerIsland;
     private Game aGame;
     private PlayerSet playerSet;
     private Board board;
@@ -21,9 +20,7 @@ public class SystemSetupStepDefs {
 
     @Given("^a game is created$")
     public void aGameIsCreated() throws Throwable {
-        tigerIsland = new TigerIsland();
-        tigerIsland.parseArguments(new String[]{});
-        aGame = tigerIsland.match.games.get(0);
+        aGame = new Game("A", new GameSettings(new GlobalSettings()));
     }
 
     @And("^that game has players$")
