@@ -10,7 +10,6 @@ public class AI {
     private double turnTime;
     private final PlayerType AIType;
     private Turn turnState;
-    private TurnInfo turnInfo;
     private Location safeTileLocation;
 
     private String tilePlacementString;
@@ -25,26 +24,25 @@ public class AI {
         this.turnTime = aiCopy.turnTime;
         this.AIType = aiCopy.AIType;
         this.turnState = aiCopy.turnState;
-        this.turnInfo = aiCopy.turnInfo;
         this.safeTileLocation = aiCopy.safeTileLocation;
     }
 
-    public void pickTilePlacementAndBuildAction(TurnInfo turnInfo, Turn turnState) {
-        unpackAIsettings(turnInfo, turnState);
+    public void pickTilePlacementAndBuildAction(Turn turnState) {
+        unpackAIsettings(turnState);
 
         if(AIType == PlayerType.HUMAN) {
-            message = HumanInput.pickTilePlacementAndBuildAction(turnInfo, turnState);
+            message = HumanInput.pickTilePlacementAndBuildAction(turnState);
         } else {
-            pickTilePlacement(turnInfo, turnState);
-            pickBuildAction(turnInfo, turnState);
+            pickTilePlacement(turnState);
+            pickBuildAction(turnState);
             assembleMessage();
         }
 
         sendMessage(message);
-        ConsoleOut.printGameMessage(turnInfo.gameID, message);
+        ConsoleOut.printGameMessage(turnState.gameID, message);
     }
 
-    private void pickTilePlacement(TurnInfo turnInfo, Turn turnState) {
+    private void pickTilePlacement(Turn turnState) {
         pickSafeTilePlacement();
         while(true) {
             // TODO timer implementation and better move selection
@@ -70,8 +68,8 @@ public class AI {
     }
 
     private String createTileString() {
-        String leftTerrain = turnInfo.getTile().getLeftHex().getHexTerrain().name();
-        String rightTerrain = turnInfo.getTile().getRightHex().getHexTerrain().name();
+        String leftTerrain = turnState.getCurrentTile().getLeftHex().getHexTerrain().name();
+        String rightTerrain = turnState.getCurrentTile().getRightHex().getHexTerrain().name();
         return leftTerrain + "+" + rightTerrain;
     }
 
@@ -88,7 +86,7 @@ public class AI {
         return new Location(highestX + 1, associatedY);
     }
 
-    private void pickBuildAction(TurnInfo turnInfo, Turn turnState) {
+    private void pickBuildAction(Turn turnState) {
         pickSafeBuildAction();
         while(true) {
             // TODO timer implementation and better move selection
@@ -103,17 +101,16 @@ public class AI {
         buildActionString = "FOUND SETTLEMENT AT " + cubeLocation.x + " " + cubeLocation.y + " " + cubeLocation.z;
     }
 
-    private void unpackAIsettings(TurnInfo turnInfo, Turn turnState) {
-        this.turnTime = turnInfo.getGameSettings().getGlobalSettings().turnTime;
-        this.turnInfo = turnInfo;
+    private void unpackAIsettings(Turn turnState) {
+        this.turnTime = turnState.getGameSettings().getGlobalSettings().turnTime;
         this.turnState = turnState;
     }
 
     private void assembleMessage() {
-        message = "GAME " + turnInfo.gameID + " MOVE " + turnInfo.getMoveID() + " " + tilePlacementString + " " + buildActionString;
+        message = "GAME " + turnState.gameID + " MOVE " + turnState.getMoveID() + " " + tilePlacementString + " " + buildActionString;
     }
 
     private void sendMessage(String message) {
-        turnInfo.inboundMessages.add(new Message(message));
+        turnState.inboundMessages.add(new Message(message));
     }
 }

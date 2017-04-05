@@ -2,32 +2,29 @@ package com.tigerisland.AI;
 
 import com.tigerisland.game.TextGUI;
 import com.tigerisland.game.Turn;
-import com.tigerisland.game.TurnInfo;
 import com.tigerisland.messenger.Message;
-import com.tigerisland.messenger.MessageType;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Scanner;
 
 public class HumanInput {
 
-    public static String pickTilePlacementAndBuildAction(TurnInfo turnInfo, Turn turnState) {
+    public static String pickTilePlacementAndBuildAction(Turn turnState) {
         TextGUI.printMap(turnState.getBoard());
         String message;
-        String leftTerrain = turnInfo.getTile().getLeftHex().getHexTerrain().name();
-        String rightTerrain = turnInfo.getTile().getRightHex().getHexTerrain().name();
+        String leftTerrain = turnState.getCurrentTile().getLeftHex().getHexTerrain().name();
+        String rightTerrain = turnState.getCurrentTile().getRightHex().getHexTerrain().name();
 
         while(true) {
-            System.out.println("Enter a tile placement and build action for GAME " + turnInfo.gameID + " MOVE " + turnInfo.getMoveID());
+            System.out.println("Enter a tile placement and build action for GAME " + turnState.gameID + " MOVE " + turnState.getMoveID());
             System.out.println("\tYour tile is: " + leftTerrain + "+" + rightTerrain);
             BufferedReader manualInput = new BufferedReader(new InputStreamReader(System.in));
             try {
                 message = manualInput.readLine();
                 if(checkValidTilePlacementMessage(message)) {
                     if(checkValidBuildActionMessage(message)) {
-                        turnInfo.inboundMessages.add(new Message(message));
+                        turnState.inboundMessages.add(new Message(message));
                         return message;
                     }
                 } else {

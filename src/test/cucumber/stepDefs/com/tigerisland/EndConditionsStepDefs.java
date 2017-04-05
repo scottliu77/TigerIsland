@@ -29,7 +29,9 @@ public class EndConditionsStepDefs {
         GlobalSettings globalSettings = new GlobalSettings();
         globalSettings.getServerSettings().setPlayerID(playerID);
         globalSettings.getServerSettings().setOpponentID(opponentID);
-        this.game = new Game("A", new GameSettings(globalSettings));
+        GameSettings gameSettings = new GameSettings();
+        gameSettings.setGameID("A");
+        this.game = new Game(gameSettings);
         game.getGameSettings().getPlayerSet().setCurrentPlayer(playerID);
         this.player = this.game.getGameSettings().getPlayerSet().getCurrentPlayer();
         this.players = this.game.getGameSettings().getPlayerSet().getPlayerList();

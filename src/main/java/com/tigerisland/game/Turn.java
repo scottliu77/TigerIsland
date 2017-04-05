@@ -1,29 +1,56 @@
 package com.tigerisland.game;
 
+import com.tigerisland.GameSettings;
 import com.tigerisland.InvalidMoveException;
 import com.tigerisland.messenger.Message;
 import com.tigerisland.messenger.MessageType;
+
+import java.util.concurrent.BlockingQueue;
 
 import static java.lang.Thread.sleep;
 
 public class Turn {
 
-    private Player player;
+    public final String gameID;
+    private int moveID;
+    private Tile currentTile;
+    private GameSettings gameSettings;
+    public final BlockingQueue<Message> inboundMessages;
+
+    private Player currentPlayer;
     private Board board;
     private TilePlacement tilePlacement;
     private BuildAction buildAction;
 
-    public Turn(Player player, Board board) {
-        this.player = new Player(player);
+    public Turn(GameSettings gameSettings, Board board) {
+        this.gameID = gameSettings.getGameID();
+        this.inboundMessages = gameSettings.getGlobalSettings().inboundQueue;
+        this.gameSettings = gameSettings;
+
+        Player currentPlayer = gameSettings.getPlayerSet().getCurrentPlayer();
+        this.currentPlayer = new Player(currentPlayer);
+
         this.board = new Board(board);
     }
 
-    public void updateTurnState(TurnInfo turnInfo) throws InterruptedException, InvalidMoveException {
+    public void updateTurn(Message message) {
+        moveID = message.getMoveID();
+        currentTile = message.getTile();
+        gameSettings.getPlayerSet().setCurrentPlayer(message.getOurPlayerID());
+    }
+
+    public void updateTurn(int moveID, Tile currentTile, int currentPlayer) {
+        this.moveID = moveID;
+        this.currentTile = currentTile;
+        gameSettings.getPlayerSet().setCurrentPlayer(currentPlayer);
+    }
+
+    public void processMove() throws InterruptedException, InvalidMoveException {
         while(true) {
-            for(Message message : turnInfo.inboundMessages) {
+            for(Message message : inboundMessages) {
                 if(message.getMessageType() != MessageType.PROCESSED) {
-                    if(message.getGameID().equals(turnInfo.gameID)) {
-                        if(message.getMoveID() == turnInfo.getMoveID()) {
+                    if(message.getGameID().equals(gameID)) {
+                        if(message.getMoveID() == getMoveID()) {
 
                             parseTilePlacement(message);
                             filterBuildAction(message);
@@ -59,14 +86,22 @@ public class Turn {
 
     private void parseBuildAction(Message message, BuildActionType buildActionType) {
         if (buildActionType == BuildActionType.VILLAGEEXPANSION) {
-            buildAction = new BuildAction(player, message.getBuildLocation(), message.getExpandTerrain());
+            buildAction = new BuildAction(currentPlayer, message.getBuildLocation(), message.getExpandTerrain());
         } else {
-            buildAction = new BuildAction(player, message.getBuildLocation(), buildActionType);
+            buildAction = new BuildAction(currentPlayer, message.getBuildLocation(), buildActionType);
         }
     }
 
-    public Player getPlayer() {
-        return player;
+    public int getMoveID() {
+        return moveID;
+    }
+
+    public Tile getCurrentTile() {
+        return currentTile;
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
     }
 
     public Board getBoard() {
@@ -81,4 +116,7 @@ public class Turn {
         return buildAction;
     }
 
+    public GameSettings getGameSettings() {
+        return gameSettings;
+    }
 }

@@ -27,8 +27,10 @@ public class MoveTest {
         player = new Player(Color.BLACK, 1);
         board = new Board();
         createBasicMocks();
-        turn = new Turn(player, board);
-        gameSettings = new GameSettings(new GlobalSettings());
+        gameSettings = new GameSettings();
+        gameSettings.getPlayerSet().setCurrentPlayer(1);
+        turn = new Turn(gameSettings, board);
+        turn.updateTurn(1, new Tile(Terrain.GRASSLANDS, Terrain.JUNGLE), 1);
         inboundMessages = gameSettings.getGlobalSettings().inboundQueue;
     }
 
@@ -82,7 +84,7 @@ public class MoveTest {
     @Test
     public void testCanPlaceTile() throws InvalidMoveException, InterruptedException {
         inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCKY+GRASSLANDS AT 0 -2 -2 2"));
-        turn.updateTurnState(new TurnInfo("A", gameSettings));
+        turn.processMove();
         turn = Move.placeTile(turn);
 
         TextGUI.printMap(turn.getBoard());
@@ -93,12 +95,12 @@ public class MoveTest {
     public void testCanCreateVillage() throws InvalidMoveException, InterruptedException {
         createInitialVillage();
 
-        assertTrue(turn.getPlayer().getPieceSet().getNumberOfVillagersRemaining() == 19);
+        assertTrue(turn.getCurrentPlayer().getPieceSet().getNumberOfVillagersRemaining() == 19);
     }
 
     private void createInitialVillage() throws InvalidMoveException, InterruptedException {
         inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCKY+GRASSLANDS AT 0 -2 -2 2 FOUND SETTLEMENT AT 3 2 -1"));
-        turn.updateTurnState(new TurnInfo("A", gameSettings));
+        turn.processMove();
         turn = Move.takeBuildAction(turn);
     }
 
@@ -106,7 +108,7 @@ public class MoveTest {
     public void testCanCreateVillageAndGetAdjustedScore() throws InvalidMoveException, InterruptedException {
         createInitialVillage();
 
-        assertTrue(turn.getPlayer().getScore().getScoreValue() == Score.VILLAGER_POINT_VALUE);
+        assertTrue(turn.getCurrentPlayer().getScore().getScoreValue() == Score.VILLAGER_POINT_VALUE);
     }
 
     @Test
@@ -114,10 +116,10 @@ public class MoveTest {
         createInitialVillage();
 
         inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCKY+GRASSLANDS AT 0 -2 -2 2 EXPANDED SETTLEMENT AT 3 2 -1 ROCKY"));
-        turn.updateTurnState(new TurnInfo("A", gameSettings));
+        turn.processMove();
         turn = Move.takeBuildAction(turn);
 
-        assertTrue(turn.getPlayer().getPieceSet().getNumberOfVillagersRemaining() == 15);
+        assertTrue(turn.getCurrentPlayer().getPieceSet().getNumberOfVillagersRemaining() == 15);
     }
 
     @Test
@@ -125,86 +127,87 @@ public class MoveTest {
         createInitialVillage();
 
         inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCKY+GRASSLANDS AT 0 -2 -2 2 EXPANDED SETTLEMENT AT 3 2 -1 ROCKY"));
-        turn.updateTurnState(new TurnInfo("A", gameSettings));
+        turn.processMove();
         turn = Move.takeBuildAction(turn);
 
-        assertTrue(turn.getPlayer().getScore().getScoreValue() == 5 * Score.VILLAGER_POINT_VALUE);
+        assertTrue(turn.getCurrentPlayer().getScore().getScoreValue() == 5 * Score.VILLAGER_POINT_VALUE);
     }
 
     @Test
     public void testCanPlaceTotoro() throws InterruptedException, InvalidMoveException {
 
         inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCKY+GRASSLANDS AT 0 -2 -2 2 FOUND SETTLEMENT AT 1 -1 -2"));
-        turn.updateTurnState(new TurnInfo("A", gameSettings));
+        turn.processMove();
         turn = Move.takeBuildAction(turn);
 
 
         inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCKY+GRASSLANDS AT 0 -2 -2 2 EXPAND SETTLEMENT AT 1 -1 -2 LAKE"));
-        turn.updateTurnState(new TurnInfo("A", gameSettings));
+        turn.processMove();
         turn = Move.takeBuildAction(turn);
 
         inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCKY+GRASSLANDS AT 0 -2 -2 2 EXPAND SETTLEMENT AT 1 -1 -2 ROCKY"));
-        turn.updateTurnState(new TurnInfo("A", gameSettings));
+        turn.processMove();
         turn = Move.takeBuildAction(turn);
 
         inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCKY+GRASSLANDS AT 0 -2 -2 2 BUILD TOTORO SANCTUARY AT 1 0 -1"));
-        turn.updateTurnState(new TurnInfo("A", gameSettings));
+        turn.processMove();
         turn = Move.takeBuildAction(turn);
 
-        assertTrue(turn.getPlayer().getPieceSet().getNumberOfTotoroRemaining() == 2);
+        assertTrue(turn.getCurrentPlayer().getPieceSet().getNumberOfTotoroRemaining() == 2);
     }
 
     @Test
     public void testCanPlaceTotoroAndGetAdjustedScore() throws InterruptedException, InvalidMoveException {
 
-        inboundMessages.add(new Message("GAME A MOVE 1 GAME A MOVE 1 PLACE ROCKY+GRASSLANDS AT 0 -2 -2 2 FOUND SETTLEMENT AT 1 -1 -2"));
-        turn.updateTurnState(new TurnInfo("A", gameSettings));
+        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCKY+GRASSLANDS AT 0 -2 -2 2 FOUND SETTLEMENT AT 1 -1 -2"));
+        turn.processMove();
         turn = Move.takeBuildAction(turn);
 
-        inboundMessages.add(new Message("GAME A MOVE 1 GAME A MOVE 1 PLACE ROCKY+GRASSLANDS AT 0 -2 -2 2 EXPAND SETTLEMENT AT 1 -1 -2 LAKE"));
-        turn.updateTurnState(new TurnInfo("A", gameSettings));
+        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCKY+GRASSLANDS AT 0 -2 -2 2 EXPAND SETTLEMENT AT 1 -1 -2 LAKE"));
+        turn.processMove();
         turn = Move.takeBuildAction(turn);
 
-        inboundMessages.add(new Message("GAME A MOVE 1 GAME A MOVE 1 PLACE ROCKY+GRASSLANDS AT 0 -2 -2 2 EXPAND SETTLEMENT AT 1 -1 -2 ROCKY"));
-        turn.updateTurnState(new TurnInfo("A", gameSettings));
+        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCKY+GRASSLANDS AT 0 -2 -2 2 EXPAND SETTLEMENT AT 1 -1 -2 ROCKY"));
+        turn.processMove();
         turn = Move.takeBuildAction(turn);
 
-        int preTotoroScore = turn.getPlayer().getScore().getScoreValue();
+        int preTotoroScore = turn.getCurrentPlayer().getScore().getScoreValue();
 
-        inboundMessages.add(new Message("GAME A MOVE 1 GAME A MOVE 1 PLACE ROCKY+GRASSLANDS AT 0 -2 -2 2 BUILD TOTORO SANCTUARY AT 1 0 -1"));
-        turn.updateTurnState(new TurnInfo("A", gameSettings));
+        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCKY+GRASSLANDS AT 0 -2 -2 2 BUILD TOTORO SANCTUARY AT 1 0 -1"));
+        turn.processMove();
         turn = Move.takeBuildAction(turn);
 
-        assertTrue(turn.getPlayer().getScore().getScoreValue() - preTotoroScore == Score.TOTORO_POINT_VALUE);
+        assertTrue(turn.getCurrentPlayer().getScore().getScoreValue() - preTotoroScore == Score.TOTORO_POINT_VALUE);
     }
 
     @Test
     public void testCanPlaceTiger() throws InterruptedException, InvalidMoveException {
 
-        inboundMessages.add(new Message("GAME A MOVE 1 GAME A MOVE 1 PLACE ROCKY+GRASSLANDS AT 0 -2 -2 2 FOUND SETTLEMENT AT 1 -1 -2"));
-        turn.updateTurnState(new TurnInfo("A", gameSettings));
+        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCKY+GRASSLANDS AT 0 -2 -2 2 FOUND SETTLEMENT AT 1 -1 -2"));
+        turn.processMove();
         turn = Move.takeBuildAction(turn);
 
-        inboundMessages.add(new Message("GAME A MOVE 1 GAME A MOVE 1 PLACE ROCKY+GRASSLANDS AT 0 -2 -2 2 BUILD TIGER PLAYGROUND AT 1 0 -1"));
-        turn.updateTurnState(new TurnInfo("A", gameSettings));
+        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCKY+GRASSLANDS AT 0 -2 -2 2 BUILD TIGER PLAYGROUND AT 1 0 -1"));
+        turn.processMove();
         turn = Move.takeBuildAction(turn);
 
-        assertTrue(turn.getPlayer().getPieceSet().getNumberOfTigersRemaining() == 1);
+        assertTrue(turn.getCurrentPlayer().getPieceSet().getNumberOfTigersRemaining() == 1);
 
     }
 
     @Test
     public void testCanPlaceTigerAndGetAdjustedScore() throws InterruptedException, InvalidMoveException {
 
-        inboundMessages.add(new Message("GAME A MOVE 1 GAME A MOVE 1 PLACE ROCKY+GRASSLANDS AT 0 -2 -2 2 FOUND SETTLEMENT AT 1 -1 -2"));
-        turn.updateTurnState(new TurnInfo("A", gameSettings));
+        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCKY+GRASSLANDS AT 0 -2 -2 2 FOUND SETTLEMENT AT 1 -1 -2"));
+        gameSettings.getPlayerSet().setCurrentPlayer(1);
+        turn.processMove();
         turn = Move.takeBuildAction(turn);
 
-        inboundMessages.add(new Message("GAME A MOVE 1 GAME A MOVE 1 PLACE ROCKY+GRASSLANDS AT 0 -2 -2 2 BUILD TIGER PLAYGROUND AT 1 0 -1"));
-        turn.updateTurnState(new TurnInfo("A", gameSettings));
+        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCKY+GRASSLANDS AT 0 -2 -2 2 BUILD TIGER PLAYGROUND AT 1 0 -1"));
+        turn.processMove();
         turn = Move.takeBuildAction(turn);
 
-        assertTrue(turn.getPlayer().getScore().getScoreValue() == Score.TIGER_POINT_VALUE + Score.VILLAGER_POINT_VALUE);
+        assertTrue(turn.getCurrentPlayer().getScore().getScoreValue() == Score.TIGER_POINT_VALUE + Score.VILLAGER_POINT_VALUE);
 
     }
 }

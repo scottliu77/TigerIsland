@@ -19,7 +19,6 @@ public class AITest {
     private Player testPlayer;
     private PlayerType testPlayerType;
     private Turn turnState;
-    private TurnInfo turnInfo;
     private AI testAI;
     private GameSettings gameSettings;
     private BlockingQueue<Message> inboundMessages;
@@ -28,13 +27,14 @@ public class AITest {
     @Before
     public void createMocks() {
         gameSettings = new GameSettings(new GlobalSettings());
+        gameSettings.getPlayerSet().setCurrentPlayer(1);
         testPlayer = new Player(Color.BLACK, 1);
         testPlayerType = PlayerType.BasicAI;
         testPlayer.setPlayerType(testPlayerType);
-        turnState = new Turn(testPlayer, new Board());
-        turnInfo = new TurnInfo("A", gameSettings);
+        gameSettings.setGameID("A");
+        turnState = new Turn(gameSettings, new Board());
         testAI = new AI(testPlayerType);
-        inboundMessages = turnInfo.inboundMessages;
+        inboundMessages = turnState.inboundMessages;
     }
 
     @Test
@@ -42,20 +42,4 @@ public class AITest {
         assertTrue(testAI != null);
     }
 
-    @Test
-    public void testCanPickInitialTilePlacement() throws InvalidMoveException {
-        turnInfo.drawANewTile();
-        testAI.pickTilePlacementAndBuildAction(turnInfo, turnState);
-        Message message = inboundMessages.remove();
-        assertTrue(message.message.contains("AT 0 0 0"));
-    }
-
-    @Test
-    public void testCanPickInitialBuildAction() throws InvalidMoveException {
-        turnInfo.drawANewTile();
-        testAI.pickTilePlacementAndBuildAction(turnInfo, turnState);
-        Message message = inboundMessages.remove();
-        System.out.println(message);
-        assertTrue(message.message.contains("FOUND SETTLEMENT AT 0 1 -1"));
-    }
 }

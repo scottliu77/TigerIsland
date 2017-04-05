@@ -18,7 +18,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class HumanInputTest {
 
     private Turn turnState;
-    private TurnInfo turnInfo;
     private GameSettings gameSettings;
     private BlockingQueue<Message> inboundMessages;
     private InputStream testMessage;
@@ -26,10 +25,9 @@ public class HumanInputTest {
 
     @Before
     public void setupMocks() {
-        turnState = new Turn(new Player(Color.BLACK, 1), new Board());
+        turnState = new Turn(gameSettings, new Board());
         gameSettings = new GameSettings(new GlobalSettings());
         inboundMessages = gameSettings.getGlobalSettings().inboundQueue;
-        turnInfo = new TurnInfo("A", gameSettings);
     }
 
     @After

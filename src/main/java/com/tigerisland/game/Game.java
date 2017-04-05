@@ -3,6 +3,10 @@ package com.tigerisland.game;
 import com.tigerisland.GameSettings;
 import com.tigerisland.InvalidMoveException;
 import com.tigerisland.messenger.ConsoleOut;
+import com.tigerisland.messenger.Message;
+import com.tigerisland.messenger.MessageType;
+
+import static java.lang.Thread.sleep;
 
 public class Game implements Runnable {
 
@@ -11,13 +15,11 @@ public class Game implements Runnable {
     protected GameSettings gameSettings;
     protected Board board;
     protected Turn turnState;
-    protected TurnInfo turnInfo;
     protected Player currentPlayer;
 
-    public Game(String gameID, GameSettings gameSettings){
+    public Game(GameSettings gameSettings){
         this.gameSettings = gameSettings;
-        this.gameID = gameID;
-        this.turnInfo = new TurnInfo(gameID, this.gameSettings);
+        this.gameID = gameSettings.getGameID();
         this.board = new Board();
     }
 
@@ -32,9 +34,15 @@ public class Game implements Runnable {
                     throw new InterruptedException();
                 }
 
-                if(!takeAnotherTurn()) {
+                checkForMoveToProcess();
+
+                checkForMakeMove();
+
+                if(gameOver()) {
                     break;
                 }
+
+                sleep(1);
 
             }
         } catch (InterruptedException exception) {
@@ -57,9 +65,30 @@ public class Game implements Runnable {
         board.placeHex(new Hex("00", Terrain.ROCKY), new Location(0, -1));
     }
 
-    protected Boolean takeAnotherTurn() throws InvalidMoveException, InterruptedException {
+    protected void checkForMoveToProcess() throws InvalidMoveException, InterruptedException {
+        for(Message message : gameSettings.getGlobalSettings().inboundQueue) {
+            if(message.getMessageType().getSubtype().equals(MessageType.BUILDTOTORO.getSubtype())) {
+                gameSettings.getPlayerSet().setCurrentPlayer(message.getOurPlayerID());
+                takeAnotherTurn();
+            } else if(message.getMessageType().getSubtype().equals(MessageType.FORFEITBUILD.getSubtype())) {
+                message.setProcessed();
+                throw new InvalidMoveException("Server sent invalid move exception");
+            }
+        }
+    }
 
-        currentPlayer = gameSettings.getPlayerSet().getCurrentPlayer();
+    protected void checkForMakeMove() throws InvalidMoveException, InterruptedException {
+        for(Message message : gameSettings.getGlobalSettings().inboundQueue) {
+            if(message.getMessageType() == MessageType.MAKEMOVE) {
+                message.setProcessed();
+                turnState.updateTurn(message);
+                turnState.getCurrentPlayer().getPlayerAI().pickTilePlacementAndBuildAction(turnState);
+                turnState.processMove();
+            }
+        }
+    }
+
+    protected Boolean takeAnotherTurn() throws InvalidMoveException, InterruptedException {
 
         packageTurnState();
 
@@ -78,34 +107,30 @@ public class Game implements Runnable {
             return false;
         }
 
-        turnInfo.incrementMoveNumber();
-
         return true;
     }
 
     protected Turn packageTurnState() throws InterruptedException, InvalidMoveException {
 
-        turnState = new Turn(gameSettings.getPlayerSet().getCurrentPlayer(), board);
-
-        turnInfo.drawANewTile();
-
-        ifAIPickTilePlacementAndBuildAction();
-
-        turnState.updateTurnState(turnInfo);
+        turnState = new Turn(gameSettings, board);
 
         return turnState;
 
     }
 
-    private void ifAIPickTilePlacementAndBuildAction() {
-        if(turnState.getPlayer().getPlayerType() != PlayerType.SERVER) {
-            turnState.getPlayer().getPlayerAI().pickTilePlacementAndBuildAction(turnInfo, turnState);
-        }
+    protected void unpackageTurnState(Turn turnState) {
+        gameSettings.getPlayerSet().getCurrentPlayer().updatePlayerState(turnState.getCurrentPlayer());
+        board = turnState.getBoard();
     }
 
-    protected void unpackageTurnState(Turn turnState) {
-        gameSettings.getPlayerSet().getCurrentPlayer().updatePlayerState(turnState.getPlayer());
-        board = turnState.getBoard();
+    protected Boolean gameOver() {
+        for(Message message : gameSettings.getGlobalSettings().inboundQueue) {
+            if(message.getMessageType().getSubtype().equals(MessageType.GAMEOVER.getSubtype())) {
+                message.setProcessed();
+                return true;
+            }
+        }
+        return false;
     }
 
     public GameSettings getGameSettings() {
@@ -121,6 +146,6 @@ public class Game implements Runnable {
     }
 
     public int getMoveID() {
-        return turnInfo.getMoveID();
+        return turnState.getMoveID();
     }
 }

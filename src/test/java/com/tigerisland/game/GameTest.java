@@ -3,9 +3,7 @@ package com.tigerisland.game;
 import com.tigerisland.GameSettings;
 import com.tigerisland.GlobalSettings;
 import com.tigerisland.InvalidMoveException;
-import com.tigerisland.game.*;
 import com.tigerisland.messenger.Message;
-import com.tigerisland.messenger.MessageType;
 import org.junit.Test;
 import org.junit.Before;
 
@@ -24,10 +22,11 @@ public class GameTest {
     @Before
     public void createGame() {
         this.gameSettings = new GameSettings(globalSettings);
+        gameSettings.setGameID("A");
         this.inboundMessages = gameSettings.getGlobalSettings().inboundQueue;
         this.gameSettings.setPlayOrder();
         setAllPlayersToServer();
-        this.game = new Game("A", gameSettings);
+        this.game = new Game(gameSettings);
         placeDummyTilePlacementAndBuildInQueue();
     }
 
@@ -62,22 +61,16 @@ public class GameTest {
     @Test
     public void testCanSafelyPackageGameState() throws InvalidMoveException, InterruptedException {
         Turn newTurn = game.packageTurnState();
-        newTurn.getPlayer().getScore().addPoints(1);
+        newTurn.getCurrentPlayer().getScore().addPoints(1);
         assertTrue(game.getGameSettings().getPlayerSet().getCurrentPlayer().getScore().getScoreValue() == 0);
     }
 
     @Test
     public void testCanSafelyUnpackageGameState() throws InvalidMoveException, InterruptedException {
         Turn newTurn = game.packageTurnState();
-        newTurn.getPlayer().getScore().addPoints(1);
+        newTurn.getCurrentPlayer().getScore().addPoints(1);
         game.unpackageTurnState(newTurn);
         assertTrue(game.getGameSettings().getPlayerSet().getCurrentPlayer().getScore().getScoreValue() == 1);
-    }
-
-    @Test
-    public void testCanTakeAnotherTurn() throws InvalidMoveException, InterruptedException {
-        game.takeAnotherTurn();
-        assertTrue(game.getGameSettings().getPlayerSet().getPlayerList().get(1).getScore().getScoreValue() == 1);
     }
 
     @Test
@@ -95,11 +88,6 @@ public class GameTest {
     @Test
     public void testCanGetGameID() {
         assertTrue(game.getGameID() == "A");
-    }
-
-    @Test
-    public void testCanGetMoveID() {
-        assertTrue(game.getMoveID() == 1);
     }
 
     @Test

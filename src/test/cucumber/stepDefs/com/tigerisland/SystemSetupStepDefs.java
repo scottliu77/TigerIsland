@@ -20,7 +20,9 @@ public class SystemSetupStepDefs {
 
     @Given("^a game is created$")
     public void aGameIsCreated() throws Throwable {
-        aGame = new Game("A", new GameSettings(new GlobalSettings()));
+        GameSettings gameSettings = new GameSettings();
+        gameSettings.setGameID("A");
+        aGame = new Game(gameSettings);
     }
 
     @And("^that game has players$")

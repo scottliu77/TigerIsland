@@ -24,10 +24,12 @@ public class Match {
 
     private void constructGames() {
         ConsoleOut.printClientMessage("Game A created");
-        games.add(new Game("A", gameSettings));
+        gameSettings.setGameID("A");
+        games.add(new Game(gameSettings));
 
         ConsoleOut.printClientMessage("Game B created");
-        games.add(new Game("B", gameSettings));
+        gameSettings.setGameID("B");
+        games.add(new Game(gameSettings));
 
     }
 

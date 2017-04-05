@@ -23,7 +23,10 @@ public class OfflineSystemSetupStepDefs {
 
     @Given("^an offline game is created$")
     public void aGameIsCreated() throws Throwable {
-        aGame = new Game("A", new GameSettings(new GlobalSettings()));
+        GameSettings gameSettings = new GameSettings();
+        gameSettings.setDeck();
+        gameSettings.setGameID("A");
+        aGame = new Game(gameSettings);
         assertTrue(aGame.getGameSettings().getGlobalSettings().getServerSettings().offline);
     }
 

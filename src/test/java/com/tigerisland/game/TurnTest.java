@@ -23,8 +23,11 @@ public class TurnTest {
     public void createTurnObject() {
         player = new Player(Color.BLACK, 1);
         board = new Board();
-        turn = new Turn(player, board);
-        gameSettings = new GameSettings(new GlobalSettings());
+        gameSettings = new GameSettings();
+        gameSettings.getPlayerSet().setCurrentPlayer(1);
+
+        turn = new Turn(gameSettings, board);
+        turn.updateTurn(1, new Tile(Terrain.GRASSLANDS, Terrain.JUNGLE), 1);
         inboundMessages = gameSettings.getGlobalSettings().inboundQueue;
         inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCKY+LAKE AT 0 0 0 1 FOUNDED SETTLEMENT AT 0 0 0"));
     }
@@ -36,22 +39,22 @@ public class TurnTest {
 
     @Test
     public void testCanUpdateAndGetTilePlacement() throws InvalidMoveException, InterruptedException {
-        turn.updateTurnState(new TurnInfo("A", gameSettings) );
+        turn.processMove();
         TilePlacement tilePlacement = turn.getTilePlacement();
         assertTrue(tilePlacement != null);
     }
 
     @Test
     public void testCanUpdateAndGetBuildAction() throws InterruptedException, InvalidMoveException {
-        turn.updateTurnState(new TurnInfo("A", gameSettings));
+        turn.processMove();
         BuildAction buildAction = turn.getBuildAction();
         assertTrue(buildAction != null);
     }
 
     @Test
     public void testCanUpdateAndGetPlayer() throws InvalidMoveException {
-        turn.getPlayer().getScore().addPoints(5);
-        assertTrue(turn.getPlayer().getScore().getScoreValue() == 5);
+        turn.getCurrentPlayer().getScore().addPoints(5);
+        assertTrue(turn.getCurrentPlayer().getScore().getScoreValue() == 5);
     }
 
     @Test
