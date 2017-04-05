@@ -2,6 +2,7 @@ package com.tigerisland;
 
 
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.*;
@@ -31,6 +32,11 @@ public class TournamentTest {
             assertTrue(false);
         }
         assertTrue(true);
+    }
+
+    @Ignore("Ignoring can run tournament test") @Test
+    public void testCanRunTournament() {
+        tournament.run();
     }
 
 }

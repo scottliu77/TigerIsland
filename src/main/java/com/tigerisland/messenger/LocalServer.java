@@ -17,8 +17,8 @@ import static java.lang.Thread.sleep;
 
 public class LocalServer implements Runnable {
 
-    public static final int LOCAL_CHALLENGES = 3;
-    public static final int LOCAL_ROUNDS = 4;
+    public static final int LOCAL_CHALLENGES = 1;
+    public static final int LOCAL_ROUNDS = 1;
 
     private GlobalSettings globalSettings;
     private InetAddress addr;
@@ -75,13 +75,16 @@ public class LocalServer implements Runnable {
             this.dummySocket = socket;
             this.globalSettings = globalSettings;
             this.messagesReceived = globalSettings.messagesReceived;
-            acknowledgeConnection();
+            try {
+                this.writer = new PrintWriter(dummySocket.getOutputStream(), true);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         public Boolean call() {
             try {
                 writer = new PrintWriter(dummySocket.getOutputStream(), true);
-                writer.println("WELCOME TO ANOTHER EDITION OF THUNDERDOME!");
 
                 reader = new BufferedReader(new InputStreamReader(dummySocket.getInputStream()));
 
@@ -101,7 +104,10 @@ public class LocalServer implements Runnable {
                            e.printStackTrace();
                        }
                    }
+
+                   cleanupMessageQueue();
                 }
+
 
             } catch (IOException exception) {
                 exception.printStackTrace();
@@ -110,16 +116,12 @@ public class LocalServer implements Runnable {
             return true;
         }
 
-        private void acknowledgeConnection() {
-            writer.println("WELCOME TO ANOTHER EDITION OF THUNDERDOME!");
-        }
-
         private void checkForNewEntry() throws IOException {
             for(Message message : messagesReceived) {
                 if(message.getMessageType() == MessageType.ENTERTOURNAMENT) {
-                    if(globalSettings.getServerSettings().tournamentPassword == ServerSettings.defaultTournamentPassword) {
-                        ConsoleOut.printServerMessage("New tournament entry received");
+                    if(globalSettings.getServerSettings().tournamentPassword.equals(ServerSettings.defaultTournamentPassword)) {
                         writer.println("TWO SHALL ENTER, ONE SHALL LEAVE");
+                        message.setProcessed();
                     }
                 }
             }
@@ -127,10 +129,9 @@ public class LocalServer implements Runnable {
 
         private void checkForAuthentication() throws IOException {
             for(Message message : messagesReceived) {
-                if(message.getMessageType() == MessageType.ENTERTOURNAMENT) {
-                    if(globalSettings.getServerSettings().username == ServerSettings.defaultUsername) {
-                        if(globalSettings.getServerSettings().password == ServerSettings.defaultPassword) {
-                            ConsoleOut.printServerMessage("New team identified [default]");
+                if(message.getMessageType() == MessageType.AUTHENTICATETEAM) {
+                    if(globalSettings.getServerSettings().username.equals(ServerSettings.defaultUsername)) {
+                        if(globalSettings.getServerSettings().password.equals(ServerSettings.defaultPassword)) {
                             writer.println("WAIT FOR THE TOURNAMENT TO BEGIN 7");
                             startChallengeProtocol();
                         }
@@ -150,31 +151,20 @@ public class LocalServer implements Runnable {
                     writer.println("END OF CHALLENGES");
                 }
             }
-            try {
-
-                sleep(1000);
-
-                writer.println("THANK YOU FOR PLAYING GOODBYE");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
 
         private void sendNewChallenge(int challenge) {
-            writer.println("NEW CHALLENGE " + challenge + " YOU WILL PLAY " + LOCAL_ROUNDS + " MATCHES");
+            writer.println("NEW CHALLENGE " + (challenge + 1) + " YOU WILL PLAY " + LOCAL_ROUNDS + " MATCHES");
 
             for(int round = 0; round < LOCAL_ROUNDS; round++) {
-                try {
-                    sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+
+                writer.println("BEGIN ROUND " + (round + 1) + " OF " + LOCAL_ROUNDS);
                 sendNewRound();
 
                 if(round + 1 < LOCAL_ROUNDS) {
-                    writer.println("END OF ROUND " + round + " OF " + LOCAL_ROUNDS + " WAIT FOR NEXT MATCH");
+                    writer.println("END OF ROUND " + (round + 1) + " OF " + LOCAL_ROUNDS + " WAIT FOR NEXT MATCH");
                 } else {
-                    writer.println("END OF ROUND " + round + " OF " + LOCAL_ROUNDS);
+                    writer.println("END OF ROUND " + (round + 1) + " OF " + LOCAL_ROUNDS);
                 }
             }
         }
@@ -182,13 +172,19 @@ public class LocalServer implements Runnable {
         private void sendNewRound() {
 
             writer.println("NEW MATCH BEGINNING NOW YOUR OPPONENT IS PLAYER 13");
-
             try {
                 sleep(10000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-    }
 
+        private void cleanupMessageQueue() {
+            for(Message message : messagesReceived) {
+                if(message.getMessageType() == MessageType.PROCESSED) {
+                    messagesReceived.remove(message);
+                }
+            }
+        }
+    }
 }

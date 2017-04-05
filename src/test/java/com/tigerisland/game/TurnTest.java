@@ -21,7 +21,7 @@ public class TurnTest {
 
     @Before
     public void createTurnObject() {
-        player = new Player(Color.BLACK);
+        player = new Player(Color.BLACK, 1);
         board = new Board();
         turn = new Turn(player, board);
         gameSettings = new GameSettings(new GlobalSettings());

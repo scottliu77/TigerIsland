@@ -35,7 +35,7 @@ public class SystemSetupStepDefs {
 
     @Then("^all players have (\\d+) points$")
     public void allPlayersHavePoints(int arg0) throws Throwable {
-        for(Player player: playerSet.getPlayerList()) {
+        for(Player player: playerSet.getPlayerList().values()) {
             if(player.getScore().getScoreValue() != arg0) {
                 assertTrue(false);
             }
@@ -50,7 +50,7 @@ public class SystemSetupStepDefs {
 
     @Then("^all players have (\\d+) villagers$")
     public void allPlayersHaveVillagers(int arg0) throws Throwable {
-        for(Player player: playerSet.getPlayerList()) {
+        for(Player player: playerSet.getPlayerList().values()) {
             if(player.getPieceSet().getNumberOfVillagersRemaining() != arg0) {
                 assertTrue(false);
             }
@@ -60,7 +60,7 @@ public class SystemSetupStepDefs {
 
     @Then("^all players have (\\d+) totoros$")
     public void allPlayersHaveTotoros(int arg0) throws Throwable {
-        for(Player player: playerSet.getPlayerList()) {
+        for(Player player: playerSet.getPlayerList().values()) {
             if(player.getPieceSet().getNumberOfTotoroRemaining() != arg0) {
                 assertTrue(false);
             }

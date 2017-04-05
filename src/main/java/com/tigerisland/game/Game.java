@@ -78,7 +78,6 @@ public class Game implements Runnable {
             return false;
         }
 
-        gameSettings.getPlayerSet().setNextPlayer();
         turnInfo.incrementMoveNumber();
 
         return true;

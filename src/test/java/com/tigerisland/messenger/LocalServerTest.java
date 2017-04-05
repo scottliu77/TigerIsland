@@ -18,7 +18,7 @@ public class LocalServerTest {
 
     private GlobalSettings globalSettings;
     private LocalServer localServer;
-    private Messenger messenger;
+    private Client client;
 
     @Before
     public void createLocalServer() throws IOException {
@@ -26,7 +26,7 @@ public class LocalServerTest {
         this.localServer = new LocalServer(this.globalSettings);
     }
 
-    @Ignore("Skipping tes for creation of local server") @Test
+    @Ignore("Skipping test for creation of local server") @Test
     public void testCanCreateLocalServer() {
         assertTrue(localServer != null);
     }
@@ -51,7 +51,7 @@ public class LocalServerTest {
         assertTrue(globalSettings.messagesReceived.remove().message.equals("Hello"));
     }
 
-    @Ignore("BROKEN Skipping direct pass END_CODE to local server test") @Test
+    @Ignore("Skipping direct pass END_CODE to local server test") @Test
     public void testCanShutoffLocalServerWithEndCode() throws InterruptedException {
         Thread localServerThread = new Thread(localServer);
         localServerThread.start();
@@ -64,7 +64,6 @@ public class LocalServerTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
 
         localServerThread.join();
 
@@ -111,8 +110,8 @@ public class LocalServerTest {
 
         ArrayList<String> messagesProcessed = new ArrayList<String>();
         for(Message message : globalSettings.messagesReceived) {
-            messagesProcessed.add(message.toString());
-            System.out.println(message.toString());
+            messagesProcessed.add(message.message);
+            System.out.println(message.message);
         }
 
         assertTrue(messagesProcessed.size() == 2);
@@ -125,12 +124,11 @@ public class LocalServerTest {
         Thread localServerThread = new Thread(localServer);
         localServerThread.start();
 
-        globalSettings.outboundQueue.add(new Message("Hello"));
-        globalSettings.outboundQueue.add(new Message("THANK YOU FOR PLAYING! GOODBYE"));
+        globalSettings.outboundQueue.add(new Message("ENTER THUNDERDOME " + ServerSettings.defaultTournamentPassword));
 
-        messenger = new Messenger(globalSettings);
+        client = new Client(globalSettings);
 
-        Thread messengerThread = new Thread(messenger);
+        Thread messengerThread = new Thread(client);
 
         messengerThread.start();
 
@@ -138,17 +136,80 @@ public class LocalServerTest {
             sleep(5);
         }
 
-        messengerThread.interrupt();
-        messengerThread.join();
+        while(messengerThread.isAlive()) {
+            messengerThread.interrupt();
+            try {
+                sleep(5);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 
         localServerThread.join();
-//
-//        ArrayList<String> messagesProcessed = new ArrayList<String>();
-//        for(Message message : globalSettings.messagesReceived) {
-//            messagesProcessed.add(message.toString());
-//            System.out.println(message);
-//        }
 
-        assertTrue(globalSettings.messagesReceived.remove().toString().equals("Hello"));
+        assertTrue(localServerThread.isAlive() == false);
+    }
+
+    @Ignore("Skipping local server accepts tournament password test") @Test
+    public void testLocalServerCanAcceptTournamentPassword() throws InterruptedException, IOException {
+
+        Thread localServerThread = new Thread(localServer);
+        localServerThread.start();
+
+        globalSettings.outboundQueue.add(new Message("ENTER THUNDERDOME " + ServerSettings.defaultTournamentPassword));
+
+        Thread messengerThread = new Thread(new Client(globalSettings));
+
+        messengerThread.start();
+
+        sleep(1000);
+
+        closeMessenger(messengerThread);
+        closeLocalServer(localServerThread);
+
+
+        assertTrue(localServerThread.isAlive() == false);
+    }
+
+    @Ignore("Ignoring can authenticate team test") @Test
+    public void testLocalServerCanAuthenticateTeam() throws InterruptedException {
+
+        Thread localServerThread = new Thread(localServer);
+        localServerThread.start();
+
+        globalSettings.outboundQueue.add(new Message("I AM " + ServerSettings.defaultUsername + " " + ServerSettings.defaultPassword));
+
+        Thread messengerThread = new Thread(new Client(globalSettings));
+
+        messengerThread.start();
+
+        sleep(1000);
+
+        closeMessenger(messengerThread);
+        closeLocalServer(localServerThread);
+
+
+        assertTrue(localServerThread.isAlive() == false);
+    }
+
+    private void closeMessenger(Thread messengerThread) {
+        while(messengerThread.isAlive()) {
+            messengerThread.interrupt();
+            try {
+                sleep(5);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void closeLocalServer(Thread localServerThread) {
+        while(localServerThread.isAlive()) {
+            try {
+                sleep(5);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

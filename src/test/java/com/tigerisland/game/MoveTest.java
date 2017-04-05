@@ -24,7 +24,7 @@ public class MoveTest {
 
     @Before
     public void createMoveTargets() throws InterruptedException, InvalidMoveException {
-        player = new Player(Color.BLACK);
+        player = new Player(Color.BLACK, 1);
         board = new Board();
         createBasicMocks();
         turn = new Turn(player, board);

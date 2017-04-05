@@ -26,7 +26,7 @@ public class HumanInputTest {
 
     @Before
     public void setupMocks() {
-        turnState = new Turn(new Player(Color.BLACK), new Board());
+        turnState = new Turn(new Player(Color.BLACK, 1), new Board());
         gameSettings = new GameSettings(new GlobalSettings());
         inboundMessages = gameSettings.getGlobalSettings().inboundQueue;
         turnInfo = new TurnInfo("A", gameSettings);

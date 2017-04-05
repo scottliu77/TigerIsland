@@ -1,6 +1,6 @@
 package com.tigerisland.game;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public final class EndConditions {
 
@@ -22,7 +22,10 @@ public final class EndConditions {
     }
 
     public static boolean noValidMoves(Player currentPlayer, Board board){
-        if(noMoreVillagers(currentPlayer) && cantPlayTotoro(currentPlayer, board) && cantPlayTiger(currentPlayer, board)){
+        Boolean noVillagers = noMoreVillagers(currentPlayer);
+        Boolean noTotoro = cantPlayTotoro(currentPlayer, board);
+        Boolean noTiger = cantPlayTiger(currentPlayer, board);
+        if(noVillagers && noTotoro && noTiger){
             return true;
         }
         return false;
@@ -50,10 +53,10 @@ public final class EndConditions {
         }
     }
 
-    public static Player calculateWinner(Player currentPlayer, ArrayList<Player> playerList) {
+    public static Player calculateWinner(Player currentPlayer, HashMap<Integer, Player> playerList) {
 
         if(playerIsOutOfPiecesOfTwoTypes(currentPlayer) == false) {
-            playerList.remove(currentPlayer);
+            playerList.remove(currentPlayer.getPlayerID());
         }
 
         Player winner = getPlayerWithHighestScore(currentPlayer, playerList);
@@ -61,11 +64,11 @@ public final class EndConditions {
         return winner;
     }
 
-    private static Player getPlayerWithHighestScore(Player currentPlayer, ArrayList<Player> playerList) {
+    private static Player getPlayerWithHighestScore(Player currentPlayer, HashMap<Integer, Player> playerList) {
         int highestScore = -1;
         Player winner = currentPlayer;
 
-        for(Player player : playerList) {
+        for(Player player : playerList.values()) {
             if(player.getScore().getScoreValue() > highestScore) {
                 winner = player;
                 highestScore = player.getScore().getScoreValue();
@@ -76,11 +79,11 @@ public final class EndConditions {
         return winner;
     }
 
-    private static Player totoroCountTiebreaker(Player currentPlayer, ArrayList<Player> playerList) {
+    private static Player totoroCountTiebreaker(Player currentPlayer, HashMap<Integer, Player> playerList) {
         int minRemainingTotoros = 4;
         Player winner = currentPlayer;
 
-        for(Player player : playerList) {
+        for(Player player : playerList.values()) {
             if(player.getPieceSet().getNumberOfTotoroRemaining() < minRemainingTotoros) {
                 winner = player;
                 minRemainingTotoros = player.getPieceSet().getNumberOfTotoroRemaining();
@@ -91,11 +94,11 @@ public final class EndConditions {
         return winner;
     }
 
-    private static Player tigerCountTieBreaker(Player currentPlayer, ArrayList<Player> playerList) {
+    private static Player tigerCountTieBreaker(Player currentPlayer, HashMap<Integer, Player> playerList) {
         int minRemainingTigers = 3;
         Player winner = currentPlayer;
 
-        for(Player player : playerList) {
+        for(Player player : playerList.values()) {
             if(player.getPieceSet().getNumberOfTigersRemaining() < minRemainingTigers) {
                 winner = player;
                 minRemainingTigers = player.getPieceSet().getNumberOfTigersRemaining();
@@ -106,11 +109,11 @@ public final class EndConditions {
         return winner;
     }
 
-    private static Player villagerCountTieBreaker(Player currentPlayer, ArrayList<Player> playerList) {
+    private static Player villagerCountTieBreaker(Player currentPlayer, HashMap<Integer, Player> playerList) {
         int minRemainingVillagers = 21;
         Player winner = currentPlayer;
 
-        for(Player player : playerList) {
+        for(Player player : playerList.values()) {
             if(player.getPieceSet().getNumberOfVillagersRemaining() < minRemainingVillagers) {
                 winner = player;
                 minRemainingVillagers = player.getPieceSet().getNumberOfVillagersRemaining();

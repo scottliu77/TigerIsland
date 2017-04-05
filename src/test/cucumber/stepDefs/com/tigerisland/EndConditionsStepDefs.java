@@ -12,18 +12,25 @@ import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import org.junit.Assert;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static org.junit.Assert.assertTrue;
 
 public class EndConditionsStepDefs {
 
+    private final int playerID = 1;
+    private final int opponentID = 2;
     private Game game;
     private Player player;
-    private ArrayList<Player> players;
+    private HashMap<Integer, Player> players;
     private Deck deck;
 
     public EndConditionsStepDefs() throws ArgumentParserException {
-        this.game = new Game("A", new GameSettings(new GlobalSettings()));
+        GlobalSettings globalSettings = new GlobalSettings();
+        globalSettings.getServerSettings().setPlayerID(playerID);
+        globalSettings.getServerSettings().setOpponentID(opponentID);
+        this.game = new Game("A", new GameSettings(globalSettings));
+        game.getGameSettings().getPlayerSet().setCurrentPlayer(playerID);
         this.player = this.game.getGameSettings().getPlayerSet().getCurrentPlayer();
         this.players = this.game.getGameSettings().getPlayerSet().getPlayerList();
         this.deck = new Deck();
@@ -54,13 +61,13 @@ public class EndConditionsStepDefs {
 
     @And("^the top scoring players have the same score$")
     public void theTopScoringPlayersHaveTheSameScore() throws Throwable {
-        assertTrue(players.get(0).getScore().getScoreValue() == players.get(1).getScore().getScoreValue());
+        assertTrue(players.get(playerID).getScore().getScoreValue() == players.get(playerID).getScore().getScoreValue());
     }
 
     @And("^only one player has the top score$")
     public void theOnlyOnePlayHasTheTopScore() throws Throwable {
-        players.get(1).getScore().addPoints(25);
-        assertTrue(players.get(1).getScore().getScoreValue() != players.get(0).getScore().getScoreValue());
+        players.get(opponentID).getScore().addPoints(25);
+        assertTrue(players.get(opponentID).getScore().getScoreValue() != players.get(playerID).getScore().getScoreValue());
     }
 
     @Then("^the game ends$")
@@ -95,23 +102,23 @@ public class EndConditionsStepDefs {
 
     @And("^the scores are tied$")
     public void theScoresAreTied() throws Throwable {
-        assertTrue(player.getScore().getScoreValue() == players.get(1).getScore().getScoreValue());
+        assertTrue(player.getScore().getScoreValue() == players.get(playerID).getScore().getScoreValue());
     }
 
     @Then("^the player with the fewest remaining totoros wins$")
     public void thePlayerWithTheFewestRemainingTotorosWins() throws Throwable {
         placeAllButTotoros();
-        players.get(1).getPieceSet().placeTotoro();
+        players.get(playerID).getPieceSet().placeTotoro();
         Player winner = EndConditions.calculateWinner(player, players);
-        assertTrue(winner == players.get(1));
+        assertTrue(winner == players.get(playerID));
     }
 
     private void placeAllButTotoros() throws InvalidMoveException {
-        players.get(0).getPieceSet().placeMultipleVillagers(20);
-        players.get(1).getPieceSet().placeMultipleVillagers(20);
+        players.get(playerID).getPieceSet().placeMultipleVillagers(20);
+        players.get(opponentID).getPieceSet().placeMultipleVillagers(20);
         for(int tigers = 0; tigers < 2; tigers++) {
-            players.get(0).getPieceSet().placeTiger();
-            players.get(1).getPieceSet().placeTiger();
+            players.get(playerID).getPieceSet().placeTiger();
+            players.get(opponentID).getPieceSet().placeTiger();
         }
     }
 
@@ -125,17 +132,17 @@ public class EndConditionsStepDefs {
     @Then("^the player with the fewest remaining tigers wins$")
     public void thePlayerWithTheFewestRemainingTigersWins() throws Throwable {
         placeAllButTigers();
-        players.get(1).getPieceSet().placeTiger();
+        players.get(playerID).getPieceSet().placeTiger();
         Player winner = EndConditions.calculateWinner(player, players);
-        assertTrue(winner == players.get(1));
+        assertTrue(winner == players.get(playerID));
     }
 
     private void placeAllButTigers() throws InvalidMoveException {
-        players.get(0).getPieceSet().placeMultipleVillagers(20);
-        players.get(1).getPieceSet().placeMultipleVillagers(20);
+        players.get(playerID).getPieceSet().placeMultipleVillagers(20);
+        players.get(opponentID).getPieceSet().placeMultipleVillagers(20);
         for(int totoros = 0; totoros < 3; totoros++) {
-            players.get(0).getPieceSet().placeTotoro();
-            players.get(1).getPieceSet().placeTotoro();
+            players.get(playerID).getPieceSet().placeTotoro();
+            players.get(opponentID).getPieceSet().placeTotoro();
         }
     }
 
@@ -156,12 +163,12 @@ public class EndConditionsStepDefs {
 
     private void placeAllButVillagers() throws InvalidMoveException {
         for(int totoros = 0; totoros < 3; totoros++) {
-            players.get(0).getPieceSet().placeTotoro();
-            players.get(1).getPieceSet().placeTotoro();
+            players.get(playerID).getPieceSet().placeTotoro();
+            players.get(opponentID).getPieceSet().placeTotoro();
         }
         for(int tigers = 0; tigers < 2; tigers++) {
-            players.get(0).getPieceSet().placeTiger();
-            players.get(1).getPieceSet().placeTiger();
+            players.get(playerID).getPieceSet().placeTiger();
+            players.get(opponentID).getPieceSet().placeTiger();
         }
     }
 }

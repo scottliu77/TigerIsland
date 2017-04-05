@@ -2,7 +2,7 @@ package com.tigerisland;
 
 public class ServerSettings {
 
-    public final static String END_CODE = "THANK YOU FOR PLAYING! GOODBYE";
+    public final static String END_CODE = "END";
 
     public final static Boolean defaultOffline = true;
 

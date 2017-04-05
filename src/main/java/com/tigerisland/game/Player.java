@@ -4,14 +4,17 @@ import com.tigerisland.AI.AI;
 
 public class Player {
 
+    private int playerID;
+
     private Score score;
     private Color color;
     private PieceSet pieceSet;
     private PlayerType playerType;
     private AI playerAI;
 
-    public Player(Color color) {
+    public Player(Color color, int playerID) {
         this.color = color;
+        this.playerID = playerID;
         score = new Score();
         pieceSet = new PieceSet(color);
     }
@@ -19,6 +22,7 @@ public class Player {
     public Player(Player player){
         this.score = new Score(player.getScore());
         this.color = player.getPlayerColor();
+        this.playerID = player.getPlayerID();
         this.pieceSet = new PieceSet(player.getPieceSet());
         this.playerType = player.getPlayerType();
         try {
@@ -56,5 +60,9 @@ public class Player {
 
     public AI getPlayerAI() {
         return playerAI;
+    }
+
+    public int getPlayerID() {
+        return playerID;
     }
 }

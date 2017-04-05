@@ -16,7 +16,7 @@ public class PlayerTest {
 
     @Before
     public void createPlayer() {
-        this.playerWhite = new Player(Color.WHITE);
+        this.playerWhite = new Player(Color.WHITE, 1);
     }
 
     @Test
@@ -128,7 +128,7 @@ public class PlayerTest {
 
     @Test
     public void testCanUpdatePlayerState() {
-        Player playerCopy = new Player(Color.ORANGE);
+        Player playerCopy = new Player(Color.ORANGE, 1);
         playerWhite.updatePlayerState(playerCopy);
         assertTrue(playerCopy.getPlayerColor() == Color.ORANGE);
     }

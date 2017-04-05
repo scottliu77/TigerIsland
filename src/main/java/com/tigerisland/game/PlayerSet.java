@@ -7,53 +7,46 @@ import java.util.*;
 
 public class PlayerSet {
 
-    private int playerCount;
-    private int currentPlayer = 0;
-    private ArrayList<Player> players = new ArrayList<Player>();
+    private int currentPlayer;
+    private HashMap<Integer, Player> players = new HashMap<Integer, Player>();
 
     public PlayerSet(GlobalSettings globalSettings) {
-        for(int player = 0; player < GlobalSettings.players; player++) {
-            players.add(player, new Player(Color.values()[player]));
-        }
+        int ourPlayerID = globalSettings.getServerSettings().getPlayerID();
+        Player ourPlayer = new Player(Color.WHITE, ourPlayerID);
+
+        //TODO Confirm target AI
+        ourPlayer.setPlayerType(PlayerType.BasicAI);
+        players.put(ourPlayerID, ourPlayer);
+
+        int opponentPlayerID = globalSettings.getServerSettings().getOpponentID();
+        Player opponentPlayer = new Player(Color.BLACK, opponentPlayerID);
+        players.put(opponentPlayerID, opponentPlayer);
     }
 
     public PlayerSet(PlayerSet playerSet) {
-        this.playerCount = playerSet.getPlayerList().size();
-        this.currentPlayer = playerSet.currentPlayer;
-        this.players = new ArrayList<Player>();
-        for(Player player : playerSet.getPlayerList()) {
-            this.players.add(new Player(player));
+        this.players = new HashMap<Integer, Player>();
+        for(int key: players.keySet()) {
+            this.players.put(key, new Player(playerSet.getPlayer(key)));
         }
     }
 
-    public void setRandomAItypes() {
-        for(Player player : players) {
-            player.setPlayerType(PlayerType.pickRandomAItype());
-        }
+    public void updatePlayerState(int playerID, Player updatedPlayer) {
+        players.put(playerID, updatedPlayer);
     }
 
-    public void shufflePlayerList(){
-        Collections.shuffle(players);
-    }
-
-    public void updatePlayerState(Player updatedPlayer) {
-        players.set(currentPlayer, updatedPlayer);
-    }
-
-    public void setNextPlayer(){
-        if (currentPlayer == playerCount - 1) {
-            currentPlayer = 0;
-        } else {
-            currentPlayer++;
-        }
-    }
-
-    public Player getCurrentPlayer(){
-        return players.get(currentPlayer);
-    }
-
-    public ArrayList<Player> getPlayerList() {
+    public HashMap<Integer, Player> getPlayerList() {
         return players;
     }
 
+    public Player getPlayer(int playerID) {
+        return players.get(playerID);
+    }
+
+    public void setCurrentPlayer(int playerID) {
+        currentPlayer = playerID;
+    }
+
+    public Player getCurrentPlayer() {
+        return players.get(currentPlayer);
+    }
 }

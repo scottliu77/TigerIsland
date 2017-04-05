@@ -10,13 +10,13 @@ public class GameSettings {
     private PlayerSet playerSet;
 
     public GameSettings() {
-        this.globalSettings = new GlobalSettings();
+        this.globalSettings = setPlayerIDsIfNull(new GlobalSettings());
         this.playerSet = new PlayerSet(globalSettings);
         setPlayOrder();
     }
 
     public GameSettings(GlobalSettings settings) {
-        this.globalSettings = settings;
+        this.globalSettings = setPlayerIDsIfNull(settings);
         this.playerSet = new PlayerSet(globalSettings);
         setPlayOrder();
         setDeck();
@@ -26,6 +26,16 @@ public class GameSettings {
         this.globalSettings = gameSettings.getGlobalSettings();
         this.deck = new Deck(gameSettings.getDeck());
         this.playerSet = new PlayerSet(gameSettings.getPlayerSet());
+    }
+
+    private GlobalSettings setPlayerIDsIfNull(GlobalSettings globalSettings) {
+        if(globalSettings.getServerSettings().getPlayerID() == null) {
+            globalSettings.getServerSettings().setPlayerID(1);
+        }
+        if(globalSettings.getServerSettings().getOpponentID() == null) {
+            globalSettings.getServerSettings().setOpponentID(2);
+        }
+        return globalSettings;
     }
 
     public void setDeck() {
@@ -38,7 +48,6 @@ public class GameSettings {
     public void setPlayOrder() {
         if(globalSettings.getServerSettings().offline) {
             playerSet = new PlayerSet(globalSettings);
-            playerSet.setRandomAItypes();
             if(globalSettings.manualTesting) {
                 playerSet.getPlayerList().get(0).setPlayerType(PlayerType.HUMAN);
             }

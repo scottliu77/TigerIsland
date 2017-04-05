@@ -19,7 +19,7 @@ public class GameTest {
     private BlockingQueue<Message> inboundMessages;
     private GameSettings gameSettings;
     private Game game;
-    private Player playerBlack = new Player(Color.BLACK);
+    private Player playerBlack = new Player(Color.BLACK, 1);
 
     @Before
     public void createGame() {
@@ -32,10 +32,12 @@ public class GameTest {
     }
 
     private void setAllPlayersToServer() {
-        for(Player player : gameSettings.getPlayerSet().getPlayerList()) {
+        for(Player player : gameSettings.getPlayerSet().getPlayerList().values()) {
             player.setPlayerType(PlayerType.SERVER);
         }
+        gameSettings.getPlayerSet().setCurrentPlayer(1);
     }
+
     @Before
     public void createPlayerWithNoPieces() {
         try {
@@ -75,7 +77,7 @@ public class GameTest {
     @Test
     public void testCanTakeAnotherTurn() throws InvalidMoveException, InterruptedException {
         game.takeAnotherTurn();
-        assertTrue(game.getGameSettings().getPlayerSet().getPlayerList().get(0).getScore().getScoreValue() == 1);
+        assertTrue(game.getGameSettings().getPlayerSet().getPlayerList().get(1).getScore().getScoreValue() == 1);
     }
 
     @Test

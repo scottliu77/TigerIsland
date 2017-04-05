@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
@@ -19,7 +20,10 @@ public class PlayerSetTest {
 
     @Before
     public void createPlayerOrder() {
-        this.playerSet = new PlayerSet(new GlobalSettings());
+        GlobalSettings globalSettings = new GlobalSettings();
+        globalSettings.getServerSettings().setPlayerID(1);
+        globalSettings.getServerSettings().setOpponentID(2);
+        this.playerSet = new PlayerSet(globalSettings);
     }
 
     @Test
@@ -28,44 +32,24 @@ public class PlayerSetTest {
     }
 
     @Test
-    public void testCanShuffleOrderOfPlayers() {
-        playerSet.shufflePlayerList();
-        assertTrue(true);
-    }
-
-    @Test
-    public void testCanGetCurrentPlayer() {
+    public void testCanSetAndGetCurrentPlayer() {
+        playerSet.setCurrentPlayer(1);
         assertTrue(playerSet.getCurrentPlayer() != null);
     }
 
     @Test
-    public void testCanSetNextPlayer() {
-        Color nextPlayerString = playerSet.getPlayerList().get(1).getPlayerColor();
-        playerSet.setNextPlayer();
-        Color currentPlayerString = playerSet.getCurrentPlayer().getPlayerColor();
-        assertTrue(nextPlayerString.equals(currentPlayerString));
-    }
-
-    @Test
-    public void testThatPlayerOrderLoopsAfterLastPlayer() {
-        for(int turns = 0; turns < 1; turns ++) {
-            playerSet.setNextPlayer();
-        }
-        assertTrue(playerSet.getCurrentPlayer().getPlayerColor() == Color.WHITE);
-    }
-
-    @Test
     public void testCanGetPlayerList() {
-        ArrayList<Player> players = playerSet.getPlayerList();
+        HashMap<Integer, Player> players = playerSet.getPlayerList();
         GlobalSettings globalSettings = new GlobalSettings();
         assertTrue(players != null && players.size() ==  globalSettings.players);
     }
 
     @Test
     public void testCanUpdatePlayerState() throws InvalidMoveException {
+        playerSet.setCurrentPlayer(1);
         Player updatedPlayer = playerSet.getCurrentPlayer();
         updatedPlayer.getScore().addPoints(20);
-        playerSet.updatePlayerState(updatedPlayer);
+        playerSet.updatePlayerState(1, updatedPlayer);
     }
 
 }

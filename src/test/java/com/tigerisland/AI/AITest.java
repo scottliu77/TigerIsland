@@ -28,7 +28,7 @@ public class AITest {
     @Before
     public void createMocks() {
         gameSettings = new GameSettings(new GlobalSettings());
-        testPlayer = new Player(Color.BLACK);
+        testPlayer = new Player(Color.BLACK, 1);
         testPlayerType = PlayerType.BasicAI;
         testPlayer.setPlayerType(testPlayerType);
         turnState = new Turn(testPlayer, new Board());
