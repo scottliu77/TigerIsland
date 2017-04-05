@@ -118,4 +118,54 @@ public class AI_InfoTest {
 
     }
 
+    @Test
+    public void testForTotoroValidation() throws InvalidMoveException {
+        placeTilesForTest2();
+
+        ArrayList<Location> legalTotoroPlacements = AI_Info.returnValidTotoroPlacements(p1.getPlayerColor(), board);
+        assert(legalTotoroPlacements.size()==0);
+
+        setUpBoardForTotoroAndTigerTests();
+
+        ArrayList<Location> legalTotoroPlacementsP1 = AI_Info.returnValidTotoroPlacements(p1.getPlayerColor(), board);
+        ArrayList<Location> legalTotoroPlacementsP2 = AI_Info.returnValidTotoroPlacements(p2.getPlayerColor(), board);
+
+        assert(legalTotoroPlacementsP1.size()==0);
+        assert(legalTotoroPlacementsP2.size()==2);
+    }
+
+    @Test
+    public void testForTigerValidation() throws InvalidMoveException {
+        placeTilesForTest2();
+
+
+        ArrayList<Location> legalTigerPlacements = AI_Info.returnValidTigerPlacements(p1.getPlayerColor(), board);
+        assert(legalTigerPlacements.size()==0);
+
+        setUpBoardForTotoroAndTigerTests();
+
+        ArrayList<Location> legalTigerPlacementsP1 = AI_Info.returnValidTigerPlacements(p1.getPlayerColor(), board);
+        ArrayList<Location> legalTigerPlacementsP2 = AI_Info.returnValidTigerPlacements(p2.getPlayerColor(), board);
+
+        assert(legalTigerPlacementsP1.size()==1);
+        assert(legalTigerPlacementsP2.size()==2);
+    }
+
+    public void setUpBoardForTotoroAndTigerTests() throws InvalidMoveException{
+        board.createVillage(p1,new Location(2,-1));
+        board.createVillage(p2,new Location(3,-2));
+
+        board.updateSettlements();
+        board.expandVillage(p2, new Location(3,-2), Terrain.ROCKY);
+
+        board.updateSettlements();
+        board.createVillage(p2,new Location(1,-3));
+
+        board.updateSettlements();
+        board.expandVillage(p2, new Location(3,-2), Terrain.LAKE);
+
+        board.updateSettlements();
+        board.expandVillage(p2, new Location(3,-2), Terrain.ROCKY);
+    }
+
 }
