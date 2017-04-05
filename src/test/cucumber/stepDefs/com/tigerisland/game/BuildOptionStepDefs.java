@@ -131,7 +131,7 @@ public class BuildOptionStepDefs{
 
     }
 
-    @Given("^a hex is of level three or greater$")
+    @Given("^a volcano hex is of level three or greater$")
     public void addVolcanoHexOfLevelThreeToBoard() {
         expectedErrorMessage = "Cannot place a piece on a volcano hex";
         Hex volcanoHex = new Hex("volcanoHex", Terrain.VOLCANO, 3);
@@ -172,6 +172,42 @@ public class BuildOptionStepDefs{
         placedHexes.add(targetHex);
 
         board.placedHexes = placedHexes;
+    }
+
+    @Given("^a settlement adjacent to a level three valid hex$")
+    public void aSettlementAdjacentToALevelThreeHex() {
+        Hex hex1 = new Hex("hex1", Terrain.LAKE);
+        hex1.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        Location loc1 = new Location(0,0);
+        PlacedHex placedHex1 = new PlacedHex(hex1, loc1);
+        placedHexes.add(placedHex1);
+
+        Hex hex2 = new Hex("hex2", Terrain.GRASSLANDS, 3);
+        Location loc2 = new Location(0,1);
+        targetHex = new PlacedHex(hex2, loc2);
+        placedHexes.add(targetHex);
+
+        Settlement settlement = new Settlement(placedHex1, placedHexes);
+        board.placedHexes = this.placedHexes;
+        board.settlements.add(settlement);
+    }
+
+    @Given("^a settlement adjacent to a level four valid hex$")
+    public void aSettlementAdjacentToALevelFourValidHex() {
+        Hex hex1 = new Hex("hex1", Terrain.LAKE);
+        hex1.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        Location loc1 = new Location(0,0);
+        PlacedHex placedHex1 = new PlacedHex(hex1, loc1);
+        placedHexes.add(placedHex1);
+
+        Hex hex2 = new Hex("hex2", Terrain.GRASSLANDS, 4);
+        Location loc2 = new Location(0,1);
+        targetHex = new PlacedHex(hex2, loc2);
+        placedHexes.add(targetHex);
+
+        Settlement settlement = new Settlement(placedHex1, placedHexes);
+        board.placedHexes = this.placedHexes;
+        board.settlements.add(settlement);
     }
 
     @Given("^a settlement that is of your own color and an adjacent Volcano hex$")
@@ -678,4 +714,6 @@ public class BuildOptionStepDefs{
 
         return placedHex5;
     }
+
+
 }
