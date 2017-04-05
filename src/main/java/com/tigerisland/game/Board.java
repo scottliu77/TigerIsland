@@ -15,8 +15,26 @@ public class Board{
     public Board(){
         placedHexes = new ArrayList<PlacedHex>();
         edgeSpaces = new ArrayList<Location>();
-        edgeSpaces.add(new Location(0,0));
         settlements = new ArrayList<Settlement>();
+        edgeSpaces.add(new Location(0,0));
+        //setUpStartingHexes();
+            //ToDo We have reached a problem, where there are now starting hexes, and almost every test relies on the fact
+            //ToDo      that there are no starting hexes.....
+            //ToDo      I have tested to make sure that setUpStartingHexes() works correctly.
+            //ToDo      Now it's just a matter of changing all the tests to reflect starting hexes.
+    }
+    private void setUpStartingHexes() {
+        try {
+            String startID = "000000000000000000000000000000000000";
+            placeHex(new Hex(startID, Terrain.VOLCANO), new Location(0, 0));
+            placeHex(new Hex(startID, Terrain.JUNGLE), new Location(-1, 1));
+            placeHex(new Hex(startID, Terrain.LAKE), new Location(0, 1));
+            placeHex(new Hex(startID, Terrain.GRASSLANDS), new Location(1, -1));
+            placeHex(new Hex(startID, Terrain.ROCKY), new Location(0, -1));
+        }
+        catch (InvalidMoveException e){
+            System.out.println("This statement should literally never be printed");
+        }
     }
 
     public Board(Board board){
