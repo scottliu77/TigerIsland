@@ -155,7 +155,7 @@ public class BoardTest{
         board.placedHexes = this.placedHexes;
         board.settlements.add(settlement);
 
-        assertTrue(board.playerHasSettlementThatCouldAcceptTotoro(player) == false);
+        assertFalse(board.settlementsThatCouldAcceptTotoroForGivenPlayer(player).size() > 0);
 
         Hex hex5 = new Hex("hex5", Terrain.LAKE);
         Hex hex6 = new Hex("hex6", Terrain.LAKE);
@@ -175,11 +175,15 @@ public class BoardTest{
         board.updateSettlements();
 
 
-        assertTrue(board.playerHasSettlementThatCouldAcceptTotoro(player) == true);
+        assertTrue(board.settlementsThatCouldAcceptTotoroForGivenPlayer(player).size() > 0);
 
+        placedHexes.remove(placedHex6);
         hex6 = new Hex("hex6", Terrain.VOLCANO);
+        placedHex6 = new PlacedHex(hex6, loc6);
+        placedHexes.add(placedHex6);
 
-        assertFalse(board.playerHasSettlementThatCouldAcceptTotoro(player) == false);
+
+        assertFalse(board.settlementsThatCouldAcceptTotoroForGivenPlayer(player).size() > 0);
 
 
     }

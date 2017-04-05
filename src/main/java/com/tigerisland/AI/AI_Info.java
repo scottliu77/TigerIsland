@@ -87,7 +87,6 @@ public class AI_Info {
     }
 
     public static ArrayList<SettlementAndTerrainListPair> returnValidVillageExpansions(Player player, Board board){
-        //ToDo Test this
         ArrayList<SettlementAndTerrainListPair> validVillageExpansions = new ArrayList<SettlementAndTerrainListPair>();
         for(Settlement settlement : board.getSettlements()){
             if(!settlement.getColor().equals(player.getPlayerColor())){

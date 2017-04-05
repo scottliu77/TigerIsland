@@ -397,13 +397,14 @@ public class Board{
         return false;
     }
 
-    public boolean playerHasSettlementThatCouldAcceptTotoro(Player player){
+    public ArrayList<Settlement> settlementsThatCouldAcceptTotoroForGivenPlayer(Player player){
+        ArrayList<Settlement> settlementsThatCouldAcceptTotoro = new ArrayList<Settlement>();
         for(Settlement settlement : settlements) {
-            if (settlement.getColor() == player.getPlayerColor() && settlement.size() >= SIZE_REQUIRED_FOR_TOTORO && settlement.containsTotoro() == false) {
-                return settlement.isExpandable(placedHexes);
+            if (settlement.getColor() == player.getPlayerColor() && settlement.size() >= SIZE_REQUIRED_FOR_TOTORO && settlement.containsTotoro() == false && settlement.isExpandable(placedHexes)) {
+                settlementsThatCouldAcceptTotoro.add(settlement);
             }
         }
-        return false;
+        return settlementsThatCouldAcceptTotoro;
     }
 
     public boolean playerHasSettlementThatCouldAcceptTiger(Player player) {
