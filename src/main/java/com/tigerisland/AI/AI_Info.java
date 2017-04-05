@@ -13,7 +13,7 @@ public class AI_Info {
     private static int y_lowerBound;
     private static int y_upperBound;
 
-    public static ArrayList<TilePlacement> returnValidTilePlacements(Tile tile, Board board){
+    public synchronized static ArrayList<TilePlacement> returnValidTilePlacements(Tile tile, Board board){
         ArrayList<TilePlacement> validTilePlacements = new ArrayList<TilePlacement>();
         getBoundsOfBoard(board);
         for(int xx=x_lowerBound-1; xx<=x_upperBound+1; xx++){
