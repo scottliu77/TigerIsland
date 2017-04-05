@@ -100,16 +100,37 @@ public class AI_Info {
         //Returns a list where every object in the list is a pair including a settlement and the list of terrains it can expand into
     }
 
-    public static ArrayList<Location> returnValidTotoroPlacments(Player player, Board board){
-        //ToDo
+    public static ArrayList<Location> returnValidTotoroPlacements(Color color, Board board){
         ArrayList<Location> listOfValidPlacements = new ArrayList<Location>();
         ArrayList<PlacedHex> placedHexes = board.getPlacedHexes();
-
-        return null;
+        for(PlacedHex ph : placedHexes) {
+            if(ph.isEmpty() && ph.isNotVolcano()) {
+                ArrayList<Settlement> settlements = board.findAdjacentSettlementsToLocation(ph.getLocation());
+                for (Settlement ss : settlements) {
+                    if (ss.getColor()==color && !ss.containsTotoro() && ss.size()>=Board.SIZE_REQUIRED_FOR_TOTORO) {
+                        listOfValidPlacements.add(ph.getLocation());
+                        break;
+                    }
+                }
+            }
+        }
+        return listOfValidPlacements;
     }
 
-    public static ArrayList<Location> returnValidTigerPlacements(Player player, Board board){
-        //ToDo
-        return null;
+    public static ArrayList<Location> returnValidTigerPlacements(Color color, Board board){
+        ArrayList<Location> listOfValidPlacements = new ArrayList<Location>();
+        ArrayList<PlacedHex> placedHexes = board.getPlacedHexes();
+        for(PlacedHex ph : placedHexes) {
+            if(ph.isEmpty() && ph.getHeight()>=Board.HEIGHT_REQUIRED_FOR_TIGER && ph.isNotVolcano()) {
+                ArrayList<Settlement> settlements = board.findAdjacentSettlementsToLocation(ph.getLocation());
+                for (Settlement ss : settlements) {
+                    if (ss.getColor()==color && !ss.containsTiger()) {
+                        listOfValidPlacements.add(ph.getLocation());
+                        break;
+                    }
+                }
+            }
+        }
+        return listOfValidPlacements;
     }
 }

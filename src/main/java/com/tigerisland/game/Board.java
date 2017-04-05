@@ -5,8 +5,8 @@ import com.tigerisland.InvalidMoveException;
 import java.util.*;
 
 public class Board{
-    static final int SIZE_REQUIRED_FOR_TOTORO = 5;
-    static final int HEIGHT_REQUIRED_FOR_TIGER = 3;
+    public static final int SIZE_REQUIRED_FOR_TOTORO = 5;
+    public static final int HEIGHT_REQUIRED_FOR_TIGER = 3;
 
     protected ArrayList<PlacedHex> placedHexes;
     protected ArrayList<Location> edgeSpaces;
