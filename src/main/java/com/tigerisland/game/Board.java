@@ -23,7 +23,9 @@ public class Board{
             //ToDo      I have tested to make sure that setUpStartingHexes() works correctly.
             //ToDo      Now it's just a matter of changing all the tests to reflect starting hexes.
     }
-    private void setUpStartingHexes() {
+    //ToDo As of now, it seems there is little choice other than to call "setUpStartingHexes()" on each created instance of board.
+    //ToDo      (As opposed to putting it in the constructor)
+    public void setUpStartingHexes() {
         try {
             String startID = "000000000000000000000000000000000000";
             placeHex(new Hex(startID, Terrain.VOLCANO), new Location(0, 0));
