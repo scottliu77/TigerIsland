@@ -429,14 +429,6 @@ public class Board{
         return false;
     }
 
-    public ArrayList<Location> locationsOfPlacedHexes(){
-        ArrayList<Location> locationsOfPlacedHexes = new ArrayList<Location>();
-        for(PlacedHex placedHex : placedHexes){
-            locationsOfPlacedHexes.add(placedHex.getLocation());
-        }
-        return  locationsOfPlacedHexes;
-    }
-
     public void placeTotoro(Player player, Location location) throws InvalidMoveException{
         PlacedHex targetHex = placedHexAtLocation(location);
         ArrayList<Settlement> adjacentSettlementsToTargetLocation = findAdjacentSettlementsToLocation(location);
