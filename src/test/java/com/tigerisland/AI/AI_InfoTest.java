@@ -88,6 +88,25 @@ public class AI_InfoTest {
     }
 
     @Test
+    public void testReturnValidVillagePlacements() throws InvalidMoveException {
+        placeTilesForValidVillagePlacement();
+        ArrayList<Location> possiblePlacements = AI_Info.returnValidVillagePlacements(board);
+        assertTrue(possiblePlacements.size() == 4);
+    }
+
+    public void placeTilesForValidVillagePlacement() throws InvalidMoveException {
+        Tile tile1 = new Tile(Terrain.JUNGLE,Terrain.JUNGLE);
+        Location loc1 = new Location(0,0);
+
+
+        Tile tile2 = new Tile(Terrain.ROCKY,Terrain.ROCKY);
+        Location loc2 = new Location(-1,0);
+
+        board.placeTile(tile1, loc1, 240);
+        board.placeTile(tile2, loc2, 60);
+    }
+
+    @Test
     public void testReturnValidSettlementExpansions() throws InvalidMoveException{
         placeTilesForValidExpansionTest();
         board.updateSettlements();
