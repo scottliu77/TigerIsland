@@ -417,10 +417,10 @@ public class Board{
         return false;
     }
 
-    public ArrayList<Settlement> settlementsThatCouldAcceptTotoroForGivenPlayer(Player player){
+    public ArrayList<Settlement> settlementsThatCouldAcceptTotoroForGivenPlayer(Color color){
         ArrayList<Settlement> settlementsThatCouldAcceptTotoro = new ArrayList<Settlement>();
         for(Settlement settlement : settlements) {
-            if (settlement.getColor() == player.getPlayerColor() && settlement.size() >= SIZE_REQUIRED_FOR_TOTORO && settlement.containsTotoro() == false && settlement.isExpandable(placedHexes)) {
+            if (settlement.getColor() == color && settlement.size() >= SIZE_REQUIRED_FOR_TOTORO && settlement.containsTotoro() == false && settlement.isExpandable(placedHexes)) {
                 settlementsThatCouldAcceptTotoro.add(settlement);
             }
         }
@@ -533,6 +533,10 @@ public class Board{
 
     public ArrayList<Settlement> getSettlements(){
         return settlements;
+    }
+
+    public void addSettlementToBoard(Settlement settlement){
+        placedHexes.addAll(settlement.hexesInSettlement);
     }
 
 }

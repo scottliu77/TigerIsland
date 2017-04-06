@@ -1,5 +1,7 @@
 package com.tigerisland.game;
 
+import java.util.ArrayList;
+
 public class TilePlacement {
 
     private Tile tile = null;

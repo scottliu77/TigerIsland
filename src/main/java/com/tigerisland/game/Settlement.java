@@ -131,4 +131,25 @@ public class Settlement {
         return hexesInSettlement;
     }
 
+    public ArrayList<Location> findEmptyHexesAdjacentToSettlement(ArrayList<PlacedHex> placedHexes){
+        ArrayList<Location> locationsOfAdjacentHexesToSettlement = new ArrayList<Location>();
+        for(PlacedHex hexInSettlement : hexesInSettlement){
+            ArrayList<PlacedHex> hexesAdjacentToCurrentHex = findAdjacentHexesFromPlacedHex(hexInSettlement, placedHexes);
+            for(PlacedHex hexAdjacentToCurrentHex : hexesAdjacentToCurrentHex){
+                if(hexAdjacentToCurrentHex.isNotVolcano() && hexAdjacentToCurrentHex.isEmpty() && !locationsOfAdjacentHexesToSettlement.contains(hexAdjacentToCurrentHex.getLocation())){
+                    locationsOfAdjacentHexesToSettlement.add(hexAdjacentToCurrentHex.getLocation());
+                }
+            }
+        }
+        return locationsOfAdjacentHexesToSettlement;
+    }
+
+    public ArrayList<Location> getLocationsOfHexesInSettlement() {
+        ArrayList<Location> locationsOfHexesInSettlement = new ArrayList<Location>();
+        for(PlacedHex hexInSettlement : hexesInSettlement){
+            locationsOfHexesInSettlement.add(hexInSettlement.getLocation());
+        }
+        return locationsOfHexesInSettlement;
+    }
+
 }

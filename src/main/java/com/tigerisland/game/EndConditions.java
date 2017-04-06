@@ -40,7 +40,7 @@ public final class EndConditions {
         if(currentPlayer.getPieceSet().getNumberOfTotoroRemaining() == 0){
             return true;
         } else {
-            return (board.settlementsThatCouldAcceptTotoroForGivenPlayer(currentPlayer).size() <= 0);
+            return (board.settlementsThatCouldAcceptTotoroForGivenPlayer(currentPlayer.getPlayerColor()).size() <= 0);
         }
     }
 
