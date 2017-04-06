@@ -187,4 +187,20 @@ public class AI_InfoTest {
         board.expandVillage(p2, new Location(3,-2), Terrain.ROCKY);
     }
 
+    @Test
+    public void testForFindingNukableTotoroAcceptingSettlements() throws InvalidMoveException {
+        placeTilesForTest2();
+        setUpBoardForTotoroAndTigerTests();
+        Tile tileThatWillHostVolcanoToNukeFrom = new Tile(Terrain.GRASSLANDS, Terrain.GRASSLANDS);
+        Location locationForVolcanoToNukeFrom = new Location(1, -4);
+        board.placeTile(tileThatWillHostVolcanoToNukeFrom, locationForVolcanoToNukeFrom, 240);
+        Tile tileThatWillHostVolcanoToNukeFrom1 = new Tile(Terrain.GRASSLANDS, Terrain.GRASSLANDS);
+        Location locationForVolcanoToNukeFrom1 = new Location(2, -4);
+        board.placeTile(tileThatWillHostVolcanoToNukeFrom1, locationForVolcanoToNukeFrom1, 300);
+        board.updateSettlements();
+        Tile tile = new Tile(Terrain.JUNGLE, Terrain.LAKE);
+        ArrayList<TilePlacement> tilePlacementsThatWouldPreventTotoroPlacement = AI_Info.findNukableLocationsToStopOpposingPlayerFromMakingTotoroPlacement(p2.getPlayerColor(),board, tile);
+        assertTrue(tilePlacementsThatWouldPreventTotoroPlacement.size() == 3);
+    }
+
 }
