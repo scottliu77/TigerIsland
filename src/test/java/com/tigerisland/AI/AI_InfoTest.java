@@ -187,4 +187,32 @@ public class AI_InfoTest {
         board.expandVillage(p2, new Location(3,-2), Terrain.ROCKY);
     }
 
+    @Test
+    public void testCanFindNoHabitableLevelThreeHexes() throws InvalidMoveException {
+       ArrayList<PlacedHex> habitableLevelThreeHexes = AI_Info.findEmptyHabitableLevelThreePlacedHexes(board);
+       assertTrue(habitableLevelThreeHexes.size() == 0);
+    }
+
+    @Test
+    public void testCanFindHabitableLevelThreeHexes() throws InvalidMoveException {
+        setUpBoardForFindingLevelThreeHexes();
+        ArrayList<PlacedHex> habitableLevelThreeHexes = AI_Info.findEmptyHabitableLevelThreePlacedHexes(board);
+        ArrayList<PlacedHex> expected = new ArrayList<PlacedHex>();
+        Hex hex = new Hex("hex", Terrain.GRASSLANDS, 3);
+        Location location = new Location(0, 0);
+        PlacedHex placedHex = new PlacedHex(hex, location);
+        expected.add(placedHex);
+        System.out.println(habitableLevelThreeHexes.size());
+        System.out.println(expected.size());
+        assertTrue(habitableLevelThreeHexes.size() == expected.size());
+    }
+
+    private void setUpBoardForFindingLevelThreeHexes() {
+        Hex hex = new Hex("hex", Terrain.GRASSLANDS, 3);
+        Location location = new Location(0, 0);
+        PlacedHex placedHex = new PlacedHex(hex, location);
+        ArrayList<PlacedHex> placedHexes = board.getPlacedHexes();
+        placedHexes.add(placedHex);
+
+    }
 }

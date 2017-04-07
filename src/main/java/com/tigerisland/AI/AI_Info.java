@@ -165,4 +165,19 @@ public class AI_Info {
         return settlementsThatCouldAcceptTotoro.size() == 0;
     }
 
+    public static ArrayList<PlacedHex> findEmptyHabitableLevelThreePlacedHexes(Board board) {
+        ArrayList<PlacedHex> placedHexes = board.getPlacedHexes();
+        ArrayList<PlacedHex> habitableLevelThreeHexes = new ArrayList<PlacedHex>();
+        for(int i = 0; i < placedHexes.size(); i++) {
+            PlacedHex currentPlacedHex = placedHexes.get(i);
+            if(currentPlacedHex.isEmpty() && currentPlacedHex.isNotVolcano()) {
+                Hex currentHex = currentPlacedHex.getHex();
+                if(currentHex.getHeight() >= board.HEIGHT_REQUIRED_FOR_TIGER) {
+                    habitableLevelThreeHexes.add(currentPlacedHex);
+                }
+            }
+        }
+        return habitableLevelThreeHexes;
+    }
+
 }
