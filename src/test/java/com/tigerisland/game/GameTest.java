@@ -18,7 +18,7 @@ public class GameTest {
     private BlockingQueue<Message> inboundMessages;
     private GameSettings gameSettings;
     private Game game;
-    private Player playerBlack = new Player(Color.BLACK, 1);
+    private Player playerBlack = new Player(Color.BLACK, 1, PlayerType.SAFEAI);
 
     @Before
     public void createGame() {

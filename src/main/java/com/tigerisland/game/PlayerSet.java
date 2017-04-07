@@ -11,14 +11,13 @@ public class PlayerSet {
 
     public PlayerSet(GlobalSettings globalSettings) {
         int ourPlayerID = globalSettings.getServerSettings().getPlayerID();
-        Player ourPlayer = new Player(Color.WHITE, ourPlayerID);
+        Player ourPlayer = new Player(Color.WHITE, ourPlayerID, PlayerType.TOTOROLINESAI);
 
         //TODO Confirm target AI
-        ourPlayer.setPlayerType(PlayerType.SAFEAI);
         players.put(ourPlayerID, ourPlayer);
 
         int opponentPlayerID = globalSettings.getServerSettings().getOpponentID();
-        Player opponentPlayer = new Player(Color.BLACK, opponentPlayerID);
+        Player opponentPlayer = new Player(Color.BLACK, opponentPlayerID, PlayerType.SERVER);
         players.put(opponentPlayerID, opponentPlayer);
     }
 

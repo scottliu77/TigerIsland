@@ -35,7 +35,7 @@ public class UpdateSettlementsStepDefs {
     public UpdateSettlementsStepDefs() {
         this.board = new Board();
         this.placedHexes = new ArrayList<PlacedHex>();
-        this.player = new Player(Color.BLACK, 1);
+        this.player = new Player(Color.BLACK, 1, PlayerType.SAFEAI);
     }
 
     @Given("^a player creates a new settlement$")

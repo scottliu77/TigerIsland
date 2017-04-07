@@ -18,12 +18,11 @@ public class TotoroLinesAI extends AI {
 
     private ArrayList<Location> plannedSettlementLocations;
 
-    public TotoroLinesAI(PlayerType playerType){
-        super(playerType);
+    public TotoroLinesAI(){
         plannedSettlementLocations = new ArrayList<Location>();
     }
 
-    public void pickTilePlacementAndBuildAction(){
+    public void decideOnMove(){
         gatherInfo();
         if(canPlaceTotoro()){
             placeTotoro();

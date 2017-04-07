@@ -23,7 +23,7 @@ public class _TotoroLinesAITest {
 
         turnState = new Turn(gameSettings, board);
 
-        myAI = new AI(PlayerType.TOTOROLINESAI);
+        myAI = new TotoroLinesAI();
         hasPlacedTotoro = false;
     }
 

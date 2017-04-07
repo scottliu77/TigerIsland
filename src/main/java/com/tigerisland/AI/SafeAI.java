@@ -5,13 +5,8 @@ import com.tigerisland.messenger.Adapter;
 
 public class SafeAI extends AI {
 
-    private PlayerType playerType;
 
-    SafeAI(PlayerType playerType) {
-        super(playerType);
-    }
-
-    public void pickTilePlacementAndBuildAction() {
+    public void decideOnMove() {
         pickSafeTilePlacement();
         pickSafeBuildAction();
     }
@@ -41,9 +36,8 @@ public class SafeAI extends AI {
     }
 
     private void pickSafeBuildAction() {
-        buildLocation = new Location(buildLocation.x + 1, buildLocation.y);
+        buildLocation = new Location(tilePlacement.getLocation().x + 1, tilePlacement.getLocation().y);
         buildActionType = BuildActionType.VILLAGECREATION;
-
     }
 
 }

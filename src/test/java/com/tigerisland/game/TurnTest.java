@@ -21,7 +21,7 @@ public class TurnTest {
 
     @Before
     public void createTurnObject() {
-        player = new Player(Color.BLACK, 1);
+        player = new Player(Color.BLACK, 1, PlayerType.SAFEAI);
         board = new Board();
         gameSettings = new GameSettings();
         gameSettings.getPlayerSet().setCurrentPlayer(1);
