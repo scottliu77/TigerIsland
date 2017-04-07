@@ -12,7 +12,7 @@ public enum BuildActionType {
         this.moveString = moveString;
     }
 
-    public String getMoveString() {
+    public String getBuildString() {
         return moveString;
     }
 }

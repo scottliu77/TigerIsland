@@ -4,6 +4,7 @@ import com.tigerisland.GameSettings;
 import com.tigerisland.GlobalSettings;
 import com.tigerisland.InvalidMoveException;
 import com.tigerisland.messenger.Message;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.Before;
 
@@ -27,7 +28,6 @@ public class GameTest {
         this.gameSettings.setPlayOrder();
         setAllPlayersToServer();
         this.game = new Game(gameSettings);
-        placeDummyTilePlacementAndBuildInQueue();
     }
 
     private void setAllPlayersToServer() {
@@ -92,7 +92,13 @@ public class GameTest {
 
     @Test
     public void testCanPlaceStartingTileOfGame() throws InvalidMoveException {
-        game.placeStartingTile();
+        game.board.placeStartingTile();
         assertTrue(game.getBoard().placedHexes.size() == 5);
+    }
+
+    @Ignore("Ignoring can run game test") @Test
+    public void testCanRunGame() {
+        Thread gameThread = new Thread(game);
+        gameThread.run();
     }
 }

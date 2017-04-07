@@ -49,7 +49,7 @@ public class Client implements Runnable {
             }
         } catch (InterruptedException exception) {
             closeLocalServer();
-            ConsoleOut.printClientMessage("Interrupted - Client is now closing");
+            System.out.println("CLIENT: Interrupted - Client is now closing");
         } catch (IOException exception) {
             System.out.println(exception);
         } finally {
@@ -64,7 +64,7 @@ public class Client implements Runnable {
     protected void processInboundMessages() throws InterruptedException, IOException {
         if ((reader.ready())) {
             String message = reader.readLine();
-            ConsoleOut.printServerMessage(message);
+            System.out.println("SERVER: " + message);
             inboundQueue.put(new Message(message));
         }
     }
@@ -72,7 +72,7 @@ public class Client implements Runnable {
     protected void processOutboundMessages() throws InterruptedException {
         if(outboundQueue.size() > 0) {
             String message = outboundQueue.take().message;
-            ConsoleOut.printClientMessage(message);
+            System.out.println("CLIENT: " + message);
             writer.println(message);
         }
     }

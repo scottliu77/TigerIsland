@@ -76,7 +76,7 @@ public class SystemSetupStepDefs {
         try {
             for (String move : moves) {
                 for (BuildActionType buildActionType : BuildActionType.values()) {
-                    if(buildActionType.getMoveString().equals(move)) {
+                    if(buildActionType.getBuildString().equals(move)) {
                         movesToCheck--;
                     }
 

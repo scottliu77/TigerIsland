@@ -2,7 +2,6 @@ package com.tigerisland.game;
 
 import com.tigerisland.GameSettings;
 import com.tigerisland.InvalidMoveException;
-import com.tigerisland.messenger.ConsoleOut;
 import com.tigerisland.messenger.Message;
 import com.tigerisland.messenger.MessageType;
 
@@ -26,7 +25,7 @@ public class Game implements Runnable {
     public void run() {
         try {
 
-            placeStartingTile();
+            board.placeStartingTile();
 
             while(true) {
 
@@ -46,23 +45,15 @@ public class Game implements Runnable {
 
             }
         } catch (InterruptedException exception) {
-            ConsoleOut.printGameMessage(gameID, "was INTERRUPTED");
+            offlineGenerateGameOverEcho("GAME " + gameID + " MOVE " + turnState.getMoveID() + " PLAYER " + turnState.getCurrentPlayer().getPlayerID() + " FORFEITED: ILLEGAL TILE PLACEMENT");
 
         } catch (InvalidMoveException exception) {
-            ConsoleOut.printGameMessage(gameID, "had an INVALID MOVE\t( " + exception.getMessage() + " )\n");
+            offlineGenerateGameOverEcho("GAME " + gameID + " MOVE " + turnState.getMoveID() + " PLAYER " + turnState.getCurrentPlayer().getPlayerID() + " FORFEITED: ILLEGAL TILE PLACEMENT");
 
         } finally {
             Player winner = EndConditions.calculateWinner(gameSettings.getPlayerSet().getCurrentPlayer(), gameSettings.getPlayerSet().getPlayerList());
-            ConsoleOut.printGameMessage(gameID, "The winner was player " + winner.getPlayerType().getTypeString() + " " + winner.getPlayerColor().getColorString() );
+            offlineGenerateGameOverEcho("GAME " + gameID + " OVER PLAYER " + winner.getPlayerID() + " " + winner.getScore().getScoreValue() + " PLAYER 0 75");
         }
-    }
-
-    protected void placeStartingTile() throws InvalidMoveException {
-        board.placeHex(new Hex("00", Terrain.VOLCANO), new Location(0, 0));
-        board.placeHex(new Hex("00", Terrain.JUNGLE), new Location(-1, 1));
-        board.placeHex(new Hex("00", Terrain.LAKE), new Location(0, 1));
-        board.placeHex(new Hex("00", Terrain.GRASSLANDS), new Location(1, -1));
-        board.placeHex(new Hex("00", Terrain.ROCKY), new Location(0, -1));
     }
 
     protected void checkForMoveToProcess() throws InvalidMoveException, InterruptedException {
@@ -78,12 +69,16 @@ public class Game implements Runnable {
     }
 
     protected void checkForMakeMove() throws InvalidMoveException, InterruptedException {
-        for(Message message : gameSettings.getGlobalSettings().inboundQueue) {
-            if(message.getMessageType() == MessageType.MAKEMOVE) {
-                message.setProcessed();
-                turnState.updateTurn(message);
-                turnState.getCurrentPlayer().getPlayerAI().pickTilePlacementAndBuildAction(turnState);
-                turnState.processMove();
+        if(gameSettings.getGlobalSettings().getServerSettings().offline) {
+            turnState.getCurrentPlayer().getPlayerAI().pickTilePlacementAndBuildAction(turnState);
+        } else {
+            for(Message message : gameSettings.getGlobalSettings().inboundQueue) {
+                if(message.getMessageType() == MessageType.MAKEMOVE) {
+                    message.setProcessed();
+                    turnState.updateTurn(message);
+                    turnState.getCurrentPlayer().getPlayerAI().pickTilePlacementAndBuildAction(turnState);
+                    turnState.processMove();
+                }
             }
         }
     }
@@ -131,6 +126,12 @@ public class Game implements Runnable {
             }
         }
         return false;
+    }
+
+    private void offlineGenerateGameOverEcho(String message) {
+        if(gameSettings.getGlobalSettings().getServerSettings().offline) {
+            gameSettings.getGlobalSettings().outboundQueue.add(new Message(message));
+        }
     }
 
     public GameSettings getGameSettings() {

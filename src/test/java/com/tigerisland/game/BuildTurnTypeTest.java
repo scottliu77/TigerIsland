@@ -1,6 +1,5 @@
 package com.tigerisland.game;
 
-import com.tigerisland.game.BuildActionType;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
@@ -14,6 +13,6 @@ public class BuildTurnTypeTest {
 
     @Test
     public void testCanGetMoveTypeString() {
-        assertTrue(BuildActionType.TOTOROPLACEMENT.getMoveString().equals("TotoroPlacement"));
+        assertTrue(BuildActionType.TOTOROPLACEMENT.getBuildString().equals("TotoroPlacement"));
     }
 }

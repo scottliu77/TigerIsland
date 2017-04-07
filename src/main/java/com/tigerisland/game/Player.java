@@ -25,11 +25,11 @@ public class Player {
         this.playerID = player.getPlayerID();
         this.pieceSet = new PieceSet(player.getPieceSet());
         this.playerType = player.getPlayerType();
-        try {
-            this.playerAI = new AI(player.getPlayerAI());
-        } catch (NullPointerException exception) {
-            // Ignore this
-        }
+//        try {
+//            this.playerAI = new AI(player.getPlayerAI());
+//        } catch (NullPointerException exception) {
+//            // Ignore this
+//        }
     }
 
     public void updatePlayerState(Player updatedPlayer) {

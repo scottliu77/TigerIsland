@@ -74,6 +74,7 @@ public class LocalServer implements Runnable {
         Messenger(Socket socket, GlobalSettings globalSettings) {
             this.dummySocket = socket;
             this.globalSettings = globalSettings;
+
             this.messagesReceived = globalSettings.messagesReceived;
             try {
                 this.writer = new PrintWriter(dummySocket.getOutputStream(), true);
@@ -172,11 +173,43 @@ public class LocalServer implements Runnable {
         private void sendNewRound() {
 
             writer.println("NEW MATCH BEGINNING NOW YOUR OPPONENT IS PLAYER 13");
+
+            waitForGameEnd();
+        }
+
+        private void waitForGameEnd() {
             try {
-                sleep(10000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                writer = new PrintWriter(dummySocket.getOutputStream(), true);
+
+                reader = new BufferedReader(new InputStreamReader(dummySocket.getInputStream()));
+
+                while (true) {
+                    message = reader.readLine();
+
+                    try {
+                        messagesReceived.put(new Message(message));
+
+                        if (endMessageFound()) {
+                            return;
+                        }
+                        sleep(1);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (IOException exception) {
+                exception.printStackTrace();
             }
+        }
+
+        private Boolean endMessageFound() {
+            for (Message message : messagesReceived) {
+                if (message.getMessageType().getSubtype().equals(MessageType.GAMEOVER.getSubtype())) {
+                    messagesReceived.remove(message);
+                    return true;
+                }
+            }
+            return false;
         }
 
         private void cleanupMessageQueue() {

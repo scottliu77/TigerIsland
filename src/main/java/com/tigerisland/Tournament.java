@@ -22,9 +22,9 @@ public class Tournament {
 
     private void setupMessage() {
         if(globalSettings.getServerSettings().offline) {
-            ConsoleOut.printClientMessage("Setting up an OFFLINE tournament");
+            System.out.println("TIGERISLAND: Setting up an OFFLINE tournament");
         } else {
-            ConsoleOut.printClientMessage("Setting up a SERVER-HOSTED tournament");
+            System.out.println("TIGERISLAND: Setting up a SERVER-HOSTED tournament");
         }
     }
 
@@ -42,7 +42,7 @@ public class Tournament {
         Thread localServerThread = new Thread(localServer);
         localServerThread.start();
 
-        ConsoleOut.printClientMessage("Local Server is RUNNING");
+        System.out.println("TIGERISLAND: Local Server is RUNNING");
 
         createAndStartAllThreads();
 
@@ -50,11 +50,10 @@ public class Tournament {
     }
 
     protected void createAndStartAllThreads() {
-        ConsoleOut.printClientMessage("Listener is RUNNING");
 
         Thread messengerThread = new Thread(this.client);
         messengerThread.start();
-        ConsoleOut.printClientMessage("Messager is RUNNING");
+        System.out.println("TIGERISLAND: Client service is RUNNING");
 
         runAuthenticationProtocolToGetPlayerID();
 
@@ -86,7 +85,6 @@ public class Tournament {
         for(Message message : globalSettings.inboundQueue) {
             if(message.getMessageType() == MessageType.PLAYERID) {
                 globalSettings.getServerSettings().setPlayerID(message.getOurPlayerID());
-                System.out.println("SERVER: " + message.message);
                 message.setProcessed();
                 return true;
             }
@@ -141,7 +139,6 @@ public class Tournament {
         for(Message message : globalSettings.inboundQueue) {
             if(message.getMessageType() == MessageType.MATCHSTARTED) {
                 globalSettings.getServerSettings().setOpponentID(message.getOpponentID());
-                System.out.println("SERVER: " + message.message);
                 message.setProcessed();
                 return true;
             }
@@ -152,7 +149,6 @@ public class Tournament {
     private Boolean checkMessages(MessageType messageType) {
         for(Message message : globalSettings.inboundQueue) {
             if(message.getMessageType() == messageType) {
-                System.out.println("SERVER: " + message.message);
                 message.setProcessed();
                 return true;
             }
@@ -169,7 +165,7 @@ public class Tournament {
                 e.printStackTrace();
             }
         }
-        ConsoleOut.printClientMessage("Client has CLOSED");
+        System.out.println("TIGERISLAND: Client service has CLOSED");
     }
 
     private void closeLocalServer(Thread localServerThread) {
@@ -180,7 +176,7 @@ public class Tournament {
                 e.printStackTrace();
             }
         }
-        ConsoleOut.printClientMessage("Local Server has CLOSED");
+        System.out.println("TIGERISLAND: Local server has CLOSED");
     }
 
 }

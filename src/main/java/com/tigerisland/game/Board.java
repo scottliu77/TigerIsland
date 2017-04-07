@@ -12,20 +12,14 @@ public class Board{
     protected ArrayList<Location> edgeSpaces;
     protected ArrayList<Settlement> settlements;
 
-    public Board(){
+    public Board() {
         placedHexes = new ArrayList<PlacedHex>();
         edgeSpaces = new ArrayList<Location>();
         settlements = new ArrayList<Settlement>();
-        edgeSpaces.add(new Location(0,0));
-        //setUpStartingHexes();
-            //ToDo We have reached a problem, where there are now starting hexes, and almost every test relies on the fact
-            //ToDo      that there are no starting hexes.....
-            //ToDo      I have tested to make sure that setUpStartingHexes() works correctly.
-            //ToDo      Now it's just a matter of changing all the tests to reflect starting hexes.
+        edgeSpaces.add(new Location(0, 0));
     }
-    //ToDo As of now, it seems there is little choice other than to call "setUpStartingHexes()" on each created instance of board.
-    //ToDo      (As opposed to putting it in the constructor)
-    public void setUpStartingHexes() {
+
+    public void placeStartingTile() {
         try {
             String startID = "000000000000000000000000000000000000";
             placeHex(new Hex(startID, Terrain.VOLCANO), new Location(0, 0));

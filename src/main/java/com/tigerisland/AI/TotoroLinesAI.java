@@ -8,34 +8,22 @@ import java.util.ArrayList;
 //It involves placing tiles/settlements in a way so that it is difficult for the opponent to disturb them
 // and easy(-ish) for us to place Totoros.
 
-public class AI_TotoroLines extends Player{
-    private Board currentBoard;
-    private Tile currentTile;
+public class TotoroLinesAI extends AI {
 
     private ArrayList<TilePlacement> validTilePlacements;
     private ArrayList<Location> validTotoroPlacements;
     private ArrayList<Location> validTigerPlacements;
 
-    private TilePlacement myNextTilePlacement;
-    private BuildActionType myNextBuildActionType;
-    private Location myNextBuildLocation;
     private Location myNextExpansionLocation;
 
     private ArrayList<Location> plannedSettlementLocations;
 
-    public AI_TotoroLines(Color color, int playerID){
-        super(color, playerID);
+    public TotoroLinesAI(PlayerType playerType){
+        super(playerType);
         plannedSettlementLocations = new ArrayList<Location>();
     }
 
-    public TilePlacement returnTilePlacement(){ return myNextTilePlacement; }
-    public BuildActionType returnBuildActionType(){ return myNextBuildActionType; }
-    public Location returnBuildLocation(){ return myNextBuildLocation; }
-    public Location returnExpansionLocation() { return myNextExpansionLocation; }
-
-    public void decideOnAMove(Tile tile, Board board){
-        this.currentTile = tile;
-        this.currentBoard = board;
+    public void pickTilePlacementAndBuildAction(){
         gatherInfo();
         if(canPlaceTotoro()){
             placeTotoro();
@@ -56,9 +44,9 @@ public class AI_TotoroLines extends Player{
     }
 
     private void gatherInfo(){
-        this.validTilePlacements = AI_Info.returnValidTilePlacements(currentTile, currentBoard);
-        this.validTotoroPlacements = AI_Info.returnValidTotoroPlacements(this.getPlayerColor(), currentBoard);
-        this.validTigerPlacements = AI_Info.returnValidTigerPlacements(this.getPlayerColor(), currentBoard);
+        this.validTilePlacements = AI_Info.returnValidTilePlacements(turnState.getCurrentTile(), turnState.getBoard());
+        this.validTotoroPlacements = AI_Info.returnValidTotoroPlacements(turnState.getCurrentPlayer().getPlayerColor(), turnState.getBoard());
+        this.validTigerPlacements = AI_Info.returnValidTigerPlacements(turnState.getCurrentPlayer().getPlayerColor(), turnState.getBoard());
     }
 
     private boolean canPlaceTotoro(){
@@ -66,13 +54,13 @@ public class AI_TotoroLines extends Player{
     }
 
     private boolean hasATotoro(){
-        return this.getPieceSet().getNumberOfTotoroRemaining()>0;
+        return turnState.getCurrentPlayer().getPieceSet().getNumberOfTotoroRemaining()>0;
     }
 
     private void placeTotoro(){
-        this.myNextBuildActionType = BuildActionType.TOTOROPLACEMENT;
-        this.myNextBuildLocation = validTotoroPlacements.get(0);
-        this.myNextTilePlacement = validTilePlacements.get(0);
+        buildActionType = BuildActionType.TOTOROPLACEMENT;
+        buildLocation = validTotoroPlacements.get(0);
+        tilePlacement = validTilePlacements.get(0);
     }
 
     private void resetTotoroLine(){
@@ -84,13 +72,13 @@ public class AI_TotoroLines extends Player{
     }
 
     private boolean hasATiger(){
-        return this.getPieceSet().getNumberOfTigersRemaining()>0;
+        return turnState.getCurrentPlayer().getPieceSet().getNumberOfTigersRemaining()>0;
     }
 
     private void placeTiger(){
-        this.myNextBuildActionType = BuildActionType.TIGERPLACEMENT;
-        this.myNextBuildLocation = validTigerPlacements.get(0);
-        this.myNextTilePlacement = validTilePlacements.get(0);
+        buildActionType = BuildActionType.TIGERPLACEMENT;
+        buildLocation = validTigerPlacements.get(0);
+        tilePlacement = validTilePlacements.get(0);
     }
 
 
@@ -112,9 +100,9 @@ public class AI_TotoroLines extends Player{
         plannedSettlementLocations.add(new Location(xStart,yStart+1));
         plannedSettlementLocations.add(new Location(xStart,yStart+3));
 
-        myNextTilePlacement = startTilePlacement;
-        myNextBuildActionType = BuildActionType.VILLAGECREATION;
-        myNextBuildLocation = new Location(plannedSettlementLocations.remove(0));
+        tilePlacement = startTilePlacement;
+        buildActionType = BuildActionType.VILLAGECREATION;
+        buildLocation = new Location(plannedSettlementLocations.remove(0));
     }
 
     private TilePlacement chooseStartTilePlacement(){
@@ -128,27 +116,30 @@ public class AI_TotoroLines extends Player{
 
         if (plannedSettlementLocations.size() == 2) {
             Location nextLocation = plannedSettlementLocations.remove(0);
-            this.myNextBuildActionType = BuildActionType.VILLAGEEXPANSION;
+            this.buildActionType = BuildActionType.VILLAGEEXPANSION;
             findNextTilePlacement(nextLocation);
 
         } else {
             Location nextLocation = plannedSettlementLocations.remove(0);
-            this.myNextBuildActionType = BuildActionType.VILLAGECREATION;
-            this.myNextBuildLocation = nextLocation;
+            this.buildActionType = BuildActionType.VILLAGECREATION;
+            this.buildLocation = nextLocation;
             findNextTilePlacement(nextLocation);
         }
     }
 
     private void findNextTilePlacement(Location location) {
-        if(currentBoard.hexExistsAtLocation(location)){
-            this.myNextTilePlacement = validTilePlacements.get(0);
+        if(turnState.getBoard().hexExistsAtLocation(location)){
+            this.tilePlacement = validTilePlacements.get(0);
         }
         else{
-            this.myNextTilePlacement = placeTileToExtendLine(location);
+            this.tilePlacement = placeTileToExtendLine(location);
         }
     }
 
     private TilePlacement placeTileToExtendLine(Location nextLocation){
+        Board currentBoard = turnState.getBoard();
+        Tile currentTile = turnState.getCurrentTile();
+
         if(currentBoard.isALegalTilePlacment(Location.add(nextLocation,new Location(-1,1)),300))
             return new TilePlacement(currentTile, Location.add(nextLocation,new Location(-1,1)), 300);
         else if(currentBoard.isALegalTilePlacment(Location.add(nextLocation,new Location(1,0)),120))
@@ -165,18 +156,21 @@ public class AI_TotoroLines extends Player{
             return new TilePlacement(currentTile, Location.add(nextLocation,new Location(0,1)), 240);
         else
             startNewLine();
-            return myNextTilePlacement;
+            return tilePlacement;
     }
 
     private boolean lineIsInterrupted(){
         for(Location loc : plannedSettlementLocations){
             Hex hex;
-            if(currentBoard.hexExistsAtLocation(loc)) {
-                hex = currentBoard.hexAt(loc);
+            if(turnState.getBoard().hexExistsAtLocation(loc)) {
+                hex = turnState.getBoard().hexAt(loc);
                 if (!hex.isNotVolcano() || !hex.isEmpty() || hex.getHeight() != 1)
                     return true;
             }
         }
         return false;
     }
+
+    public Location returnExpansionLocation() { return myNextExpansionLocation; }
+
 }

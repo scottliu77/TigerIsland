@@ -3,13 +3,11 @@ package com.tigerisland.AI;
 import com.tigerisland.Deck;
 import com.tigerisland.GameSettings;
 import com.tigerisland.GlobalSettings;
-import com.tigerisland.InvalidMoveException;
 import com.tigerisland.game.*;
 import com.tigerisland.messenger.Message;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.xml.soap.Text;
 import java.util.concurrent.BlockingQueue;
 
 import static org.junit.Assert.assertTrue;
@@ -29,7 +27,7 @@ public class AITest {
         gameSettings = new GameSettings(new GlobalSettings());
         gameSettings.getPlayerSet().setCurrentPlayer(1);
         testPlayer = new Player(Color.BLACK, 1);
-        testPlayerType = PlayerType.BasicAI;
+        testPlayerType = PlayerType.SAFEAI;
         testPlayer.setPlayerType(testPlayerType);
         gameSettings.setGameID("A");
         turnState = new Turn(gameSettings, new Board());

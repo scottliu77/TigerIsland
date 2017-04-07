@@ -4,9 +4,10 @@ import java.util.*;
 
 public enum PlayerType {
 
-    HUMAN("Human"),
-    BasicAI("BasicAI"),
-    SERVER("Server");
+    HUMAN("HUMAN"),
+    SAFEAI("SAFEAI"),
+    TOTOROLINESAI("TOTOROLINESAI"),
+    SERVER("SERVER");
 
     private String typeString;
 
@@ -19,11 +20,11 @@ public enum PlayerType {
     }
 
     public static EnumSet<PlayerType> AITypes() {
-        return EnumSet.of(BasicAI);
+        return EnumSet.of(SAFEAI);
     }
 
     public static PlayerType pickRandomAItype() {
-        List<PlayerType> types = Collections.unmodifiableList(Arrays.asList(BasicAI));
+        List<PlayerType> types = Collections.unmodifiableList(Arrays.asList(SAFEAI));
         return types.get(new Random().nextInt(AITypes().size()));
     }
 }

@@ -2,103 +2,55 @@ package com.tigerisland.AI;
 
 import com.tigerisland.game.*;
 import com.tigerisland.messenger.Adapter;
-import com.tigerisland.messenger.ConsoleOut;
 import com.tigerisland.messenger.Message;
 
 public class AI {
 
     private double turnTime;
     private final PlayerType AIType;
-    private Turn turnState;
-    private Location safeTileLocation;
 
-    private String tilePlacementString;
-    private String buildActionString;
+    protected Turn turnState;
+
+    protected TilePlacement tilePlacement;
+    protected BuildActionType buildActionType;
+    protected Location buildLocation;
+
+    protected String tilePlacementString;
+    protected String buildActionString;
+
     private String message;
+
+    protected SafeAI safeAI;
+    protected TotoroLinesAI totoroLinesAI;
 
     public AI(PlayerType AIType) {
         this.AIType = AIType;
+//        if(AIType == PlayerType.SAFEAI) {
+//            this = new SafeAI();
+//        } else if (AIType == PlayerType.TOTOROLINESAI) {
+//            this = new TotoroLinesAI();
+//        }
     }
-
-    public AI(AI aiCopy) {
-        this.turnTime = aiCopy.turnTime;
-        this.AIType = aiCopy.AIType;
-        this.turnState = aiCopy.turnState;
-        this.safeTileLocation = aiCopy.safeTileLocation;
-    }
+//
+//    public AI(AI aiCopy) {
+//        this.AIType = aiCopy.AIType;
+//        this.turnTime = aiCopy.turnTime;
+//        this.turnState = aiCopy.turnState;
+//    }
 
     public void pickTilePlacementAndBuildAction(Turn turnState) {
         unpackAIsettings(turnState);
 
         if(AIType == PlayerType.HUMAN) {
-            message = HumanInput.pickTilePlacementAndBuildAction(turnState);
-        } else {
-            pickTilePlacement(turnState);
-            pickBuildAction(turnState);
-            assembleMessage();
+            HumanInput.pickTilePlacementAndBuildAction(turnState);
+        } else if (AIType == PlayerType.SAFEAI) {
+            safeAI.pickTilePlacementAndBuildAction();
+        } else if (AIType == PlayerType.TOTOROLINESAI) {
+            totoroLinesAI.pickTilePlacementAndBuildAction();
         }
 
+        assembleMessage();
         sendMessage(message);
-        ConsoleOut.printGameMessage(turnState.gameID, message);
-    }
-
-    private void pickTilePlacement(Turn turnState) {
-        pickSafeTilePlacement();
-        while(true) {
-            // TODO timer implementation and better move selection
-            break;
-        }
-    }
-
-    private void pickSafeTilePlacement() {
-        if(turnState.getBoard().getPlacedHexes().size() == 0) {
-            safeTileLocation = new Location(0, 0);
-            tilePlacementString = "PLACE " + createTileString() + " AT " + "0 0 0 1";
-        } else {
-            safeTileLocation = findFirstPlaceableHexOnRight();
-            tilePlacementString = "PLACE " + createTileString() + " AT " + createCubeCoordinateString();
-        }
-    }
-
-    private String createCubeCoordinateString() {
-        Location axialLocation = new Location(safeTileLocation.x, safeTileLocation.y);
-        Location cubeLocation = Adapter.convertLocationAxialToCube(axialLocation);
-        Integer cubeDegrees = Adapter.convertOrientationToCode(0);
-        return cubeLocation.x + " " + cubeLocation.y + " " + cubeLocation.z + " " + cubeDegrees;
-    }
-
-    private String createTileString() {
-        String leftTerrain = turnState.getCurrentTile().getLeftHex().getHexTerrain().name();
-        String rightTerrain = turnState.getCurrentTile().getRightHex().getHexTerrain().name();
-        return leftTerrain + "+" + rightTerrain;
-    }
-
-    private Location findFirstPlaceableHexOnRight() {
-        int highestX = 0;
-        int associatedY = 0;
-        for(PlacedHex hex : turnState.getBoard().getPlacedHexes()) {
-            Location loc = hex.getLocation();
-            if(loc.x >= highestX) {
-                highestX = loc.x;
-                associatedY = loc.y;
-            }
-        }
-        return new Location(highestX + 1, associatedY);
-    }
-
-    private void pickBuildAction(Turn turnState) {
-        pickSafeBuildAction();
-        while(true) {
-            // TODO timer implementation and better move selection
-            break;
-        }
-    }
-
-    private void pickSafeBuildAction() {
-        Location axialLocation = new Location(safeTileLocation.x + 1, safeTileLocation.y);
-        Location cubeLocation = Adapter.convertLocationAxialToCube(axialLocation);
-
-        buildActionString = "FOUND SETTLEMENT AT " + cubeLocation.x + " " + cubeLocation.y + " " + cubeLocation.z;
     }
 
     private void unpackAIsettings(Turn turnState) {
@@ -107,10 +59,61 @@ public class AI {
     }
 
     private void assembleMessage() {
-        message = "GAME " + turnState.gameID + " MOVE " + turnState.getMoveID() + " " + tilePlacementString + " " + buildActionString;
+        message = "GAME " + turnState.gameID + " MOVE " + turnState.getMoveID() + " " + tilePlacementString() + " " + buildActionString();
+    }
+
+    private String tilePlacementString() {
+        Location tileLocation = tilePlacement.getLocation();
+        int orientation = tilePlacement.getRotation();
+        return "PLACE " + createTileString() + " AT " + createCubeTileLocationString(tileLocation, orientation);
+    }
+
+    private String buildActionString() {
+        String buildMessageString = null;
+        if(buildActionType == BuildActionType.VILLAGECREATION) {
+            buildMessageString = "FOUND SETTLEMENT AT";
+        } else if(buildActionType == BuildActionType.VILLAGEEXPANSION) {
+            buildMessageString = "EXPANDED SETTLEMENT AT";
+        } else if(buildActionType == BuildActionType.TIGERPLACEMENT) {
+            buildMessageString = "BUILT TOTORO SANCTUARY AT";
+        } else if(buildActionType == BuildActionType.TOTOROPLACEMENT) {
+            buildMessageString = "BUILT TIGER PLAYGROUND AT";
+        }
+
+        return  buildMessageString + " " + createCubeBuildLocationString(buildLocation);
+    }
+
+    protected String createTileString() {
+        String leftTerrain = turnState.getCurrentTile().getLeftHex().getHexTerrain().name();
+        String rightTerrain = turnState.getCurrentTile().getRightHex().getHexTerrain().name();
+        return leftTerrain + "+" + rightTerrain;
+    }
+
+    protected String createCubeBuildLocationString(Location unconvertedBuildLocation) {
+        Location axialLocation = new Location(unconvertedBuildLocation.x, unconvertedBuildLocation.y);
+        Location cubeLocation = Adapter.convertLocationAxialToCube(axialLocation);
+        return cubeLocation.x + " " + cubeLocation.y + " " + cubeLocation.z;
+    }
+
+    protected String createCubeTileLocationString(Location unconvertedBuildLocation, int unconvertedOrientation) {
+        Location axialLocation = new Location(unconvertedBuildLocation.x, unconvertedBuildLocation.y);
+        Location cubeLocation = Adapter.convertLocationAxialToCube(axialLocation);
+        Integer cubeDegrees = Adapter.convertOrientationToCode(unconvertedOrientation);
+        return cubeLocation.x + " " + cubeLocation.y + " " + cubeLocation.z + " " + cubeDegrees;
     }
 
     private void sendMessage(String message) {
-        turnState.inboundMessages.add(new Message(message));
+        turnState.outboundMessages.add(new Message(message));
+        echoMessageForOfflineTesting(message);
+    }
+
+    private void echoMessageForOfflineTesting(String message) {
+        if(turnState.getGameSettings().getGlobalSettings().getServerSettings().offline) {
+            turnState.inboundMessages.add(new Message(assembleOfflineEchoMessage(message)));
+        }
+    }
+
+    private String assembleOfflineEchoMessage(String message) {
+        return "GAME" + turnState.gameID + " MOVE " + turnState.getMoveID() + " PLAYER " + turnState.getCurrentPlayer().getPlayerID() + " " + tilePlacementString + " " + buildActionString;
     }
 }

@@ -23,11 +23,10 @@ public class Match {
     }
 
     private void constructGames() {
-        ConsoleOut.printClientMessage("Game A created");
+        // TODO allow safe assignment of gameID via first move message
         gameSettings.setGameID("A");
         games.add(new Game(gameSettings));
 
-        ConsoleOut.printClientMessage("Game B created");
         gameSettings.setGameID("B");
         games.add(new Game(gameSettings));
 
@@ -43,7 +42,7 @@ public class Match {
         for(Game game: games) {
             gameThreads.add(0, new Thread(game));
             gameThreads.get(0).start();
-            ConsoleOut.printClientMessage("Game (thread) #" + game.getGameID() + " started");
+            System.out.println("TIGERISLAND: Game (thread) #" + game.getGameID() + " is RUNNING");
         }
 
         waitForAllGamesToEnd();
@@ -51,7 +50,7 @@ public class Match {
         for(Thread gameThread : gameThreads) {
             try {
                 gameThread.join();
-                ConsoleOut.printClientMessage("Game (thread): " + gameThread.getName() + " has CLOSED");
+                System.out.println("TIGERISLAND: Game (thread): " + gameThread.getName() + " has CLOSED");
             } catch (InterruptedException exception) {
                 exception.printStackTrace();
             }

@@ -1,6 +1,5 @@
 package com.tigerisland.game;
 
-import com.tigerisland.GameSettings;
 import com.tigerisland.GlobalSettings;
 
 import java.util.*;
@@ -15,7 +14,7 @@ public class PlayerSet {
         Player ourPlayer = new Player(Color.WHITE, ourPlayerID);
 
         //TODO Confirm target AI
-        ourPlayer.setPlayerType(PlayerType.BasicAI);
+        ourPlayer.setPlayerType(PlayerType.SAFEAI);
         players.put(ourPlayerID, ourPlayer);
 
         int opponentPlayerID = globalSettings.getServerSettings().getOpponentID();
@@ -32,6 +31,15 @@ public class PlayerSet {
 
     public void updatePlayerState(int playerID, Player updatedPlayer) {
         players.put(playerID, updatedPlayer);
+    }
+
+    public void incrementPlayer() {
+        for(int key : players.keySet()) {
+            if(currentPlayer != key) {
+                currentPlayer = key;
+                return;
+            }
+        }
     }
 
     public HashMap<Integer, Player> getPlayerList() {

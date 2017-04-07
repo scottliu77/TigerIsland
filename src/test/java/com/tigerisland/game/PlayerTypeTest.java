@@ -8,12 +8,12 @@ public class PlayerTypeTest {
 
     @Test
     public void testCanCreatePlayerType() {
-        PlayerType playerType = PlayerType.BasicAI;
+        PlayerType playerType = PlayerType.SAFEAI;
         assertTrue(playerType != null);
     }
 
     @Test
     public void testCanGetPlayerTypeString() {
-        assertTrue(PlayerType.BasicAI.getTypeString().equals("BasicAI"));
+        assertTrue(PlayerType.SAFEAI.getTypeString().equals("SAFEAI"));
     }
 }

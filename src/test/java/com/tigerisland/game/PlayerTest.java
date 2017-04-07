@@ -1,10 +1,6 @@
 package com.tigerisland.game;
 
 import com.tigerisland.InvalidMoveException;
-import com.tigerisland.game.Color;
-import com.tigerisland.game.Piece;
-import com.tigerisland.game.Player;
-import com.tigerisland.game.PlayerType;
 import org.junit.Test;
 import org.junit.Before;
 
@@ -122,8 +118,8 @@ public class PlayerTest {
 
     @Test
     public void testCanSetAndGetPlayerType() {
-        playerWhite.setPlayerType(PlayerType.BasicAI);
-        assertTrue(playerWhite.getPlayerType() == PlayerType.BasicAI);
+        playerWhite.setPlayerType(PlayerType.SAFEAI);
+        assertTrue(playerWhite.getPlayerType() == PlayerType.SAFEAI);
     }
 
     @Test

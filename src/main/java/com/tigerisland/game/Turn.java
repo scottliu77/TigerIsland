@@ -16,6 +16,7 @@ public class Turn {
     private Tile currentTile;
     private GameSettings gameSettings;
     public final BlockingQueue<Message> inboundMessages;
+    public final BlockingQueue<Message> outboundMessages;
 
     private Player currentPlayer;
     private Board board;
@@ -25,6 +26,8 @@ public class Turn {
     public Turn(GameSettings gameSettings, Board board) {
         this.gameID = gameSettings.getGameID();
         this.inboundMessages = gameSettings.getGlobalSettings().inboundQueue;
+        this.outboundMessages = gameSettings.getGlobalSettings().outboundQueue;
+
         this.gameSettings = gameSettings;
 
         Player currentPlayer = gameSettings.getPlayerSet().getCurrentPlayer();
