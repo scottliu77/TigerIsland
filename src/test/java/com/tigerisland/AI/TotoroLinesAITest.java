@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class _TotoroLinesAITest {
+public class TotoroLinesAITest {
 
     private Turn turnState;
     private AI myAI;
