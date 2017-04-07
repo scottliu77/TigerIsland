@@ -20,7 +20,7 @@ public class AI_TotoroLinesTest {
 
     @Test
     public void testAI() throws InvalidMoveException{
-        for(int ii=0; ii<10; ii++)
+        for(int ii=0; ii<6; ii++)
             decideOnMoveAndTakeTurn();
 
         assert(hasPlacedTotoro);
@@ -32,8 +32,13 @@ public class AI_TotoroLinesTest {
         board.placeTile(tp.getTile(), tp.getLocation(), tp.getRotation());
 
         BuildActionType bat = myAI.returnBuildActionType();
-        if(bat == BuildActionType.VILLAGECREATION)
+        if(bat == BuildActionType.VILLAGECREATION) {
             board.createVillage(myAI, myAI.returnBuildLocation());
+            board.updateSettlements();
+        }
+        else if(bat == BuildActionType.VILLAGEEXPANSION){
+            board.expandVillage(myAI, myAI.returnExpansionLocation(), Terrain.LAKE);
+        }
         else if(bat == BuildActionType.TOTOROPLACEMENT) {
             board.placeTotoro(myAI, myAI.returnBuildLocation());
             hasPlacedTotoro = true;

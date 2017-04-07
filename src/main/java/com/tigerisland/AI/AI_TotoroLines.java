@@ -19,6 +19,7 @@ public class AI_TotoroLines extends Player{
     private TilePlacement myNextTilePlacement;
     private BuildActionType myNextBuildActionType;
     private Location myNextBuildLocation;
+    private Location myNextExpansionLocation;
 
     private ArrayList<Location> plannedSettlementLocations;
 
@@ -30,6 +31,7 @@ public class AI_TotoroLines extends Player{
     public TilePlacement returnTilePlacement(){ return myNextTilePlacement; }
     public BuildActionType returnBuildActionType(){ return myNextBuildActionType; }
     public Location returnBuildLocation(){ return myNextBuildLocation; }
+    public Location returnExpansionLocation() { return myNextExpansionLocation; }
 
     public void decideOnAMove(Tile tile, Board board){
         this.currentTile = tile;
@@ -100,9 +102,9 @@ public class AI_TotoroLines extends Player{
     private void startNewLine(){
         plannedSettlementLocations = new ArrayList<Location>();
 
-        TilePlacement startTilePlacment = chooseStartTilePlacement();
-        int xStart = startTilePlacment.getLocation().x + 1;
-        int yStart = startTilePlacment.getLocation().y - 1;
+        TilePlacement startTilePlacement = chooseStartTilePlacement();
+        int xStart = startTilePlacement.getLocation().x + 1;
+        int yStart = startTilePlacement.getLocation().y - 1;
 
         plannedSettlementLocations.add(new Location(xStart,yStart));
         plannedSettlementLocations.add(new Location(xStart,yStart+2));
@@ -110,7 +112,7 @@ public class AI_TotoroLines extends Player{
         plannedSettlementLocations.add(new Location(xStart,yStart+1));
         plannedSettlementLocations.add(new Location(xStart,yStart+3));
 
-        myNextTilePlacement = startTilePlacment;
+        myNextTilePlacement = startTilePlacement;
         myNextBuildActionType = BuildActionType.VILLAGECREATION;
         myNextBuildLocation = new Location(plannedSettlementLocations.remove(0));
     }
@@ -120,14 +122,29 @@ public class AI_TotoroLines extends Player{
     }
 
     private void extendLine(){
-        Location nextLocation = plannedSettlementLocations.remove(0);
-        this.myNextBuildActionType = BuildActionType.VILLAGECREATION;
-        this.myNextBuildLocation = nextLocation;
-        if(currentBoard.hexExistsAtLocation(nextLocation)){
+        if (plannedSettlementLocations.size() == 4) {
+            myNextExpansionLocation = plannedSettlementLocations.get(0);
+        }
+
+        if (plannedSettlementLocations.size() == 2) {
+            Location nextLocation = plannedSettlementLocations.remove(0);
+            this.myNextBuildActionType = BuildActionType.VILLAGEEXPANSION;
+            findNextTilePlacement(nextLocation);
+
+        } else {
+            Location nextLocation = plannedSettlementLocations.remove(0);
+            this.myNextBuildActionType = BuildActionType.VILLAGECREATION;
+            this.myNextBuildLocation = nextLocation;
+            findNextTilePlacement(nextLocation);
+        }
+    }
+
+    private void findNextTilePlacement(Location location) {
+        if(currentBoard.hexExistsAtLocation(location)){
             this.myNextTilePlacement = validTilePlacements.get(0);
         }
         else{
-            this.myNextTilePlacement = placeTileToExtendLine(nextLocation);
+            this.myNextTilePlacement = placeTileToExtendLine(location);
         }
     }
 

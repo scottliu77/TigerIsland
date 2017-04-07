@@ -136,33 +136,40 @@ public class AI_Info {
     }
 
     //ToDo: Make a function meant to just find nukable locations. Then integrate that into this function
-    //ToDo: Test this function
     public static ArrayList<TilePlacement> findNukableLocationsToStopOpposingPlayerFromMakingTotoroPlacement(Color opposingPlayerColor, Board board, Tile tile){
         ArrayList<Settlement> opposingSettlementsThatCouldAcceptTotoro = board.settlementsThatCouldAcceptTotoroForGivenPlayer(opposingPlayerColor);
         ArrayList<TilePlacement> validTilePlacements = returnValidTilePlacements(tile, board);
         ArrayList<TilePlacement> tilePlacementsThatCouldPreventTotoroPlacement = new ArrayList<TilePlacement>();
-        for(Settlement settlement : opposingSettlementsThatCouldAcceptTotoro){
-            ArrayList<Location> locationsOfAllHexesInSettlement = settlement.getLocationsOfHexesInSettlement();
-            for(TilePlacement tilePlacement : validTilePlacements){
-                for(Location locationOfHexInSettlement : locationsOfAllHexesInSettlement){
-                    if(tilePlacement.getLocation().equals(locationOfHexInSettlement) && tilePlacementMakesTotoroPlacementInvalid(settlement, tilePlacement, opposingPlayerColor)){
-                        tilePlacementsThatCouldPreventTotoroPlacement.add(tilePlacement);
+
+        for(TilePlacement tilePlacement : validTilePlacements){
+            ArrayList<Settlement> settlementsAdjacentToLocation = board.findAdjacentSettlementsToLocation(tilePlacement.getLocation());
+            for(Settlement settlementAdjacentToLocation : settlementsAdjacentToLocation){
+                boolean settlementFound = false;
+                for(Settlement settlementThatCouldAcceptTotoro : opposingSettlementsThatCouldAcceptTotoro){
+                    if(settlementAdjacentToLocation.equals(settlementThatCouldAcceptTotoro)){
+                        settlementFound = true;
                     }
+                }
+                if(settlementFound && tilePlacementMakesTotoroPlacementInvalid(settlementAdjacentToLocation, tilePlacement, opposingPlayerColor, board)){
+                    tilePlacementsThatCouldPreventTotoroPlacement.add(tilePlacement);
                 }
             }
         }
+
         return tilePlacementsThatCouldPreventTotoroPlacement;
     }
 
-    private static boolean tilePlacementMakesTotoroPlacementInvalid(Settlement settlement, TilePlacement tilePlacement, Color color){
-        Board tempBoardOnlyIncludingThisSettlement = new Board();
-        tempBoardOnlyIncludingThisSettlement.addSettlementToBoard(settlement);
+    private static boolean tilePlacementMakesTotoroPlacementInvalid(Settlement settlement, TilePlacement tilePlacement, Color color, Board board){
+        Board tempBoardOnlyIncludingThisSettlement = new Board(board);
+        int originalNumberOfSettlementsThatCouldAcceptTotoro = tempBoardOnlyIncludingThisSettlement.settlementsThatCouldAcceptTotoroForGivenPlayer(color).size();
         try {
             tempBoardOnlyIncludingThisSettlement.placeTile(tilePlacement.getTile(), tilePlacement.getLocation(), tilePlacement.getRotation());
-        }catch(InvalidMoveException e){}
+        }catch(InvalidMoveException e){
+            return false;
+        }
         tempBoardOnlyIncludingThisSettlement.updateSettlements();
-        ArrayList<Settlement> settlementsThatCouldAcceptTotoro = tempBoardOnlyIncludingThisSettlement.settlementsThatCouldAcceptTotoroForGivenPlayer(color);
-        return settlementsThatCouldAcceptTotoro.size() == 0;
+        int finalNumberOfSettlementsThatCouldAcceptTotoro = tempBoardOnlyIncludingThisSettlement.settlementsThatCouldAcceptTotoroForGivenPlayer(color).size();
+        return finalNumberOfSettlementsThatCouldAcceptTotoro == originalNumberOfSettlementsThatCouldAcceptTotoro - 1;
     }
 
     public static ArrayList<PlacedHex> findEmptyHabitableLevelThreePlacedHexes(Board board) {

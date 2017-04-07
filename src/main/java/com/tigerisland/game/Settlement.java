@@ -20,6 +20,13 @@ public class Settlement {
         }
     }
 
+    public boolean equals(Settlement comparisonSettlement){
+        if(comparisonSettlement.size() == hexesInSettlement.size() && hexesInSettlement.contains(comparisonSettlement.getHexesInSettlement().get(0))){
+            return true;
+        }
+        return false;
+    }
+
     public int size(){
         return hexesInSettlement.size();
     }
