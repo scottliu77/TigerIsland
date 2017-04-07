@@ -26,7 +26,6 @@ public class AI_TotoroLinesTest {
         assert(hasPlacedTotoro);
     }
     public void decideOnMoveAndTakeTurn() throws InvalidMoveException{
-        TextGUI.printMap(board);
         myAI.decideOnAMove(new Tile(Terrain.LAKE,Terrain.LAKE), board);
 
         TilePlacement tp = myAI.returnTilePlacement();
