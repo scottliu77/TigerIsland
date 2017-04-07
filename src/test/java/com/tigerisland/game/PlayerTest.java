@@ -12,7 +12,11 @@ public class PlayerTest {
 
     @Before
     public void createPlayer() {
+<<<<<<< HEAD
         this.playerWhite = new Player(Color.WHITE, "1");
+=======
+        this.playerWhite = new Player(Color.WHITE, 1, PlayerType.SAFEAI);
+>>>>>>> dba2527626bc142c7ed97d900f953657b78bfafc
     }
 
     @Test
@@ -124,7 +128,11 @@ public class PlayerTest {
 
     @Test
     public void testCanUpdatePlayerState() {
+<<<<<<< HEAD
         Player playerCopy = new Player(Color.ORANGE, "1");
+=======
+        Player playerCopy = new Player(Color.ORANGE, 1, PlayerType.SAFEAI);
+>>>>>>> dba2527626bc142c7ed97d900f953657b78bfafc
         playerWhite.updatePlayerState(playerCopy);
         assertTrue(playerCopy.getPlayerColor() == Color.ORANGE);
     }

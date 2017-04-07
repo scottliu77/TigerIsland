@@ -4,10 +4,8 @@ import com.tigerisland.game.*;
 import com.tigerisland.messenger.Adapter;
 import com.tigerisland.messenger.Message;
 
-public class AI {
-
+public abstract class AI {
     private double turnTime;
-    private final PlayerType AIType;
 
     protected Turn turnState;
 
@@ -20,38 +18,23 @@ public class AI {
 
     private String message;
 
-    protected SafeAI safeAI;
-    protected TotoroLinesAI totoroLinesAI;
 
-    public AI(PlayerType AIType) {
-        this.AIType = AIType;
-//        if(AIType == PlayerType.SAFEAI) {
-//            this = new SafeAI();
-//        } else if (AIType == PlayerType.TOTOROLINESAI) {
-//            this = new TotoroLinesAI();
-//        }
+    public AI() {
     }
-//
-//    public AI(AI aiCopy) {
-//        this.AIType = aiCopy.AIType;
-//        this.turnTime = aiCopy.turnTime;
-//        this.turnState = aiCopy.turnState;
-//    }
+
+    public AI(AI aiCopy) {
+        this.turnTime = aiCopy.turnTime;
+        this.turnState = aiCopy.turnState;
+    }
 
     public void pickTilePlacementAndBuildAction(Turn turnState) {
         unpackAIsettings(turnState);
-
-        if(AIType == PlayerType.HUMAN) {
-            HumanInput.pickTilePlacementAndBuildAction(turnState);
-        } else if (AIType == PlayerType.SAFEAI) {
-            safeAI.pickTilePlacementAndBuildAction();
-        } else if (AIType == PlayerType.TOTOROLINESAI) {
-            totoroLinesAI.pickTilePlacementAndBuildAction();
-        }
-
+        decideOnMove();
         assembleMessage();
         sendMessage(message);
     }
+
+    protected abstract void decideOnMove(); //abstract means that sub-classes will define how decideOnMove works.
 
     private void unpackAIsettings(Turn turnState) {
         this.turnTime = turnState.getGameSettings().getGlobalSettings().turnTime;

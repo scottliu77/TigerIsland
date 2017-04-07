@@ -421,15 +421,16 @@ public class Board{
         return settlementsThatCouldAcceptTotoro;
     }
 
-    public boolean playerHasSettlementThatCouldAcceptTiger(Player player) {
+    public ArrayList<Settlement> settlementsThatCouldAcceptTigerForGivenPlayer(Color color) {
+        ArrayList<Settlement> settlementsThatCouldAcceptTiger = new ArrayList<Settlement>();
         for(Settlement settlement : settlements) {
-            if (settlement.getColor() == player.getPlayerColor() && settlement.containsTiger() == false) {
+            if (settlement.getColor() == color && settlement.containsTiger() == false) {
                 if (settlementNextToTigerReadyHex(settlement, HEIGHT_REQUIRED_FOR_TIGER)) {
-                    return settlement.isExpandable(placedHexes);
+                    settlementsThatCouldAcceptTiger.add(settlement);
                 }
             }
         }
-        return false;
+        return settlementsThatCouldAcceptTiger;
     }
 
     public boolean settlementNextToTigerReadyHex(Settlement settlement, int heightRequired) {

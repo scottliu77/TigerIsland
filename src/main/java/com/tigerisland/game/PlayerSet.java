@@ -14,7 +14,6 @@ public class PlayerSet {
         Player ourPlayer = new Player(Color.WHITE, ourPlayerID);
 
         //TODO Confirm target AI
-        ourPlayer.setPlayerType(PlayerType.SAFEAI);
         players.put(ourPlayerID, ourPlayer);
 
         String opponentPlayerID = globalSettings.getServerSettings().getOpponentID();

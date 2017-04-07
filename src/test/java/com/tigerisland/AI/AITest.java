@@ -31,7 +31,7 @@ public class AITest {
         testPlayer.setPlayerType(testPlayerType);
         gameSettings.setGameID("A");
         turnState = new Turn(gameSettings, new Board());
-        testAI = new AI(testPlayerType);
+        testAI = new SafeAI();
         inboundMessages = turnState.inboundMessages;
     }
 

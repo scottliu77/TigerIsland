@@ -123,7 +123,11 @@ public class BoardTest{
 
     @Test
     public void testPlayerHasSettlementThatCouldAcceptTotoro(){
+<<<<<<< HEAD
         Player player = new Player(Color.BLACK, "1");
+=======
+        Player player = new Player(Color.BLACK, 1, PlayerType.SAFEAI);
+>>>>>>> dba2527626bc142c7ed97d900f953657b78bfafc
 
         Hex hex1 = new Hex("hex1", Terrain.LAKE);
         Hex hex2 = new Hex("hex2", Terrain.LAKE);
@@ -238,7 +242,11 @@ public class BoardTest{
         Location location = new Location(0, 0);
         boardCopy.placeTile(tile, location, 0);
 
+<<<<<<< HEAD
         Player player = new Player(Color.BLACK, "1");
+=======
+        Player player = new Player(Color.BLACK, 1, PlayerType.SAFEAI);
+>>>>>>> dba2527626bc142c7ed97d900f953657b78bfafc
         Location villageLocation = new Location(1, 0);
         boardCopy.createVillage(player, villageLocation);
 
@@ -271,7 +279,11 @@ public class BoardTest{
 
     @Test
     public void testCanPlaceTigerOnValidHex(){
+<<<<<<< HEAD
         Player player = new Player(Color.BLACK, "1");
+=======
+        Player player = new Player(Color.BLACK,1,PlayerType.SAFEAI);
+>>>>>>> dba2527626bc142c7ed97d900f953657b78bfafc
         PlacedHex placedHex1 = setUpSettlement();
 
         Hex targetHex = new Hex("hex6", Terrain.JUNGLE,3);
@@ -298,7 +310,11 @@ public class BoardTest{
 
     @Test
     public void testCannotPlaceTigerOnNonexistentHex(){
+<<<<<<< HEAD
         Player player = new Player(Color.BLACK, "1");
+=======
+        Player player = new Player(Color.BLACK, 1, PlayerType.SAFEAI);
+>>>>>>> dba2527626bc142c7ed97d900f953657b78bfafc
         PlacedHex placedHex1 = setUpSettlement();
 
         Location targetLocation = new Location(0,-2);
@@ -322,7 +338,11 @@ public class BoardTest{
 
     @Test
     public void testCannotPlaceTigerOnVolcano(){
+<<<<<<< HEAD
         Player player = new Player(Color.BLACK, "1");
+=======
+        Player player = new Player(Color.BLACK, 1, PlayerType.SAFEAI);
+>>>>>>> dba2527626bc142c7ed97d900f953657b78bfafc
         PlacedHex placedHex1 = setUpSettlement();
 
         Hex targetHex = new Hex("hex5", Terrain.VOLCANO, 3);
@@ -352,7 +372,11 @@ public class BoardTest{
 
     @Test
     public void testCannotPlaceTigerOnNonemptyHex(){
+<<<<<<< HEAD
         Player player = new Player(Color.BLACK, "1");
+=======
+        Player player = new Player(Color.BLACK, 1, PlayerType.SAFEAI);
+>>>>>>> dba2527626bc142c7ed97d900f953657b78bfafc
         PlacedHex placedHex1 = setUpSettlement();
 
         Hex targetHex = new Hex("hex5", Terrain.JUNGLE, 3);
@@ -383,7 +407,11 @@ public class BoardTest{
 
     @Test
     public void testCannotPlaceTigerOnHexOfHeightLessThanThree(){
+<<<<<<< HEAD
         Player player = new Player(Color.BLACK, "1");
+=======
+        Player player = new Player(Color.BLACK, 1, PlayerType.SAFEAI);
+>>>>>>> dba2527626bc142c7ed97d900f953657b78bfafc
         PlacedHex placedHex1 = setUpSettlement();
 
         Hex targetHex = new Hex("hex5", Terrain.JUNGLE, 2);
@@ -413,7 +441,11 @@ public class BoardTest{
 
     @Test
     public void testCannotPlaceTigerOnSettlementSizeZero(){
+<<<<<<< HEAD
         Player player = new Player(Color.BLACK, "1");
+=======
+        Player player = new Player(Color.BLACK, 1, PlayerType.SAFEAI);
+>>>>>>> dba2527626bc142c7ed97d900f953657b78bfafc
         Hex targetHex = new Hex("hex1", Terrain.JUNGLE, 3);
         Location targetLocation = new Location(0,-2);
         PlacedHex targetPlacedHex = new PlacedHex(targetHex, targetLocation);
@@ -430,7 +462,11 @@ public class BoardTest{
 
     @Test
     public void testCannotPlaceTigerOnSettlementWithTiger(){
+<<<<<<< HEAD
         Player player = new Player(Color.BLACK, "1");
+=======
+        Player player = new Player(Color.BLACK, 1, PlayerType.SAFEAI);
+>>>>>>> dba2527626bc142c7ed97d900f953657b78bfafc
         PlacedHex placedHex1 = setUpSettlement();
         Hex hex5 = new Hex("hex5", Terrain.LAKE,3);
         hex5.addPiecesToHex(new Piece(Color.BLACK, PieceType.TIGER), 1);
@@ -456,7 +492,11 @@ public class BoardTest{
 
     @Test
     public void testSettlementLocationIsNotValid() {
+<<<<<<< HEAD
         Player player = new Player(Color.BLACK, "1");
+=======
+        Player player = new Player(Color.BLACK, 1, PlayerType.SAFEAI);
+>>>>>>> dba2527626bc142c7ed97d900f953657b78bfafc
         Location invalidSettlementLocation = new Location(0,1);
 
         try {
@@ -468,7 +508,11 @@ public class BoardTest{
 
     @Test
     public void testLocationDoesNotBelongInASettlement() {
+<<<<<<< HEAD
         Player player = new Player(Color.BLACK, "1");
+=======
+        Player player = new Player(Color.BLACK, 1, PlayerType.SAFEAI);
+>>>>>>> dba2527626bc142c7ed97d900f953657b78bfafc
         String tileID = "fakeTileID";
         Location loc = new Location(0,1);
         Hex emptyHex = new Hex(tileID, Terrain.GRASSLANDS);
@@ -485,7 +529,11 @@ public class BoardTest{
 
     @Test
     public void testSettlementLocationDoesNotBelongToPlayer() {
+<<<<<<< HEAD
         Player player1 = new Player(Color.BLACK, "1");
+=======
+        Player player1 = new Player(Color.BLACK, 1, PlayerType.SAFEAI);
+>>>>>>> dba2527626bc142c7ed97d900f953657b78bfafc
         String tileID = "fakeTileID";
         Location loc = new Location(0,1);
         Hex blackHex = new Hex(tileID, Terrain.GRASSLANDS);
@@ -494,7 +542,11 @@ public class BoardTest{
         placedHexes.add(blackPlacedHex);
         board.placedHexes = this.placedHexes;
 
+<<<<<<< HEAD
         Player player2 = new Player(Color.WHITE, "1");
+=======
+        Player player2 = new Player(Color.WHITE, 1, PlayerType.SAFEAI);
+>>>>>>> dba2527626bc142c7ed97d900f953657b78bfafc
 
         try {
             board.isSettledLocationValid(player2, loc);
@@ -505,7 +557,11 @@ public class BoardTest{
 
     @Test
     public void testIsValidSettlementLocation() {
+<<<<<<< HEAD
         Player player = new Player(Color.BLACK, "1");
+=======
+        Player player = new Player(Color.BLACK, 1, PlayerType.SAFEAI);
+>>>>>>> dba2527626bc142c7ed97d900f953657b78bfafc
         String tileID = "fakeTileID";
         Location loc = new Location(0,1);
         Hex settledHex = new Hex(tileID, Terrain.LAKE);
@@ -523,7 +579,11 @@ public class BoardTest{
     }
     @Test
     public void testSettlementLocationIsNotValidForExpansion() {
+<<<<<<< HEAD
         Player player = new Player(Color.BLACK, "1");
+=======
+        Player player = new Player(Color.BLACK, 1, PlayerType.SAFEAI);
+>>>>>>> dba2527626bc142c7ed97d900f953657b78bfafc
         Location invalidSettlementLocation = new Location(0,1);
 
         try {
@@ -535,7 +595,11 @@ public class BoardTest{
 
     @Test
     public void testLocationDoesNotBelongToASettlement() {
+<<<<<<< HEAD
         Player player = new Player(Color.BLACK, "1");
+=======
+        Player player = new Player(Color.BLACK, 1, PlayerType.SAFEAI);
+>>>>>>> dba2527626bc142c7ed97d900f953657b78bfafc
         String tileID = "fakeTileID";
         Location loc = new Location(0,1);
         Hex emptyHex = new Hex(tileID, Terrain.GRASSLANDS);
@@ -560,7 +624,11 @@ public class BoardTest{
         placedHexes.add(blackPlacedHex);
         board.placedHexes = this.placedHexes;
 
+<<<<<<< HEAD
         Player player2 = new Player(Color.WHITE, "1");
+=======
+        Player player2 = new Player(Color.WHITE, 1, PlayerType.SAFEAI);
+>>>>>>> dba2527626bc142c7ed97d900f953657b78bfafc
 
         try {
             board.isSettledLocationValid(player2, loc);
@@ -571,7 +639,11 @@ public class BoardTest{
 
     @Test
     public void testIsValidSettlementLocationExpansion() {
+<<<<<<< HEAD
         Player player = new Player(Color.BLACK, "1");
+=======
+        Player player = new Player(Color.BLACK, 1, PlayerType.SAFEAI);
+>>>>>>> dba2527626bc142c7ed97d900f953657b78bfafc
         String tileID = "fakeTileID";
         Location loc = new Location(0,1);
         Hex settledHex = new Hex(tileID, Terrain.LAKE);
@@ -601,7 +673,11 @@ public class BoardTest{
 
     @Test
     public void testNoAdjacentHexesExistForSize1() {
+<<<<<<< HEAD
         Player player = new Player(Color.BLACK, "1");
+=======
+        Player player = new Player(Color.BLACK, 1, PlayerType.SAFEAI);
+>>>>>>> dba2527626bc142c7ed97d900f953657b78bfafc
         String tileID = "fakeTileID";
         Location loc = new Location(0,0);
         Hex settledHex = new Hex(tileID, Terrain.LAKE);
@@ -630,7 +706,11 @@ public class BoardTest{
 
     @Test
     public void testNoValidExpandableHexesExistForSize1() {
+<<<<<<< HEAD
         Player player = new Player(Color.BLACK, "1");
+=======
+        Player player = new Player(Color.BLACK, 1, PlayerType.SAFEAI);
+>>>>>>> dba2527626bc142c7ed97d900f953657b78bfafc
         String tileID = "fakeTileID";
         Location loc = new Location(0,0);
         Hex settledHex = new Hex(tileID, Terrain.LAKE);
@@ -676,7 +756,11 @@ public class BoardTest{
 
     @Test
     public void testNoValidExpandableHexesExistForSize2() {
+<<<<<<< HEAD
         Player player = new Player(Color.BLACK, "1");
+=======
+        Player player = new Player(Color.BLACK, 1, PlayerType.SAFEAI);
+>>>>>>> dba2527626bc142c7ed97d900f953657b78bfafc
         String tileID = "fakeTileID";
         Location loc = new Location(0,0);
         Hex settledHex = new Hex(tileID, Terrain.LAKE);
@@ -726,7 +810,11 @@ public class BoardTest{
 
     @Test
     public void testExpandableHexesExistForSize1() {
+<<<<<<< HEAD
         Player player = new Player(Color.BLACK, "1");
+=======
+        Player player = new Player(Color.BLACK, 1, PlayerType.SAFEAI);
+>>>>>>> dba2527626bc142c7ed97d900f953657b78bfafc
         String tileID = "fakeTileID";
         Location loc = new Location(0,0);
         Hex settledHex = new Hex(tileID, Terrain.LAKE);
@@ -771,7 +859,11 @@ public class BoardTest{
 
     @Test
     public void testExpandableHexesExistForSize2() {
+<<<<<<< HEAD
         Player player = new Player(Color.BLACK, "1");
+=======
+        Player player = new Player(Color.BLACK, 1, PlayerType.SAFEAI);
+>>>>>>> dba2527626bc142c7ed97d900f953657b78bfafc
         String tileID = "fakeTileID";
         Location loc = new Location(0,0);
         Hex settledHex = new Hex(tileID, Terrain.GRASSLANDS);
@@ -821,7 +913,11 @@ public class BoardTest{
 
     @Test
     public void testCannotPopulateAdjacentHexesSize1() {
+<<<<<<< HEAD
         Player player = new Player(Color.BLACK, "1");
+=======
+        Player player = new Player(Color.BLACK, 1, PlayerType.SAFEAI);
+>>>>>>> dba2527626bc142c7ed97d900f953657b78bfafc
         String tileID = "fakeTileID";
         Location loc = new Location(0,0);
         Hex settledHex = new Hex(tileID, Terrain.GRASSLANDS);
@@ -875,7 +971,11 @@ public class BoardTest{
 
     @Test
     public void testCanMakeExpansionMoveSize1() {
+<<<<<<< HEAD
         Player player = new Player(Color.BLACK, "1");
+=======
+        Player player = new Player(Color.BLACK, 1, PlayerType.SAFEAI);
+>>>>>>> dba2527626bc142c7ed97d900f953657b78bfafc
         String tileID = "fakeTileID";
         Location loc = new Location(0,0);
         Hex settledHex = new Hex(tileID, Terrain.GRASSLANDS);
@@ -923,7 +1023,11 @@ public class BoardTest{
 
     @Test
     public void testCannotPopulateAdjacentHexesSize2() {
+<<<<<<< HEAD
         Player player = new Player(Color.BLACK, "1");
+=======
+        Player player = new Player(Color.BLACK, 1, PlayerType.SAFEAI);
+>>>>>>> dba2527626bc142c7ed97d900f953657b78bfafc
         String tileID = "fakeTileID";
         Location loc = new Location(0,0);
         Hex settledHex = new Hex(tileID, Terrain.GRASSLANDS);
@@ -985,7 +1089,11 @@ public class BoardTest{
 
     @Test
     public void testCanMakeExpansionMoveSize2() {
+<<<<<<< HEAD
         Player player = new Player(Color.BLACK, "1");
+=======
+        Player player = new Player(Color.BLACK, 1, PlayerType.SAFEAI);
+>>>>>>> dba2527626bc142c7ed97d900f953657b78bfafc
         String tileID = "fakeTileID";
         Location loc = new Location(0,0);
         Hex settledHex = new Hex(tileID, Terrain.GRASSLANDS);
@@ -1042,7 +1150,11 @@ public class BoardTest{
 
     @Test
     public void testCanExpandVillage() throws InvalidMoveException{
+<<<<<<< HEAD
         Player player = new Player(Color.BLACK, "1");
+=======
+        Player player = new Player(Color.BLACK, 1, PlayerType.SAFEAI);
+>>>>>>> dba2527626bc142c7ed97d900f953657b78bfafc
 
         Location loc1 = new Location(0,1);
         Hex hex1 = new Hex("TileID1", Terrain.VOLCANO);
@@ -1078,7 +1190,11 @@ public class BoardTest{
 
     @Test
     public void testCanContinueExpansionPastImmediateAdjacentHexes() {
+<<<<<<< HEAD
         Player player = new Player(Color.BLACK, "1");
+=======
+        Player player = new Player(Color.BLACK, 1, PlayerType.SAFEAI);
+>>>>>>> dba2527626bc142c7ed97d900f953657b78bfafc
 
         Location loc = new Location(0,0);
         Hex hex = new Hex("TileID1", Terrain.ROCKY);
@@ -1119,7 +1235,11 @@ public class BoardTest{
 
     @Test
     public void testPlayerCannotPopulateAllExpandableHexes() {
+<<<<<<< HEAD
         Player player = new Player(Color.BLACK, "1");
+=======
+        Player player = new Player(Color.BLACK, 1, PlayerType.SAFEAI);
+>>>>>>> dba2527626bc142c7ed97d900f953657b78bfafc
 
         Location loc = new Location(0,0);
         Hex hex = new Hex("TileID1", Terrain.ROCKY);
@@ -1166,7 +1286,11 @@ public class BoardTest{
 
     @Test
     public void testCanExpandIntoHexesOfDifferingHeights() {
+<<<<<<< HEAD
         Player player = new Player(Color.BLACK, "1");
+=======
+        Player player = new Player(Color.BLACK, 1, PlayerType.SAFEAI);
+>>>>>>> dba2527626bc142c7ed97d900f953657b78bfafc
 
         Location loc = new Location(0,0);
         Hex hex = new Hex("TileID1", Terrain.ROCKY);
