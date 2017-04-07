@@ -49,7 +49,7 @@ public final class EndConditions {
         if(currentPlayer.getPieceSet().getNumberOfTigersRemaining() == 0) {
             return true;
         } else {
-            return !board.playerHasSettlementThatCouldAcceptTiger(currentPlayer);
+            return board.settlementsThatCouldAcceptTigerForGivenPlayer(currentPlayer.getPlayerColor()).size() == 0;
         }
     }
 

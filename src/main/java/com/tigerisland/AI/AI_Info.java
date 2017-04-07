@@ -187,4 +187,41 @@ public class AI_Info {
         return habitableLevelThreeHexes;
     }
 
+
+    /*public static ArrayList<TilePlacement> findNukableLocationsToStopOpposingPlayerFromMakingTigerPlacement(Color opposingPlayerColor, Board board, Tile tile){
+        ArrayList<Settlement> opposingSettlementsThatCouldAcceptTiger = board.settlementsThatCouldAcceptTotoroForGivenPlayer(opposingPlayerColor);
+        ArrayList<TilePlacement> validTilePlacements = returnValidTilePlacements(tile, board);
+        ArrayList<TilePlacement> tilePlacementsThatCouldPreventTotoroPlacement = new ArrayList<TilePlacement>();
+
+        for(TilePlacement tilePlacement : validTilePlacements){
+            ArrayList<Settlement> settlementsAdjacentToLocation = board.findAdjacentSettlementsToLocation(tilePlacement.getLocation());
+            for(Settlement settlementAdjacentToLocation : settlementsAdjacentToLocation){
+                boolean settlementFound = false;
+                for(Settlement settlementThatCouldAcceptTotoro : opposingSettlementsThatCouldAcceptTotoro){
+                    if(settlementAdjacentToLocation.equals(settlementThatCouldAcceptTotoro)){
+                        settlementFound = true;
+                    }
+                }
+                if(settlementFound && tilePlacementMakesTotoroPlacementInvalid(settlementAdjacentToLocation, tilePlacement, opposingPlayerColor, board)){
+                    tilePlacementsThatCouldPreventTotoroPlacement.add(tilePlacement);
+                }
+            }
+        }
+
+        return tilePlacementsThatCouldPreventTotoroPlacement;
+    }
+
+    private static boolean tilePlacementMakesTigerPlacementInvalid(Settlement settlement, TilePlacement tilePlacement, Color color, Board board){
+        Board tempBoardOnlyIncludingThisSettlement = new Board(board);
+        int originalNumberOfSettlementsThatCouldAcceptTotoro = tempBoardOnlyIncludingThisSettlement.settlementsThatCouldAcceptTotoroForGivenPlayer(color).size();
+        try {
+            tempBoardOnlyIncludingThisSettlement.placeTile(tilePlacement.getTile(), tilePlacement.getLocation(), tilePlacement.getRotation());
+        }catch(InvalidMoveException e){
+            return false;
+        }
+        tempBoardOnlyIncludingThisSettlement.updateSettlements();
+        int finalNumberOfSettlementsThatCouldAcceptTotoro = tempBoardOnlyIncludingThisSettlement.settlementsThatCouldAcceptTotoroForGivenPlayer(color).size();
+        return finalNumberOfSettlementsThatCouldAcceptTotoro == originalNumberOfSettlementsThatCouldAcceptTotoro - 1;
+    }*/
+
 }
