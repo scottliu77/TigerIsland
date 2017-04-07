@@ -29,13 +29,13 @@ public class ServerSettingsTest {
 
     @Test
     public void testCanSetAndGetPlayerID() {
-        serverSettings.setPlayerID(7);
-        assertTrue(serverSettings.getPlayerID() == 7);
+        serverSettings.setPlayerID("7");
+        assertTrue(serverSettings.getPlayerID().equals("7"));
     }
 
     @Test
     public void testCanSetAndGetOpponentID() {
-        serverSettings.setOpponentID(13);
-        assertTrue(serverSettings.getOpponentID() == 13);
+        serverSettings.setOpponentID("13");
+        assertTrue(serverSettings.getOpponentID().equals("13"));
     }
 }

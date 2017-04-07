@@ -1,7 +1,6 @@
 package com.tigerisland.game;
 
 import com.tigerisland.GameSettings;
-import com.tigerisland.GlobalSettings;
 import com.tigerisland.InvalidMoveException;
 import com.tigerisland.messenger.Message;
 import org.junit.Before;
@@ -24,13 +23,13 @@ public class MoveTest {
 
     @Before
     public void createMoveTargets() throws InterruptedException, InvalidMoveException {
-        player = new Player(Color.BLACK, 1);
+        player = new Player(Color.BLACK, "1");
         board = new Board();
         createBasicMocks();
         gameSettings = new GameSettings();
-        gameSettings.getPlayerSet().setCurrentPlayer(1);
+        gameSettings.getPlayerSet().setCurrentPlayer("1");
         turn = new Turn(gameSettings, board);
-        turn.updateTurn(1, new Tile(Terrain.GRASSLANDS, Terrain.JUNGLE), 1);
+        turn.updateTurnInformation("1", new Tile(Terrain.GRASSLANDS, Terrain.JUNGLE), "1");
         inboundMessages = gameSettings.getGlobalSettings().inboundQueue;
     }
 
@@ -199,7 +198,7 @@ public class MoveTest {
     public void testCanPlaceTigerAndGetAdjustedScore() throws InterruptedException, InvalidMoveException {
 
         inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCKY+GRASSLANDS AT 0 -2 -2 2 FOUND SETTLEMENT AT 1 -1 -2"));
-        gameSettings.getPlayerSet().setCurrentPlayer(1);
+        gameSettings.getPlayerSet().setCurrentPlayer("1");
         turn.processMove();
         turn = Move.takeBuildAction(turn);
 

@@ -20,8 +20,8 @@ public class AI_InfoTest {
     public void setUp() {
         this.board = new Board();
         this.testTile = new Tile(Terrain.GRASSLANDS, Terrain.GRASSLANDS);
-        this.p1 = new Player(Color.BLUE, 1);
-        this.p2 = new Player(Color.PURPLE, 2);
+        this.p1 = new Player(Color.BLUE, "1");
+        this.p2 = new Player(Color.PURPLE, "2");
     }
 
     @Test

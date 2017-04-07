@@ -16,7 +16,7 @@ public class _TotoroLinesAITest {
     @Before
     public void before(){
         GameSettings gameSettings = new GameSettings();
-        gameSettings.getPlayerSet().setCurrentPlayer(1);
+        gameSettings.getPlayerSet().setCurrentPlayer("1");
 
         Board board = new Board();
         board.placeStartingTile();
@@ -30,7 +30,7 @@ public class _TotoroLinesAITest {
     @Ignore("Ignoring: WORK IN PROGRESS") @Test
     public void testAI() throws InvalidMoveException{
         for(int ii=0; ii<6; ii++) {
-            turnState.updateTurn(1, new Tile(Terrain.GRASSLANDS, Terrain.JUNGLE), 1);
+            turnState.updateTurnInformation("1", new Tile(Terrain.GRASSLANDS, Terrain.JUNGLE), "1");
             turnState.getCurrentPlayer().getPlayerAI().pickTilePlacementAndBuildAction(turnState);
 
             try {

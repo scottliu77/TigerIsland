@@ -8,8 +8,8 @@ import static org.junit.Assert.assertTrue;
 
 public class MatchTest {
 
-    private int playerID = 7;
-    private int opponentID = 13;
+    private String playerID = "7";
+    private String opponentID = "13";
     private GlobalSettings globalSettings;
     private Match match;
 

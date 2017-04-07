@@ -14,12 +14,14 @@ public class Game implements Runnable {
     protected GameSettings gameSettings;
     protected Board board;
     protected Turn turnState;
-    protected Player currentPlayer;
+
+    protected Boolean offline;
 
     public Game(GameSettings gameSettings){
         this.gameSettings = gameSettings;
         this.gameID = gameSettings.getGameID();
         this.board = new Board();
+        this.offline = gameSettings.getGlobalSettings().getServerSettings().offline;
     }
 
     public void run() {
@@ -27,23 +29,10 @@ public class Game implements Runnable {
 
             board.placeStartingTile();
 
-            while(true) {
-
-                if(Thread.currentThread().isInterrupted()) {
-                    throw new InterruptedException();
-                }
-
-                checkForMoveToProcess();
-
-                checkForMakeMove();
-
-                if(gameOver()) {
-                    break;
-                }
-
+            while(continuePlayingGame()) {
                 sleep(1);
-
             }
+
         } catch (InterruptedException exception) {
             offlineGenerateGameOverEcho("GAME " + gameID + " MOVE " + turnState.getMoveID() + " PLAYER " + turnState.getCurrentPlayer().getPlayerID() + " FORFEITED: ILLEGAL TILE PLACEMENT");
 
@@ -56,56 +45,92 @@ public class Game implements Runnable {
         }
     }
 
+    private Boolean continuePlayingGame() throws InterruptedException, InvalidMoveException {
+
+        Boolean continueGame = true;
+
+        if(Thread.currentThread().isInterrupted()) {
+            throw new InterruptedException();
+        }
+
+        checkForGameOver();
+
+        checkForMoveToProcess();
+
+        if(offline) {
+            pickOfflineMove();
+        } else {
+            checkForHaveAIPickAMove();
+        }
+
+        if(gameOver()) {
+            continueGame = false;
+        }
+
+        return continueGame;
+    }
+
+    protected void pickOfflineMove() {
+
+    }
+
+    protected  void checkForGameOver() throws InvalidMoveException {
+        for(Message message: gameSettings.getGlobalSettings().inboundQueue) {
+            if(message.getMessageType().getSubtype().equals("GAMEOVER")) {
+                message.setProcessed();
+                throw new InvalidMoveException("Game is now over, no moves made");
+            }
+        }
+    }
+
     protected void checkForMoveToProcess() throws InvalidMoveException, InterruptedException {
         for(Message message : gameSettings.getGlobalSettings().inboundQueue) {
-            if(message.getMessageType().getSubtype().equals(MessageType.BUILDTOTORO.getSubtype())) {
-                gameSettings.getPlayerSet().setCurrentPlayer(message.getOurPlayerID());
-                takeAnotherTurn();
-            } else if(message.getMessageType().getSubtype().equals(MessageType.FORFEITBUILD.getSubtype())) {
+            if(message.getMessageType().getSubtype().equals("BUILDACTION")) {
                 message.setProcessed();
-                throw new InvalidMoveException("Server sent invalid move exception");
+                processMove(message);
             }
         }
     }
 
-    protected void checkForMakeMove() throws InvalidMoveException, InterruptedException {
-        if(gameSettings.getGlobalSettings().getServerSettings().offline) {
-            turnState.getCurrentPlayer().getPlayerAI().pickTilePlacementAndBuildAction(turnState);
-        } else {
-            for(Message message : gameSettings.getGlobalSettings().inboundQueue) {
-                if(message.getMessageType() == MessageType.MAKEMOVE) {
-                    message.setProcessed();
-                    turnState.updateTurn(message);
-                    turnState.getCurrentPlayer().getPlayerAI().pickTilePlacementAndBuildAction(turnState);
-                    turnState.processMove();
-                }
-            }
-        }
-    }
+    private void processMove(Message message) throws InvalidMoveException {
 
-    protected Boolean takeAnotherTurn() throws InvalidMoveException, InterruptedException {
-
-        packageTurnState();
+        turnState = packageTurnState(message);
 
         turnState = Move.placeTile(turnState);
 
-        if(EndConditions.noValidMoves(currentPlayer, board)) {
+        if(EndConditions.noValidMoves(gameSettings.getPlayerSet().getCurrentPlayer(), board)) {
             unpackageTurnState(turnState);
-            return false;
+            throw new InvalidMoveException("No valid moves ");
         }
 
         turnState = Move.takeBuildAction(turnState);
 
         unpackageTurnState(turnState);
 
-        if(EndConditions.playerIsOutOfPiecesOfTwoTypes(currentPlayer)) {
-            return false;
+        if(EndConditions.playerIsOutOfPiecesOfTwoTypes(gameSettings.getPlayerSet().getCurrentPlayer())) {
+            throw new InvalidMoveException("Player is out of pieces");
         }
 
-        return true;
     }
 
-    protected Turn packageTurnState() throws InterruptedException, InvalidMoveException {
+    protected void checkForHaveAIPickAMove() throws InvalidMoveException, InterruptedException {
+         for(Message message : gameSettings.getGlobalSettings().inboundQueue) {
+            if(message.getMessageType() == MessageType.MAKEMOVE) {
+                message.setProcessed();
+                pickMove(message);
+            }
+         }
+    }
+
+    private void pickMove(Message message) {
+        turnState.updateTurnInformation(message);
+        turnState.getCurrentPlayer().getPlayerAI().pickTilePlacementAndBuildAction(turnState);
+    }
+
+    protected Turn packageTurnState(Message message) {
+
+        gameSettings.getPlayerSet().setCurrentPlayer(message.getCurrentPlayerID());
+        gameSettings.setMoveID(message.getMoveID());
 
         turnState = new Turn(gameSettings, board);
 
@@ -129,7 +154,7 @@ public class Game implements Runnable {
     }
 
     private void offlineGenerateGameOverEcho(String message) {
-        if(gameSettings.getGlobalSettings().getServerSettings().offline) {
+        if(offline) {
             gameSettings.getGlobalSettings().outboundQueue.add(new Message(message));
         }
     }
@@ -146,7 +171,7 @@ public class Game implements Runnable {
         return gameID;
     }
 
-    public int getMoveID() {
+    public String getMoveID() {
         return turnState.getMoveID();
     }
 }

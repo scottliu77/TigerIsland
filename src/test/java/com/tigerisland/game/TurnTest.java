@@ -1,7 +1,6 @@
 package com.tigerisland.game;
 
 import com.tigerisland.GameSettings;
-import com.tigerisland.GlobalSettings;
 import com.tigerisland.InvalidMoveException;
 import com.tigerisland.messenger.Message;
 import org.junit.Before;
@@ -21,13 +20,13 @@ public class TurnTest {
 
     @Before
     public void createTurnObject() {
-        player = new Player(Color.BLACK, 1);
+        player = new Player(Color.BLACK, "1");
         board = new Board();
         gameSettings = new GameSettings();
-        gameSettings.getPlayerSet().setCurrentPlayer(1);
+        gameSettings.getPlayerSet().setCurrentPlayer("1");
 
         turn = new Turn(gameSettings, board);
-        turn.updateTurn(1, new Tile(Terrain.GRASSLANDS, Terrain.JUNGLE), 1);
+        turn.updateTurnInformation("1", new Tile(Terrain.GRASSLANDS, Terrain.JUNGLE), "1");
         inboundMessages = gameSettings.getGlobalSettings().inboundQueue;
         inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCKY+LAKE AT 0 0 0 1 FOUNDED SETTLEMENT AT 0 0 0"));
     }

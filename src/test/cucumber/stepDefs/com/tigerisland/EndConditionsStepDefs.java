@@ -18,11 +18,11 @@ import static org.junit.Assert.assertTrue;
 
 public class EndConditionsStepDefs {
 
-    private final int playerID = 1;
-    private final int opponentID = 2;
+    private final String playerID = "1";
+    private final String opponentID = "2";
     private Game game;
     private Player player;
-    private HashMap<Integer, Player> players;
+    private HashMap<String, Player> players;
     private Deck deck;
 
     public EndConditionsStepDefs() throws ArgumentParserException {

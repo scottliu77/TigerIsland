@@ -18,12 +18,13 @@ public class GameTest {
     private BlockingQueue<Message> inboundMessages;
     private GameSettings gameSettings;
     private Game game;
-    private Player playerBlack = new Player(Color.BLACK, 1);
+    private Player playerBlack = new Player(Color.BLACK, "1");
 
     @Before
     public void createGame() {
         this.gameSettings = new GameSettings(globalSettings);
         gameSettings.setGameID("A");
+        gameSettings.getPlayerSet().setCurrentPlayer("1");
         this.inboundMessages = gameSettings.getGlobalSettings().inboundQueue;
         this.gameSettings.setPlayOrder();
         setAllPlayersToServer();
@@ -34,7 +35,7 @@ public class GameTest {
         for(Player player : gameSettings.getPlayerSet().getPlayerList().values()) {
             player.setPlayerType(PlayerType.SERVER);
         }
-        gameSettings.getPlayerSet().setCurrentPlayer(1);
+        gameSettings.getPlayerSet().setCurrentPlayer("1");
     }
 
     @Before
@@ -60,14 +61,16 @@ public class GameTest {
 
     @Test
     public void testCanSafelyPackageGameState() throws InvalidMoveException, InterruptedException {
-        Turn newTurn = game.packageTurnState();
+        inboundMessages.add(new Message("GAME A MOVE 1 PLAYER 1 PLACE ROCKY+GRASSLANDS AT 0 0 0 1 FOUND SETTLEMENT AT -1 -1 0"));
+        Turn newTurn = game.packageTurnState(inboundMessages.remove());
         newTurn.getCurrentPlayer().getScore().addPoints(1);
         assertTrue(game.getGameSettings().getPlayerSet().getCurrentPlayer().getScore().getScoreValue() == 0);
     }
 
     @Test
     public void testCanSafelyUnpackageGameState() throws InvalidMoveException, InterruptedException {
-        Turn newTurn = game.packageTurnState();
+        inboundMessages.add(new Message("GAME A MOVE 1 PLAYER 1 PLACE ROCKY+GRASSLANDS AT 0 0 0 1 FOUND SETTLEMENT AT -1 -1 0"));
+        Turn newTurn = game.packageTurnState(inboundMessages.remove());
         newTurn.getCurrentPlayer().getScore().addPoints(1);
         game.unpackageTurnState(newTurn);
         assertTrue(game.getGameSettings().getPlayerSet().getCurrentPlayer().getScore().getScoreValue() == 1);

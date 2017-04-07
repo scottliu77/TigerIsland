@@ -16,10 +16,10 @@ public final class ServerMessages {
     public static final Pattern roundEndWaitPattern = Pattern.compile("END OF ROUND \\d+ OF \\d+ WAIT FOR THE NEXT MATCH");
     public static final Pattern roundEndPattern = Pattern.compile("END OF ROUND \\d+ OF \\d+");
 
-    public static final Pattern matchStartPattern = Pattern.compile("NEW MATCH BEGINNING NOW YOUR OPPONENT IS PLAYER \\d+");
-    public static final Pattern matchOverPattern = Pattern.compile("GAME \\w+ OVER PLAYER \\d+ \\d+ PLAYER \\d+ \\d+");
+    public static final Pattern matchStartPattern = Pattern.compile("NEW MATCH BEGINNING NOW YOUR OPPONENT IS PLAYER \\w+");
+    public static final Pattern matchOverPattern = Pattern.compile("GAME \\w+ OVER PLAYER \\w+ \\d+ PLAYER \\w+ \\d+");
 
-    public static final Pattern makeMovePattern = Pattern.compile("MAKE YOUR MOVE IN GAME \\w+ WITHIN \\d+(.\\d+)? SECOND(S)?: MOVE \\d+ PLACE \\w+[\\+ ]?\\w+");
+    public static final Pattern makeMovePattern = Pattern.compile("MAKE YOUR MOVE IN GAME \\w+ WITHIN \\d+(.\\d+)? SECOND(S)?: MOVE \\w+ PLACE \\w+[\\+ ]?\\w+");
     public static final Pattern tournamentEndPattern = Pattern.compile("THANK YOU FOR PLAYING! GOODBYE");
 
     public static final Pattern forfeitIllegalTilePlacementPattern = Pattern.compile("FORFEITED: ILLEGAL TILE PLACEMENT");

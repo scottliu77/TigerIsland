@@ -8,19 +8,19 @@ public class GameSettings {
     private GlobalSettings globalSettings;
     private Deck deck;
     private PlayerSet playerSet;
-    private String gameID;
+
+    private String gameID = "A";
+    private String moveID = "1";
 
     public GameSettings() {
         this.globalSettings = setPlayerIDsIfNull(new GlobalSettings());
         this.playerSet = new PlayerSet(globalSettings);
-        this.gameID = "A";
         setPlayOrder();
     }
 
     public GameSettings(GlobalSettings settings) {
         this.globalSettings = setPlayerIDsIfNull(settings);
         this.playerSet = new PlayerSet(globalSettings);
-        this.gameID = "A";
         setPlayOrder();
         setDeck();
     }
@@ -29,15 +29,14 @@ public class GameSettings {
         this.globalSettings = gameSettings.getGlobalSettings();
         this.deck = new Deck(gameSettings.getDeck());
         this.playerSet = new PlayerSet(gameSettings.getPlayerSet());
-        this.gameID = "A";
     }
 
     private GlobalSettings setPlayerIDsIfNull(GlobalSettings globalSettings) {
         if(globalSettings.getServerSettings().getPlayerID() == null) {
-            globalSettings.getServerSettings().setPlayerID(1);
+            globalSettings.getServerSettings().setPlayerID("1");
         }
         if(globalSettings.getServerSettings().getOpponentID() == null) {
-            globalSettings.getServerSettings().setOpponentID(2);
+            globalSettings.getServerSettings().setOpponentID("2");
         }
         return globalSettings;
     }
@@ -79,4 +78,13 @@ public class GameSettings {
     public String getGameID() {
         return gameID;
     }
+
+    public void setMoveID(String moveID) {
+        this.moveID = moveID;
+    }
+
+    public String getMoveID() {
+        return moveID;
+    }
+
 }

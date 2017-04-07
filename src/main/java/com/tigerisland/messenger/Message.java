@@ -1,11 +1,9 @@
 package com.tigerisland.messenger;
 
-import com.tigerisland.Match;
 import com.tigerisland.game.Location;
 import com.tigerisland.game.Terrain;
 import com.tigerisland.game.Tile;
 
-import java.lang.reflect.Field;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,8 +13,8 @@ public class Message {
     public static final Pattern authenticationPattern = Pattern.compile("I AM \\w+ \\w+");
 
     public static final Pattern gameIDPattern = Pattern.compile("GAME \\w+");
-    public static final Pattern moveIDPattern = Pattern.compile("MOVE \\d+");
-    public static final Pattern playerIDPattern = Pattern.compile("PLAYER \\d+");
+    public static final Pattern moveIDPattern = Pattern.compile("MOVE \\w+");
+    public static final Pattern currentPlayerIDPattern = Pattern.compile("PLAYER \\w+");
 
     public static final Pattern placeTilePattern = Pattern.compile("PLACE(D)? \\w+[\\+ ]?\\w+ AT -?\\d+ -?\\d+ -?\\d+ -?\\d+");
 
@@ -31,19 +29,18 @@ public class Message {
     private String teamUsername;
     private String teamPassword;
 
-    private Integer ourPlayerID;
-
     private String challengeID;
     private Integer roundCount;
 
     private String gameID;
-    private Integer moveID;
+    private String moveID;
     private Double turnTime;
 
-    private Integer playerID;
-    private Integer opponentID;
+    private String currentPlayerID;
+    private String ourPlayerID;
+    private String opponentID;
 
-    private Integer playerScore;
+    private Integer ourPlayerScore;
     private Integer opponentScore;
 
     private MessageType messageType;
@@ -64,7 +61,7 @@ public class Message {
 
         checkForEnterTournament();
         checkForAuthenticateTeam();
-        checkForOurPlayerID();
+        checkForCurrentPlayerID();
 
         checkForNewChallenge();
         checkForRoundStart();
@@ -116,14 +113,14 @@ public class Message {
     private void checkForMoveID() {
         Matcher moveMatcher = moveIDPattern.matcher(message);
         while(moveMatcher.find()) {
-            moveID = Integer.valueOf(moveMatcher.group().replaceAll("\\D+", ""));
+            moveID = moveMatcher.group().replaceAll("\\D+", "");
         }
     }
 
-    private void checkForOurPlayerID() {
+    private void checkForCurrentPlayerID() {
         Matcher playerMatcher = ServerMessages.authWaitPlayerIDPattern.matcher(message);
         while(playerMatcher.find()) {
-            ourPlayerID = Integer.valueOf(playerMatcher.group().replaceAll("\\D+", ""));
+            currentPlayerID = playerMatcher.group().replaceAll("\\D+", "");
 
             messageType = MessageType.PLAYERID;
         }
@@ -155,16 +152,16 @@ public class Message {
         while(matchMatcher.find()) {
             String match = matchMatcher.group();
 
-            opponentID = Integer.valueOf(match.split("\\s+")[8]);
+            opponentID = match.split("\\s+")[8];
 
             messageType = MessageType.MATCHSTARTED;
         }
     }
 
     private void checkForGeneralPlayerID() {
-        Matcher playerMatcher = playerIDPattern.matcher(message);
+        Matcher playerMatcher = currentPlayerIDPattern.matcher(message);
         while(playerMatcher.find()) {
-            playerID = Integer.valueOf(playerMatcher.group().replaceAll("\\D+", ""));
+            currentPlayerID = playerMatcher.group().replaceAll("\\D+", "");
         }
     }
 
@@ -311,7 +308,7 @@ public class Message {
 
             turnTime = Double.valueOf(match.split("\\s+")[7]);
 
-            moveID = Integer.valueOf(match.split("\\s+")[10]);
+            moveID = match.split("\\s+")[10];
 
             leftTerrain = Terrain.valueOf(match.split("\\s+")[12]);
             rightTerrain = Terrain.valueOf(match.split("\\s+")[13]);
@@ -331,10 +328,10 @@ public class Message {
 
             gameID = match.split("\\s+")[1];
 
-            playerID = Integer.valueOf(match.split("\\s+")[4]);
-            playerScore = Integer.valueOf(match.split("\\s+")[5]);
+            ourPlayerID = match.split("\\s+")[4];
+            ourPlayerScore = Integer.valueOf(match.split("\\s+")[5]);
 
-            opponentID = Integer.valueOf(match.split("\\s+")[7]);
+            opponentID = match.split("\\s+")[7];
             opponentScore = Integer.valueOf(match.split("\\s+")[8]);
 
             messageType = MessageType.MATCHOVER;
@@ -384,7 +381,7 @@ public class Message {
         return gameID;
     }
 
-    public Integer getMoveID() {
+    public String getMoveID() {
         return moveID;
     }
 
@@ -392,11 +389,11 @@ public class Message {
         return turnTime;
     }
 
-    public Integer getPlayerID() {
-        return playerID;
+    public String getPlayerID() {
+        return currentPlayerID;
     }
 
-    public Integer getOurPlayerID() {
+    public String getOurPlayerID() {
         return ourPlayerID;
     }
 
@@ -448,15 +445,19 @@ public class Message {
         return roundCount;
     }
 
-    public Integer getOpponentID() {
+    public String getOpponentID() {
         return opponentID;
     }
 
-    public Integer getPlayerScore() {
-        return playerScore;
+    public Integer getOurPlayerScore() {
+        return ourPlayerScore;
     }
 
     public Integer getOpponentScore() {
         return opponentScore;
+    }
+
+    public String getCurrentPlayerID() {
+        return currentPlayerID;
     }
 }

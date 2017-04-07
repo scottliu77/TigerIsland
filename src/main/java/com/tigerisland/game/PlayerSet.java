@@ -6,51 +6,51 @@ import java.util.*;
 
 public class PlayerSet {
 
-    private int currentPlayer;
-    private HashMap<Integer, Player> players = new HashMap<Integer, Player>();
+    private String currentPlayer;
+    private HashMap<String, Player> players = new HashMap<String, Player>();
 
     public PlayerSet(GlobalSettings globalSettings) {
-        int ourPlayerID = globalSettings.getServerSettings().getPlayerID();
+        String ourPlayerID = globalSettings.getServerSettings().getPlayerID();
         Player ourPlayer = new Player(Color.WHITE, ourPlayerID);
 
         //TODO Confirm target AI
         ourPlayer.setPlayerType(PlayerType.SAFEAI);
         players.put(ourPlayerID, ourPlayer);
 
-        int opponentPlayerID = globalSettings.getServerSettings().getOpponentID();
+        String opponentPlayerID = globalSettings.getServerSettings().getOpponentID();
         Player opponentPlayer = new Player(Color.BLACK, opponentPlayerID);
         players.put(opponentPlayerID, opponentPlayer);
     }
 
     public PlayerSet(PlayerSet playerSet) {
-        this.players = new HashMap<Integer, Player>();
-        for(int key: players.keySet()) {
+        this.players = new HashMap<String, Player>();
+        for(String key: players.keySet()) {
             this.players.put(key, new Player(playerSet.getPlayer(key)));
         }
     }
 
-    public void updatePlayerState(int playerID, Player updatedPlayer) {
+    public void updatePlayerState(String playerID, Player updatedPlayer) {
         players.put(playerID, updatedPlayer);
     }
 
     public void incrementPlayer() {
-        for(int key : players.keySet()) {
-            if(currentPlayer != key) {
+        for(String key : players.keySet()) {
+            if(!currentPlayer.equals(key)) {
                 currentPlayer = key;
                 return;
             }
         }
     }
 
-    public HashMap<Integer, Player> getPlayerList() {
+    public HashMap<String, Player> getPlayerList() {
         return players;
     }
 
-    public Player getPlayer(int playerID) {
+    public Player getPlayer(String playerID) {
         return players.get(playerID);
     }
 
-    public void setCurrentPlayer(int playerID) {
+    public void setCurrentPlayer(String playerID) {
         currentPlayer = playerID;
     }
 

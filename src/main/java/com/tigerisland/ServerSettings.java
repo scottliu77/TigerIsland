@@ -19,8 +19,8 @@ public class ServerSettings {
     public final String username;
     public final String password;
 
-    private Integer playerID = null;
-    private Integer opponentID = null;
+    private String playerID = null;
+    private String opponentID = null;
 
     public final Boolean offline;
     public static Boolean localServerRunning;
@@ -48,19 +48,19 @@ public class ServerSettings {
         this.localServerRunning = localServerRunning;
     }
 
-    public void setPlayerID(int playerID) {
+    public void setPlayerID(String playerID) {
         this.playerID = playerID;
     }
 
-    public Integer getPlayerID() {
+    public String getPlayerID() {
         return playerID;
     }
 
-    public void setOpponentID(int opponentID) {
+    public void setOpponentID(String opponentID) {
         this.opponentID = opponentID;
     }
 
-    public Integer getOpponentID() {
+    public String getOpponentID() {
         return opponentID;
     }
 }

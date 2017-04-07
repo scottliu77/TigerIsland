@@ -12,7 +12,7 @@ import static java.lang.Thread.sleep;
 public class Turn {
 
     public final String gameID;
-    private int moveID;
+    private String moveID;
     private Tile currentTile;
     private GameSettings gameSettings;
     public final BlockingQueue<Message> inboundMessages;
@@ -36,13 +36,13 @@ public class Turn {
         this.board = new Board(board);
     }
 
-    public void updateTurn(Message message) {
+    public void updateTurnInformation(Message message) {
         moveID = message.getMoveID();
         currentTile = message.getTile();
         gameSettings.getPlayerSet().setCurrentPlayer(message.getOurPlayerID());
     }
 
-    public void updateTurn(int moveID, Tile currentTile, int currentPlayer) {
+    public void updateTurnInformation(String moveID, Tile currentTile, String currentPlayer) {
         this.moveID = moveID;
         this.currentTile = currentTile;
         gameSettings.getPlayerSet().setCurrentPlayer(currentPlayer);
@@ -53,7 +53,7 @@ public class Turn {
             for(Message message : inboundMessages) {
                 if(message.getMessageType() != MessageType.PROCESSED) {
                     if(message.getGameID().equals(gameID)) {
-                        if(message.getMoveID() == getMoveID()) {
+                        if(message.getMoveID().equals(getMoveID())) {
 
                             parseTilePlacement(message);
                             filterBuildAction(message);
@@ -95,7 +95,7 @@ public class Turn {
         }
     }
 
-    public int getMoveID() {
+    public String getMoveID() {
         return moveID;
     }
 

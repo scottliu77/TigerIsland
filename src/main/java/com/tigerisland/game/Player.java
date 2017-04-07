@@ -4,7 +4,7 @@ import com.tigerisland.AI.AI;
 
 public class Player {
 
-    private int playerID;
+    private String playerID;
 
     private Score score;
     private Color color;
@@ -12,7 +12,7 @@ public class Player {
     private PlayerType playerType;
     private AI playerAI;
 
-    public Player(Color color, int playerID) {
+    public Player(Color color, String playerID) {
         this.color = color;
         this.playerID = playerID;
         score = new Score();
@@ -62,7 +62,7 @@ public class Player {
         return playerAI;
     }
 
-    public int getPlayerID() {
+    public String getPlayerID() {
         return playerID;
     }
 }

@@ -19,7 +19,7 @@ public class EndConditionsTest {
 
     private Game game;
     private Player currentPlayer;
-    private HashMap<Integer, Player> players;
+    private HashMap<String, Player> players;
     private Board board;
     private Tile tile;
     private Tile tile2;
@@ -45,12 +45,12 @@ public class EndConditionsTest {
         board.placeTile(tile3, location3, 120);
 
         GlobalSettings globalSettings = new GlobalSettings();
-        globalSettings.getServerSettings().setPlayerID(1);
-        globalSettings.getServerSettings().setOpponentID(2);
+        globalSettings.getServerSettings().setPlayerID("1");
+        globalSettings.getServerSettings().setOpponentID("2");
         PlayerSet tempPlayerSet = new PlayerSet(globalSettings);
         this.players = tempPlayerSet.getPlayerList();
 
-        tempPlayerSet.setCurrentPlayer(1);
+        tempPlayerSet.setCurrentPlayer("1");
         this.currentPlayer = tempPlayerSet.getCurrentPlayer();
 
     }
@@ -174,7 +174,7 @@ public class EndConditionsTest {
         currentPlayer.getPieceSet().placeMultipleVillagers(20);
         for(int totoros = 0; totoros < 3; totoros++) { currentPlayer.getPieceSet().placeTotoro(); }
         for(int tigers = 0; tigers < 2; tigers++) { currentPlayer.getPieceSet().placeTiger(); }
-        players.get(2).getScore().addPoints(1);
+        players.get("2").getScore().addPoints(1);
         Player winner = EndConditions.calculateWinner(currentPlayer, players);
         assertTrue(winner != currentPlayer);
     }
