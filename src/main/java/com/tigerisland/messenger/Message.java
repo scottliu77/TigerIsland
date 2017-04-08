@@ -1,5 +1,6 @@
 package com.tigerisland.messenger;
 
+import com.tigerisland.game.BuildActionType;
 import com.tigerisland.game.Location;
 import com.tigerisland.game.Terrain;
 import com.tigerisland.game.Tile;
@@ -44,6 +45,7 @@ public class Message {
     private Integer opponentScore;
 
     private MessageType messageType;
+    private BuildActionType buildActionType;
 
     private Tile tile;
     private Location tileLocation;
@@ -120,7 +122,7 @@ public class Message {
     private void checkForCurrentPlayerID() {
         Matcher playerMatcher = ServerMessages.authWaitPlayerIDPattern.matcher(message);
         while(playerMatcher.find()) {
-            currentPlayerID = playerMatcher.group().replaceAll("\\D+", "");
+            ourPlayerID = playerMatcher.group().replaceAll("\\D+", "");
 
             messageType = MessageType.PLAYERID;
         }
@@ -216,6 +218,8 @@ public class Message {
 
             buildLocation = Adapter.convertLocationCubeToAxial(buildCubeLocation);
             messageType = MessageType.FOUNDSETTLEMENT;
+
+            buildActionType = BuildActionType.VILLAGECREATION;
         }
     }
 
@@ -235,6 +239,8 @@ public class Message {
 
             buildLocation = Adapter.convertLocationCubeToAxial(buildCubeLocation);
             messageType = MessageType.BUILDTOTORO;
+
+            buildActionType = BuildActionType.TOTOROPLACEMENT;
         }
     }
 
@@ -254,6 +260,8 @@ public class Message {
 
             buildLocation = Adapter.convertLocationCubeToAxial(buildCubeLocation);
             messageType = MessageType.BUILDTIGER;
+
+            buildActionType = BuildActionType.TIGERPLACEMENT;
         }
     }
 
@@ -274,6 +282,8 @@ public class Message {
             expandTerrain = Terrain.valueOf(match.split("\\s+")[6]);
             buildLocation = Adapter.convertLocationCubeToAxial(buildCubeLocation);
             messageType = MessageType.EXPANDSETTLEMENT;
+
+            buildActionType = BuildActionType.VILLAGEEXPANSION;
         }
     }
 
@@ -459,5 +469,9 @@ public class Message {
 
     public String getCurrentPlayerID() {
         return currentPlayerID;
+    }
+
+    public BuildActionType getBuildActionType() {
+        return buildActionType;
     }
 }

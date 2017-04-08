@@ -24,19 +24,9 @@ public class GameTest {
     @Before
     public void createGame() {
         this.gameSettings = new GameSettings(globalSettings);
-        gameSettings.setGameID("A");
-        gameSettings.getPlayerSet().setCurrentPlayer("1");
         this.inboundMessages = gameSettings.getGlobalSettings().inboundQueue;
-        this.gameSettings.setPlayOrder();
-        setAllPlayersToServer();
+        this.gameSettings.constructPlayerSet();
         this.game = new Game(gameSettings);
-    }
-
-    private void setAllPlayersToServer() {
-        for(Player player : gameSettings.getPlayerSet().getPlayerList().values()) {
-            player.setPlayerType(PlayerType.SERVER);
-        }
-        gameSettings.getPlayerSet().setCurrentPlayer("1");
     }
 
     @Before
@@ -58,23 +48,6 @@ public class GameTest {
     @Test
     public void testCanCreateGame() {
         assertTrue(game != null);
-    }
-
-    @Test
-    public void testCanSafelyPackageGameState() throws InvalidMoveException, InterruptedException {
-        inboundMessages.add(new Message("GAME A MOVE 1 PLAYER 1 PLACE ROCKY+GRASSLANDS AT 0 0 0 1 FOUND SETTLEMENT AT -1 -1 0"));
-        Turn newTurn = game.packageTurnState(inboundMessages.remove());
-        newTurn.getCurrentPlayer().getScore().addPoints(1);
-        assertTrue(game.getGameSettings().getPlayerSet().getCurrentPlayer().getScore().getScoreValue() == 0);
-    }
-
-    @Test
-    public void testCanSafelyUnpackageGameState() throws InvalidMoveException, InterruptedException {
-        inboundMessages.add(new Message("GAME A MOVE 1 PLAYER 1 PLACE ROCKY+GRASSLANDS AT 0 0 0 1 FOUND SETTLEMENT AT -1 -1 0"));
-        Turn newTurn = game.packageTurnState(inboundMessages.remove());
-        newTurn.getCurrentPlayer().getScore().addPoints(1);
-        game.unpackageTurnState(newTurn);
-        assertTrue(game.getGameSettings().getPlayerSet().getCurrentPlayer().getScore().getScoreValue() == 1);
     }
 
     @Test

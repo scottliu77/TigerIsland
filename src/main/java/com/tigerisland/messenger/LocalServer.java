@@ -1,5 +1,6 @@
 package com.tigerisland.messenger;
 
+import com.tigerisland.Deck;
 import com.tigerisland.GlobalSettings;
 import com.tigerisland.ServerSettings;
 
@@ -25,6 +26,7 @@ public class LocalServer implements Runnable {
     private int port;
     private ServerSocket dummyListener;
     private Boolean running = true;
+
 
     public LocalServer(GlobalSettings globalSettings) {
         this.globalSettings = globalSettings;
@@ -70,6 +72,9 @@ public class LocalServer implements Runnable {
         private BufferedReader reader;
         private PrintWriter writer;
         private String message;
+
+        private int moveID;
+        private Deck deck;
 
         Messenger(Socket socket, GlobalSettings globalSettings) {
             this.dummySocket = socket;

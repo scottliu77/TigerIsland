@@ -17,11 +17,17 @@ public class Game implements Runnable {
 
     protected Boolean offline;
 
+    private String ourPlayerID;
+
+    private int moveID = 0;
+
     public Game(GameSettings gameSettings){
+        this.ourPlayerID = gameSettings.getGlobalSettings().getServerSettings().getPlayerID();
         this.gameSettings = gameSettings;
         this.gameID = gameSettings.getGameID();
         this.board = new Board();
         this.offline = gameSettings.getGlobalSettings().getServerSettings().offline;
+        this.turnState = new Turn(gameSettings, board);
     }
 
     public void run() {
@@ -38,7 +44,6 @@ public class Game implements Runnable {
 
         } catch (InvalidMoveException exception) {
             offlineGenerateGameOverEcho("GAME " + gameID + " MOVE " + turnState.getMoveID() + " PLAYER " + turnState.getCurrentPlayer().getPlayerID() + " FORFEITED: ILLEGAL TILE PLACEMENT");
-
         } finally {
             Player winner = EndConditions.calculateWinner(gameSettings.getPlayerSet().getCurrentPlayer(), gameSettings.getPlayerSet().getPlayerList());
             offlineGenerateGameOverEcho("GAME " + gameID + " OVER PLAYER " + winner.getPlayerID() + " " + winner.getScore().getScoreValue() + " PLAYER 0 75");
@@ -47,21 +52,23 @@ public class Game implements Runnable {
 
     private Boolean continuePlayingGame() throws InterruptedException, InvalidMoveException {
 
+        TextGUI.printMap(board);
+
         Boolean continueGame = true;
 
         if(Thread.currentThread().isInterrupted()) {
             throw new InterruptedException();
         }
 
+        if(offline) {
+            mockMakeMoveMessage();
+        }
+
+        checkForHaveAIPickAMove();
+
         checkForGameOver();
 
         checkForMoveToProcess();
-
-        if(offline) {
-            pickOfflineMove();
-        } else {
-            checkForHaveAIPickAMove();
-        }
 
         if(gameOver()) {
             continueGame = false;
@@ -70,8 +77,35 @@ public class Game implements Runnable {
         return continueGame;
     }
 
-    protected void pickOfflineMove() {
+    protected void mockMakeMoveMessage() {
 
+        String makeMoveMessage = "MAKE YOUR MOVE IN GAME " + gameSettings.getGameID();
+        makeMoveMessage = makeMoveMessage + " WITHIN 1.5 SECONDS:";
+
+        makeMoveMessage = makeMoveMessage + " MOVE " + Integer.toString(moveID + 1) + " PLACE ";
+
+        Tile newTile = gameSettings.getDeck().drawTile();
+        String leftTerrain = newTile.getLeftHex().getHexTerrain().name();
+        String rightTerrain = newTile.getRightHex().getHexTerrain().name();
+
+        makeMoveMessage = makeMoveMessage + leftTerrain + "+" + rightTerrain;
+
+        gameSettings.getGlobalSettings().inboundQueue.add(new Message(makeMoveMessage));
+    }
+
+    protected void checkForHaveAIPickAMove() throws InvalidMoveException, InterruptedException {
+        for(Message message : gameSettings.getGlobalSettings().inboundQueue) {
+            if(message.getMessageType() == MessageType.MAKEMOVE) {
+                message.setProcessed();
+                gameSettings.getPlayerSet().setCurrentPlayer(ourPlayerID);
+                pickMove(message);
+            }
+        }
+    }
+
+    private void pickMove(Message message) {
+        turnState.updateTurnInformation(message.getMoveID(), message.getTile(), ourPlayerID);
+        turnState.getCurrentPlayer().getPlayerAI().pickTilePlacementAndBuildAction(turnState);
     }
 
     protected  void checkForGameOver() throws InvalidMoveException {
@@ -86,61 +120,30 @@ public class Game implements Runnable {
     protected void checkForMoveToProcess() throws InvalidMoveException, InterruptedException {
         for(Message message : gameSettings.getGlobalSettings().inboundQueue) {
             if(message.getMessageType().getSubtype().equals("BUILDACTION")) {
-                message.setProcessed();
                 processMove(message);
             }
         }
     }
 
-    private void processMove(Message message) throws InvalidMoveException {
+    private void processMove(Message message) throws InvalidMoveException, InterruptedException {
 
-        turnState = packageTurnState(message);
+        gameSettings.getPlayerSet().setCurrentPlayer(message.getCurrentPlayerID());
+        gameSettings.setMoveID(message.getMoveID());
+
+        turnState.processMove();
 
         turnState = Move.placeTile(turnState);
 
         if(EndConditions.noValidMoves(gameSettings.getPlayerSet().getCurrentPlayer(), board)) {
-            unpackageTurnState(turnState);
             throw new InvalidMoveException("No valid moves ");
         }
 
         turnState = Move.takeBuildAction(turnState);
 
-        unpackageTurnState(turnState);
-
         if(EndConditions.playerIsOutOfPiecesOfTwoTypes(gameSettings.getPlayerSet().getCurrentPlayer())) {
             throw new InvalidMoveException("Player is out of pieces");
         }
 
-    }
-
-    protected void checkForHaveAIPickAMove() throws InvalidMoveException, InterruptedException {
-         for(Message message : gameSettings.getGlobalSettings().inboundQueue) {
-            if(message.getMessageType() == MessageType.MAKEMOVE) {
-                message.setProcessed();
-                pickMove(message);
-            }
-         }
-    }
-
-    private void pickMove(Message message) {
-        turnState.updateTurnInformation(message);
-        turnState.getCurrentPlayer().getPlayerAI().pickTilePlacementAndBuildAction(turnState);
-    }
-
-    protected Turn packageTurnState(Message message) {
-
-        gameSettings.getPlayerSet().setCurrentPlayer(message.getCurrentPlayerID());
-        gameSettings.setMoveID(message.getMoveID());
-
-        turnState = new Turn(gameSettings, board);
-
-        return turnState;
-
-    }
-
-    protected void unpackageTurnState(Turn turnState) {
-        gameSettings.getPlayerSet().getCurrentPlayer().updatePlayerState(turnState.getCurrentPlayer());
-        board = turnState.getBoard();
     }
 
     protected Boolean gameOver() {
@@ -171,7 +174,4 @@ public class Game implements Runnable {
         return gameID;
     }
 
-    public String getMoveID() {
-        return turnState.getMoveID();
-    }
 }

@@ -5,7 +5,6 @@ import com.tigerisland.messenger.Adapter;
 
 public class SafeAI extends AI {
 
-
     public void decideOnMove() {
         pickSafeTilePlacement();
         pickSafeBuildAction();

@@ -1,9 +1,15 @@
 package com.tigerisland;
 
+import com.tigerisland.game.Color;
+import com.tigerisland.game.Player;
 import com.tigerisland.game.PlayerSet;
 import com.tigerisland.game.PlayerType;
 
 public class GameSettings {
+
+    // TODO Change before tournament
+    private final PlayerType BEST_AI_TYPE = PlayerType.SAFEAI;
+    private final PlayerType TEST_AGAINST_TYPE = PlayerType.SAFEAI;
 
     private GlobalSettings globalSettings;
     private Deck deck;
@@ -15,13 +21,13 @@ public class GameSettings {
     public GameSettings() {
         this.globalSettings = setPlayerIDsIfNull(new GlobalSettings());
         this.playerSet = new PlayerSet(globalSettings);
-        setPlayOrder();
+        constructPlayerSet();
     }
 
     public GameSettings(GlobalSettings settings) {
         this.globalSettings = setPlayerIDsIfNull(settings);
         this.playerSet = new PlayerSet(globalSettings);
-        setPlayOrder();
+        constructPlayerSet();
         setDeck();
     }
 
@@ -48,15 +54,26 @@ public class GameSettings {
         }
     }
 
-    public void setPlayOrder() {
-        if(globalSettings.getServerSettings().offline) {
-            playerSet = new PlayerSet(globalSettings);
-            if(globalSettings.manualTesting) {
-                playerSet.getPlayerList().get(0).setPlayerType(PlayerType.HUMAN);
-            }
-        } else {
-            // TODO Server implementation of play order(?)
+    public void constructPlayerSet() {
+        String ourPlayerID = globalSettings.getServerSettings().getPlayerID();
+        PlayerType ourPlayerType = BEST_AI_TYPE;
+
+        String opponentPlayerID = globalSettings.getServerSettings().getOpponentID();
+        PlayerType opponentPlayerType = PlayerType.SERVER;
+
+        if(globalSettings.manualTesting) {
+            ourPlayerType = PlayerType.HUMAN;
         }
+
+        if(globalSettings.getServerSettings().offline) {
+            opponentPlayerType = TEST_AGAINST_TYPE;
+        }
+
+        Player ourPlayer = new Player(Color.WHITE, ourPlayerID, ourPlayerType);
+        Player opponentPlayer = new Player(Color.BLACK, opponentPlayerID, opponentPlayerType);
+
+        playerSet.getPlayerList().put(ourPlayerID, ourPlayer);
+        playerSet.getPlayerList().put(opponentPlayerID, opponentPlayer);
     }
 
     public Deck getDeck() {

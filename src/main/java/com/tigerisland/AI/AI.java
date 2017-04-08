@@ -16,8 +16,7 @@ public abstract class AI {
     protected String tilePlacementString;
     protected String buildActionString;
 
-    private String message;
-
+    protected String message;
 
     public AI() {
     }
@@ -34,6 +33,7 @@ public abstract class AI {
         sendMessage(message);
     }
 
+    // Decide on Move should set values for 'tilePlacement', 'buildActionType', and 'buildLocation'
     protected abstract void decideOnMove(); //abstract means that sub-classes will define how decideOnMove works.
 
     private void unpackAIsettings(Turn turnState) {
@@ -41,14 +41,15 @@ public abstract class AI {
         this.turnState = turnState;
     }
 
-    private void assembleMessage() {
-        message = "GAME " + turnState.gameID + " MOVE " + turnState.getMoveID() + " " + tilePlacementString() + " " + buildActionString();
+    protected void assembleMessage() {
+        message = "GAME " + turnState.gameID + " MOVE " + turnState.getMoveID() + " " + createTilePlacementString() + " " + buildActionString();
     }
 
-    private String tilePlacementString() {
+    private String createTilePlacementString() {
         Location tileLocation = tilePlacement.getLocation();
         int orientation = tilePlacement.getRotation();
-        return "PLACE " + createTileString() + " AT " + createCubeTileLocationString(tileLocation, orientation);
+        tilePlacementString = "PLACE " + createTileString() + " AT " + createCubeTileLocationString(tileLocation, orientation);
+        return tilePlacementString;
     }
 
     private String buildActionString() {
@@ -63,7 +64,8 @@ public abstract class AI {
             buildMessageString = "BUILT TIGER PLAYGROUND AT";
         }
 
-        return  buildMessageString + " " + createCubeBuildLocationString(buildLocation);
+        buildActionString = buildMessageString + " " + createCubeBuildLocationString(buildLocation);
+        return buildActionString;
     }
 
     protected String createTileString() {
@@ -97,6 +99,6 @@ public abstract class AI {
     }
 
     private String assembleOfflineEchoMessage(String message) {
-        return "GAME" + turnState.gameID + " MOVE " + turnState.getMoveID() + " PLAYER " + turnState.getCurrentPlayer().getPlayerID() + " " + tilePlacementString + " " + buildActionString;
+        return "GAME " + turnState.gameID + " MOVE " + turnState.getMoveID() + " PLAYER " + turnState.getCurrentPlayer().getPlayerID() + " " + tilePlacementString + " " + buildActionString;
     }
 }

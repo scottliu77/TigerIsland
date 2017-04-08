@@ -1,6 +1,7 @@
 package com.tigerisland.AI;
 
 import com.tigerisland.game.TextGUI;
+import com.tigerisland.game.TilePlacement;
 import com.tigerisland.game.Turn;
 import com.tigerisland.messenger.Message;
 
@@ -8,28 +9,36 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class HumanInput {
+public class HumanInput extends AI {
 
-    public static String pickTilePlacementAndBuildAction(Turn turnState) {
+    public void decideOnMove() {
+
+        String manualString = builtValidMoveString();
+        deconstructValidMoveString(manualString);
+
+    }
+
+    public String builtValidMoveString() {
+
         TextGUI.printMap(turnState.getBoard());
-        String message;
+
+        String tempMessage;
         String leftTerrain = turnState.getCurrentTile().getLeftHex().getHexTerrain().name();
         String rightTerrain = turnState.getCurrentTile().getRightHex().getHexTerrain().name();
 
         while(true) {
-            System.out.println("Enter a tile placement and build action for GAME " + turnState.gameID + " MOVE " + turnState.getMoveID());
+            System.out.println("Enter a tile placement and build action for GAME " + turnState.gameID + " MOVE " + turnState.getMoveID() + " PLAYER " + turnState.getCurrentPlayer().getPlayerColor());
             System.out.println("\tYour tile is: " + leftTerrain + "+" + rightTerrain);
             BufferedReader manualInput = new BufferedReader(new InputStreamReader(System.in));
             try {
-                message = manualInput.readLine();
-                if(checkValidTilePlacementMessage(message)) {
-                    if(checkValidBuildActionMessage(message)) {
-                        turnState.inboundMessages.add(new Message(message));
-                        return message;
+                tempMessage = manualInput.readLine();
+                if(checkValidTilePlacementMessage(tempMessage)) {
+                    if(checkValidBuildActionMessage(tempMessage)) {
+                        return tempMessage;
                     }
                 } else {
-                    System.out.println("Please use one of the following message formats.");
-                    System.out.println("\tGAME <gid> MOVE <#> <place> <build>");
+                    System.out.println("Please the following message formats.");
+                    System.out.println("\t<place> <build>");
                     System.out.println("\twhere <place> := PLACE " + leftTerrain + "+" + rightTerrain + " AT <x> <y> <z> <orientation>");
                     System.out.println("\tFOUND SETTLEMENT AT <x> <y> <z>");
                     System.out.println("\tEXPAND SETTLEMENT AT <x> <y> <z> <terrain>");
@@ -42,7 +51,7 @@ public class HumanInput {
         }
     }
 
-    private static Boolean checkValidTilePlacementMessage(String messageString) {
+    private Boolean checkValidTilePlacementMessage(String messageString) {
         Message checkMessage = new Message(messageString);
         if(checkMessage.getTile() != null) {
             return true;
@@ -51,7 +60,7 @@ public class HumanInput {
         }
     }
 
-    private static Boolean checkValidBuildActionMessage(String messageString) {
+    private Boolean checkValidBuildActionMessage(String messageString) {
         Message checkMessage = new Message(messageString);
         if(checkMessage.getMessageType().getSubtype().equals("BUILDACTION")) {
             return true;
@@ -60,4 +69,10 @@ public class HumanInput {
         }
     }
 
+    private void deconstructValidMoveString(String tempMessage) {
+        Message messageFields = new Message(tempMessage);
+        tilePlacement = new TilePlacement(messageFields.getTile(), messageFields.getTileLocation(), messageFields.getOrientation());
+        buildActionType = messageFields.getBuildActionType();
+        buildLocation = messageFields.getBuildLocation();
+    }
 }

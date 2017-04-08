@@ -1,6 +1,7 @@
 package com.tigerisland.game;
 
 import com.tigerisland.AI.AI;
+import com.tigerisland.AI.HumanInput;
 import com.tigerisland.AI.SafeAI;
 import com.tigerisland.AI.TotoroLinesAI;
 
@@ -14,19 +15,19 @@ public class Player {
     private PlayerType playerType;
     private AI playerAI;
 
-
     public Player(Color color, String playerID, PlayerType playerType) {
         this.color = color;
         this.playerID = playerID;
         score = new Score();
         pieceSet = new PieceSet(color);
+        this.playerType = playerType;
 
         if(playerType == PlayerType.SAFEAI)
             playerAI = new SafeAI();
         else if(playerType == PlayerType.TOTOROLINESAI)
             playerAI = new TotoroLinesAI();
         else if(playerType == PlayerType.HUMAN)
-            playerAI = null; //I'm not sure how to handle this situation
+            playerAI = new HumanInput();
     }
 
     public Player(Player player){
@@ -36,12 +37,8 @@ public class Player {
         this.pieceSet = new PieceSet(player.getPieceSet());
         this.playerType = player.getPlayerType();
 
-        if(this.playerType == PlayerType.SAFEAI)
-            playerAI = new SafeAI();
-        else if(this.playerType == PlayerType.TOTOROLINESAI)
-            playerAI = new TotoroLinesAI();
-        else if(this.playerType == PlayerType.HUMAN)
-            playerAI = null; //I'm not sure how to handle this situation
+        playerAI = player.getPlayerAI();
+
     }
 
     public void updatePlayerState(Player updatedPlayer) {

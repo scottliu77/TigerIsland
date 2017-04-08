@@ -31,21 +31,21 @@ public class Turn {
         this.gameSettings = gameSettings;
 
         Player currentPlayer = gameSettings.getPlayerSet().getCurrentPlayer();
-        this.currentPlayer = new Player(currentPlayer);
+        this.currentPlayer = currentPlayer;
 
-        this.board = new Board(board);
+        this.board = board;
     }
 
     public void updateTurnInformation(Message message) {
         moveID = message.getMoveID();
         currentTile = message.getTile();
-        gameSettings.getPlayerSet().setCurrentPlayer(message.getOurPlayerID());
+        this.currentPlayer = gameSettings.getPlayerSet().getPlayerList().get(message.getCurrentPlayerID());
     }
 
     public void updateTurnInformation(String moveID, Tile currentTile, String currentPlayer) {
         this.moveID = moveID;
         this.currentTile = currentTile;
-        gameSettings.getPlayerSet().setCurrentPlayer(currentPlayer);
+        this.currentPlayer = gameSettings.getPlayerSet().getPlayerList().get(currentPlayer);
     }
 
     public void processMove() throws InterruptedException, InvalidMoveException {
@@ -53,8 +53,7 @@ public class Turn {
             for(Message message : inboundMessages) {
                 if(message.getMessageType() != MessageType.PROCESSED) {
                     if(message.getGameID().equals(gameID)) {
-                        if(message.getMoveID().equals(getMoveID())) {
-
+                        if(message.getMoveID().equals(moveID)) {
                             parseTilePlacement(message);
                             filterBuildAction(message);
                             message.setProcessed();
