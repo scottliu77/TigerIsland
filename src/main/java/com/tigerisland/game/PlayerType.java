@@ -20,13 +20,4 @@ public enum PlayerType {
     public String getTypeString() {
         return typeString;
     }
-
-    public static EnumSet<PlayerType> AITypes() {
-        return EnumSet.of(SAFEAI);
-    }
-
-    public static PlayerType pickRandomAItype() {
-        List<PlayerType> types = Collections.unmodifiableList(Arrays.asList(SAFEAI));
-        return types.get(new Random().nextInt(AITypes().size()));
-    }
 }

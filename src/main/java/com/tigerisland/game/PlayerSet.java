@@ -32,15 +32,6 @@ public class PlayerSet {
         players.put(playerID, updatedPlayer);
     }
 
-    public void incrementPlayer() {
-        for(String key : players.keySet()) {
-            if(!currentPlayer.equals(key)) {
-                currentPlayer = players.get(key);
-                return;
-            }
-        }
-    }
-
     public HashMap<String, Player> getPlayerList() {
         return players;
     }
