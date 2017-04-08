@@ -23,6 +23,7 @@ public class Game implements Runnable {
 
     public Game(GameSettings gameSettings){
         this.ourPlayerID = gameSettings.getGlobalSettings().getServerSettings().getPlayerID();
+
         this.gameSettings = gameSettings;
         this.gameID = gameSettings.getGameID();
         this.board = new Board();
@@ -52,7 +53,6 @@ public class Game implements Runnable {
 
     private Boolean continuePlayingGame() throws InterruptedException, InvalidMoveException {
 
-
         if(gameSettings.getGlobalSettings().manualTesting) {
             TextGUI.printMap(board);
         }
@@ -66,6 +66,7 @@ public class Game implements Runnable {
 
         if(offline) {
             mockMakeMoveMessage();
+            alternateOurPlayerID();
         }
 
         checkForHaveAIPickAMove();
@@ -95,6 +96,15 @@ public class Game implements Runnable {
         makeMoveMessage = makeMoveMessage + leftTerrain + "+" + rightTerrain;
 
         gameSettings.getGlobalSettings().inboundQueue.add(new Message(makeMoveMessage));
+    }
+
+    protected void alternateOurPlayerID() {
+        String opponentPlayerID = gameSettings.getGlobalSettings().getServerSettings().getOpponentID();
+        if(ourPlayerID.equals(ourPlayerID.equals(opponentPlayerID))) {
+            gameSettings.getGlobalSettings().getServerSettings().getOpponentID();
+        } else {
+            gameSettings.getGlobalSettings().getServerSettings().getPlayerID();
+        }
     }
 
     protected void checkForHaveAIPickAMove() throws InvalidMoveException, InterruptedException {
