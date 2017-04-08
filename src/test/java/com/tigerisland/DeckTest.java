@@ -64,4 +64,11 @@ public class DeckTest{
 
         assertTrue(deckSize == listOfUniqueIDs.size());
     }
+
+    @Test
+    public void testCanDrawTile() {
+        int deckSize = deck.getDeckSize();
+        deck.drawTile();
+        assertTrue(deckSize - 1 == deck.getDeckSize());
+    }
 }

@@ -65,7 +65,19 @@ public class TurnTest {
         assertTrue(turn.getBoard().hexExistsAtLocation(new Location(0, 0)));
     }
 
+    @Test
+    public void testCanGetGameSettings() {
+        assertTrue(turn.getGameSettings() != null);
+    }
 
+    @Test
+    public void testCanGetMoveID() {
+        assertTrue(turn.getMoveID() != null);
+    }
 
+    @Test
+    public void testCanGetCurrentTileID() {
+        assertTrue(turn.getCurrentTile() != null);
+    }
 
 }

@@ -52,4 +52,8 @@ public class PlayerSetTest {
         playerSet.updatePlayerState("1", updatedPlayer);
     }
 
+    @Test
+    public void testCanGetPlayerID() {
+        assertTrue(playerSet.getPlayer("1") != null);
+    }
 }

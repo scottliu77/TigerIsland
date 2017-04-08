@@ -208,5 +208,17 @@ public class PieceSetTest {
         assertTrue(pieceSet.inventoryEmpty() == false);
     }
 
+    @Test
+    public void testCannotPlaceTigerIfNoPiecesExist() {
+        String errorMessage = new String();
+        for(int numTiger = 0; numTiger < 3; numTiger++) {
+            try {
+                Piece tiger = pieceSet.placeTiger();
+            } catch (InvalidMoveException e) {
+                errorMessage = e.getMessage();
+            }
+        }
+        assertTrue(errorMessage.equals("No tiger remaining in game inventory"));
+    }
 
 }
