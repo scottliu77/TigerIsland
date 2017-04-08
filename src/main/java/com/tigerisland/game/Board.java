@@ -64,6 +64,25 @@ public class Board{
         }
     }
 
+    public void placeTile(TilePlacement tilePlacement) throws InvalidMoveException {
+        Location centerLoc = tilePlacement.getLocation();
+        int rotation = tilePlacement.getRotation();
+        Tile tile = tilePlacement.getTile();
+        if(isALegalTilePlacment(centerLoc, rotation)){
+            placeHex(tile.getCenterHex(), centerLoc);
+            placeHex(tile.getRightHex(), Location.rotateHexLeft(centerLoc, rotation));
+            placeHex(tile.getLeftHex(), Location.rotateHexLeft(centerLoc, rotation + 60));
+        }
+        else {
+            try{
+                throwTilePlacementException(centerLoc, rotation);
+            }
+            catch(InvalidMoveException ex){
+                throw ex;
+            }
+        }
+    }
+
     public boolean isALegalTilePlacment(Location centerLoc, int rotation) {
         if( (!tileIsPlacedProperlyAtHeight1(centerLoc, rotation) && !isPlacedProperlyOnExistingTiles(centerLoc, rotation))
                 || totoroExistsUnderTile(centerLoc, rotation)

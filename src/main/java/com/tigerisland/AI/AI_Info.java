@@ -223,4 +223,21 @@ public class AI_Info {
         int finalNumberOfSettlementsThatCouldAcceptTiger = tempBoard.settlementsThatCouldAcceptTigerForGivenPlayer(color).size();
         return finalNumberOfSettlementsThatCouldAcceptTiger == originalNumberOfSettlementsThatCouldAcceptTiger - 1;
     }
+
+    public static ArrayList<TilePlacement> findTilePlacementsThatEnableTotoroPlacementForSamePlayer(Color color, Tile tile, Board board) throws InvalidMoveException{
+        ArrayList<TilePlacement> validTilePlacements = returnValidTilePlacements(tile, board);
+        ArrayList<TilePlacement> tilePlacementsThatEnableTotoroPlacement = new ArrayList<TilePlacement>();
+        for(TilePlacement tilePlacement : validTilePlacements){
+            Board tempBoard = new Board(board);
+            int initialNumberOfSettlementsToAddTotoro = tempBoard.settlementsThatCouldAcceptTotoroForGivenPlayer(color).size();
+            tempBoard.placeTile(tilePlacement);
+            tempBoard.updateSettlements();
+            int finalNumberOfSettlementsToAddTotoro = tempBoard.settlementsThatCouldAcceptTotoroForGivenPlayer(color).size();
+            if(finalNumberOfSettlementsToAddTotoro > initialNumberOfSettlementsToAddTotoro) {
+                tilePlacementsThatEnableTotoroPlacement.add(tilePlacement);
+            }
+        }
+        return tilePlacementsThatEnableTotoroPlacement;
+    }
+
 }

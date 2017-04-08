@@ -3,6 +3,7 @@ package com.tigerisland.AI;
 import com.tigerisland.AI.AI_Info;
 import com.tigerisland.InvalidMoveException;
 import com.tigerisland.game.*;
+import gherkin.lexer.Ro;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -246,6 +247,32 @@ public class AI_InfoTest {
         Tile tile = new Tile(Terrain.JUNGLE, Terrain.LAKE);
         ArrayList<TilePlacement> tilePlacementsThatWouldPreventTotoroPlacement = AI_Info.findNukableLocationsToStopOpposingPlayerFromMakingTigerPlacement(p1.getPlayerColor(),board, tile);
         assertTrue(tilePlacementsThatWouldPreventTotoroPlacement.size() == 2);
+    }
+
+    @Test
+    public void testForFindingTilePlacementsThatGiveNewPlaceToPutTotoro() throws InvalidMoveException{
+        setUpBoardWithASettlementThatJustNeedsAnExpansionPointToPlaceTotoro();
+        board.updateSettlements();
+        Tile tile = new Tile(Terrain.JUNGLE, Terrain.LAKE);
+        ArrayList<TilePlacement> tilePlacementsThatWouldEnableTotoroPlacement = AI_Info.findTilePlacementsThatEnableTotoroPlacementForSamePlayer(p1.getPlayerColor(), tile, board);
+        assertTrue(tilePlacementsThatWouldEnableTotoroPlacement.size() == 3);
+
+    }
+
+    private void setUpBoardWithASettlementThatJustNeedsAnExpansionPointToPlaceTotoro() throws InvalidMoveException {
+        TilePlacement tilePlacement1 = new TilePlacement(new Tile(Terrain.LAKE, Terrain.LAKE), new Location(0, 0), 0);
+        TilePlacement tilePlacement2 = new TilePlacement(new Tile(Terrain.LAKE, Terrain.GRASSLANDS), new Location(1, -1), 300);
+        TilePlacement tilePlacement3 = new TilePlacement(new Tile(Terrain.LAKE, Terrain.LAKE), new Location(-1, 1), 60);
+        TilePlacement tilePlacement4 = new TilePlacement(new Tile(Terrain.LAKE, Terrain.LAKE), new Location(-3, 3), 0);
+        board.placeTile(tilePlacement1);
+        board.placeTile(tilePlacement2);
+        board.placeTile(tilePlacement3);
+        board.placeTile(tilePlacement4);
+        board.createVillage(p1, new Location(2, -1));
+        board.updateSettlements();
+        board.expandVillage(p1, new Location(2, -1), Terrain.LAKE);
+        board.updateSettlements();
+        board.placeTotoro(p1, new Location(2, -2));
     }
 
 }
