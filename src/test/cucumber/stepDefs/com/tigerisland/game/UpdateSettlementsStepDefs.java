@@ -15,23 +15,6 @@ public class UpdateSettlementsStepDefs {
     private ArrayList<PlacedHex> placedHexes;
     private Player player;
 
-    private PlacedHex targetHex;
-    private PlacedHex hexToExpandInto;
-    private PlacedHex hexInSettlement;
-    private Terrain expandTerrain;
-
-    private String caughtErrorMessage;
-    private String expectedErrorMessage;
-
-    private Location targetLocation;
-
-    private int originalNumberOfTotoroRemaining;
-    private int originalNumberOfVillagersRemaining;
-
-    private Score originalScore;
-    private Score finalScore;
-
-
     public UpdateSettlementsStepDefs() {
         this.board = new Board();
         this.placedHexes = new ArrayList<PlacedHex>();
@@ -450,6 +433,43 @@ public class UpdateSettlementsStepDefs {
         }
     }
 
+    @Given("^a player has a settlement with a totoro and another settlement builds a tiger directly next to it$")
+    public void aSettlementWithATotoroBuildsATigerDirectlyNextToIt() {
+        PlacedHex placedHex = createSettlementSizeOne();
+        placedHexes.add(placedHex);
+
+        Hex hex2 = new Hex("hex2", Terrain.ROCKY, 3);
+        Location loc2 = new Location(0,1);
+        PlacedHex placedHex2 = new PlacedHex(hex2, loc2);
+        placedHexes.add(placedHex2);
+
+        createSettlementCapableOfBuildingTotoro();
+
+        Hex hex8 = new Hex("hex8", Terrain.GRASSLANDS, 1);
+        hex8.addPiecesToHex(new Piece(Color.BLACK, PieceType.TOTORO), 1);
+        Location loc8 = new Location(0,2);
+        PlacedHex placedHex8 = new PlacedHex(hex8, loc8);
+        placedHexes.add(placedHex8);
+
+        Hex hex9 = new Hex("hex9", Terrain.GRASSLANDS, 1);
+        hex9.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        Location loc9 = new Location(1,4);
+        PlacedHex placedHex9 = new PlacedHex(hex9, loc9);
+        placedHexes.add(placedHex9);
+        board.placedHexes = this.placedHexes;
+
+        Settlement tigerVillage = new Settlement(placedHex, placedHexes);
+        Settlement totoroVillage = new Settlement(placedHex8, placedHexes);
+        board.settlements.add(tigerVillage);
+        board.settlements.add(totoroVillage);
+
+        try {
+            board.placeTiger(player, loc2);
+        } catch (InvalidMoveException e) {
+            e.getMessage();
+        }
+    }
+
     @When("^the turn is over and updateSettlements is called$")
     public void theTurnIsOverAndUpdateSettlementsIsCalled() {
         board.updateSettlements();
@@ -555,5 +575,6 @@ public class UpdateSettlementsStepDefs {
         placedHexes.add(placedHex6);
         placedHexes.add(placedHex7);
     }
+
 
 }

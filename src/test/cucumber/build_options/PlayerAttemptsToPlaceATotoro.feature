@@ -51,8 +51,13 @@ Feature: Placing Totoro Conditions
     When a player tries to place a totoro in the settlement
     Then the move is accepted
 
-  Scenario: Whe attempting to place a totoro directly next to a tiger in a settlement, the build succeeds
+  Scenario: When attempting to place a totoro directly next to a tiger in a settlement, the build succeeds
     Given a settlement containing a tiger and a valid hex directly next to the tiger
+    When a player tries to place a totoro in the settlement
+    Then the move is accepted
+
+  Scenario: When attempting to place a totoro in a valid settlement on a hex with height greater than one, the build succeeds
+    Given a settlement capable of accepting a totoro with a valid hex of height greater than one
     When a player tries to place a totoro in the settlement
     Then the move is accepted
 

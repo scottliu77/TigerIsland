@@ -215,7 +215,7 @@ public class BuildOptionStepDefs{
         PlacedHex placedHex1 = setUpSettlement();
         Hex hex5 = new Hex("hex5", Terrain.LAKE);
         hex5.addPiecesToHex(new Piece(Color.BLACK, PieceType.TOTORO), 1);
-        Location loc5 = new Location(0,-2);
+        Location loc5 = new Location(0,-3);
         PlacedHex placedHex5 = new PlacedHex(hex5, loc5);
         placedHexes.add(placedHex5);
         Hex hex6 = new Hex("hex6", Terrain.GRASSLANDS, 3);
@@ -233,11 +233,11 @@ public class BuildOptionStepDefs{
         PlacedHex placedHex1 = setUpSettlement();
         Hex hex5 = new Hex("hex5", Terrain.LAKE);
         hex5.addPiecesToHex(new Piece(Color.BLACK, PieceType.TOTORO), 1);
-        Location loc5 = new Location(0,-2);
+        Location loc5 = new Location(0,-3);
         PlacedHex placedHex5 = new PlacedHex(hex5, loc5);
         placedHexes.add(placedHex5);
         Hex hex6 = new Hex("hex6", Terrain.GRASSLANDS, 3);
-        Location loc6 = new Location(0,-3);
+        Location loc6 = new Location(0,-4);
         targetHex = new PlacedHex(hex6, loc6);
         placedHexes.add(targetHex);
         Settlement settlement = new Settlement(placedHex1, placedHexes);
@@ -251,7 +251,7 @@ public class BuildOptionStepDefs{
         PlacedHex placedHex1 = setUpSettlement();
         Hex hex5 = new Hex("hex5", Terrain.LAKE,3);
         hex5.addPiecesToHex(new Piece(Color.BLACK, PieceType.TIGER), 1);
-        Location loc5 = new Location(0,-2);
+        Location loc5 = new Location(0,-3);
         PlacedHex placedHex5 = new PlacedHex(hex5, loc5);
         placedHexes.add(placedHex5);
         Hex hex6 = new Hex("hex6", Terrain.GRASSLANDS);
@@ -269,14 +269,33 @@ public class BuildOptionStepDefs{
         PlacedHex placedHex1 = setUpSettlement();
         Hex hex5 = new Hex("hex5", Terrain.LAKE,3);
         hex5.addPiecesToHex(new Piece(Color.BLACK, PieceType.TIGER), 1);
-        Location loc5 = new Location(0,-2);
+        Location loc5 = new Location(0,-3);
         PlacedHex placedHex5 = new PlacedHex(hex5, loc5);
         placedHexes.add(placedHex5);
         Hex hex6 = new Hex("hex6", Terrain.GRASSLANDS);
-        Location loc6 = new Location(0,-3);
+        Location loc6 = new Location(0,-4);
         targetHex = new PlacedHex(hex6, loc6);
         placedHexes.add(targetHex);
         Settlement settlement = new Settlement(placedHex1, placedHexes);
+
+        board.placedHexes = placedHexes;
+        board.settlements.add(settlement);
+    }
+
+    @Given("^a settlement capable of accepting a totoro with a valid hex of height greater than one$")
+    public void aSettlementCapableOfAcceptingATotoroWithAValidHexOfHeightGreaterThanOne() {
+        PlacedHex placedHex1 = setUpSettlement();
+        Hex hex5 = new Hex("hex5", Terrain.LAKE);
+        hex5.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        Location loc5 = new Location(2,0);
+        PlacedHex placedHex5 = new PlacedHex(hex5, loc5);
+        placedHexes.add(placedHex5);
+        Settlement settlement = new Settlement(placedHex1, placedHexes);
+
+        Hex hex6 = new Hex("hex6", Terrain.ROCKY, 2);
+        Location loc6 = new Location(3,0);
+        targetHex = new PlacedHex(hex6, loc6);
+        placedHexes.add(targetHex);
 
         board.placedHexes = placedHexes;
         board.settlements.add(settlement);
@@ -786,7 +805,4 @@ public class BuildOptionStepDefs{
 
         return placedHex5;
     }
-
-
-
 }
