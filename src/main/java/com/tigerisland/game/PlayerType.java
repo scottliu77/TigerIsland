@@ -1,5 +1,7 @@
 package com.tigerisland.game;
 
+import com.tigerisland.AI.JacksAI;
+
 import java.util.*;
 
 public enum PlayerType {
@@ -8,7 +10,8 @@ public enum PlayerType {
     SAFEAI("SAFEAI"),
     TOTOROLINESAI("TOTOROLINESAI"),
     RANDOMAI("RANDOMAI"),
-    SERVER("SERVER");
+    SERVER("SERVER"),
+    JACKSAI("JACKSAI");
 
     private String typeString;
 

@@ -23,6 +23,7 @@ public class Game implements Runnable {
 
     public Game(GameSettings gameSettings){
         this.ourPlayerID = gameSettings.getGlobalSettings().getServerSettings().getPlayerID();
+
         this.gameSettings = gameSettings;
         this.gameID = gameSettings.getGameID();
         this.board = new Board();
@@ -56,6 +57,7 @@ public class Game implements Runnable {
             TextGUI.printMap(board);
         }
 
+
         Boolean continueGame = true;
 
         if(Thread.currentThread().isInterrupted()) {
@@ -64,6 +66,7 @@ public class Game implements Runnable {
 
         if(offline) {
             mockMakeMoveMessage();
+            alternateOurPlayerID();
         }
 
         checkForHaveAIPickAMove();
@@ -95,6 +98,15 @@ public class Game implements Runnable {
         gameSettings.getGlobalSettings().inboundQueue.add(new Message(makeMoveMessage));
     }
 
+    protected void alternateOurPlayerID() {
+        String opponentPlayerID = gameSettings.getGlobalSettings().getServerSettings().getOpponentID();
+        if(ourPlayerID.equals(ourPlayerID.equals(opponentPlayerID))) {
+            gameSettings.getGlobalSettings().getServerSettings().getOpponentID();
+        } else {
+            gameSettings.getGlobalSettings().getServerSettings().getPlayerID();
+        }
+    }
+
     protected void checkForHaveAIPickAMove() throws InvalidMoveException, InterruptedException {
         for(Message message : gameSettings.getGlobalSettings().inboundQueue) {
             if(message.getMessageType() == MessageType.MAKEMOVE) {
@@ -105,7 +117,7 @@ public class Game implements Runnable {
         }
     }
 
-    private void pickMove(Message message) {
+    private void pickMove(Message message) throws InvalidMoveException {
         turnState.updateTurnInformation(message.getMoveID(), message.getTile(), ourPlayerID);
         turnState.getCurrentPlayer().getPlayerAI().pickTilePlacementAndBuildAction(turnState);
     }

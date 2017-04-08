@@ -27,6 +27,9 @@ public class Player {
             playerAI = new RandomAI();
         else if(playerType == PlayerType.HUMAN)
             playerAI = new HumanInput();
+        else if(playerType == PlayerType.JACKSAI){
+            playerAI = new JacksAI();
+        }
     }
 
     public Player(Player player){
