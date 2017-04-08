@@ -240,4 +240,31 @@ public class AI_Info {
         return tilePlacementsThatEnableTotoroPlacement;
     }
 
+    public static ArrayList<TilePlacement> findTilePlacementsThatCutTotoroOffOfMostOfSettlement(Color color, Tile tile, Board board) throws InvalidMoveException{
+        ArrayList<TilePlacement> validTilePlacements = returnValidTilePlacements(tile, board);
+        int initialNumberOfSettlementsPlayerHasWithoutTotoroOfSizeThreeOrMore = numberOfSettlementsPlayerHasWithoutTotoroAndOfProperSize(color, board, 3);
+        ArrayList<TilePlacement> usefulTilePlacements = new ArrayList<TilePlacement>();
+        for(TilePlacement tilePlacement : validTilePlacements){
+            Board tempBoard = new Board(board);
+            tempBoard.placeTile(tilePlacement);
+            tempBoard.updateSettlements();
+            int finalNumberOfSettlementsPlayerHasWithoutTotoroOfSizeThreeOrMore = numberOfSettlementsPlayerHasWithoutTotoroAndOfProperSize(color, tempBoard, 3);
+            if(finalNumberOfSettlementsPlayerHasWithoutTotoroOfSizeThreeOrMore > initialNumberOfSettlementsPlayerHasWithoutTotoroOfSizeThreeOrMore){
+                    usefulTilePlacements.add(tilePlacement);
+            }
+        }
+        return usefulTilePlacements;
+    }
+
+    private static int numberOfSettlementsPlayerHasWithoutTotoroAndOfProperSize(Color color, Board board, int desiredSize) {
+        int numberOfSettlementsPlayerHasWithoutTotoroOfSizeThreeOrMore = 0;
+        for(Settlement settlement : board.getSettlements()){
+            if(settlement.getColor() == color && !settlement.containsTotoro() && settlement.size() >= desiredSize){
+                numberOfSettlementsPlayerHasWithoutTotoroOfSizeThreeOrMore++;
+            }
+        }
+        return numberOfSettlementsPlayerHasWithoutTotoroOfSizeThreeOrMore;
+    }
+
+
 }

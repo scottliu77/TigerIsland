@@ -553,4 +553,14 @@ public class Board{
         placedHexes.addAll(settlement.hexesInSettlement);
     }
 
+    public ArrayList<Settlement> findTotoroSanctuariesForOnePlayer(Color color) {
+        ArrayList<Settlement> totoroSanctuaries = new ArrayList<Settlement>();
+        for(Settlement settlement : settlements){
+            if(settlement.containsTotoro() && settlement.getColor() == color){
+                totoroSanctuaries.add(settlement);
+            }
+        }
+        return totoroSanctuaries;
+    }
+
 }
