@@ -34,3 +34,13 @@ Feature: Placing Tiger Conditions
     Given a settlement adjacent to a level four valid hex
     When a player tries to place a tiger on a hex
     Then the move is accepted
+
+  Scenario: When attempting to place a tiger in a settlement with a totoro already, the build passes
+    Given a settlement containing a totoro and a valid hex for tiger placement
+    When a player tries to place a tiger on a hex
+    Then the move is accepted
+
+  Scenario: When attempting to place a tiger directly next to a totoro in a settlement, the build passes
+    Given a settlement containing a totoro and a valid hex directly next to a totoro
+    When a player tries to place a tiger on a hex
+    Then the move is accepted

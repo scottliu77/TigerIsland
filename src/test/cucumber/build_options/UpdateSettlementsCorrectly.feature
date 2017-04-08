@@ -30,13 +30,13 @@ Feature: Updating Settlement Conditions
     When the turn is over and updateSettlements is called
     Then there should only be one settlement
 
-  Scenario: Combining 2 settlements by placing a totoro next to a totoro existing in the other settlement
-    Given a player buils a totoro next to a totoro in another settlement
+  Scenario: Combining 2 settlements by placing a totoro directly next to a totoro existing in the other settlement
+    Given a player builds a totoro directly next to a totoro in another settlement
     When the turn is over and updateSettlements is called
     Then there should only be one settlement
 
   Scenario: Ensuring 2 settlements of different color do not combine if a totoro is placed between both
-    Given a player builds a totoro sactuary between two different colored settlements
+    Given a player builds a totoro sanctuary between two different colored settlements
     When the turn is over and updateSettlements is called
     Then there should be two settlements, not one
 
@@ -45,7 +45,27 @@ Feature: Updating Settlement Conditions
     When the turn is over and updateSettlements is called
     Then there should only be one settlement
 
+  Scenario: Combining 2 settlements by placing a tiger directly next to a tiger existing in the other settlement
+    Given a player builds a tiger directly next to a tiger in another settlement
+    When the turn is over and updateSettlements is called
+    Then there should only be one settlement
+
   Scenario: Ensuring 2 settlements of different color do not combine if a tiger is placed between both
     Given a player builds a tiger between two different colored settlements
     When the turn is over and updateSettlements is called
     Then there should be two settlements, not one
+
+  Scenario: Combining 2 settlements connected by placing a totoro while the other settlement has a tiger already
+    Given a player has a settlement containing a tiger and another capable of placing a totoro
+    When the turn is over and updateSettlements is called
+    Then there should only be one settlement
+
+  Scenario: Combining 2 settlements connected by placing a tiger while the other settlement has a totoro already
+    Given a player has a settlement containing a totoro and another capable of placing a tiger
+    When the turn is over and updateSettlements is called
+    Then there should only be one settlement
+
+  Scenario: Combining 2 settlements connected by placing a tiger directly next to a totoro in the other settlement
+    Given a player has a settlement with a totoro and another settlement builds a tiger directly next to it
+    When the turn is over and updateSettlements is called
+    Then there should only be one settlement
