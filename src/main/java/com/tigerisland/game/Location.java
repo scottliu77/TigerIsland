@@ -26,6 +26,14 @@ public class Location{
         this.z = loc.z;
     }
 
+    public boolean equals(Location loc){
+        if(this.x == loc.x && this.y == loc.y && this.z == loc.z){
+            return true;
+        }
+        return false;
+    }
+
+
     public static Location rotateHexLeft(Location loc, int rotation) {
         Location shiftLocation = Rotation.calculateRotation(rotation);
         return Location.add(loc, shiftLocation);

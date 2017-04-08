@@ -275,6 +275,33 @@ public class AI_InfoTest {
         board.placeTotoro(p1, new Location(2, -2));
     }
 
+    @Test
+    public void testForFindingTilePlacementsThatCutTotoroOffFromMostOfSettlement() throws InvalidMoveException{
+        setUpBoardWithASettlementThatForFindingTilePlacementsThatCutTotoroOffFromMostOfSettlementTest();
+        TextGUI.printMap(board);
+        Tile tile = new Tile(Terrain.JUNGLE, Terrain.LAKE);
+        ArrayList<TilePlacement> tilePlacementsThatCutTotoroOff = AI_Info.findTilePlacementsThatCutTotoroOffOfMostOfSettlement(p2.getPlayerColor(), tile, board, 3);
+        assertTrue(tilePlacementsThatCutTotoroOff.size() == 4);
+
+    }
+
+    private void setUpBoardWithASettlementThatForFindingTilePlacementsThatCutTotoroOffFromMostOfSettlementTest() throws InvalidMoveException {
+        TilePlacement tilePlacement1 = new TilePlacement(new Tile(Terrain.LAKE, Terrain.LAKE), new Location(0, 0), 0);
+        TilePlacement tilePlacement2 = new TilePlacement(new Tile(Terrain.LAKE, Terrain.GRASSLANDS), new Location(1, -1), 300);
+        TilePlacement tilePlacement3 = new TilePlacement(new Tile(Terrain.LAKE, Terrain.LAKE), new Location(2, 0), 60);
+        //TilePlacement tilePlacement4 = new TilePlacement(new Tile(Terrain.LAKE, Terrain.LAKE), new Location(-3, 3), 0);
+        board.placeTile(tilePlacement1);
+        board.placeTile(tilePlacement2);
+        board.placeTile(tilePlacement3);
+        //board.placeTile(tilePlacement4);
+        board.createVillage(p2, new Location(2, -1));
+        board.updateSettlements();
+        board.expandVillage(p2, new Location(2, -1), Terrain.LAKE);
+        board.updateSettlements();
+        board.placeTotoro(p2, new Location(2, -2));
+        board.updateSettlements();
+    }
+
 }
 
 
