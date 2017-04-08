@@ -44,4 +44,10 @@ public class GameSettingsTest {
         gameSettings.constructPlayerSet();
         assertTrue(gameSettings.getPlayerSet() != null);
     }
+
+    @Test
+    public void testCanSetMoveID() {
+        gameSettings.setMoveID("1");
+        assertTrue(gameSettings.getMoveID().equals("1"));
+    }
 }
