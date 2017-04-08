@@ -9,6 +9,7 @@ public enum PlayerType {
     TOTOROLINESAI("TOTOROLINESAI"),
     RANDOMAI("RANDOMAI"),
     SERVER("SERVER"),
+    TIGERFORMAI("TIGERFORMAI"),
     JACKSAI("JACKSAI");
 
     private String typeString;
