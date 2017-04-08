@@ -1,7 +1,6 @@
 package com.tigerisland.game;
 
 import com.tigerisland.InvalidMoveException;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -278,6 +277,65 @@ public class UpdateSettlementsStepDefs {
         }
     }
 
+    @Given("^a player buils a totoro next to a totoro in another settlement$")
+    public void aPlayerBuilsATotoroNextToATotoroInAnotherSettlement() {
+        PlacedHex placedHex = createSettlementSizeOne();
+
+        populatePlacedHexes();
+
+        Hex hex6 = new Hex("hex11", Terrain.GRASSLANDS, 1);
+        Location loc6 = new Location(0,4);
+        PlacedHex placedHex6 = new PlacedHex(hex6, loc6);
+
+        placedHexes.add(placedHex);
+        placedHexes.add(placedHex6);
+        board.placedHexes = placedHexes;
+
+        Settlement village1 = new Settlement(placedHex, placedHexes);
+        board.settlements.add(village1);
+
+        try {
+            board.expandVillage(player, placedHex.getLocation(), Terrain.ROCKY);
+        } catch (InvalidMoveException e) {
+            e.getMessage();
+        }
+
+        try {
+            board.placeTotoro(player, placedHex6.getLocation());
+        } catch (InvalidMoveException e) {
+            e.getMessage();
+        }
+
+        populateMorePlacedHexes();
+
+        Hex hex7 = new Hex("hex7", Terrain.LAKE, 1);
+        Location loc7 = new Location(0, 5);
+        PlacedHex placedHex7 = new PlacedHex(hex7, loc7);
+        placedHexes.add(placedHex7);
+
+        Hex hex12 = new Hex("hex12", Terrain.ROCKY, 1);
+        hex12.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        Location loc12 = new Location (-1,7);
+        PlacedHex placedHex12 = new PlacedHex(hex12, loc12);
+        placedHexes.add(placedHex12);
+
+        board.placedHexes = this.placedHexes;
+        Settlement village2 = new Settlement(placedHex12, placedHexes);
+        board.settlements.add(village2);
+
+        try {
+            board.expandVillage(player, placedHex12.getLocation(), Terrain.ROCKY);
+        } catch (InvalidMoveException e) {
+            e.getMessage();
+        }
+
+        try {
+            board.placeTotoro(player, placedHex7.getLocation());
+        } catch (InvalidMoveException e) {
+            e.getMessage();
+        }
+    }
+
     @When("^the turn is over and updateSettlements is called$")
     public void theTurnIsOverAndUpdateSettlementsIsCalled() {
         board.updateSettlements();
@@ -324,11 +382,32 @@ public class UpdateSettlementsStepDefs {
         PlacedHex placedHex4 = new PlacedHex(hex4, loc4);
         placedHexes.add(placedHex4);
 
-        Hex hex5 = new Hex("hex", Terrain.ROCKY, 1);
+        Hex hex5 = new Hex("hex5", Terrain.ROCKY, 1);
         Location loc5 = new Location(0,-1);
         PlacedHex placedHex5 = new PlacedHex(hex5, loc5);
         placedHexes.add(placedHex5);
     }
 
+    private void populateMorePlacedHexes() {
+        Hex hex8 = new Hex("hex8", Terrain.ROCKY, 1);
+        Location loc8 = new Location(1,6);
+        PlacedHex placedHex8 = new PlacedHex(hex8, loc8);
+        placedHexes.add(placedHex8);
+
+        Hex hex9 = new Hex("hex9", Terrain.ROCKY, 1);
+        Location loc9 = new Location(-1,6);
+        PlacedHex placedHex9 = new PlacedHex(hex9, loc9);
+        placedHexes.add(placedHex9);
+
+        Hex hex10 = new Hex("hex10", Terrain.ROCKY, 1);
+        Location loc10 = new Location(0,6);
+        PlacedHex placedHex10 = new PlacedHex(hex10, loc10);
+        placedHexes.add(placedHex10);
+
+        Hex hex11 = new Hex("hex11", Terrain.ROCKY, 1);
+        Location loc11 = new Location (0,7);
+        PlacedHex placedHex11 = new PlacedHex(hex11, loc11);
+        placedHexes.add(placedHex11);
+    }
 
 }

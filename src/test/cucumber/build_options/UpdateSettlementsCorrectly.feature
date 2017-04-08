@@ -30,6 +30,11 @@ Feature: Updating Settlement Conditions
     When the turn is over and updateSettlements is called
     Then there should only be one settlement
 
+  Scenario: Combining 2 settlements by placing a totoro next to a totoro existing in the other settlement
+    Given a player buils a totoro next to a totoro in another settlement
+    When the turn is over and updateSettlements is called
+    Then there should only be one settlement
+
   Scenario: Ensuring 2 settlements of different color do not combine if a totoro is placed between both
     Given a player builds a totoro sactuary between two different colored settlements
     When the turn is over and updateSettlements is called
