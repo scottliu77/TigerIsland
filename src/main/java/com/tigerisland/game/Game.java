@@ -53,9 +53,10 @@ public class Game implements Runnable {
 
     private Boolean continuePlayingGame() throws InterruptedException, InvalidMoveException {
 
-//        if(gameSettings.getGlobalSettings().manualTesting) {
-//            TextGUI.printMap(board);
-//        }
+        if(gameSettings.getGlobalSettings().manualTesting) {
+            TextGUI.printMap(board);
+        }
+
 
         Boolean continueGame = true;
 
@@ -116,7 +117,7 @@ public class Game implements Runnable {
         }
     }
 
-    private void pickMove(Message message) {
+    private void pickMove(Message message) throws InvalidMoveException {
         turnState.updateTurnInformation(message.getMoveID(), message.getTile(), ourPlayerID);
         turnState.getCurrentPlayer().getPlayerAI().pickTilePlacementAndBuildAction(turnState);
     }
