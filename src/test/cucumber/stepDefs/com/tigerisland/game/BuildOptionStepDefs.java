@@ -210,6 +210,78 @@ public class BuildOptionStepDefs{
         board.settlements.add(settlement);
     }
 
+    @Given("^a settlement containing a totoro and a valid hex for tiger placement$")
+    public void aSettlementContainingATotoroAndAValidHexForTigerPlacement() {
+        PlacedHex placedHex1 = setUpSettlement();
+        Hex hex5 = new Hex("hex5", Terrain.LAKE);
+        hex5.addPiecesToHex(new Piece(Color.BLACK, PieceType.TOTORO), 1);
+        Location loc5 = new Location(0,-2);
+        PlacedHex placedHex5 = new PlacedHex(hex5, loc5);
+        placedHexes.add(placedHex5);
+        Hex hex6 = new Hex("hex6", Terrain.GRASSLANDS, 3);
+        Location loc6 = new Location(2,0);
+        targetHex = new PlacedHex(hex6, loc6);
+        placedHexes.add(targetHex);
+        Settlement settlement = new Settlement(placedHex1, placedHexes);
+
+        board.placedHexes = placedHexes;
+        board.settlements.add(settlement);
+    }
+
+    @Given("^a settlement containing a totoro and a valid hex directly next to a totoro$")
+    public void aSettlementContainingATotoroAndAValidHexDirectlyNextToATotoro() {
+        PlacedHex placedHex1 = setUpSettlement();
+        Hex hex5 = new Hex("hex5", Terrain.LAKE);
+        hex5.addPiecesToHex(new Piece(Color.BLACK, PieceType.TOTORO), 1);
+        Location loc5 = new Location(0,-2);
+        PlacedHex placedHex5 = new PlacedHex(hex5, loc5);
+        placedHexes.add(placedHex5);
+        Hex hex6 = new Hex("hex6", Terrain.GRASSLANDS, 3);
+        Location loc6 = new Location(0,-3);
+        targetHex = new PlacedHex(hex6, loc6);
+        placedHexes.add(targetHex);
+        Settlement settlement = new Settlement(placedHex1, placedHexes);
+
+        board.placedHexes = placedHexes;
+        board.settlements.add(settlement);
+    }
+
+    @Given("^a settlement containing a tiger and is valid to build a totoro$")
+    public void aSettlementContainingATigerAndIsValidToBuildATotoro() {
+        PlacedHex placedHex1 = setUpSettlement();
+        Hex hex5 = new Hex("hex5", Terrain.LAKE,3);
+        hex5.addPiecesToHex(new Piece(Color.BLACK, PieceType.TIGER), 1);
+        Location loc5 = new Location(0,-2);
+        PlacedHex placedHex5 = new PlacedHex(hex5, loc5);
+        placedHexes.add(placedHex5);
+        Hex hex6 = new Hex("hex6", Terrain.GRASSLANDS);
+        Location loc6 = new Location(2,0);
+        targetHex = new PlacedHex(hex6, loc6);
+        placedHexes.add(targetHex);
+        Settlement settlement = new Settlement(placedHex1, placedHexes);
+
+        board.placedHexes = placedHexes;
+        board.settlements.add(settlement);
+    }
+
+    @Given("^a settlement containing a tiger and a valid hex directly next to the tiger$")
+    public void aSettlementContainingATigerAndAValidHexDirectlyNextToTheTiger() {
+        PlacedHex placedHex1 = setUpSettlement();
+        Hex hex5 = new Hex("hex5", Terrain.LAKE,3);
+        hex5.addPiecesToHex(new Piece(Color.BLACK, PieceType.TIGER), 1);
+        Location loc5 = new Location(0,-2);
+        PlacedHex placedHex5 = new PlacedHex(hex5, loc5);
+        placedHexes.add(placedHex5);
+        Hex hex6 = new Hex("hex6", Terrain.GRASSLANDS);
+        Location loc6 = new Location(0,-3);
+        targetHex = new PlacedHex(hex6, loc6);
+        placedHexes.add(targetHex);
+        Settlement settlement = new Settlement(placedHex1, placedHexes);
+
+        board.placedHexes = placedHexes;
+        board.settlements.add(settlement);
+    }
+
     @Given("^a settlement that is of your own color and an adjacent Volcano hex$")
     public void aSettlementAdjacentToAVolcano() {
         expectedErrorMessage = "Cannot expand into a Volcano";
@@ -714,6 +786,7 @@ public class BuildOptionStepDefs{
 
         return placedHex5;
     }
+
 
 
 }

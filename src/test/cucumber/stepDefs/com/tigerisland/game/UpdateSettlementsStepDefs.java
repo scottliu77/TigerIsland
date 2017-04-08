@@ -1,6 +1,7 @@
 package com.tigerisland.game;
 
 import com.tigerisland.InvalidMoveException;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -34,9 +35,7 @@ public class UpdateSettlementsStepDefs {
     public UpdateSettlementsStepDefs() {
         this.board = new Board();
         this.placedHexes = new ArrayList<PlacedHex>();
-
         this.player = new Player(Color.BLACK, "1", PlayerType.SAFEAI);
-
     }
 
     @Given("^a player creates a new settlement$")
@@ -179,7 +178,66 @@ public class UpdateSettlementsStepDefs {
         }
     }
 
-    @Given("^a player builds a totoro sactuary between two different colored settlements$")
+    @Given("^a player builds a totoro directly next to a totoro in another settlement$")
+    public void aPlayerBuildsATotoroDirectlyNextToATotoroInAnotherSettlement() {
+        PlacedHex placedHex = createSettlementSizeOne();
+
+        populatePlacedHexes();
+
+        Hex hex6 = new Hex("hex11", Terrain.GRASSLANDS, 1);
+        Location loc6 = new Location(0,4);
+        PlacedHex placedHex6 = new PlacedHex(hex6, loc6);
+
+        placedHexes.add(placedHex);
+        placedHexes.add(placedHex6);
+        board.placedHexes = placedHexes;
+
+        Settlement village1 = new Settlement(placedHex, placedHexes);
+        board.settlements.add(village1);
+
+        try {
+            board.expandVillage(player, placedHex.getLocation(), Terrain.ROCKY);
+        } catch (InvalidMoveException e) {
+            e.getMessage();
+        }
+
+        try {
+            board.placeTotoro(player, placedHex6.getLocation());
+        } catch (InvalidMoveException e) {
+            e.getMessage();
+        }
+
+        populateMorePlacedHexes();
+
+        Hex hex7 = new Hex("hex7", Terrain.LAKE, 1);
+        Location loc7 = new Location(0, 5);
+        PlacedHex placedHex7 = new PlacedHex(hex7, loc7);
+        placedHexes.add(placedHex7);
+
+        Hex hex12 = new Hex("hex12", Terrain.ROCKY, 1);
+        hex12.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        Location loc12 = new Location (-1,7);
+        PlacedHex placedHex12 = new PlacedHex(hex12, loc12);
+        placedHexes.add(placedHex12);
+
+        board.placedHexes = this.placedHexes;
+        Settlement village2 = new Settlement(placedHex12, placedHexes);
+        board.settlements.add(village2);
+
+        try {
+            board.expandVillage(player, placedHex12.getLocation(), Terrain.ROCKY);
+        } catch (InvalidMoveException e) {
+            e.getMessage();
+        }
+
+        try {
+            board.placeTotoro(player, placedHex7.getLocation());
+        } catch (InvalidMoveException e) {
+            e.getMessage();
+        }
+    }
+
+    @Given("^a player builds a totoro sanctuary between two different colored settlements$")
     public void aPlayerBuildsATotoroBetweenTwoDifferentColoredSettlements() {
         PlacedHex placedHex = createSettlementSizeOne();
 
@@ -247,6 +305,47 @@ public class UpdateSettlementsStepDefs {
         }
     }
 
+    @Given("^a player builds a tiger directly next to a tiger in another settlement$")
+    public void aPlayerBuildsATigerDirectlyNextToATigerInAnotherSettlement() {
+        PlacedHex placedHex = createSettlementSizeOne();
+
+        Hex hex2 = new Hex("hex2", Terrain.ROCKY, 3);
+        Location loc2 = new Location(0,1);
+        PlacedHex placedHex2 = new PlacedHex(hex2, loc2);
+        placedHexes.add(placedHex2);
+
+        board.placedHexes = this.placedHexes;
+        Settlement village1 = new Settlement(placedHex, placedHexes);
+        board.settlements.add(village1);
+
+        try {
+            board.placeTiger(player, placedHex2.getLocation());
+        } catch (InvalidMoveException e) {
+            e.getMessage();
+        }
+
+        Hex hex3 = new Hex("hex3", Terrain.ROCKY, 3);
+        Location loc3 = new Location(0,2);
+        PlacedHex placedHex3 = new PlacedHex(hex3, loc3);
+        placedHexes.add(placedHex3);
+
+        Hex hex4 = new Hex("hex4", Terrain.LAKE, 1);
+        hex4.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        Location loc4 = new Location(0,3);
+        PlacedHex placedHex4 = new PlacedHex(hex4,loc4);
+        placedHexes.add(placedHex4);
+
+        board.placedHexes = this.placedHexes;
+        Settlement village2 = new Settlement(placedHex4, placedHexes);
+        board.settlements.add(village2);
+
+        try {
+            board.placeTiger(player, placedHex3.getLocation());
+        } catch (InvalidMoveException e) {
+            e.getMessage();
+        }
+    }
+
     @Given("^a player builds a tiger between two different colored settlements$")
     public void aPlayerBuildsATigerBetweenTwoDifferentColoredSettlements() {
         PlacedHex placedHex = createSettlementSizeOne();
@@ -277,60 +376,75 @@ public class UpdateSettlementsStepDefs {
         }
     }
 
-    @Given("^a player buils a totoro next to a totoro in another settlement$")
-    public void aPlayerBuilsATotoroNextToATotoroInAnotherSettlement() {
+    @Given("^a player has a settlement containing a tiger and another capable of placing a totoro$")
+    public void aPlayerHasASettlementContainingATigerAndAnotherCapableOfPlacingATotoro() {
         PlacedHex placedHex = createSettlementSizeOne();
-
-        populatePlacedHexes();
-
-        Hex hex6 = new Hex("hex11", Terrain.GRASSLANDS, 1);
-        Location loc6 = new Location(0,4);
-        PlacedHex placedHex6 = new PlacedHex(hex6, loc6);
-
         placedHexes.add(placedHex);
-        placedHexes.add(placedHex6);
-        board.placedHexes = placedHexes;
 
-        Settlement village1 = new Settlement(placedHex, placedHexes);
-        board.settlements.add(village1);
+        Hex hex2 = new Hex("hex2", Terrain.ROCKY, 3);
+        hex2.addPiecesToHex(new Piece(Color.BLACK, PieceType.TIGER), 1);
+        Location loc2 = new Location(0,1);
+        PlacedHex placedHex2 = new PlacedHex(hex2, loc2);
+        placedHexes.add(placedHex2);
 
-        try {
-            board.expandVillage(player, placedHex.getLocation(), Terrain.ROCKY);
-        } catch (InvalidMoveException e) {
-            e.getMessage();
-        }
+        createSettlementCapableOfBuildingTotoro();
 
-        try {
-            board.placeTotoro(player, placedHex6.getLocation());
-        } catch (InvalidMoveException e) {
-            e.getMessage();
-        }
+        Hex hex8 = new Hex("hex8", Terrain.GRASSLANDS, 1);
+        hex8.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        Location loc8 = new Location(0,2);
+        PlacedHex placedHex8 = new PlacedHex(hex8, loc8);
+        placedHexes.add(placedHex8);
 
-        populateMorePlacedHexes();
-
-        Hex hex7 = new Hex("hex7", Terrain.LAKE, 1);
-        Location loc7 = new Location(0, 5);
-        PlacedHex placedHex7 = new PlacedHex(hex7, loc7);
-        placedHexes.add(placedHex7);
-
-        Hex hex12 = new Hex("hex12", Terrain.ROCKY, 1);
-        hex12.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
-        Location loc12 = new Location (-1,7);
-        PlacedHex placedHex12 = new PlacedHex(hex12, loc12);
-        placedHexes.add(placedHex12);
-
+        Hex hex9 = new Hex("hex9", Terrain.GRASSLANDS, 1);
+        Location loc9 = new Location(1,4);
+        PlacedHex placedHex9 = new PlacedHex(hex9, loc9);
+        placedHexes.add(placedHex9);
         board.placedHexes = this.placedHexes;
-        Settlement village2 = new Settlement(placedHex12, placedHexes);
-        board.settlements.add(village2);
+
+        Settlement tigerVillage = new Settlement(placedHex, placedHexes);
+        Settlement totoroVillage = new Settlement(placedHex8, placedHexes);
+        board.settlements.add(tigerVillage);
+        board.settlements.add(totoroVillage);
 
         try {
-            board.expandVillage(player, placedHex12.getLocation(), Terrain.ROCKY);
+            board.placeTotoro(player, loc9);
         } catch (InvalidMoveException e) {
             e.getMessage();
         }
+    }
+
+    @Given("^a player has a settlement containing a totoro and another capable of placing a tiger$")
+    public void aPlayerHasASettlementContainingATotoroAndAnotherCapableOfPlacingATiger() {
+        PlacedHex placedHex = createSettlementSizeOne();
+        placedHexes.add(placedHex);
+
+        Hex hex2 = new Hex("hex2", Terrain.ROCKY, 3);
+        Location loc2 = new Location(0,1);
+        PlacedHex placedHex2 = new PlacedHex(hex2, loc2);
+        placedHexes.add(placedHex2);
+
+        createSettlementCapableOfBuildingTotoro();
+
+        Hex hex8 = new Hex("hex8", Terrain.GRASSLANDS, 1);
+        hex8.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        Location loc8 = new Location(0,2);
+        PlacedHex placedHex8 = new PlacedHex(hex8, loc8);
+        placedHexes.add(placedHex8);
+
+        Hex hex9 = new Hex("hex9", Terrain.GRASSLANDS, 1);
+        hex9.addPiecesToHex(new Piece(Color.BLACK, PieceType.TOTORO), 1);
+        Location loc9 = new Location(1,4);
+        PlacedHex placedHex9 = new PlacedHex(hex9, loc9);
+        placedHexes.add(placedHex9);
+        board.placedHexes = this.placedHexes;
+
+        Settlement tigerVillage = new Settlement(placedHex, placedHexes);
+        Settlement totoroVillage = new Settlement(placedHex8, placedHexes);
+        board.settlements.add(tigerVillage);
+        board.settlements.add(totoroVillage);
 
         try {
-            board.placeTotoro(player, placedHex7.getLocation());
+            board.placeTiger(player, loc2);
         } catch (InvalidMoveException e) {
             e.getMessage();
         }
@@ -408,6 +522,38 @@ public class UpdateSettlementsStepDefs {
         Location loc11 = new Location (0,7);
         PlacedHex placedHex11 = new PlacedHex(hex11, loc11);
         placedHexes.add(placedHex11);
+    }
+
+    private void createSettlementCapableOfBuildingTotoro() {
+        Hex hex3 = new Hex("hex3", Terrain.LAKE);
+        Hex hex4 = new Hex("hex4", Terrain.LAKE);
+        Hex hex5 = new Hex("hex5", Terrain.LAKE);
+        Hex hex6 = new Hex("hex6", Terrain.LAKE);
+        Hex hex7 = new Hex("hex7", Terrain.LAKE);
+
+        hex3.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        hex4.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        hex5.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        hex6.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        hex7.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+
+        Location loc3 = new Location(0,3);
+        Location loc4 = new Location(1,3);
+        Location loc5 = new Location(-1,3);
+        Location loc6 = new Location(0,4);
+        Location loc7 = new Location(-1,4);
+
+        PlacedHex placedHex3 = new PlacedHex(hex3, loc3);
+        PlacedHex placedHex4 = new PlacedHex(hex4, loc4);
+        PlacedHex placedHex5 = new PlacedHex(hex5, loc5);
+        PlacedHex placedHex6 = new PlacedHex(hex6, loc6);
+        PlacedHex placedHex7 = new PlacedHex(hex7, loc7);
+
+        placedHexes.add(placedHex3);
+        placedHexes.add(placedHex4);
+        placedHexes.add(placedHex5);
+        placedHexes.add(placedHex6);
+        placedHexes.add(placedHex7);
     }
 
 }
