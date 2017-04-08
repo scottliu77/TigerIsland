@@ -289,11 +289,9 @@ public class AI_InfoTest {
         TilePlacement tilePlacement1 = new TilePlacement(new Tile(Terrain.LAKE, Terrain.LAKE), new Location(0, 0), 0);
         TilePlacement tilePlacement2 = new TilePlacement(new Tile(Terrain.LAKE, Terrain.GRASSLANDS), new Location(1, -1), 300);
         TilePlacement tilePlacement3 = new TilePlacement(new Tile(Terrain.LAKE, Terrain.LAKE), new Location(2, 0), 60);
-        //TilePlacement tilePlacement4 = new TilePlacement(new Tile(Terrain.LAKE, Terrain.LAKE), new Location(-3, 3), 0);
         board.placeTile(tilePlacement1);
         board.placeTile(tilePlacement2);
         board.placeTile(tilePlacement3);
-        //board.placeTile(tilePlacement4);
         board.createVillage(p2, new Location(2, -1));
         board.updateSettlements();
         board.expandVillage(p2, new Location(2, -1), Terrain.LAKE);

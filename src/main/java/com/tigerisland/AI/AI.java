@@ -1,5 +1,6 @@
 package com.tigerisland.AI;
 
+import com.tigerisland.InvalidMoveException;
 import com.tigerisland.game.*;
 import com.tigerisland.messenger.Adapter;
 import com.tigerisland.messenger.Message;
@@ -27,7 +28,7 @@ public abstract class AI {
         this.turnState = aiCopy.turnState;
     }
 
-    public void pickTilePlacementAndBuildAction(Turn turnState) {
+    public void pickTilePlacementAndBuildAction(Turn turnState) throws InvalidMoveException {
         unpackAIsettings(turnState);
         decideOnMove();
         assembleMessage();

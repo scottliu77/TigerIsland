@@ -1,9 +1,6 @@
 package com.tigerisland.game;
 
-import com.tigerisland.AI.AI;
-import com.tigerisland.AI.HumanInput;
-import com.tigerisland.AI.SafeAI;
-import com.tigerisland.AI.TotoroLinesAI;
+import com.tigerisland.AI.*;
 
 public class Player {
 
@@ -28,6 +25,9 @@ public class Player {
             playerAI = new TotoroLinesAI();
         else if(playerType == PlayerType.HUMAN)
             playerAI = new HumanInput();
+        else if(playerType == PlayerType.JACKSAI){
+            playerAI = new JacksAI();
+        }
     }
 
     public Player(Player player){
