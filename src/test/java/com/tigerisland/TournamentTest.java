@@ -46,6 +46,7 @@ public class TournamentTest {
 
     @Ignore("Ignoring can run tournament test") @Test
     public void testCanRunTournament() {
+        Tournament tournament = new Tournament(new GlobalSettings());
         tournament.run();
     }
 

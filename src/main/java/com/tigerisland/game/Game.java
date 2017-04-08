@@ -57,7 +57,6 @@ public class Game implements Runnable {
             TextGUI.printMap(board);
         }
 
-
         Boolean continueGame = true;
 
         if(Thread.currentThread().isInterrupted()) {
@@ -100,10 +99,11 @@ public class Game implements Runnable {
 
     protected void alternateOurPlayerID() {
         String opponentPlayerID = gameSettings.getGlobalSettings().getServerSettings().getOpponentID();
-        if(ourPlayerID.equals(ourPlayerID.equals(opponentPlayerID))) {
-            gameSettings.getGlobalSettings().getServerSettings().getOpponentID();
+        String truePlayerID = gameSettings.getGlobalSettings().getServerSettings().getPlayerID();
+        if(ourPlayerID.equals(truePlayerID)) {
+             ourPlayerID = opponentPlayerID;
         } else {
-            gameSettings.getGlobalSettings().getServerSettings().getPlayerID();
+            ourPlayerID = truePlayerID;
         }
     }
 
@@ -134,6 +134,7 @@ public class Game implements Runnable {
     protected Boolean checkForMoveToProcess() throws InvalidMoveException, InterruptedException {
         for(Message message : gameSettings.getGlobalSettings().inboundQueue) {
             if(message.getMessageType().getSubtype().equals("BUILDACTION")) {
+                sendMockServerMessage(message);
                 return processMove(message);
             }
         }
@@ -172,6 +173,12 @@ public class Game implements Runnable {
         }
 
         return false;
+    }
+
+    private void sendMockServerMessage(Message message) {
+        if(offline) {
+            System.out.println("SERVER (Offline): " + message.message);
+        }
     }
 
     private void offlineGenerateGameOverEcho(String message) {

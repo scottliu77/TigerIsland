@@ -40,44 +40,6 @@ public class Client implements Runnable {
     }
 
     public void run() {
-//        if(testing) {
-//            runManualScenario();
-//        } else
-       runDefaultScenario();
-//        }
-    }
-
-//    protected void runManualScenario() {
-//        while(true) {
-//
-//            if(outboundQueue.size() > 0) {
-//                String message = null;
-//                try {
-//                    message = outboundQueue.take().message;
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//                System.out.println("CLIENT: " + message);
-//            } else {
-//                for(Message message : inboundQueue) {
-//                    if(message.getMessageType() == MessageType.PROCESSED) {
-//                        System.out.println("SERVER: " + message.message);
-//                    }
-//                }
-//
-//                cleanupMessageQueue();
-//            }
-//
-//            try {
-//                sleep(1);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//
-//        }
-//    }
-
-    protected  void runDefaultScenario() {
         try {
             socket = new Socket(addr, port);
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
