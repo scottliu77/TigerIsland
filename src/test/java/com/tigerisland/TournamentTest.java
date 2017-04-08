@@ -12,14 +12,9 @@ public class TournamentTest {
     private Tournament tournament;
     private GlobalSettings globalSettings;
 
-    @Before
-    public void createTournament() {
-        this.globalSettings = new GlobalSettings();
-        this.tournament = new Tournament(globalSettings);
-    }
-
     @Test
     public void testCanCreateOfflineTournament() {
+        Tournament tournament = new Tournament(new GlobalSettings());
         assertTrue(tournament != null);
     }
 
@@ -32,6 +27,21 @@ public class TournamentTest {
             assertTrue(false);
         }
         assertTrue(true);
+    }
+
+    @Ignore("Ignoring can run tournament test") @Test
+    public void testCanRunOfflineTournamentManually() {
+        String[] manualTournamentSettings = new String[]{"--offline", "true", "--manual", "true"};
+
+        TigerIsland tigerIsland = new TigerIsland();
+        try {
+            tigerIsland.parseArguments(manualTournamentSettings);
+            globalSettings = tigerIsland.globalSettings;
+        } catch (ArgumentParserException exception) {
+            assertTrue(false);
+        }
+        tournament = new Tournament(globalSettings);
+        tournament.run();
     }
 
     @Ignore("Ignoring can run tournament test") @Test

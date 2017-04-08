@@ -1,5 +1,6 @@
 package com.tigerisland;
 
+import com.tigerisland.messenger.Message;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -33,8 +34,22 @@ public class ManualTournamentTest {
 
     @Ignore("Ignoring, need to differentiate LocalServer for manual and auto testing") @Test
     public void testRunMockTournament() {
+        setupTournamentMessages();
         tournament = new Tournament(globalSettings);
         tournament.run();
+    }
+
+    private void setupTournamentMessages() {
+        addMessage(new Message("WELCOME TO ANOTHER EDITION OF THUNDERDOME!"));
+        addMessage(new Message("TWO SHALL ENTER, ONE SHALL LEAVE!"));
+        addMessage(new Message("WAIT FOR THE TOURNAMENT TO BEGIN 7"));
+        addMessage(new Message("NEW CHALLENGE 1 YOU WILL PLAY 1 MATCHES"));
+        addMessage(new Message("BEGIN ROUND 1 OF 1"));
+        addMessage(new Message("NEW MATCH BEGINNING NOW YOUR OPPONENT IS PLAYER 1"));
+    }
+
+    private void addMessage(Message message) {
+        globalSettings.inboundQueue.add(message);
     }
 
 }

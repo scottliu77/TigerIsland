@@ -1,7 +1,5 @@
 package com.tigerisland.game;
 
-import com.tigerisland.AI.JacksAI;
-
 import java.util.*;
 
 public enum PlayerType {

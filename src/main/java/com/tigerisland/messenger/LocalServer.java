@@ -18,15 +18,14 @@ import static java.lang.Thread.sleep;
 
 public class LocalServer implements Runnable {
 
-    public static final int LOCAL_CHALLENGES = 1;
-    public static final int LOCAL_ROUNDS = 1;
+    public static final int LOCAL_CHALLENGES = 3;
+    public static final int LOCAL_ROUNDS = 4;
 
     private GlobalSettings globalSettings;
     private InetAddress addr;
     private int port;
     private ServerSocket dummyListener;
     private Boolean running = true;
-
 
     public LocalServer(GlobalSettings globalSettings) {
         this.globalSettings = globalSettings;
@@ -180,10 +179,12 @@ public class LocalServer implements Runnable {
 
             writer.println("NEW MATCH BEGINNING NOW YOUR OPPONENT IS PLAYER 13");
 
-            waitForGameEnd();
+            waitForGamesToEnd();
         }
 
-        private void waitForGameEnd() {
+        private void waitForGamesToEnd() {
+            int gamesRunning = 2;
+
             try {
                 writer = new PrintWriter(dummySocket.getOutputStream(), true);
 
@@ -196,7 +197,10 @@ public class LocalServer implements Runnable {
                         messagesReceived.put(new Message(message));
 
                         if (endMessageFound()) {
-                            return;
+                            gamesRunning--;
+                            if(gamesRunning == 0) {
+                                return;
+                            }
                         }
                         sleep(1);
                     } catch (InterruptedException e) {

@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Scanner;
 import java.util.concurrent.BlockingQueue;
 
 import static java.lang.Thread.sleep;
@@ -39,29 +40,42 @@ public class Client implements Runnable {
     }
 
     public void run() {
-        if(testing) {
-            runManualScenario();
-        } else {
-            runDefaultScenario();
-        }
+//        if(testing) {
+//            runManualScenario();
+//        } else
+       runDefaultScenario();
+//        }
     }
 
-    protected void runManualScenario() {
-        while(true) {
-            System.out.println("Enter a new server message:\t(Type 'quit' to end program)\n");
-            BufferedReader manualInput = new BufferedReader(new InputStreamReader(System.in));
-            try{
-                String message = manualInput.readLine();
-                if(message.equals("quit")) {
-                    return;
-                } else {
-                    inboundQueue.add(new Message(message));
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+//    protected void runManualScenario() {
+//        while(true) {
+//
+//            if(outboundQueue.size() > 0) {
+//                String message = null;
+//                try {
+//                    message = outboundQueue.take().message;
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//                System.out.println("CLIENT: " + message);
+//            } else {
+//                for(Message message : inboundQueue) {
+//                    if(message.getMessageType() == MessageType.PROCESSED) {
+//                        System.out.println("SERVER: " + message.message);
+//                    }
+//                }
+//
+//                cleanupMessageQueue();
+//            }
+//
+//            try {
+//                sleep(1);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//
+//        }
+//    }
 
     protected  void runDefaultScenario() {
         try {

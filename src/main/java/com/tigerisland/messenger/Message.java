@@ -71,7 +71,8 @@ public class Message {
 
         checkForMakeMove();
 
-        checkForMatchOver();
+        checkForSafeGameOver();
+        checkForEndOfRound();
         checkForLastRound();
         checkForLastChallenge();
 
@@ -296,6 +297,15 @@ public class Message {
         }
     }
 
+    private void checkForEndOfRound() {
+        Matcher roundMatcher = ServerMessages.roundEndWaitPattern.matcher(message);
+
+        while(roundMatcher.find()) {
+
+            messageType = MessageType.ROUNDENDED;
+        }
+    }
+
     private void checkForLastRound() {
         Matcher roundMatcher = ServerMessages.roundEndPattern.matcher(message);
 
@@ -330,8 +340,8 @@ public class Message {
 
     }
 
-    private void checkForMatchOver() {
-        Matcher matchMatcher = ServerMessages.matchOverPattern.matcher(message);
+    private void checkForSafeGameOver() {
+        Matcher matchMatcher = ServerMessages.gameOverPattern.matcher(message);
 
         while(matchMatcher.find()) {
             String match = matchMatcher.group();
@@ -344,7 +354,7 @@ public class Message {
             opponentID = match.split("\\s+")[7];
             opponentScore = Integer.valueOf(match.split("\\s+")[8]);
 
-            messageType = MessageType.MATCHOVER;
+            messageType = MessageType.GAMEOVER;
         }
     }
 

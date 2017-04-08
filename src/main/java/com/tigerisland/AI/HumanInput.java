@@ -20,8 +20,6 @@ public class HumanInput extends AI {
 
     public String builtValidMoveString() {
 
-        TextGUI.printMap(turnState.getBoard());
-
         String tempMessage;
         String leftTerrain = turnState.getCurrentTile().getLeftHex().getHexTerrain().name();
         String rightTerrain = turnState.getCurrentTile().getRightHex().getHexTerrain().name();
