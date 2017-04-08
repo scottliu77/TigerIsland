@@ -176,7 +176,7 @@ public class TilePlacementStepDefs{
         int rotation7 = 180;
         myBoard.placeTile(tile7, loc7, rotation7);
 
-        Player myPlayer = new Player(Color.BLUE, "1");
+        Player myPlayer = new Player(Color.BLUE, "1", PlayerType.SAFEAI);
         myBoard.createVillage(myPlayer, new Location(2,0));
 
         myBoard.createVillage(myPlayer, new Location(0,1));

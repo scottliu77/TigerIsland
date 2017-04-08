@@ -40,8 +40,7 @@ public class BuildOptionStepDefs{
     public BuildOptionStepDefs() {
         this.board = new Board();
         this.placedHexes = new ArrayList<PlacedHex>();
-        this.player = new Player(Color.BLACK, 1, PlayerType.SAFEAI);
->>>>>>> dba2527626bc142c7ed97d900f953657b78bfafc
+        this.player = new Player(Color.BLACK, "1", PlayerType.SAFEAI);
     }
 
     @Given("^a settlement too small to accept a totoro$")

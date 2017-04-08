@@ -22,7 +22,9 @@ public class BuildTurnTest {
         this.tile = new Tile(Terrain.LAKE, Terrain.GRASSLANDS);
         this.location = new Location(0, 1);
         this.settlementTerrain = Terrain.GRASSLANDS;
-        this.player = new Player(Color.ORANGE, "1");
+
+        this.player = new Player(Color.ORANGE, "1", PlayerType.SAFEAI);
+
         this.rotation = 0;
 
         this.tilePlacement = new TilePlacement(tile, location, rotation);

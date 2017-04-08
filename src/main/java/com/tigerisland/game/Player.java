@@ -1,6 +1,8 @@
 package com.tigerisland.game;
 
 import com.tigerisland.AI.AI;
+import com.tigerisland.AI.SafeAI;
+import com.tigerisland.AI.TotoroLinesAI;
 
 public class Player {
 
@@ -12,11 +14,19 @@ public class Player {
     private PlayerType playerType;
     private AI playerAI;
 
-    public Player(Color color, String playerID) {
+
+    public Player(Color color, String playerID, PlayerType playerType) {
         this.color = color;
         this.playerID = playerID;
         score = new Score();
         pieceSet = new PieceSet(color);
+
+        if(playerType == PlayerType.SAFEAI)
+            playerAI = new SafeAI();
+        else if(playerType == PlayerType.TOTOROLINESAI)
+            playerAI = new TotoroLinesAI();
+        else if(playerType == PlayerType.HUMAN)
+            playerAI = null; //I'm not sure how to handle this situation
     }
 
     public Player(Player player){
@@ -25,11 +35,13 @@ public class Player {
         this.playerID = player.getPlayerID();
         this.pieceSet = new PieceSet(player.getPieceSet());
         this.playerType = player.getPlayerType();
-//        try {
-//            this.playerAI = new AI(player.getPlayerAI());
-//        } catch (NullPointerException exception) {
-//            // Ignore this
-//        }
+
+        if(this.playerType == PlayerType.SAFEAI)
+            playerAI = new SafeAI();
+        else if(this.playerType == PlayerType.TOTOROLINESAI)
+            playerAI = new TotoroLinesAI();
+        else if(this.playerType == PlayerType.HUMAN)
+            playerAI = null; //I'm not sure how to handle this situation
     }
 
     public void updatePlayerState(Player updatedPlayer) {
@@ -51,7 +63,13 @@ public class Player {
 
     public void setPlayerType(PlayerType playerType) {
         this.playerType = playerType;
-        this.playerAI = new AI(playerType);
+
+        if(playerType == PlayerType.SAFEAI)
+            playerAI = new SafeAI();
+        else if(playerType == PlayerType.TOTOROLINESAI)
+            playerAI = new TotoroLinesAI();
+        else if(playerType == PlayerType.HUMAN)
+            playerAI = null; //I'm not sure how to handle this situation
     }
 
     public PlayerType getPlayerType() {

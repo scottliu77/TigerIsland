@@ -150,7 +150,7 @@ public class AI_Info {
                         settlementFound = true;
                     }
                 }
-                if(settlementFound && tilePlacementMakesTotoroPlacementInvalid(settlementAdjacentToLocation, tilePlacement, opposingPlayerColor, board)){
+                if(settlementFound && tilePlacementMakesTotoroPlacementInvalid(tilePlacement, opposingPlayerColor, board)){
                     tilePlacementsThatCouldPreventTotoroPlacement.add(tilePlacement);
                 }
             }
@@ -159,16 +159,16 @@ public class AI_Info {
         return tilePlacementsThatCouldPreventTotoroPlacement;
     }
 
-    private static boolean tilePlacementMakesTotoroPlacementInvalid(Settlement settlement, TilePlacement tilePlacement, Color color, Board board){
-        Board tempBoardOnlyIncludingThisSettlement = new Board(board);
-        int originalNumberOfSettlementsThatCouldAcceptTotoro = tempBoardOnlyIncludingThisSettlement.settlementsThatCouldAcceptTotoroForGivenPlayer(color).size();
+    private static boolean tilePlacementMakesTotoroPlacementInvalid(TilePlacement tilePlacement, Color color, Board board){
+        Board tempBoard = new Board(board);
+        int originalNumberOfSettlementsThatCouldAcceptTotoro = tempBoard.settlementsThatCouldAcceptTotoroForGivenPlayer(color).size();
         try {
-            tempBoardOnlyIncludingThisSettlement.placeTile(tilePlacement.getTile(), tilePlacement.getLocation(), tilePlacement.getRotation());
+            tempBoard.placeTile(tilePlacement.getTile(), tilePlacement.getLocation(), tilePlacement.getRotation());
         }catch(InvalidMoveException e){
             return false;
         }
-        tempBoardOnlyIncludingThisSettlement.updateSettlements();
-        int finalNumberOfSettlementsThatCouldAcceptTotoro = tempBoardOnlyIncludingThisSettlement.settlementsThatCouldAcceptTotoroForGivenPlayer(color).size();
+        tempBoard.updateSettlements();
+        int finalNumberOfSettlementsThatCouldAcceptTotoro = tempBoard.settlementsThatCouldAcceptTotoroForGivenPlayer(color).size();
         return finalNumberOfSettlementsThatCouldAcceptTotoro == originalNumberOfSettlementsThatCouldAcceptTotoro - 1;
     }
 
@@ -187,41 +187,40 @@ public class AI_Info {
         return habitableLevelThreeHexes;
     }
 
-
-    /*public static ArrayList<TilePlacement> findNukableLocationsToStopOpposingPlayerFromMakingTigerPlacement(Color opposingPlayerColor, Board board, Tile tile){
-        ArrayList<Settlement> opposingSettlementsThatCouldAcceptTiger = board.settlementsThatCouldAcceptTotoroForGivenPlayer(opposingPlayerColor);
+    public static ArrayList<TilePlacement> findNukableLocationsToStopOpposingPlayerFromMakingTigerPlacement(Color opposingPlayerColor, Board board, Tile tile){
+        ArrayList<Settlement> opposingSettlementsThatCouldAcceptTiger = board.settlementsThatCouldAcceptTigerForGivenPlayer(opposingPlayerColor);
         ArrayList<TilePlacement> validTilePlacements = returnValidTilePlacements(tile, board);
-        ArrayList<TilePlacement> tilePlacementsThatCouldPreventTotoroPlacement = new ArrayList<TilePlacement>();
+        ArrayList<TilePlacement> tilePlacementsThatCouldPreventTigerPlacement = new ArrayList<TilePlacement>();
 
         for(TilePlacement tilePlacement : validTilePlacements){
             ArrayList<Settlement> settlementsAdjacentToLocation = board.findAdjacentSettlementsToLocation(tilePlacement.getLocation());
             for(Settlement settlementAdjacentToLocation : settlementsAdjacentToLocation){
                 boolean settlementFound = false;
-                for(Settlement settlementThatCouldAcceptTotoro : opposingSettlementsThatCouldAcceptTotoro){
-                    if(settlementAdjacentToLocation.equals(settlementThatCouldAcceptTotoro)){
+
+                for(Settlement settlementThatCouldAcceptTiger : opposingSettlementsThatCouldAcceptTiger){
+                    if(settlementAdjacentToLocation.equals(settlementThatCouldAcceptTiger)){
                         settlementFound = true;
                     }
                 }
-                if(settlementFound && tilePlacementMakesTotoroPlacementInvalid(settlementAdjacentToLocation, tilePlacement, opposingPlayerColor, board)){
-                    tilePlacementsThatCouldPreventTotoroPlacement.add(tilePlacement);
+                if(settlementFound && tilePlacementMakesTigerPlacementInvalid(tilePlacement, opposingPlayerColor, board)){
+                    tilePlacementsThatCouldPreventTigerPlacement.add(tilePlacement);
                 }
             }
         }
 
-        return tilePlacementsThatCouldPreventTotoroPlacement;
+        return tilePlacementsThatCouldPreventTigerPlacement;
     }
 
-    private static boolean tilePlacementMakesTigerPlacementInvalid(Settlement settlement, TilePlacement tilePlacement, Color color, Board board){
-        Board tempBoardOnlyIncludingThisSettlement = new Board(board);
-        int originalNumberOfSettlementsThatCouldAcceptTotoro = tempBoardOnlyIncludingThisSettlement.settlementsThatCouldAcceptTotoroForGivenPlayer(color).size();
+    private static boolean tilePlacementMakesTigerPlacementInvalid(TilePlacement tilePlacement, Color color, Board board){
+        Board tempBoard = new Board(board);
+        int originalNumberOfSettlementsThatCouldAcceptTiger = tempBoard.settlementsThatCouldAcceptTigerForGivenPlayer(color).size();
         try {
-            tempBoardOnlyIncludingThisSettlement.placeTile(tilePlacement.getTile(), tilePlacement.getLocation(), tilePlacement.getRotation());
+            tempBoard.placeTile(tilePlacement.getTile(), tilePlacement.getLocation(), tilePlacement.getRotation());
         }catch(InvalidMoveException e){
             return false;
         }
-        tempBoardOnlyIncludingThisSettlement.updateSettlements();
-        int finalNumberOfSettlementsThatCouldAcceptTotoro = tempBoardOnlyIncludingThisSettlement.settlementsThatCouldAcceptTotoroForGivenPlayer(color).size();
-        return finalNumberOfSettlementsThatCouldAcceptTotoro == originalNumberOfSettlementsThatCouldAcceptTotoro - 1;
-    }*/
-
+        tempBoard.updateSettlements();
+        int finalNumberOfSettlementsThatCouldAcceptTiger = tempBoard.settlementsThatCouldAcceptTigerForGivenPlayer(color).size();
+        return finalNumberOfSettlementsThatCouldAcceptTiger == originalNumberOfSettlementsThatCouldAcceptTiger - 1;
+    }
 }

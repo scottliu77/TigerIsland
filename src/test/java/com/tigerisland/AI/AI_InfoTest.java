@@ -15,13 +15,15 @@ public class AI_InfoTest {
     Tile testTile;
     Player p1;
     Player p2;
+    TextGUI gui;
 
     @Before
     public void setUp() {
         this.board = new Board();
         this.testTile = new Tile(Terrain.GRASSLANDS, Terrain.GRASSLANDS);
-        this.p1 = new Player(Color.BLUE, "1");
-        this.p2 = new Player(Color.PURPLE, "2");
+
+        this.p1 = new Player(Color.BLUE, "1", PlayerType.SAFEAI);
+        this.p2 = new Player(Color.PURPLE, "2", PlayerType.SAFEAI);
     }
 
     @Test
@@ -216,6 +218,7 @@ public class AI_InfoTest {
 
     }
 
+    @Test
     public void testForFindingNukableTotoroAcceptingSettlements() throws InvalidMoveException {
         placeTilesForTest2();
         setUpBoardForTotoroAndTigerTests();
@@ -231,4 +234,32 @@ public class AI_InfoTest {
         assertTrue(tilePlacementsThatWouldPreventTotoroPlacement.size() == 3);
     }
 
+    @Test
+    public void testForFindingNukableTigerAcceptingSettlements() throws InvalidMoveException {
+        placeTilesForTest2();
+        setUpBoardForTotoroAndTigerTests();
+        Tile tileThatWillHostVolcanoToNukeFrom = new Tile(Terrain.GRASSLANDS, Terrain.GRASSLANDS);
+        Location locationForVolcanoToNukeFrom = new Location(3, -1);
+        board.placeTile(tileThatWillHostVolcanoToNukeFrom, locationForVolcanoToNukeFrom, 60);
+        board.expandVillage(p1, new Location(2, -1), Terrain.GRASSLANDS);
+        board.updateSettlements();
+        Tile tile = new Tile(Terrain.JUNGLE, Terrain.LAKE);
+        ArrayList<TilePlacement> tilePlacementsThatWouldPreventTotoroPlacement = AI_Info.findNukableLocationsToStopOpposingPlayerFromMakingTigerPlacement(p1.getPlayerColor(),board, tile);
+        assertTrue(tilePlacementsThatWouldPreventTotoroPlacement.size() == 2);
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

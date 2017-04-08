@@ -26,7 +26,7 @@ public class AITest {
     public void createMocks() {
         gameSettings = new GameSettings(new GlobalSettings());
         gameSettings.getPlayerSet().setCurrentPlayer("1");
-        testPlayer = new Player(Color.BLACK, "1");
+        testPlayer = new Player(Color.BLACK, "1", PlayerType.SAFEAI);
         testPlayerType = PlayerType.SAFEAI;
         testPlayer.setPlayerType(testPlayerType);
         gameSettings.setGameID("A");
