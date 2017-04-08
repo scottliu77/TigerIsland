@@ -94,6 +94,9 @@ public class AI_Info {
                 continue;
             }
             ArrayList<Terrain> listOfTerrainsThisSettlementCanExpandInto = settlement.findTerrainsSettlementCouldExpandTo(board.getPlacedHexes());
+            if(listOfTerrainsThisSettlementCanExpandInto.size() == 0) {
+                continue;
+            }
             SettlementAndTerrainListPair settlementAndTerrainListPair = new SettlementAndTerrainListPair(settlement, listOfTerrainsThisSettlementCanExpandInto);
             validVillageExpansions.add(settlementAndTerrainListPair);
         }
