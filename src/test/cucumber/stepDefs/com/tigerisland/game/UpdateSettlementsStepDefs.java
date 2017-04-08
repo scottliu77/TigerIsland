@@ -575,6 +575,4 @@ public class UpdateSettlementsStepDefs {
         placedHexes.add(placedHex6);
         placedHexes.add(placedHex7);
     }
-
-
 }

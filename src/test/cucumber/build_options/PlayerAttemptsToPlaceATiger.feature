@@ -25,6 +25,11 @@ Feature: Placing Tiger Conditions
     When a player tries to place a tiger on a hex
     Then the move is rejected
 
+  Scenario: When attempting to place a tiger when a player is out of tiger pieces, the build fails
+    Given a settlement that can build a tiger but the player is out of tiger pieces
+    When a player tries to place a tiger on a hex
+    Then the move is rejected
+
   Scenario: When attempting to place a tiger on a valid hex at level 3, the build passes
     Given a settlement adjacent to a level three valid hex
     When a player tries to place a tiger on a hex

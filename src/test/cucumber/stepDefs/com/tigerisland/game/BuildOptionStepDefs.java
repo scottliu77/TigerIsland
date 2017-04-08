@@ -131,6 +131,55 @@ public class BuildOptionStepDefs{
 
     }
 
+    @Given("^a settlement that could build a totoro but the player is out of totoro pieces$")
+    public void aSettlementCanPlaceTotoroButIsOutOfTotoroPieces() {
+        expectedErrorMessage = "No totoro remaining in game inventory.";
+        PlacedHex placedHex1 = setUpSettlement();
+        Hex hex5 = new Hex("hex5", Terrain.LAKE);
+        hex5.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        Location loc5 = new Location(2,0);
+        PlacedHex placedHex5 = new PlacedHex(hex5, loc5);
+        placedHexes.add(placedHex5);
+        Settlement settlement = new Settlement(placedHex1, placedHexes);
+
+        Hex hex6 = new Hex("hex6", Terrain.ROCKY, 2);
+        Location loc6 = new Location(3,0);
+        targetHex = new PlacedHex(hex6, loc6);
+        placedHexes.add(targetHex);
+
+        try {
+            player.getPieceSet().placeTotoro();
+            player.getPieceSet().placeTotoro();
+            player.getPieceSet().placeTotoro();
+        } catch (InvalidMoveException e) {
+            e.getMessage();
+        }
+
+        board.placedHexes = placedHexes;
+        board.settlements.add(settlement);
+    }
+
+    @Given("^a settlement that can build a tiger but the player is out of tiger pieces$")
+    public void aSettlementCanBuildATigerButIsOutOfTigerPieces() {
+        expectedErrorMessage = "No tiger remaining in game inventory";
+        PlacedHex placedHex1 = setUpSettlement();
+        Hex hex5 = new Hex("hex5", Terrain.LAKE,3);
+        Location loc5 = new Location(0,-3);
+        targetHex = new PlacedHex(hex5, loc5);
+        placedHexes.add(targetHex);
+        Settlement settlement = new Settlement(placedHex1, placedHexes);
+
+        try {
+            player.getPieceSet().placeTiger();
+            player.getPieceSet().placeTiger();
+        } catch (InvalidMoveException e) {
+            e.getMessage();
+        }
+
+        board.placedHexes = placedHexes;
+        board.settlements.add(settlement);
+    }
+
     @Given("^a volcano hex is of level three or greater$")
     public void addVolcanoHexOfLevelThreeToBoard() {
         expectedErrorMessage = "Cannot place a piece on a volcano hex";
@@ -805,4 +854,7 @@ public class BuildOptionStepDefs{
 
         return placedHex5;
     }
+
+
+
 }

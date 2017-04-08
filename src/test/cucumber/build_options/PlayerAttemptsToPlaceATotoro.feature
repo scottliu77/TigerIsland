@@ -39,6 +39,11 @@ Feature: Placing Totoro Conditions
     When a player tries to place a totoro on the hex bridging the gap
     Then the move is accepted
 
+  Scenario: When attempting to place a totoro when a player does not have any, the build fails
+    Given a settlement that could build a totoro but the player is out of totoro pieces
+    When a player tries to place a totoro in the settlement
+    Then the move is rejected
+
 
   Scenario: When attempting to place a totoro on a valid hex in a valid settlement, the build succeeds
     Given a settlement capable of accepting a totoro
