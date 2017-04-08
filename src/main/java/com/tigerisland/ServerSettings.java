@@ -36,7 +36,7 @@ public class ServerSettings {
         this.localServerRunning = true;
     }
 
-    public ServerSettings(String IPaddress, int port, String tournamentPassword, String username, String password, Boolean localServerRunning) {
+    public ServerSettings(String IPaddress, int port, String tournamentPassword, String username, String password, Boolean offline) {
         this.IPaddress = IPaddress;
         this.port = port;
 
@@ -44,8 +44,8 @@ public class ServerSettings {
         this.username = username;
         this.password = password;
 
-        this.offline = localServerRunning;
-        this.localServerRunning = localServerRunning;
+        this.offline = offline;
+        this.localServerRunning = offline;
     }
 
     public void setPlayerID(String playerID) {

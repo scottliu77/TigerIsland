@@ -3,7 +3,9 @@ package com.tigerisland.game;
 import com.tigerisland.GameSettings;
 import com.tigerisland.GlobalSettings;
 import com.tigerisland.InvalidMoveException;
+import com.tigerisland.TigerIsland;
 import com.tigerisland.messenger.Message;
+import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.Before;
@@ -20,6 +22,8 @@ public class GameTest {
     private Game game;
 
     private Player playerBlack = new Player(Color.BLACK, "1", PlayerType.SAFEAI);
+
+    private String[] tournamentSettings = new String[]{"--offline", "false", "--turnTime", "1.5", "--ipaddress", "localhost", "--port", "6539", "--username", "username", "--password", "password"};
 
     @Before
     public void createGame() {
@@ -77,5 +81,23 @@ public class GameTest {
     public void testCanRunGame() {
         Thread gameThread = new Thread(game);
         gameThread.run();
+    }
+
+    @Ignore("Ignoring test can run mock online game") @Test
+    public void testCanRunMockOnlineGame() {
+        GlobalSettings mockSettings = configureGlobalSettingsForMockGame();
+        Game mockOnlineGame = new Game(new GameSettings(mockSettings));
+        Thread gameThread = new Thread(mockOnlineGame);
+        gameThread.run();
+    }
+
+    private GlobalSettings configureGlobalSettingsForMockGame() {
+        TigerIsland tigerIsland = new TigerIsland();
+        try {
+            tigerIsland.parseArguments(tournamentSettings);
+        } catch (ArgumentParserException exception) {
+            assertTrue(false);
+        }
+        return tigerIsland.getGlobalSettings();
     }
 }

@@ -60,9 +60,9 @@ public abstract class AI {
             buildMessageString = "FOUND SETTLEMENT AT";
         } else if(buildActionType == BuildActionType.VILLAGEEXPANSION) {
             buildMessageString = "EXPANDED SETTLEMENT AT";
-        } else if(buildActionType == BuildActionType.TIGERPLACEMENT) {
-            buildMessageString = "BUILT TOTORO SANCTUARY AT";
         } else if(buildActionType == BuildActionType.TOTOROPLACEMENT) {
+            buildMessageString = "BUILT TOTORO SANCTUARY AT";
+        } else if(buildActionType == BuildActionType.TIGERPLACEMENT) {
             buildMessageString = "BUILT TIGER PLAYGROUND AT";
         }
 

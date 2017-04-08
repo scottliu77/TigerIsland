@@ -74,6 +74,10 @@ public class TigerIsland {
         return tournament;
     }
 
+    public GlobalSettings getGlobalSettings() {
+        return globalSettings;
+    }
+
     public static void main(String[] args) throws Exception {
 
         TigerIsland tigerIsland = new TigerIsland();

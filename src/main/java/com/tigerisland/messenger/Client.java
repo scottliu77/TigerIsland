@@ -14,6 +14,8 @@ import static java.lang.Thread.sleep;
 
 public class Client implements Runnable {
 
+    private Boolean testing;
+
     private String addr;
     private int port;
 
@@ -26,6 +28,8 @@ public class Client implements Runnable {
     final boolean offline;
 
     public Client(GlobalSettings globalSettings) {
+        this.testing = globalSettings.manualTesting;
+
         this.addr = globalSettings.getServerSettings().IPaddress;
         this.port = globalSettings.getServerSettings().port;
 
@@ -35,6 +39,31 @@ public class Client implements Runnable {
     }
 
     public void run() {
+        if(testing) {
+            runManualScenario();
+        } else {
+            runDefaultScenario();
+        }
+    }
+
+    protected void runManualScenario() {
+        while(true) {
+            System.out.println("Enter a new server message:\t(Type 'quit' to end program)\n");
+            BufferedReader manualInput = new BufferedReader(new InputStreamReader(System.in));
+            try{
+                String message = manualInput.readLine();
+                if(message.equals("quit")) {
+                    return;
+                } else {
+                    inboundQueue.add(new Message(message));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    protected  void runDefaultScenario() {
         try {
             socket = new Socket(addr, port);
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -60,6 +89,7 @@ public class Client implements Runnable {
             }
         }
     }
+
 
     protected void processInboundMessages() throws InterruptedException, IOException {
         if ((reader.ready())) {
