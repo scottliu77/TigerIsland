@@ -19,3 +19,8 @@ Feature: Tile Placement
     Given existing pieces and entities on a board
     When a player attempts to nuke a Totoro
     Then deny the player from doing so
+
+  Scenario: Nuking Tigers
+    Given an existing settlement with a Tiger
+    When a player attempts to nuke a Tiger
+    Then deny the player from doing so
