@@ -240,16 +240,16 @@ public class AI_Info {
         return tilePlacementsThatEnableTotoroPlacement;
     }
 
-    public static ArrayList<TilePlacement> findTilePlacementsThatCutTotoroOffOfMostOfSettlement(Color color, Tile tile, Board board) throws InvalidMoveException{
+    public static ArrayList<TilePlacement> findTilePlacementsThatCutTotoroOffOfMostOfSettlement(Color color, Tile tile, Board board, int desiredSizeOfRemainingSettlement) throws InvalidMoveException{
         ArrayList<TilePlacement> validTilePlacements = returnValidTilePlacements(tile, board);
-        int initialNumberOfSettlementsPlayerHasWithoutTotoroOfSizeThreeOrMore = numberOfSettlementsPlayerHasWithoutTotoroAndOfProperSize(color, board, 3);
+        int initialNumberOfSettlementsPlayerHasWithoutTotoroOfAtLeastDesiredSize = numberOfSettlementsPlayerHasWithoutTotoroAndOfProperSize(color, board, desiredSizeOfRemainingSettlement);
         ArrayList<TilePlacement> usefulTilePlacements = new ArrayList<TilePlacement>();
         for(TilePlacement tilePlacement : validTilePlacements){
             Board tempBoard = new Board(board);
             tempBoard.placeTile(tilePlacement);
             tempBoard.updateSettlements();
-            int finalNumberOfSettlementsPlayerHasWithoutTotoroOfSizeThreeOrMore = numberOfSettlementsPlayerHasWithoutTotoroAndOfProperSize(color, tempBoard, 3);
-            if(finalNumberOfSettlementsPlayerHasWithoutTotoroOfSizeThreeOrMore > initialNumberOfSettlementsPlayerHasWithoutTotoroOfSizeThreeOrMore){
+            int finalNumberOfSettlementsPlayerHasWithoutTotoroOfDesiredSize = numberOfSettlementsPlayerHasWithoutTotoroAndOfProperSize(color, tempBoard, desiredSizeOfRemainingSettlement);
+            if(finalNumberOfSettlementsPlayerHasWithoutTotoroOfDesiredSize > initialNumberOfSettlementsPlayerHasWithoutTotoroOfAtLeastDesiredSize){
                     usefulTilePlacements.add(tilePlacement);
             }
         }

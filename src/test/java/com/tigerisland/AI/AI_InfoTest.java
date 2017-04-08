@@ -280,7 +280,7 @@ public class AI_InfoTest {
         setUpBoardWithASettlementThatForFindingTilePlacementsThatCutTotoroOffFromMostOfSettlementTest();
         TextGUI.printMap(board);
         Tile tile = new Tile(Terrain.JUNGLE, Terrain.LAKE);
-        ArrayList<TilePlacement> tilePlacementsThatCutTotoroOff = AI_Info.findTilePlacementsThatCutTotoroOffOfMostOfSettlement(p2.getPlayerColor(), tile, board);
+        ArrayList<TilePlacement> tilePlacementsThatCutTotoroOff = AI_Info.findTilePlacementsThatCutTotoroOffOfMostOfSettlement(p2.getPlayerColor(), tile, board, 3);
         assertTrue(tilePlacementsThatCutTotoroOff.size() == 4);
 
     }
