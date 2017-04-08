@@ -7,6 +7,7 @@ public enum PlayerType {
     HUMAN("HUMAN"),
     SAFEAI("SAFEAI"),
     TOTOROLINESAI("TOTOROLINESAI"),
+    RANDOMAI("RANDOMAI"),
     SERVER("SERVER"),
     JACKSAI("JACKSAI");
 

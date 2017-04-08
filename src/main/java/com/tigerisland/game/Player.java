@@ -23,6 +23,8 @@ public class Player {
             playerAI = new SafeAI();
         else if(playerType == PlayerType.TOTOROLINESAI)
             playerAI = new TotoroLinesAI();
+        else if(playerType == PlayerType.RANDOMAI)
+            playerAI = new RandomAI();
         else if(playerType == PlayerType.HUMAN)
             playerAI = new HumanInput();
         else if(playerType == PlayerType.JACKSAI){

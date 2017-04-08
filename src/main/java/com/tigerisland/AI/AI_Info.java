@@ -94,8 +94,22 @@ public class AI_Info {
                 continue;
             }
             ArrayList<Terrain> listOfTerrainsThisSettlementCanExpandInto = settlement.findTerrainsSettlementCouldExpandTo(board.getPlacedHexes());
-            SettlementAndTerrainListPair settlementAndTerrainListPair = new SettlementAndTerrainListPair(settlement, listOfTerrainsThisSettlementCanExpandInto);
-            validVillageExpansions.add(settlementAndTerrainListPair);
+
+            if(listOfTerrainsThisSettlementCanExpandInto.size() == 0){
+                continue;
+            }
+            for(Terrain terrainToExpandInto : listOfTerrainsThisSettlementCanExpandInto){
+                Board tempBoard = new Board(board);
+                try{
+                    tempBoard.expandVillage(player, settlement.getLocationsOfHexesInSettlement().get(0), terrainToExpandInto);
+                    SettlementAndTerrainListPair settlementAndTerrainListPair = new SettlementAndTerrainListPair(settlement, listOfTerrainsThisSettlementCanExpandInto);
+                    validVillageExpansions.add(settlementAndTerrainListPair);
+                } catch(InvalidMoveException e){
+                    continue;
+                }
+            }
+
+
         }
         return validVillageExpansions;
         //Returns a list where every object in the list is a pair including a settlement and the list of terrains it can expand into
