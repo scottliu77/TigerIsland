@@ -6,7 +6,7 @@ import java.util.*;
 
 public class PlayerSet {
 
-    private String currentPlayer;
+    private Player currentPlayer;
     private HashMap<String, Player> players = new HashMap<String, Player>();
 
     public PlayerSet(GlobalSettings globalSettings) {
@@ -17,7 +17,7 @@ public class PlayerSet {
         players.put(ourPlayerID, ourPlayer);
 
         String opponentPlayerID = globalSettings.getServerSettings().getOpponentID();
-        Player opponentPlayer = new Player(Color.BLACK, opponentPlayerID, PlayerType.SERVER);
+        Player opponentPlayer = new Player(Color.BLACK, opponentPlayerID, PlayerType.SAFEAI);
         players.put(opponentPlayerID, opponentPlayer);
     }
 
@@ -35,7 +35,7 @@ public class PlayerSet {
     public void incrementPlayer() {
         for(String key : players.keySet()) {
             if(!currentPlayer.equals(key)) {
-                currentPlayer = key;
+                currentPlayer = players.get(key);
                 return;
             }
         }
@@ -50,10 +50,10 @@ public class PlayerSet {
     }
 
     public void setCurrentPlayer(String playerID) {
-        currentPlayer = playerID;
+        currentPlayer = players.get(playerID);
     }
 
     public Player getCurrentPlayer() {
-        return players.get(currentPlayer);
+        return currentPlayer;
     }
 }

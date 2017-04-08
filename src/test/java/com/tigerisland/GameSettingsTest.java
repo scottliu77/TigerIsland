@@ -41,7 +41,7 @@ public class GameSettingsTest {
 
     @Test
     public void testCanCreateAndGetPlayOrderOffline() {
-        gameSettings.setPlayOrder();
+        gameSettings.constructPlayerSet();
         assertTrue(gameSettings.getPlayerSet() != null);
     }
 }

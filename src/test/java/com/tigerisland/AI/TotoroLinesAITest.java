@@ -22,6 +22,7 @@ public class TotoroLinesAITest {
         board.placeStartingTile();
 
         turnState = new Turn(gameSettings, board);
+        turnState.updateTurnInformation("1", new Tile(Terrain.GRASSLANDS, Terrain.JUNGLE), "1");
 
         myAI = new TotoroLinesAI();
         hasPlacedTotoro = false;
