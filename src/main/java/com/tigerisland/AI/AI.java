@@ -12,6 +12,7 @@ public abstract class AI {
     protected TilePlacement tilePlacement;
     protected BuildActionType buildActionType;
     protected Location buildLocation;
+    protected Terrain expandTerrain;
 
     protected String tilePlacementString;
     protected String buildActionString;
@@ -65,6 +66,11 @@ public abstract class AI {
         }
 
         buildActionString = buildMessageString + " " + createCubeBuildLocationString(buildLocation);
+
+        if(buildActionType == BuildActionType.VILLAGEEXPANSION) {
+            buildActionString += " " + expandTerrain.name();
+        }
+
         return buildActionString;
     }
 

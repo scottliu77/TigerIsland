@@ -4,31 +4,34 @@ import com.tigerisland.game.Game;
 import com.tigerisland.messenger.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static java.lang.Thread.sleep;
 
 public class Match {
 
     protected GlobalSettings globalSettings;
-    protected GameSettings gameSettings;
-    protected ArrayList<Game> games;
-    protected ArrayList<Thread> gameThreads;
+    protected GameSettings gameSettingsOne;
+    protected GameSettings gameSettingsTwo;
+    protected HashMap<String, Game> games;
+    protected HashMap<String, Thread> gameThreads;
 
 
     Match(GlobalSettings globalSettings) {
         this.globalSettings = globalSettings;
-        this.gameSettings = new GameSettings(this.globalSettings);
-        this.games = new ArrayList<Game>();
+        this.games = new HashMap<String, Game>();
         constructGames();
     }
 
     private void constructGames() {
         // TODO allow safe assignment of gameID via first move message
-        gameSettings.setGameID("A");
-        games.add(new Game(gameSettings));
+        gameSettingsOne = new GameSettings(globalSettings);
+        gameSettingsOne.setGameID("A");
+        games.put(gameSettingsOne.getGameID(), new Game(gameSettingsOne));
 
-        gameSettings.setGameID("B");
-        games.add(new Game(gameSettings));
+        gameSettingsTwo = new GameSettings(globalSettings);
+        gameSettingsTwo.setGameID("B");
+        games.put(gameSettingsTwo.getGameID(), new Game(gameSettingsTwo));
 
     }
 
@@ -38,16 +41,16 @@ public class Match {
 
     protected void createAndStartAllGameThreads() {
 
-        gameThreads = new ArrayList<Thread>();
-        for(Game game: games) {
-            gameThreads.add(0, new Thread(game));
-            gameThreads.get(0).start();
+        gameThreads = new HashMap<String, Thread>();
+        for(Game game: games.values()) {
+            gameThreads.put(game.gameID, new Thread(game));
+            gameThreads.get(game.gameID).start();
             System.out.println("TIGERISLAND: Game (thread) #" + game.getGameID() + " is RUNNING");
         }
 
         waitForAllGamesToEnd();
 
-        for(Thread gameThread : gameThreads) {
+        for(Thread gameThread : gameThreads.values()) {
             try {
                 gameThread.join();
                 System.out.println("TIGERISLAND: Game (thread): " + gameThread.getName() + " has CLOSED");
@@ -62,7 +65,7 @@ public class Match {
             while(true) {
                 sleep(5);
                 int gamesRunning = 0;
-                for (Thread gameThread : gameThreads) {
+                for (Thread gameThread : gameThreads.values()) {
                     if (gameThread.isAlive()) {
                         gamesRunning++;
                     }

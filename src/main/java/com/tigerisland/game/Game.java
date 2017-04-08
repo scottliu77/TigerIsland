@@ -40,10 +40,10 @@ public class Game implements Runnable {
             }
 
         } catch (InterruptedException exception) {
-            offlineGenerateGameOverEcho("GAME " + gameID + " MOVE " + turnState.getMoveID() + " PLAYER " + turnState.getCurrentPlayer().getPlayerID() + " FORFEITED: ILLEGAL TILE PLACEMENT");
+            offlineGenerateGameOverEcho("GAME " + gameID + " MOVE " + turnState.getMoveID() + " PLAYER " + turnState.getCurrentPlayer().getPlayerID() + " FORFEITED: TIMEOUT");
 
         } catch (InvalidMoveException exception) {
-            offlineGenerateGameOverEcho("GAME " + gameID + " MOVE " + turnState.getMoveID() + " PLAYER " + turnState.getCurrentPlayer().getPlayerID() + " FORFEITED: ILLEGAL TILE PLACEMENT");
+            offlineGenerateGameOverEcho("GAME " + gameID + " MOVE " + turnState.getMoveID() + " PLAYER " + turnState.getCurrentPlayer().getPlayerID() + " " + exception.getMessage());
         } finally {
             Player winner = EndConditions.calculateWinner(gameSettings.getPlayerSet().getCurrentPlayer(), gameSettings.getPlayerSet().getPlayerList());
             offlineGenerateGameOverEcho("GAME " + gameID + " OVER PLAYER " + winner.getPlayerID() + " " + winner.getScore().getScoreValue() + " PLAYER 0 75");
@@ -52,12 +52,12 @@ public class Game implements Runnable {
 
     private Boolean continuePlayingGame() throws InterruptedException, InvalidMoveException {
 
-        TextGUI.printMap(board);
+        //TextGUI.printMap(board);
 
         Boolean continueGame = true;
 
         if(Thread.currentThread().isInterrupted()) {
-            throw new InterruptedException();
+            throw new InterruptedException("LOST: UNABLE TO BUILD");
         }
 
         if(offline) {
@@ -68,7 +68,7 @@ public class Game implements Runnable {
 
         checkForGameOver();
 
-        checkForMoveToProcess();
+        continueGame = checkForMoveToProcess();
 
         if(gameOver()) {
             continueGame = false;
@@ -117,15 +117,16 @@ public class Game implements Runnable {
         }
     }
 
-    protected void checkForMoveToProcess() throws InvalidMoveException, InterruptedException {
+    protected Boolean checkForMoveToProcess() throws InvalidMoveException, InterruptedException {
         for(Message message : gameSettings.getGlobalSettings().inboundQueue) {
             if(message.getMessageType().getSubtype().equals("BUILDACTION")) {
-                processMove(message);
+                return processMove(message);
             }
         }
+        return true;
     }
 
-    private void processMove(Message message) throws InvalidMoveException, InterruptedException {
+    private Boolean processMove(Message message) throws InvalidMoveException, InterruptedException {
 
         gameSettings.getPlayerSet().setCurrentPlayer(message.getCurrentPlayerID());
         gameSettings.setMoveID(message.getMoveID());
@@ -135,14 +136,16 @@ public class Game implements Runnable {
         turnState = Move.placeTile(turnState);
 
         if(EndConditions.noValidMoves(gameSettings.getPlayerSet().getCurrentPlayer(), board)) {
-            throw new InvalidMoveException("No valid moves ");
+            throw new InvalidMoveException("LOST: UNABLE TO BUILD");
         }
 
         turnState = Move.takeBuildAction(turnState);
 
         if(EndConditions.playerIsOutOfPiecesOfTwoTypes(gameSettings.getPlayerSet().getCurrentPlayer())) {
-            throw new InvalidMoveException("Player is out of pieces");
+            return false;
         }
+
+        return true;
 
     }
 
@@ -153,6 +156,7 @@ public class Game implements Runnable {
                 return true;
             }
         }
+
         return false;
     }
 

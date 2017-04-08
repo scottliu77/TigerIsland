@@ -80,8 +80,6 @@ public class TotoroLinesAI extends AI {
         tilePlacement = validTilePlacements.get(0);
     }
 
-
-
     private boolean noCurrentLine(){
         return plannedSettlementLocations.size()==0;
     }
@@ -117,6 +115,8 @@ public class TotoroLinesAI extends AI {
             Location nextLocation = plannedSettlementLocations.remove(0);
             this.buildActionType = BuildActionType.VILLAGEEXPANSION;
             findNextTilePlacement(nextLocation);
+            // TODO replace with an actual solution
+            expandTerrain = tilePlacement.getTile().getLeftHex().getHexTerrain();
 
         } else {
             Location nextLocation = plannedSettlementLocations.remove(0);

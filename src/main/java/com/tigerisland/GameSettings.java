@@ -8,7 +8,7 @@ import com.tigerisland.game.PlayerType;
 public class GameSettings {
 
     // TODO Change before tournament
-    private final PlayerType BEST_AI_TYPE = PlayerType.SAFEAI;
+    private final PlayerType BEST_AI_TYPE = PlayerType.TOTOROLINESAI;
     private final PlayerType TEST_AGAINST_TYPE = PlayerType.SAFEAI;
 
     private GlobalSettings globalSettings;
@@ -32,6 +32,9 @@ public class GameSettings {
     }
 
     public GameSettings(GameSettings gameSettings) {
+        this.gameID = gameSettings.gameID;
+        this.moveID = gameSettings.moveID;
+
         this.globalSettings = gameSettings.getGlobalSettings();
         this.deck = new Deck(gameSettings.getDeck());
         this.playerSet = new PlayerSet(gameSettings.getPlayerSet());

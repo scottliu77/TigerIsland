@@ -139,6 +139,7 @@ public class LocalServer implements Runnable {
                     if(globalSettings.getServerSettings().username.equals(ServerSettings.defaultUsername)) {
                         if(globalSettings.getServerSettings().password.equals(ServerSettings.defaultPassword)) {
                             writer.println("WAIT FOR THE TOURNAMENT TO BEGIN 7");
+                            message.setProcessed();
                             startChallengeProtocol();
                         }
                     }
