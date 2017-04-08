@@ -67,7 +67,7 @@ public class TotoroLinesAI extends AI {
     }
 
     private boolean canPlaceTiger(){
-        return this.validTigerPlacements.size()>0 && hasATiger();
+        return this.validTigerPlacements.size() > 0 && hasATiger();
     }
 
     private boolean hasATiger(){
@@ -107,23 +107,23 @@ public class TotoroLinesAI extends AI {
     }
 
     private void extendLine(){
-        if (plannedSettlementLocations.size() == 4) {
-            myNextExpansionLocation = plannedSettlementLocations.get(0);
-        }
-
-        if (plannedSettlementLocations.size() == 2) {
-            Location nextLocation = plannedSettlementLocations.remove(0);
-            this.buildActionType = BuildActionType.VILLAGEEXPANSION;
-            findNextTilePlacement(nextLocation);
-            // TODO replace with an actual solution
-            expandTerrain = tilePlacement.getTile().getLeftHex().getHexTerrain();
-
-        } else {
-            Location nextLocation = plannedSettlementLocations.remove(0);
-            this.buildActionType = BuildActionType.VILLAGECREATION;
-            this.buildLocation = nextLocation;
-            findNextTilePlacement(nextLocation);
-        }
+//        if (plannedSettlementLocations.size() == 4) {
+//            myNextExpansionLocation = plannedSettlementLocations.get(0);
+//        }
+//
+//        if (plannedSettlementLocations.size() == 2) {
+//            Location nextLocation = plannedSettlementLocations.remove(0);
+//            this.buildActionType = BuildActionType.VILLAGEEXPANSION;
+//            findNextTilePlacement(nextLocation);
+//            // TODO replace with an actual solution
+//            expandTerrain = tilePlacement.getTile().getLeftHex().getHexTerrain();
+//
+//        } else {
+        Location nextLocation = plannedSettlementLocations.remove(0);
+        this.buildActionType = BuildActionType.VILLAGECREATION;
+        this.buildLocation = nextLocation;
+        findNextTilePlacement(nextLocation);
+//        }
     }
 
     private void findNextTilePlacement(Location location) {
