@@ -10,7 +10,7 @@ public class GameSettings {
     // TODO Change before tournament
 
     private final PlayerType BEST_AI_TYPE = PlayerType.TOTOROLINESAI;
-    private final PlayerType TEST_AGAINST_TYPE = PlayerType.SAFEAI;
+    private final PlayerType TEST_AGAINST_TYPE = PlayerType.RANDOMAI;
 
     private GlobalSettings globalSettings;
     private Deck deck;

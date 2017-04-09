@@ -72,9 +72,9 @@ public class Game implements Runnable {
 
     private Boolean continuePlayingGame() throws InterruptedException, InvalidMoveException {
 
-        if(gameSettings.getGlobalSettings().manualTesting) {
-            TextGUI.printMap(board);
-        }
+        //if(gameSettings.getGlobalSettings().manualTesting) {
+           // TextGUI.printMap(board);
+        //}
 
 
         Boolean continueGame = true;

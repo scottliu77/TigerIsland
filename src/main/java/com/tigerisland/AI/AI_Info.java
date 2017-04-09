@@ -280,5 +280,57 @@ public class AI_Info {
         return numberOfSettlementsPlayerHasWithoutTotoroOfSizeThreeOrMore;
     }
 
+    //untested
+    public static ArrayList<TilePlacement> findTilePlacementsThatSetUsUpForATilePlacementThatCutsOffTotoroFromSettlement(Color color, Tile tile, Board board) throws InvalidMoveException{
+        ArrayList<TilePlacement> validTilePlacements = returnValidTilePlacements(tile, board);
+        ArrayList<TilePlacement> tilePlacementsToConsider = new ArrayList<TilePlacement>();
+        for(TilePlacement tilePlacement : validTilePlacements){
+            Board tempBoard = new Board(board);
+            tempBoard.placeTile(tilePlacement);
+            if(findTilePlacementsThatCutTotoroOffOfMostOfSettlement(color, tile, tempBoard, 3).size() > 0){
+                tilePlacementsToConsider.add(tilePlacement);
+            }
+        }
+        return tilePlacementsToConsider;
+    }
 
+    //returns best expansion at the 0th index in the arraylist (used an arraylist to avoid returning a null value or a made up expansion if there's no real ones we could do
+    public static SettlementAndTerrainListPair findExpansionThatGetsRidOfMostVillagers(Player player, Board board){
+        ArrayList<SettlementAndTerrainListPair> validVillageExpansions = returnValidVillageExpansions(player, board);
+        ArrayList<SettlementAndTerrainListPair> expansionWorthTheMostPoints = new ArrayList<SettlementAndTerrainListPair>();
+        int numberOfVillagersUsedInMostExpensiveExpansionFound = 0;
+        if(validVillageExpansions.size() == 0){
+            return null;
+        }
+        Terrain terrainToExpandInto = validVillageExpansions.get(0).getTerrainList().get(0);
+        for(SettlementAndTerrainListPair settlementAndTerrainListPair : validVillageExpansions){
+            for(Terrain terrain : settlementAndTerrainListPair.getTerrainList()) {
+                Player tempPlayer = new Player(player);
+                Board tempBoard = new Board(board);
+                int initialNumberOfVillagersLeft = tempPlayer.getPieceSet().getNumberOfVillagersRemaining();
+                try {
+                    tempBoard.expandVillage(tempPlayer, settlementAndTerrainListPair.getSettlement().getLocationsOfHexesInSettlement().get(0), terrain);
+                } catch(InvalidMoveException e){
+                    continue;
+                }
+                int finalNumberOfVillagersLeft = tempPlayer.getPieceSet().getNumberOfVillagersRemaining();
+                int numberOfVillagersUsedInExpansion = initialNumberOfVillagersLeft - finalNumberOfVillagersLeft;
+                if(numberOfVillagersUsedInExpansion > numberOfVillagersUsedInMostExpensiveExpansionFound){
+                    expansionWorthTheMostPoints.add(0 , settlementAndTerrainListPair);
+                    numberOfVillagersUsedInMostExpensiveExpansionFound = numberOfVillagersUsedInExpansion;
+                    terrainToExpandInto = terrain;
+                }
+            }
+        }
+        if(expansionWorthTheMostPoints.size() == 0){
+            return null;
+        }
+        Settlement bestSettlementForRapidExpansion = expansionWorthTheMostPoints.get(0).getSettlement();
+        expansionWorthTheMostPoints.clear();
+        ArrayList<Terrain> bestTerrainToExpandIntoForThisSettlement = new ArrayList<Terrain>();
+        bestTerrainToExpandIntoForThisSettlement.add(terrainToExpandInto);
+        SettlementAndTerrainListPair bestPairForExpansion = new SettlementAndTerrainListPair(bestSettlementForRapidExpansion, bestTerrainToExpandIntoForThisSettlement);
+
+        return bestPairForExpansion;
+    }
 }
