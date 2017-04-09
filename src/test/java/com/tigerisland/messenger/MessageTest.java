@@ -52,25 +52,25 @@ public class MessageTest {
 
     @Test
     public void testCanSendTilePlacementMessageAndGetTile() {
-        Message message = new Message("PLACED ROCKY+LAKE AT 0 0 1 6");
-        assertTrue(message.getTile().getLeftHex().getHexTerrain() == Terrain.ROCKY);
+        Message message = new Message("PLACED ROCK+LAKE AT 0 0 1 6");
+        assertTrue(message.getTile().getLeftHex().getHexTerrain() == Terrain.ROCK);
     }
 
     @Test
     public void testCanSendTilePlacementMessageAndGetX() {
-        Message message = new Message("PLACE ROCKY+LAKE AT 0 0 0 6");
+        Message message = new Message("PLACE ROCK+LAKE AT 0 0 0 6");
         assertTrue(message.getTileLocation().x == 0);
     }
 
     @Test
     public void testCanSendTilePlacementMessageAndGetY() {
-        Message message = new Message("PLACE ROCKY+LAKE AT 0 0 0 6");
+        Message message = new Message("PLACE ROCK+LAKE AT 0 0 0 6");
         assertTrue(message.getTileLocation().y == 0);
     }
 
     @Test
     public void testCanSendTilePlacementMessageAndGetOrientation() {
-        Message message = new Message("PLACE ROCKY+LAKE AT 0 0 0 1");
+        Message message = new Message("PLACE ROCK+LAKE AT 0 0 0 1");
         assertTrue(message.getOrientation() == 60);
     }
 
@@ -94,25 +94,25 @@ public class MessageTest {
 
     @Test
     public void testCanSendExpandActionAndGetX() {
-        Message message = new Message("EXPANDED SETTLEMENT AT 0 0 0 ROCKY");
+        Message message = new Message("EXPANDED SETTLEMENT AT 0 0 0 ROCK");
         assertTrue(message.getBuildLocation().x == 0);
     }
 
     @Test
     public void testCanSendExpandActionAndGetY() {
-        Message message = new Message("EXPAND SETTLEMENT AT 0 0 0 ROCKY");
+        Message message = new Message("EXPAND SETTLEMENT AT 0 0 0 ROCK");
         assertTrue(message.getBuildLocation().y == 0);
     }
 
     @Test
     public void testCanSendExpandActionAndGetTerrainType() {
-        Message message = new Message("EXPAND SETTLEMENT AT 0 0 0 ROCKY");
-        assertTrue(message.getExpandTerrain() == Terrain.ROCKY);
+        Message message = new Message("EXPAND SETTLEMENT AT 0 0 0 ROCK");
+        assertTrue(message.getExpandTerrain() == Terrain.ROCK);
     }
 
     @Test
     public void testCanSendTilePlacementMessageAndGetType() {
-        Message message = new Message("PLACE ROCKY+LAKE AT 0 0 0 3");
+        Message message = new Message("PLACE ROCK+LAKE AT 0 0 0 3");
         assertTrue(message.getTile() != null);
     }
 
@@ -136,13 +136,13 @@ public class MessageTest {
 
     @Test
     public void testCanSendExpandVillageMessageAndGetType() {
-        Message message = new Message("EXPANDED SETTLEMENT AT 0 0 0 ROCKY");
+        Message message = new Message("EXPANDED SETTLEMENT AT 0 0 0 ROCK");
         assertTrue(message.getMessageType() == MessageType.EXPANDSETTLEMENT);
     }
 
     @Test
     public void testCanGetNegativeIndicesFromMessage() {
-        Message message = new Message("PLACE ROCKY+LAKE AT 0 0 -1 1");
+        Message message = new Message("PLACE ROCK+LAKE AT 0 0 -1 1");
         assertTrue(message.getTileLocation().x == 1);
     }
 
@@ -185,32 +185,32 @@ public class MessageTest {
 
     @Test
     public void testMakeMoveVariantOneGetGameID() {
-        Message message = new Message("MAKE YOUR MOVE IN GAME A WITHIN 1 SECOND: MOVE 1 PLACE ROCKY+LAKE");
+        Message message = new Message("MAKE YOUR MOVE IN GAME A WITHIN 1 SECOND: MOVE 1 PLACE ROCK+LAKE");
         assertTrue(message.getGameID().equals("A"));
     }
 
     @Test
     public void testMakeMoveVariantOneGetTurnTime() {
-        Message message = new Message("MAKE YOUR MOVE IN GAME A WITHIN 1 SECOND: MOVE 1 PLACE ROCKY+LAKE");
+        Message message = new Message("MAKE YOUR MOVE IN GAME A WITHIN 1 SECOND: MOVE 1 PLACE ROCK+LAKE");
         assertTrue(message.getTurnTime() == 1);
     }
 
     @Test
     public void testMakeMoveVariantTwoGetTurnTime() {
-        Message message = new Message("MAKE YOUR MOVE IN GAME A WITHIN 1.75 SECONDS: MOVE 1 PLACE ROCKY+LAKE");
+        Message message = new Message("MAKE YOUR MOVE IN GAME A WITHIN 1.75 SECONDS: MOVE 1 PLACE ROCK+LAKE");
         assertTrue(message.getTurnTime() == 1.75);
     }
 
     @Test
     public void testMakeMoveVariantOneGetMoveID() {
-        Message message = new Message("MAKE YOUR MOVE IN GAME A WITHIN 1 SECOND: MOVE 1 PLACE ROCKY+LAKE");
+        Message message = new Message("MAKE YOUR MOVE IN GAME A WITHIN 1 SECOND: MOVE 1 PLACE ROCK+LAKE");
         assertTrue(message.getMoveID().equals("1"));
     }
 
     @Test
     public void testMakeMoveVariantOneGetTile() {
-        Message message = new Message("MAKE YOUR MOVE IN GAME A WITHIN 1 SECOND: MOVE 1 PLACE ROCKY+LAKE");
-        Boolean correctLeftHex = message.getTile().getLeftHex().getHexTerrain() == Terrain.ROCKY;
+        Message message = new Message("MAKE YOUR MOVE IN GAME A WITHIN 1 SECOND: MOVE 1 PLACE ROCK+LAKE");
+        Boolean correctLeftHex = message.getTile().getLeftHex().getHexTerrain() == Terrain.ROCK;
         Boolean correctRightHex = message.getTile().getRightHex().getHexTerrain() == Terrain.LAKE;
         assertTrue(correctLeftHex && correctRightHex);
     }

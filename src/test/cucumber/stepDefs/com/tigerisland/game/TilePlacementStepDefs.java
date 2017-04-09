@@ -1,6 +1,5 @@
 package com.tigerisland.game;
 
-import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -22,12 +21,12 @@ public class TilePlacementStepDefs{
         int rotation1 = 240;
         myBoard.placeTile(tile1, loc1, rotation1);
 
-        Tile tile2 = new Tile(Terrain.GRASSLANDS, Terrain.LAKE);
+        Tile tile2 = new Tile(Terrain.GRASS, Terrain.LAKE);
         Location loc2 = new Location(1,1);
         int rotation2 = 120;
         myBoard.placeTile(tile2, loc2, rotation2);
 
-        Tile tile3 = new Tile(Terrain.ROCKY, Terrain.JUNGLE);
+        Tile tile3 = new Tile(Terrain.ROCK, Terrain.JUNGLE);
         Location loc3 = new Location(-1,1);
         int rotation3 = 180;
         myBoard.placeTile(tile3, loc3, rotation3);
@@ -147,17 +146,17 @@ public class TilePlacementStepDefs{
         int rotation1 = 240;
         myBoard.placeTile(tile1, loc1, rotation1);
 
-        Tile tile2 = new Tile(Terrain.GRASSLANDS, Terrain.LAKE);
+        Tile tile2 = new Tile(Terrain.GRASS, Terrain.LAKE);
         Location loc2 = new Location(1,1);
         int rotation2 = 120;
         myBoard.placeTile(tile2, loc2, rotation2);
 
-        Tile tile3 = new Tile(Terrain.ROCKY, Terrain.JUNGLE);
+        Tile tile3 = new Tile(Terrain.ROCK, Terrain.JUNGLE);
         Location loc3 = new Location(-1,0);
         int rotation3 = 60;
         myBoard.placeTile(tile3, loc3, rotation3);
 
-        Tile tile4 = new Tile(Terrain.ROCKY, Terrain.ROCKY);
+        Tile tile4 = new Tile(Terrain.ROCK, Terrain.ROCK);
         Location loc4 = new Location(2,-1);
         int rotation4 = 60;
         myBoard.placeTile(tile4, loc4, rotation4);
@@ -167,12 +166,12 @@ public class TilePlacementStepDefs{
         int rotation5 = 240;
         myBoard.placeTile(tile5, loc5, rotation5);
 
-        Tile tile6 = new Tile(Terrain.ROCKY, Terrain.ROCKY);
+        Tile tile6 = new Tile(Terrain.ROCK, Terrain.ROCK);
         Location loc6 = new Location(0,-2);
         int rotation6 = 300;
         myBoard.placeTile(tile6, loc6, rotation6);
 
-        Tile tile7 = new Tile(Terrain.ROCKY, Terrain.ROCKY);
+        Tile tile7 = new Tile(Terrain.ROCK, Terrain.ROCK);
         Location loc7 = new Location(-1,-2);
         int rotation7 = 180;
         myBoard.placeTile(tile7, loc7, rotation7);
@@ -202,17 +201,17 @@ public class TilePlacementStepDefs{
         int rotation1 = 0;
         myBoard.placeTile(tile1, loc1, rotation1);
 
-        Tile tile2 = new Tile(Terrain.GRASSLANDS, Terrain.LAKE);
+        Tile tile2 = new Tile(Terrain.GRASS, Terrain.LAKE);
         Location loc2 = new Location(1,-2);
         int rotation2 = 0;
         myBoard.placeTile(tile2, loc2, rotation2);
 
-        Tile tile3 = new Tile(Terrain.ROCKY, Terrain.JUNGLE);
+        Tile tile3 = new Tile(Terrain.ROCK, Terrain.JUNGLE);
         Location loc3 = new Location(2,-4);
         int rotation3 = 0;
         myBoard.placeTile(tile3, loc3, rotation3);
 
-        Tile tile4 = new Tile(Terrain.ROCKY, Terrain.ROCKY);
+        Tile tile4 = new Tile(Terrain.ROCK, Terrain.ROCK);
         Location loc4 = new Location(0,0);
         int rotation4 = 300;
         myBoard.placeTile(tile4, loc4, rotation4);
@@ -235,7 +234,7 @@ public class TilePlacementStepDefs{
 
         myBoard.createVillage(myPlayer, toSettle);
         myBoard.updateSettlements();
-        myBoard.expandVillage(myPlayer, toExpand, Terrain.ROCKY);
+        myBoard.expandVillage(myPlayer, toExpand, Terrain.ROCK);
         myBoard.updateSettlements();
         myBoard.placeTiger(myPlayer, toPlaceTiger);
 

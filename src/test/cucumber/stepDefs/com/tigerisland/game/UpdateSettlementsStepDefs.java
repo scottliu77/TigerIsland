@@ -1,7 +1,6 @@
 package com.tigerisland.game;
 
 import com.tigerisland.InvalidMoveException;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -35,7 +34,7 @@ public class UpdateSettlementsStepDefs {
     public void aPlayerHasTwoVillagesAdjacentToOneAnother() {
         PlacedHex placedHex = createSettlementSizeOne();
 
-        Hex hex = new Hex("hex2", Terrain.GRASSLANDS, 1);
+        Hex hex = new Hex("hex2", Terrain.GRASS, 1);
         Location location = new Location(0,1);
         hex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
         PlacedHex placedHex2 = new PlacedHex(hex, location);
@@ -54,7 +53,7 @@ public class UpdateSettlementsStepDefs {
     public void twoSettlementsOfDifferentColorAreAdjacent() {
         PlacedHex placedHex = createSettlementSizeOne();
 
-        Hex hex = new Hex("hex2", Terrain.GRASSLANDS, 1);
+        Hex hex = new Hex("hex2", Terrain.GRASS, 1);
         Location location = new Location(0,1);
         hex.addPiecesToHex(new Piece(Color.WHITE, PieceType.VILLAGER), 1);
         PlacedHex placedHex2 = new PlacedHex(hex, location);
@@ -75,7 +74,7 @@ public class UpdateSettlementsStepDefs {
 
         populatePlacedHexes();
 
-        Hex hex6 = new Hex("hex6", Terrain.GRASSLANDS, 1);
+        Hex hex6 = new Hex("hex6", Terrain.GRASS, 1);
         Location loc6 = new Location(0,4);
         hex6.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
         PlacedHex placedHex6 = new PlacedHex(hex6, loc6);
@@ -90,7 +89,7 @@ public class UpdateSettlementsStepDefs {
         board.settlements.add(village2);
 
         try {
-            board.expandVillage(player, placedHex.getLocation(), Terrain.ROCKY);
+            board.expandVillage(player, placedHex.getLocation(), Terrain.ROCK);
         } catch (InvalidMoveException e) {
             e.getMessage();
         }
@@ -102,7 +101,7 @@ public class UpdateSettlementsStepDefs {
 
         populatePlacedHexes();
 
-        Hex hex6 = new Hex("hex6", Terrain.GRASSLANDS, 1);
+        Hex hex6 = new Hex("hex6", Terrain.GRASS, 1);
         Location loc6 = new Location(0,4);
         hex6.addPiecesToHex(new Piece(Color.WHITE, PieceType.VILLAGER), 1);
         PlacedHex placedHex6 = new PlacedHex(hex6, loc6);
@@ -117,7 +116,7 @@ public class UpdateSettlementsStepDefs {
         board.settlements.add(village2);
 
         try {
-            board.expandVillage(player, placedHex.getLocation(), Terrain.ROCKY);
+            board.expandVillage(player, placedHex.getLocation(), Terrain.ROCK);
         } catch (InvalidMoveException e) {
             e.getMessage();
         }
@@ -129,7 +128,7 @@ public class UpdateSettlementsStepDefs {
 
         populatePlacedHexes();
 
-        Hex hex6 = new Hex("hex6", Terrain.GRASSLANDS, 1);
+        Hex hex6 = new Hex("hex6", Terrain.GRASS, 1);
         Location loc6 = new Location(0,4);
         PlacedHex placedHex6 = new PlacedHex(hex6, loc6);
 
@@ -149,7 +148,7 @@ public class UpdateSettlementsStepDefs {
         board.settlements.add(village2);
 
         try {
-            board.expandVillage(player, placedHex.getLocation(), Terrain.ROCKY);
+            board.expandVillage(player, placedHex.getLocation(), Terrain.ROCK);
         } catch (InvalidMoveException e) {
             e.getMessage();
         }
@@ -167,7 +166,7 @@ public class UpdateSettlementsStepDefs {
 
         populatePlacedHexes();
 
-        Hex hex6 = new Hex("hex11", Terrain.GRASSLANDS, 1);
+        Hex hex6 = new Hex("hex11", Terrain.GRASS, 1);
         Location loc6 = new Location(0,4);
         PlacedHex placedHex6 = new PlacedHex(hex6, loc6);
 
@@ -179,7 +178,7 @@ public class UpdateSettlementsStepDefs {
         board.settlements.add(village1);
 
         try {
-            board.expandVillage(player, placedHex.getLocation(), Terrain.ROCKY);
+            board.expandVillage(player, placedHex.getLocation(), Terrain.ROCK);
         } catch (InvalidMoveException e) {
             e.getMessage();
         }
@@ -197,7 +196,7 @@ public class UpdateSettlementsStepDefs {
         PlacedHex placedHex7 = new PlacedHex(hex7, loc7);
         placedHexes.add(placedHex7);
 
-        Hex hex12 = new Hex("hex12", Terrain.ROCKY, 1);
+        Hex hex12 = new Hex("hex12", Terrain.ROCK, 1);
         hex12.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
         Location loc12 = new Location (-1,7);
         PlacedHex placedHex12 = new PlacedHex(hex12, loc12);
@@ -208,7 +207,7 @@ public class UpdateSettlementsStepDefs {
         board.settlements.add(village2);
 
         try {
-            board.expandVillage(player, placedHex12.getLocation(), Terrain.ROCKY);
+            board.expandVillage(player, placedHex12.getLocation(), Terrain.ROCK);
         } catch (InvalidMoveException e) {
             e.getMessage();
         }
@@ -226,7 +225,7 @@ public class UpdateSettlementsStepDefs {
 
         populatePlacedHexes();
 
-        Hex hex6 = new Hex("hex6", Terrain.GRASSLANDS, 1);
+        Hex hex6 = new Hex("hex6", Terrain.GRASS, 1);
         Location loc6 = new Location(0,4);
         PlacedHex placedHex6 = new PlacedHex(hex6, loc6);
 
@@ -246,7 +245,7 @@ public class UpdateSettlementsStepDefs {
         board.settlements.add(village2);
 
         try {
-            board.expandVillage(player, placedHex.getLocation(), Terrain.ROCKY);
+            board.expandVillage(player, placedHex.getLocation(), Terrain.ROCK);
         } catch (InvalidMoveException e) {
             e.getMessage();
         }
@@ -262,11 +261,11 @@ public class UpdateSettlementsStepDefs {
     public void aPlayerBuildsATigerConnectingTwoSettlements() {
         PlacedHex placedHex = createSettlementSizeOne();
 
-        Hex hex2 = new Hex("hex2", Terrain.ROCKY, 3);
+        Hex hex2 = new Hex("hex2", Terrain.ROCK, 3);
         Location loc2 = new Location(0,1);
         PlacedHex placedHex2 = new PlacedHex(hex2, loc2);
 
-        Hex hex3 = new Hex("hex3", Terrain.GRASSLANDS, 1);
+        Hex hex3 = new Hex("hex3", Terrain.GRASS, 1);
         Location loc3 = new Location(0,2);
         hex3.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
         PlacedHex placedHex3 = new PlacedHex(hex3, loc3);
@@ -292,7 +291,7 @@ public class UpdateSettlementsStepDefs {
     public void aPlayerBuildsATigerDirectlyNextToATigerInAnotherSettlement() {
         PlacedHex placedHex = createSettlementSizeOne();
 
-        Hex hex2 = new Hex("hex2", Terrain.ROCKY, 3);
+        Hex hex2 = new Hex("hex2", Terrain.ROCK, 3);
         Location loc2 = new Location(0,1);
         PlacedHex placedHex2 = new PlacedHex(hex2, loc2);
         placedHexes.add(placedHex2);
@@ -307,7 +306,7 @@ public class UpdateSettlementsStepDefs {
             e.getMessage();
         }
 
-        Hex hex3 = new Hex("hex3", Terrain.ROCKY, 3);
+        Hex hex3 = new Hex("hex3", Terrain.ROCK, 3);
         Location loc3 = new Location(0,2);
         PlacedHex placedHex3 = new PlacedHex(hex3, loc3);
         placedHexes.add(placedHex3);
@@ -333,11 +332,11 @@ public class UpdateSettlementsStepDefs {
     public void aPlayerBuildsATigerBetweenTwoDifferentColoredSettlements() {
         PlacedHex placedHex = createSettlementSizeOne();
 
-        Hex hex2 = new Hex("hex2", Terrain.ROCKY, 3);
+        Hex hex2 = new Hex("hex2", Terrain.ROCK, 3);
         Location loc2 = new Location(0,1);
         PlacedHex placedHex2 = new PlacedHex(hex2, loc2);
 
-        Hex hex3 = new Hex("hex3", Terrain.GRASSLANDS, 1);
+        Hex hex3 = new Hex("hex3", Terrain.GRASS, 1);
         Location loc3 = new Location(0,2);
         hex3.addPiecesToHex(new Piece(Color.WHITE, PieceType.VILLAGER), 1);
         PlacedHex placedHex3 = new PlacedHex(hex3, loc3);
@@ -364,7 +363,7 @@ public class UpdateSettlementsStepDefs {
         PlacedHex placedHex = createSettlementSizeOne();
         placedHexes.add(placedHex);
 
-        Hex hex2 = new Hex("hex2", Terrain.ROCKY, 3);
+        Hex hex2 = new Hex("hex2", Terrain.ROCK, 3);
         hex2.addPiecesToHex(new Piece(Color.BLACK, PieceType.TIGER), 1);
         Location loc2 = new Location(0,1);
         PlacedHex placedHex2 = new PlacedHex(hex2, loc2);
@@ -372,13 +371,13 @@ public class UpdateSettlementsStepDefs {
 
         createSettlementCapableOfBuildingTotoro();
 
-        Hex hex8 = new Hex("hex8", Terrain.GRASSLANDS, 1);
+        Hex hex8 = new Hex("hex8", Terrain.GRASS, 1);
         hex8.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
         Location loc8 = new Location(0,2);
         PlacedHex placedHex8 = new PlacedHex(hex8, loc8);
         placedHexes.add(placedHex8);
 
-        Hex hex9 = new Hex("hex9", Terrain.GRASSLANDS, 1);
+        Hex hex9 = new Hex("hex9", Terrain.GRASS, 1);
         Location loc9 = new Location(1,4);
         PlacedHex placedHex9 = new PlacedHex(hex9, loc9);
         placedHexes.add(placedHex9);
@@ -401,20 +400,20 @@ public class UpdateSettlementsStepDefs {
         PlacedHex placedHex = createSettlementSizeOne();
         placedHexes.add(placedHex);
 
-        Hex hex2 = new Hex("hex2", Terrain.ROCKY, 3);
+        Hex hex2 = new Hex("hex2", Terrain.ROCK, 3);
         Location loc2 = new Location(0,1);
         PlacedHex placedHex2 = new PlacedHex(hex2, loc2);
         placedHexes.add(placedHex2);
 
         createSettlementCapableOfBuildingTotoro();
 
-        Hex hex8 = new Hex("hex8", Terrain.GRASSLANDS, 1);
+        Hex hex8 = new Hex("hex8", Terrain.GRASS, 1);
         hex8.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
         Location loc8 = new Location(0,2);
         PlacedHex placedHex8 = new PlacedHex(hex8, loc8);
         placedHexes.add(placedHex8);
 
-        Hex hex9 = new Hex("hex9", Terrain.GRASSLANDS, 1);
+        Hex hex9 = new Hex("hex9", Terrain.GRASS, 1);
         hex9.addPiecesToHex(new Piece(Color.BLACK, PieceType.TOTORO), 1);
         Location loc9 = new Location(1,4);
         PlacedHex placedHex9 = new PlacedHex(hex9, loc9);
@@ -438,20 +437,20 @@ public class UpdateSettlementsStepDefs {
         PlacedHex placedHex = createSettlementSizeOne();
         placedHexes.add(placedHex);
 
-        Hex hex2 = new Hex("hex2", Terrain.ROCKY, 3);
+        Hex hex2 = new Hex("hex2", Terrain.ROCK, 3);
         Location loc2 = new Location(0,1);
         PlacedHex placedHex2 = new PlacedHex(hex2, loc2);
         placedHexes.add(placedHex2);
 
         createSettlementCapableOfBuildingTotoro();
 
-        Hex hex8 = new Hex("hex8", Terrain.GRASSLANDS, 1);
+        Hex hex8 = new Hex("hex8", Terrain.GRASS, 1);
         hex8.addPiecesToHex(new Piece(Color.BLACK, PieceType.TOTORO), 1);
         Location loc8 = new Location(0,2);
         PlacedHex placedHex8 = new PlacedHex(hex8, loc8);
         placedHexes.add(placedHex8);
 
-        Hex hex9 = new Hex("hex9", Terrain.GRASSLANDS, 1);
+        Hex hex9 = new Hex("hex9", Terrain.GRASS, 1);
         hex9.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
         Location loc9 = new Location(1,4);
         PlacedHex placedHex9 = new PlacedHex(hex9, loc9);
@@ -501,44 +500,44 @@ public class UpdateSettlementsStepDefs {
     }
 
     private void populatePlacedHexes() {
-        Hex hex2 = new Hex("hex2", Terrain.ROCKY, 1);
+        Hex hex2 = new Hex("hex2", Terrain.ROCK, 1);
         Location loc2 = new Location(0,1);
         PlacedHex placedHex2 = new PlacedHex(hex2, loc2);
         placedHexes.add(placedHex2);
 
-        Hex hex3 = new Hex("hex3", Terrain.ROCKY, 1);
+        Hex hex3 = new Hex("hex3", Terrain.ROCK, 1);
         Location loc3 = new Location(0, 2);
         PlacedHex placedHex3 = new PlacedHex(hex3, loc3);
         placedHexes.add(placedHex3);
 
-        Hex hex4 = new Hex("hex4", Terrain.ROCKY, 1);
+        Hex hex4 = new Hex("hex4", Terrain.ROCK, 1);
         Location loc4 = new Location(0,3);
         PlacedHex placedHex4 = new PlacedHex(hex4, loc4);
         placedHexes.add(placedHex4);
 
-        Hex hex5 = new Hex("hex5", Terrain.ROCKY, 1);
+        Hex hex5 = new Hex("hex5", Terrain.ROCK, 1);
         Location loc5 = new Location(0,-1);
         PlacedHex placedHex5 = new PlacedHex(hex5, loc5);
         placedHexes.add(placedHex5);
     }
 
     private void populateMorePlacedHexes() {
-        Hex hex8 = new Hex("hex8", Terrain.ROCKY, 1);
+        Hex hex8 = new Hex("hex8", Terrain.ROCK, 1);
         Location loc8 = new Location(1,6);
         PlacedHex placedHex8 = new PlacedHex(hex8, loc8);
         placedHexes.add(placedHex8);
 
-        Hex hex9 = new Hex("hex9", Terrain.ROCKY, 1);
+        Hex hex9 = new Hex("hex9", Terrain.ROCK, 1);
         Location loc9 = new Location(-1,6);
         PlacedHex placedHex9 = new PlacedHex(hex9, loc9);
         placedHexes.add(placedHex9);
 
-        Hex hex10 = new Hex("hex10", Terrain.ROCKY, 1);
+        Hex hex10 = new Hex("hex10", Terrain.ROCK, 1);
         Location loc10 = new Location(0,6);
         PlacedHex placedHex10 = new PlacedHex(hex10, loc10);
         placedHexes.add(placedHex10);
 
-        Hex hex11 = new Hex("hex11", Terrain.ROCKY, 1);
+        Hex hex11 = new Hex("hex11", Terrain.ROCK, 1);
         Location loc11 = new Location (0,7);
         PlacedHex placedHex11 = new PlacedHex(hex11, loc11);
         placedHexes.add(placedHex11);

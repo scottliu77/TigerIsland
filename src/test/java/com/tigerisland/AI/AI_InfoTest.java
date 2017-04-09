@@ -1,9 +1,7 @@
 package com.tigerisland.AI;
 
-import com.tigerisland.AI.AI_Info;
 import com.tigerisland.InvalidMoveException;
 import com.tigerisland.game.*;
-import gherkin.lexer.Ro;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,7 +19,7 @@ public class AI_InfoTest {
     @Before
     public void setUp() {
         this.board = new Board();
-        this.testTile = new Tile(Terrain.GRASSLANDS, Terrain.GRASSLANDS);
+        this.testTile = new Tile(Terrain.GRASS, Terrain.GRASS);
 
         this.p1 = new Player(Color.BLUE, "1", PlayerType.SAFEAI);
         this.p2 = new Player(Color.PURPLE, "2", PlayerType.SAFEAI);
@@ -53,11 +51,11 @@ public class AI_InfoTest {
         Location loc1 = new Location(0,0);
         board.placeTile(tile1, loc1, 60);
 
-        Tile tile2 = new Tile(Terrain.ROCKY,Terrain.ROCKY);
+        Tile tile2 = new Tile(Terrain.ROCK,Terrain.ROCK);
         Location loc2 = new Location(-1,0);
         board.placeTile(tile2, loc2, 240);
 
-        Tile tile3 = new Tile(Terrain.GRASSLANDS,Terrain.GRASSLANDS);
+        Tile tile3 = new Tile(Terrain.GRASS,Terrain.GRASS);
         Location loc3 = new Location(1,0);
         board.placeTile(tile3, loc3, 240);
 
@@ -77,11 +75,11 @@ public class AI_InfoTest {
         Location loc7 = new Location(0,0);
         board.placeTile(tile7, loc7, 300);
 
-        Tile tile8 = new Tile(Terrain.ROCKY,Terrain.ROCKY);
+        Tile tile8 = new Tile(Terrain.ROCK,Terrain.ROCK);
         Location loc8 = new Location(0,-2);
         board.placeTile(tile8, loc8, 60);
 
-        Tile tile9 = new Tile(Terrain.ROCKY,Terrain.ROCKY);
+        Tile tile9 = new Tile(Terrain.ROCK,Terrain.ROCK);
         Location loc9 = new Location(1,-2);
         board.placeTile(tile9, loc9, 300);
 
@@ -102,7 +100,7 @@ public class AI_InfoTest {
         Location loc1 = new Location(0,0);
 
 
-        Tile tile2 = new Tile(Terrain.ROCKY,Terrain.ROCKY);
+        Tile tile2 = new Tile(Terrain.ROCK,Terrain.ROCK);
         Location loc2 = new Location(-1,0);
 
         board.placeTile(tile1, loc1, 240);
@@ -115,7 +113,7 @@ public class AI_InfoTest {
         board.updateSettlements();
         ArrayList<SettlementAndTerrainListPair> possibleExpansions = AI_Info.returnValidVillageExpansions(p1, board);
         SettlementAndTerrainListPair settlementAndTerrainListPair = possibleExpansions.get(0);
-        assertTrue(settlementAndTerrainListPair.getTerrainList().contains(Terrain.GRASSLANDS));
+        assertTrue(settlementAndTerrainListPair.getTerrainList().contains(Terrain.GRASS));
         assertTrue(settlementAndTerrainListPair.getTerrainList().contains(Terrain.JUNGLE));
         assertTrue(settlementAndTerrainListPair.getTerrainList().size() == 2);
 
@@ -126,10 +124,10 @@ public class AI_InfoTest {
         Location loc1 = new Location(0,0);
 
 
-        Tile tile2 = new Tile(Terrain.ROCKY,Terrain.ROCKY);
+        Tile tile2 = new Tile(Terrain.ROCK,Terrain.ROCK);
         Location loc2 = new Location(-1,0);
 
-        Tile tile3 = new Tile(Terrain.GRASSLANDS,Terrain.GRASSLANDS);
+        Tile tile3 = new Tile(Terrain.GRASS,Terrain.GRASS);
         Location loc3 = new Location(1,1);
 
         board.placeTile(tile1, loc1, 240);
@@ -178,7 +176,7 @@ public class AI_InfoTest {
         board.createVillage(p2,new Location(3,-2));
 
         board.updateSettlements();
-        board.expandVillage(p2, new Location(3,-2), Terrain.ROCKY);
+        board.expandVillage(p2, new Location(3,-2), Terrain.ROCK);
 
         board.updateSettlements();
         board.createVillage(p2,new Location(1,-3));
@@ -187,7 +185,7 @@ public class AI_InfoTest {
         board.expandVillage(p2, new Location(3,-2), Terrain.LAKE);
 
         board.updateSettlements();
-        board.expandVillage(p2, new Location(3,-2), Terrain.ROCKY);
+        board.expandVillage(p2, new Location(3,-2), Terrain.ROCK);
     }
 
     @Test
@@ -201,7 +199,7 @@ public class AI_InfoTest {
         setUpBoardForFindingLevelThreeHexes();
         ArrayList<PlacedHex> habitableLevelThreeHexes = AI_Info.findEmptyHabitableLevelThreePlacedHexes(board);
         ArrayList<PlacedHex> expected = new ArrayList<PlacedHex>();
-        Hex hex = new Hex("hex", Terrain.GRASSLANDS, 3);
+        Hex hex = new Hex("hex", Terrain.GRASS, 3);
         Location location = new Location(0, 0);
         PlacedHex placedHex = new PlacedHex(hex, location);
         expected.add(placedHex);
@@ -211,7 +209,7 @@ public class AI_InfoTest {
     }
 
     private void setUpBoardForFindingLevelThreeHexes() {
-        Hex hex = new Hex("hex", Terrain.GRASSLANDS, 3);
+        Hex hex = new Hex("hex", Terrain.GRASS, 3);
         Location location = new Location(0, 0);
         PlacedHex placedHex = new PlacedHex(hex, location);
         ArrayList<PlacedHex> placedHexes = board.getPlacedHexes();
@@ -223,10 +221,10 @@ public class AI_InfoTest {
     public void testForFindingNukableTotoroAcceptingSettlements() throws InvalidMoveException {
         placeTilesForTest2();
         setUpBoardForTotoroAndTigerTests();
-        Tile tileThatWillHostVolcanoToNukeFrom = new Tile(Terrain.GRASSLANDS, Terrain.GRASSLANDS);
+        Tile tileThatWillHostVolcanoToNukeFrom = new Tile(Terrain.GRASS, Terrain.GRASS);
         Location locationForVolcanoToNukeFrom = new Location(1, -4);
         board.placeTile(tileThatWillHostVolcanoToNukeFrom, locationForVolcanoToNukeFrom, 240);
-        Tile tileThatWillHostVolcanoToNukeFrom1 = new Tile(Terrain.GRASSLANDS, Terrain.GRASSLANDS);
+        Tile tileThatWillHostVolcanoToNukeFrom1 = new Tile(Terrain.GRASS, Terrain.GRASS);
         Location locationForVolcanoToNukeFrom1 = new Location(2, -4);
         board.placeTile(tileThatWillHostVolcanoToNukeFrom1, locationForVolcanoToNukeFrom1, 300);
         board.updateSettlements();
@@ -239,10 +237,10 @@ public class AI_InfoTest {
     public void testForFindingNukableTigerAcceptingSettlements() throws InvalidMoveException {
         placeTilesForTest2();
         setUpBoardForTotoroAndTigerTests();
-        Tile tileThatWillHostVolcanoToNukeFrom = new Tile(Terrain.GRASSLANDS, Terrain.GRASSLANDS);
+        Tile tileThatWillHostVolcanoToNukeFrom = new Tile(Terrain.GRASS, Terrain.GRASS);
         Location locationForVolcanoToNukeFrom = new Location(3, -1);
         board.placeTile(tileThatWillHostVolcanoToNukeFrom, locationForVolcanoToNukeFrom, 60);
-        board.expandVillage(p1, new Location(2, -1), Terrain.GRASSLANDS);
+        board.expandVillage(p1, new Location(2, -1), Terrain.GRASS);
         board.updateSettlements();
         Tile tile = new Tile(Terrain.JUNGLE, Terrain.LAKE);
         ArrayList<TilePlacement> tilePlacementsThatWouldPreventTotoroPlacement = AI_Info.findNukableLocationsToStopOpposingPlayerFromMakingTigerPlacement(p1.getPlayerColor(),board, tile);
@@ -261,7 +259,7 @@ public class AI_InfoTest {
 
     private void setUpBoardWithASettlementThatJustNeedsAnExpansionPointToPlaceTotoro() throws InvalidMoveException {
         TilePlacement tilePlacement1 = new TilePlacement(new Tile(Terrain.LAKE, Terrain.LAKE), new Location(0, 0), 0);
-        TilePlacement tilePlacement2 = new TilePlacement(new Tile(Terrain.LAKE, Terrain.GRASSLANDS), new Location(1, -1), 300);
+        TilePlacement tilePlacement2 = new TilePlacement(new Tile(Terrain.LAKE, Terrain.GRASS), new Location(1, -1), 300);
         TilePlacement tilePlacement3 = new TilePlacement(new Tile(Terrain.LAKE, Terrain.LAKE), new Location(-1, 1), 60);
         TilePlacement tilePlacement4 = new TilePlacement(new Tile(Terrain.LAKE, Terrain.LAKE), new Location(-3, 3), 0);
         board.placeTile(tilePlacement1);
@@ -285,7 +283,7 @@ public class AI_InfoTest {
 
     private void setUpBoardWithASettlementThatForFindingTilePlacementsThatCutTotoroOffFromMostOfSettlementTest() throws InvalidMoveException {
         TilePlacement tilePlacement1 = new TilePlacement(new Tile(Terrain.LAKE, Terrain.LAKE), new Location(0, 0), 0);
-        TilePlacement tilePlacement2 = new TilePlacement(new Tile(Terrain.LAKE, Terrain.GRASSLANDS), new Location(1, -1), 300);
+        TilePlacement tilePlacement2 = new TilePlacement(new Tile(Terrain.LAKE, Terrain.GRASS), new Location(1, -1), 300);
         TilePlacement tilePlacement3 = new TilePlacement(new Tile(Terrain.LAKE, Terrain.LAKE), new Location(2, 0), 60);
         board.placeTile(tilePlacement1);
         board.placeTile(tilePlacement2);

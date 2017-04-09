@@ -18,7 +18,7 @@ import static java.lang.Thread.sleep;
 
 public class LocalServer implements Runnable {
 
-    public static final int LOCAL_CHALLENGES = 3;
+    public static final int LOCAL_CHALLENGES = 2;
     public static final int LOCAL_ROUNDS = 4;
 
     private GlobalSettings globalSettings;

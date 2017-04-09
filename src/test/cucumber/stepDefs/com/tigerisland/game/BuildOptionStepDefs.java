@@ -2,7 +2,6 @@ package com.tigerisland.game;
 
 
 import com.tigerisland.InvalidMoveException;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -66,7 +65,7 @@ public class BuildOptionStepDefs{
         Location loc5 = new Location(0,-2);
         PlacedHex placedHex5 = new PlacedHex(hex5, loc5);
         placedHexes.add(placedHex5);
-        Hex hex6 = new Hex("hex6", Terrain.GRASSLANDS);
+        Hex hex6 = new Hex("hex6", Terrain.GRASS);
         Location loc6 = new Location(0,-3);
         targetHex = new PlacedHex(hex6, loc6);
         placedHexes.add(targetHex);
@@ -105,7 +104,7 @@ public class BuildOptionStepDefs{
         Location loc5 = new Location(1,-2);
         targetHex = new PlacedHex(hex5, loc5);
         placedHexes.add(targetHex);
-        Hex hex6 = new Hex("hex6", Terrain.GRASSLANDS);
+        Hex hex6 = new Hex("hex6", Terrain.GRASS);
         Location loc6 = new Location(0,-3);
         PlacedHex placedHex6 = new PlacedHex(hex6, loc6);
         placedHexes.add(placedHex6);
@@ -142,7 +141,7 @@ public class BuildOptionStepDefs{
         placedHexes.add(placedHex5);
         Settlement settlement = new Settlement(placedHex1, placedHexes);
 
-        Hex hex6 = new Hex("hex6", Terrain.ROCKY, 2);
+        Hex hex6 = new Hex("hex6", Terrain.ROCK, 2);
         Location loc6 = new Location(3,0);
         targetHex = new PlacedHex(hex6, loc6);
         placedHexes.add(targetHex);
@@ -194,7 +193,7 @@ public class BuildOptionStepDefs{
     @Given("^a hex is not a volcano$")
     public void addNonVolcanoHexOfHeightLessThanThreeToBoard() {
         expectedErrorMessage = "Cannot build Tiger playground on hex of level less than 3";
-        Hex hex = new Hex("hex", Terrain.GRASSLANDS, 2);
+        Hex hex = new Hex("hex", Terrain.GRASS, 2);
         targetLocation = new Location(0,0);
         targetHex = new PlacedHex(hex, targetLocation);
         placedHexes.add(targetHex);
@@ -204,7 +203,7 @@ public class BuildOptionStepDefs{
     @Given("^an occupied hex")
     public void addAnOccupiedHexToBoard() {
         expectedErrorMessage = "Target hex already contains piece(s)";
-        Hex hex = new Hex("hex", Terrain.GRASSLANDS, 1);
+        Hex hex = new Hex("hex", Terrain.GRASS, 1);
         hex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
         targetLocation = new Location(0,0);
         targetHex = new PlacedHex(hex, targetLocation);
@@ -231,7 +230,7 @@ public class BuildOptionStepDefs{
         PlacedHex placedHex1 = new PlacedHex(hex1, loc1);
         placedHexes.add(placedHex1);
 
-        Hex hex2 = new Hex("hex2", Terrain.GRASSLANDS, 3);
+        Hex hex2 = new Hex("hex2", Terrain.GRASS, 3);
         Location loc2 = new Location(0,1);
         targetHex = new PlacedHex(hex2, loc2);
         placedHexes.add(targetHex);
@@ -249,7 +248,7 @@ public class BuildOptionStepDefs{
         PlacedHex placedHex1 = new PlacedHex(hex1, loc1);
         placedHexes.add(placedHex1);
 
-        Hex hex2 = new Hex("hex2", Terrain.GRASSLANDS, 4);
+        Hex hex2 = new Hex("hex2", Terrain.GRASS, 4);
         Location loc2 = new Location(0,1);
         targetHex = new PlacedHex(hex2, loc2);
         placedHexes.add(targetHex);
@@ -267,7 +266,7 @@ public class BuildOptionStepDefs{
         Location loc5 = new Location(0,-3);
         PlacedHex placedHex5 = new PlacedHex(hex5, loc5);
         placedHexes.add(placedHex5);
-        Hex hex6 = new Hex("hex6", Terrain.GRASSLANDS, 3);
+        Hex hex6 = new Hex("hex6", Terrain.GRASS, 3);
         Location loc6 = new Location(2,0);
         targetHex = new PlacedHex(hex6, loc6);
         placedHexes.add(targetHex);
@@ -285,7 +284,7 @@ public class BuildOptionStepDefs{
         Location loc5 = new Location(0,-3);
         PlacedHex placedHex5 = new PlacedHex(hex5, loc5);
         placedHexes.add(placedHex5);
-        Hex hex6 = new Hex("hex6", Terrain.GRASSLANDS, 3);
+        Hex hex6 = new Hex("hex6", Terrain.GRASS, 3);
         Location loc6 = new Location(0,-4);
         targetHex = new PlacedHex(hex6, loc6);
         placedHexes.add(targetHex);
@@ -303,7 +302,7 @@ public class BuildOptionStepDefs{
         Location loc5 = new Location(0,-3);
         PlacedHex placedHex5 = new PlacedHex(hex5, loc5);
         placedHexes.add(placedHex5);
-        Hex hex6 = new Hex("hex6", Terrain.GRASSLANDS);
+        Hex hex6 = new Hex("hex6", Terrain.GRASS);
         Location loc6 = new Location(2,0);
         targetHex = new PlacedHex(hex6, loc6);
         placedHexes.add(targetHex);
@@ -321,7 +320,7 @@ public class BuildOptionStepDefs{
         Location loc5 = new Location(0,-3);
         PlacedHex placedHex5 = new PlacedHex(hex5, loc5);
         placedHexes.add(placedHex5);
-        Hex hex6 = new Hex("hex6", Terrain.GRASSLANDS);
+        Hex hex6 = new Hex("hex6", Terrain.GRASS);
         Location loc6 = new Location(0,-4);
         targetHex = new PlacedHex(hex6, loc6);
         placedHexes.add(targetHex);
@@ -341,7 +340,7 @@ public class BuildOptionStepDefs{
         placedHexes.add(placedHex5);
         Settlement settlement = new Settlement(placedHex1, placedHexes);
 
-        Hex hex6 = new Hex("hex6", Terrain.ROCKY, 2);
+        Hex hex6 = new Hex("hex6", Terrain.ROCK, 2);
         Location loc6 = new Location(3,0);
         targetHex = new PlacedHex(hex6, loc6);
         placedHexes.add(targetHex);
@@ -362,7 +361,7 @@ public class BuildOptionStepDefs{
         expandTerrain = hex1.getHexTerrain();
 
         Location loc2 = new Location(0,2);
-        Hex hex2 = new Hex("TileID1", Terrain.ROCKY);
+        Hex hex2 = new Hex("TileID1", Terrain.ROCK);
         hex2.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
         hexInSettlement = new PlacedHex(hex2, loc2);
         placedHexes.add(hexInSettlement);
@@ -376,7 +375,7 @@ public class BuildOptionStepDefs{
     @Given("^a settlement with valid adjacent hexes$")
     public void aSettlementWithValidAdjacentHexes() {
         Location loc = new Location(0,0);
-        Hex hex = new Hex("TileID1", Terrain.ROCKY);
+        Hex hex = new Hex("TileID1", Terrain.ROCK);
         hex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
         hexInSettlement = new PlacedHex(hex, loc);
         placedHexes.add(hexInSettlement);
@@ -413,7 +412,7 @@ public class BuildOptionStepDefs{
         expectedErrorMessage = "Player does not have enough pieces to populate the target hex";
 
         Location loc = new Location(0,0);
-        Hex hex = new Hex("TileID1", Terrain.ROCKY);
+        Hex hex = new Hex("TileID1", Terrain.ROCK);
         hex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
         hexInSettlement = new PlacedHex(hex, loc);
         placedHexes.add(hexInSettlement);
@@ -454,7 +453,7 @@ public class BuildOptionStepDefs{
     @Given("^a settlement adjacent to another player's settlement$")
     public void aSettlementAdjacentToAnotherPlayersSettlement() {
         Location loc = new Location(0,0);
-        Hex hex = new Hex("TileID1", Terrain.ROCKY);
+        Hex hex = new Hex("TileID1", Terrain.ROCK);
         hex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
         hexInSettlement = new PlacedHex(hex, loc);
         placedHexes.add(hexInSettlement);
@@ -494,7 +493,7 @@ public class BuildOptionStepDefs{
     @Given("^a settlement adjacent to hexes of different heights$")
     public void aSettlementAdjacentToHexesOfDifferentHeights() {
         Location loc = new Location(0,0);
-        Hex hex = new Hex("TileID1", Terrain.ROCKY);
+        Hex hex = new Hex("TileID1", Terrain.ROCK);
         hex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
         hexInSettlement = new PlacedHex(hex, loc);
         placedHexes.add(hexInSettlement);
@@ -531,7 +530,7 @@ public class BuildOptionStepDefs{
         expectedErrorMessage = "Player does not have enough pieces to populate the target hex";
 
         Location loc = new Location(0,0);
-        Hex hex = new Hex("TileID1", Terrain.ROCKY);
+        Hex hex = new Hex("TileID1", Terrain.ROCK);
         hex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
         hexInSettlement = new PlacedHex(hex, loc);
         placedHexes.add(hexInSettlement);
@@ -759,7 +758,7 @@ public class BuildOptionStepDefs{
     @And("^a nearby settlement containing a totoro$")
     public void addAnotherSettlementContainingATotoroCloseToTheFirst(){
         PlacedHex totoroHex = setUpAnotherSettlementWithATotoro();
-        Hex hex = new Hex("targetHex", Terrain.GRASSLANDS);
+        Hex hex = new Hex("targetHex", Terrain.GRASS);
         Location loc = new Location(-1, 1);
         PlacedHex targetHex = new PlacedHex(hex, loc);
         placedHexes.add(targetHex);
@@ -801,7 +800,7 @@ public class BuildOptionStepDefs{
         Hex hex5 = new Hex("hex5", Terrain.LAKE);
         Hex hex6 = new Hex("hex6", Terrain.JUNGLE);
         Hex hex7 = new Hex("hex7", Terrain.VOLCANO);
-        Hex hex8 = new Hex("hex8", Terrain.GRASSLANDS);
+        Hex hex8 = new Hex("hex8", Terrain.GRASS);
 
         hex5.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 2);
         hex6.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 4);
@@ -830,7 +829,7 @@ public class BuildOptionStepDefs{
         Hex hex5 = new Hex("hex5", Terrain.LAKE);
         Hex hex6 = new Hex("hex6", Terrain.JUNGLE);
         Hex hex7 = new Hex("hex7", Terrain.VOLCANO);
-        Hex hex8 = new Hex("hex8", Terrain.GRASSLANDS);
+        Hex hex8 = new Hex("hex8", Terrain.GRASS);
 
         hex5.addPiecesToHex(new Piece(Color.BLACK, PieceType.TOTORO), 1);
         hex6.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 4);

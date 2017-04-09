@@ -27,9 +27,9 @@ public class TurnTest {
         gameSettings.getPlayerSet().setCurrentPlayer("1");
 
         turn = new Turn(gameSettings, board);
-        turn.updateTurnInformation("1", new Tile(Terrain.GRASSLANDS, Terrain.JUNGLE), "1");
+        turn.updateTurnInformation("1", new Tile(Terrain.GRASS, Terrain.JUNGLE), "1");
         inboundMessages = gameSettings.getGlobalSettings().inboundQueue;
-        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCKY+LAKE AT 0 0 0 1 FOUNDED SETTLEMENT AT 0 0 0"));
+        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCK+LAKE AT 0 0 0 1 FOUNDED SETTLEMENT AT 0 0 0"));
     }
 
     @Test
@@ -59,7 +59,7 @@ public class TurnTest {
 
     @Test
     public void testCanUpdateAndGetBoard() throws InvalidMoveException {
-        Tile tile = new Tile(Terrain.GRASSLANDS, Terrain.GRASSLANDS);
+        Tile tile = new Tile(Terrain.GRASS, Terrain.GRASS);
         Location loc = new Location(0, 0);
         turn.getBoard().placeTile(tile, loc, 0);
         assertTrue(turn.getBoard().hexExistsAtLocation(new Location(0, 0)));

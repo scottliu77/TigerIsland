@@ -22,7 +22,7 @@ public class TotoroLinesAI_V2Test {
         board.placeStartingTile();
 
         turnState = new Turn(gameSettings, board);
-        turnState.updateTurnInformation("1", new Tile(Terrain.GRASSLANDS, Terrain.JUNGLE), "1");
+        turnState.updateTurnInformation("1", new Tile(Terrain.GRASS, Terrain.JUNGLE), "1");
 
         myAI = new TotoroLinesAI_V2();
         hasPlacedTotoro = false;
@@ -31,7 +31,7 @@ public class TotoroLinesAI_V2Test {
     @Ignore("Ignoring: WORK IN PROGRESS") @Test
     public void testAI() throws InvalidMoveException{
         for(int ii=0; ii<6; ii++) {
-            turnState.updateTurnInformation("1", new Tile(Terrain.GRASSLANDS, Terrain.JUNGLE), "1");
+            turnState.updateTurnInformation("1", new Tile(Terrain.GRASS, Terrain.JUNGLE), "1");
             turnState.getCurrentPlayer().getPlayerAI().pickTilePlacementAndBuildAction(turnState);
 
             try {

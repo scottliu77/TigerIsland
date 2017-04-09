@@ -18,7 +18,7 @@ public class BoardTest{
     @Before
     public void createBoard() {
         this.board = new Board();
-        this.tile = new Tile(Terrain.GRASSLANDS, Terrain.JUNGLE);
+        this.tile = new Tile(Terrain.GRASS, Terrain.JUNGLE);
         this.location = new Location(0,0);
         this.placedHexes = new ArrayList<PlacedHex>();
     }
@@ -40,7 +40,7 @@ public class BoardTest{
 
     @Test
     public void testLocationUnavailable() throws InvalidMoveException {
-        Tile tile = new Tile(Terrain.GRASSLANDS, Terrain.JUNGLE);
+        Tile tile = new Tile(Terrain.GRASS, Terrain.JUNGLE);
         Location location = new Location(0,0);
         board.placeTile(tile, location,0);
 
@@ -50,11 +50,11 @@ public class BoardTest{
 
     @Test
     public void testHexAtLocation() throws InvalidMoveException {
-        Tile tile = new Tile(Terrain.GRASSLANDS, Terrain.JUNGLE);
+        Tile tile = new Tile(Terrain.GRASS, Terrain.JUNGLE);
         Location location = new Location(0,0);
         board.placeTile(tile, location,0);
 
-        Tile tile2 = new Tile(Terrain.GRASSLANDS, Terrain.JUNGLE);
+        Tile tile2 = new Tile(Terrain.GRASS, Terrain.JUNGLE);
         Location location2 = new Location(2,1);
         assertFalse(board.hexExistsAtLocation(location2));
     }
@@ -225,7 +225,7 @@ public class BoardTest{
     @Test
     public void testCanMakeSaveBoardCopyCheckPlacedHexes() throws InvalidMoveException {
         Board boardCopy = new Board(board);
-        Tile tile = new Tile(Terrain.LAKE, Terrain.GRASSLANDS);
+        Tile tile = new Tile(Terrain.LAKE, Terrain.GRASS);
         Location location = new Location(0, 0);
         boardCopy.placeTile(tile, location, 0);
 
@@ -236,7 +236,7 @@ public class BoardTest{
     public void testCanMakeSaveBoardCopyCheckSettlements() throws InvalidMoveException {
         Board boardCopy = new Board(board);
 
-        Tile tile = new Tile(Terrain.LAKE, Terrain.GRASSLANDS);
+        Tile tile = new Tile(Terrain.LAKE, Terrain.GRASS);
         Location location = new Location(0, 0);
         boardCopy.placeTile(tile, location, 0);
 
@@ -253,7 +253,7 @@ public class BoardTest{
     @Test
     public void testCanMakeSaveBoardCopyCheckEdgesSpaces() throws InvalidMoveException {
         Board boardCopy = new Board(board);
-        Tile tile = new Tile(Terrain.LAKE, Terrain.GRASSLANDS);
+        Tile tile = new Tile(Terrain.LAKE, Terrain.GRASS);
         Location location = new Location(0, 0);
         boardCopy.placeTile(tile, location, 0);
 
@@ -263,7 +263,7 @@ public class BoardTest{
     @Test
     public void testCanSaveOriginalBoardWithCopy() throws InvalidMoveException {
         Board boardCopy = new Board(board);
-        Tile tile = new Tile(Terrain.LAKE, Terrain.GRASSLANDS);
+        Tile tile = new Tile(Terrain.LAKE, Terrain.GRASS);
         Location location = new Location(0, 0);
         boardCopy.placeTile(tile, location, 0);
 
@@ -454,7 +454,7 @@ public class BoardTest{
         Location loc5 = new Location(0,-2);
         PlacedHex placedHex5 = new PlacedHex(hex5, loc5);
         placedHexes.add(placedHex5);
-        Hex hex6 = new Hex("hex5", Terrain.GRASSLANDS,4);
+        Hex hex6 = new Hex("hex5", Terrain.GRASS,4);
         Location loc6 = new Location(0,-3);
         PlacedHex emptyPlacedHexToTryToPlaceTigerOn = new PlacedHex(hex6, loc6);
         placedHexes.add(emptyPlacedHexToTryToPlaceTigerOn);
@@ -492,7 +492,7 @@ public class BoardTest{
 
         String tileID = "fakeTileID";
         Location loc = new Location(0,1);
-        Hex emptyHex = new Hex(tileID, Terrain.GRASSLANDS);
+        Hex emptyHex = new Hex(tileID, Terrain.GRASS);
         PlacedHex emptyPlacedHex = new PlacedHex(emptyHex, loc);
         placedHexes.add(emptyPlacedHex);
         board.placedHexes = this.placedHexes;
@@ -511,7 +511,7 @@ public class BoardTest{
 
         String tileID = "fakeTileID";
         Location loc = new Location(0,1);
-        Hex blackHex = new Hex(tileID, Terrain.GRASSLANDS);
+        Hex blackHex = new Hex(tileID, Terrain.GRASS);
         blackHex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
         PlacedHex blackPlacedHex = new PlacedHex(blackHex, loc);
         placedHexes.add(blackPlacedHex);
@@ -567,7 +567,7 @@ public class BoardTest{
 
         String tileID = "fakeTileID";
         Location loc = new Location(0,1);
-        Hex emptyHex = new Hex(tileID, Terrain.GRASSLANDS);
+        Hex emptyHex = new Hex(tileID, Terrain.GRASS);
         PlacedHex emptyPlacedHex = new PlacedHex(emptyHex, loc);
         placedHexes.add(emptyPlacedHex);
         board.placedHexes = this.placedHexes;
@@ -583,7 +583,7 @@ public class BoardTest{
     public void testSettledLocationDoesNotBelongToPlayer() {
         String tileID = "fakeTileID";
         Location loc = new Location(0,1);
-        Hex blackHex = new Hex(tileID, Terrain.GRASSLANDS);
+        Hex blackHex = new Hex(tileID, Terrain.GRASS);
         blackHex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
         PlacedHex blackPlacedHex = new PlacedHex(blackHex, loc);
         placedHexes.add(blackPlacedHex);
@@ -653,7 +653,7 @@ public class BoardTest{
         }
 
 
-        ArrayList<PlacedHex> allExpandableHexes = board.getAllExpandableAdjacentHexesToSettlement(settlement, Terrain.ROCKY);
+        ArrayList<PlacedHex> allExpandableHexes = board.getAllExpandableAdjacentHexesToSettlement(settlement, Terrain.ROCK);
         if (allExpandableHexes.isEmpty()) {
             System.out.println("There are no expandable hexes");
         } else {
@@ -687,9 +687,9 @@ public class BoardTest{
         Location newLoc2 = new Location(0,1);
         Location newLoc3 = new Location(1,0);
 
-        Hex newHex1 = new Hex("fakeID1", Terrain.ROCKY);
+        Hex newHex1 = new Hex("fakeID1", Terrain.ROCK);
         Hex newHex2 = new Hex("fakeID2", Terrain.VOLCANO);
-        Hex newHex3 = new Hex("fakeID3", Terrain.ROCKY);
+        Hex newHex3 = new Hex("fakeID3", Terrain.ROCK);
 
         PlacedHex placedHex1 = new PlacedHex(newHex1, newLoc1);
         PlacedHex placedHex2 = new PlacedHex(newHex2, newLoc2);
@@ -721,7 +721,7 @@ public class BoardTest{
 
         String tileID2 = "fakeTileID2";
         Location loc2 = new Location(0,1);
-        Hex secondSettledHex= new Hex(tileID2, Terrain.GRASSLANDS);
+        Hex secondSettledHex= new Hex(tileID2, Terrain.GRASS);
         secondSettledHex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
 
         PlacedHex blackSettledHex = new PlacedHex(settledHex, loc);
@@ -743,7 +743,7 @@ public class BoardTest{
         Location newLoc1 = new Location(0,-1);
         Location newLoc2 = new Location(1,0);
 
-        Hex newHex1 = new Hex("fakeID1", Terrain.ROCKY);
+        Hex newHex1 = new Hex("fakeID1", Terrain.ROCK);
         Hex newHex2 = new Hex("fakeID2", Terrain.VOLCANO);
 
         PlacedHex placedHex1 = new PlacedHex(newHex1, newLoc1);
@@ -787,9 +787,9 @@ public class BoardTest{
         Location newLoc2 = new Location(0,1);
         Location newLoc3 = new Location(1,0);
 
-        Hex newHex1 = new Hex("fakeID1", Terrain.ROCKY);
-        Hex newHex2 = new Hex("fakeID2", Terrain.ROCKY);
-        Hex newHex3 = new Hex("fakeID3", Terrain.ROCKY);
+        Hex newHex1 = new Hex("fakeID1", Terrain.ROCK);
+        Hex newHex2 = new Hex("fakeID2", Terrain.ROCK);
+        Hex newHex3 = new Hex("fakeID3", Terrain.ROCK);
 
         PlacedHex placedHex1 = new PlacedHex(newHex1, newLoc1);
         PlacedHex placedHex2 = new PlacedHex(newHex2, newLoc2);
@@ -800,7 +800,7 @@ public class BoardTest{
         placedHexes.add(placedHex3);
         board.placedHexes = this.placedHexes;
 
-        ArrayList<PlacedHex> allExpandableHexes = board.getAllExpandableAdjacentHexesToSettlement(settlement, Terrain.ROCKY);
+        ArrayList<PlacedHex> allExpandableHexes = board.getAllExpandableAdjacentHexesToSettlement(settlement, Terrain.ROCK);
         if (allExpandableHexes.isEmpty()) {
             System.out.println("There are no expandable hexes");
         } else {
@@ -815,12 +815,12 @@ public class BoardTest{
 
         String tileID = "fakeTileID";
         Location loc = new Location(0,0);
-        Hex settledHex = new Hex(tileID, Terrain.GRASSLANDS);
+        Hex settledHex = new Hex(tileID, Terrain.GRASS);
         settledHex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
 
         String tileID2 = "fakeTileID2";
         Location loc2 = new Location(0,1);
-        Hex secondSettledHex= new Hex(tileID2, Terrain.GRASSLANDS);
+        Hex secondSettledHex= new Hex(tileID2, Terrain.GRASS);
         secondSettledHex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
 
         PlacedHex blackSettledHex = new PlacedHex(settledHex, loc);
@@ -842,8 +842,8 @@ public class BoardTest{
         Location newLoc1 = new Location(0,-1);
         Location newLoc2 = new Location(1,0);
 
-        Hex newHex1 = new Hex("fakeID1", Terrain.ROCKY);
-        Hex newHex2 = new Hex("fakeID2", Terrain.ROCKY);
+        Hex newHex1 = new Hex("fakeID1", Terrain.ROCK);
+        Hex newHex2 = new Hex("fakeID2", Terrain.ROCK);
 
         PlacedHex placedHex1 = new PlacedHex(newHex1, newLoc1);
         PlacedHex placedHex2 = new PlacedHex(newHex2, newLoc2);
@@ -852,7 +852,7 @@ public class BoardTest{
         placedHexes.add(placedHex2);
         board.placedHexes = this.placedHexes;
 
-        ArrayList<PlacedHex> allExpandableHexes = board.getAllExpandableAdjacentHexesToSettlement(settlement, Terrain.ROCKY);
+        ArrayList<PlacedHex> allExpandableHexes = board.getAllExpandableAdjacentHexesToSettlement(settlement, Terrain.ROCK);
         if (allExpandableHexes.isEmpty()) {
             System.out.println("There are no expandable hexes");
         } else {
@@ -867,7 +867,7 @@ public class BoardTest{
 
         String tileID = "fakeTileID";
         Location loc = new Location(0,0);
-        Hex settledHex = new Hex(tileID, Terrain.GRASSLANDS);
+        Hex settledHex = new Hex(tileID, Terrain.GRASS);
         settledHex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
         PlacedHex blackSettledHex = new PlacedHex(settledHex, loc);
 
@@ -891,8 +891,8 @@ public class BoardTest{
         Location newLoc1 = new Location(0,-1);
         Location newLoc2 = new Location(1,0);
 
-        Hex newHex1 = new Hex("fakeID1", Terrain.ROCKY);
-        Hex newHex2 = new Hex("fakeID2", Terrain.ROCKY);
+        Hex newHex1 = new Hex("fakeID1", Terrain.ROCK);
+        Hex newHex2 = new Hex("fakeID2", Terrain.ROCK);
 
         PlacedHex placedHex1 = new PlacedHex(newHex1, newLoc1);
         PlacedHex placedHex2 = new PlacedHex(newHex2, newLoc2);
@@ -901,7 +901,7 @@ public class BoardTest{
         placedHexes.add(placedHex2);
         board.placedHexes = this.placedHexes;
 
-        ArrayList<PlacedHex> allExpandableHexes = board.getAllExpandableAdjacentHexesToSettlement(settlement, Terrain.ROCKY);
+        ArrayList<PlacedHex> allExpandableHexes = board.getAllExpandableAdjacentHexesToSettlement(settlement, Terrain.ROCK);
         if (allExpandableHexes.isEmpty()) {
             System.out.println("There are no expandable hexes");
         } else {
@@ -923,7 +923,7 @@ public class BoardTest{
 
         String tileID = "fakeTileID";
         Location loc = new Location(0,0);
-        Hex settledHex = new Hex(tileID, Terrain.GRASSLANDS);
+        Hex settledHex = new Hex(tileID, Terrain.GRASS);
         settledHex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
         PlacedHex blackSettledHex = new PlacedHex(settledHex, loc);
 
@@ -941,8 +941,8 @@ public class BoardTest{
         Location newLoc1 = new Location(0,-1);
         Location newLoc2 = new Location(1,0);
 
-        Hex newHex1 = new Hex("fakeID1", Terrain.ROCKY);
-        Hex newHex2 = new Hex("fakeID2", Terrain.ROCKY);
+        Hex newHex1 = new Hex("fakeID1", Terrain.ROCK);
+        Hex newHex2 = new Hex("fakeID2", Terrain.ROCK);
 
         PlacedHex placedHex1 = new PlacedHex(newHex1, newLoc1);
         PlacedHex placedHex2 = new PlacedHex(newHex2, newLoc2);
@@ -951,7 +951,7 @@ public class BoardTest{
         placedHexes.add(placedHex2);
         board.placedHexes = this.placedHexes;
 
-        ArrayList<PlacedHex> allExpandableHexes = board.getAllExpandableAdjacentHexesToSettlement(settlement, Terrain.ROCKY);
+        ArrayList<PlacedHex> allExpandableHexes = board.getAllExpandableAdjacentHexesToSettlement(settlement, Terrain.ROCK);
         if (allExpandableHexes == null) {
             System.out.println("There are no expandable hexes");
         } else {
@@ -973,12 +973,12 @@ public class BoardTest{
 
         String tileID = "fakeTileID";
         Location loc = new Location(0,0);
-        Hex settledHex = new Hex(tileID, Terrain.GRASSLANDS);
+        Hex settledHex = new Hex(tileID, Terrain.GRASS);
         settledHex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
 
         String tileID2 = "fakeTileID2";
         Location loc2 = new Location(0,1);
-        Hex secondSettledHex= new Hex(tileID2, Terrain.GRASSLANDS);
+        Hex secondSettledHex= new Hex(tileID2, Terrain.GRASS);
         secondSettledHex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
 
         PlacedHex blackSettledHex = new PlacedHex(settledHex, loc);
@@ -1005,8 +1005,8 @@ public class BoardTest{
         Location newLoc1 = new Location(0,-1);
         Location newLoc2 = new Location(1,0);
 
-        Hex newHex1 = new Hex("fakeID1", Terrain.ROCKY);
-        Hex newHex2 = new Hex("fakeID2", Terrain.ROCKY);
+        Hex newHex1 = new Hex("fakeID1", Terrain.ROCK);
+        Hex newHex2 = new Hex("fakeID2", Terrain.ROCK);
 
         PlacedHex placedHex1 = new PlacedHex(newHex1, newLoc1);
         PlacedHex placedHex2 = new PlacedHex(newHex2, newLoc2);
@@ -1015,7 +1015,7 @@ public class BoardTest{
         placedHexes.add(placedHex2);
         board.placedHexes = this.placedHexes;
 
-        ArrayList<PlacedHex> allExpandableHexes = board.getAllExpandableAdjacentHexesToSettlement(settlement, Terrain.ROCKY);
+        ArrayList<PlacedHex> allExpandableHexes = board.getAllExpandableAdjacentHexesToSettlement(settlement, Terrain.ROCK);
         if (allExpandableHexes == null) {
             System.out.println("There are no expandable hexes");
         } else {
@@ -1037,12 +1037,12 @@ public class BoardTest{
 
         String tileID = "fakeTileID";
         Location loc = new Location(0,0);
-        Hex settledHex = new Hex(tileID, Terrain.GRASSLANDS);
+        Hex settledHex = new Hex(tileID, Terrain.GRASS);
         settledHex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
 
         String tileID2 = "fakeTileID2";
         Location loc2 = new Location(0,1);
-        Hex secondSettledHex= new Hex(tileID2, Terrain.GRASSLANDS);
+        Hex secondSettledHex= new Hex(tileID2, Terrain.GRASS);
         secondSettledHex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
 
         PlacedHex blackSettledHex = new PlacedHex(settledHex, loc);
@@ -1064,8 +1064,8 @@ public class BoardTest{
         Location newLoc1 = new Location(0,-1);
         Location newLoc2 = new Location(1,0);
 
-        Hex newHex1 = new Hex("fakeID1", Terrain.ROCKY);
-        Hex newHex2 = new Hex("fakeID2", Terrain.ROCKY);
+        Hex newHex1 = new Hex("fakeID1", Terrain.ROCK);
+        Hex newHex2 = new Hex("fakeID2", Terrain.ROCK);
 
         PlacedHex placedHex1 = new PlacedHex(newHex1, newLoc1);
         PlacedHex placedHex2 = new PlacedHex(newHex2, newLoc2);
@@ -1074,7 +1074,7 @@ public class BoardTest{
         placedHexes.add(placedHex2);
         board.placedHexes = this.placedHexes;
 
-        ArrayList<PlacedHex> allExpandableHexes = board.getAllExpandableAdjacentHexesToSettlement(settlement, Terrain.ROCKY);
+        ArrayList<PlacedHex> allExpandableHexes = board.getAllExpandableAdjacentHexesToSettlement(settlement, Terrain.ROCK);
         if (allExpandableHexes == null) {
             System.out.println("There are no expandable hexes");
         } else {
@@ -1106,7 +1106,7 @@ public class BoardTest{
         placedHexes.add(pHex2);
 
         Location loc3 = new Location(0,2);
-        Hex hex3 = new Hex("TileID1", Terrain.ROCKY);
+        Hex hex3 = new Hex("TileID1", Terrain.ROCK);
         hex3.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
         PlacedHex pHex3 = new PlacedHex(hex3, loc3);
         placedHexes.add(pHex3);
@@ -1134,7 +1134,7 @@ public class BoardTest{
 
 
         Location loc = new Location(0,0);
-        Hex hex = new Hex("TileID1", Terrain.ROCKY);
+        Hex hex = new Hex("TileID1", Terrain.ROCK);
         hex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
         PlacedHex pHex = new PlacedHex(hex, loc);
         placedHexes.add(pHex);
@@ -1177,7 +1177,7 @@ public class BoardTest{
 
 
         Location loc = new Location(0,0);
-        Hex hex = new Hex("TileID1", Terrain.ROCKY);
+        Hex hex = new Hex("TileID1", Terrain.ROCK);
         hex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
         PlacedHex pHex = new PlacedHex(hex, loc);
         placedHexes.add(pHex);
@@ -1225,7 +1225,7 @@ public class BoardTest{
         Player player = new Player(Color.BLACK, "1", PlayerType.SAFEAI);
 
         Location loc = new Location(0,0);
-        Hex hex = new Hex("TileID1", Terrain.ROCKY);
+        Hex hex = new Hex("TileID1", Terrain.ROCK);
         hex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
         PlacedHex pHex = new PlacedHex(hex, loc);
         placedHexes.add(pHex);
@@ -1273,7 +1273,7 @@ public class BoardTest{
             e.getMessage();
         }
 
-        Tile tile2 = new Tile(Terrain.GRASSLANDS, Terrain.LAKE);
+        Tile tile2 = new Tile(Terrain.GRASS, Terrain.LAKE);
         Location loc2 = new Location(3,3);
         int rotation2 = 0;
         try {
@@ -1295,7 +1295,7 @@ public class BoardTest{
             e.getMessage();
         }
 
-        Tile tile2 = new Tile(Terrain.GRASSLANDS, Terrain.LAKE);
+        Tile tile2 = new Tile(Terrain.GRASS, Terrain.LAKE);
         Location loc2 = new Location(1,-1);
         int rotation2 = 240;
         try {
@@ -1326,7 +1326,7 @@ public class BoardTest{
             e.getMessage();
         }
 
-        Tile tile2 = new Tile(Terrain.GRASSLANDS, Terrain.LAKE);
+        Tile tile2 = new Tile(Terrain.GRASS, Terrain.LAKE);
         Location loc2 = new Location(1,-1);
         int rotation2 = 240;
         try {
@@ -1358,7 +1358,7 @@ public class BoardTest{
         }
         board.updateSettlements();
 
-        Tile tile2 = new Tile(Terrain.GRASSLANDS, Terrain.LAKE);
+        Tile tile2 = new Tile(Terrain.GRASS, Terrain.LAKE);
         Location loc2 = new Location(1,-1);
         int rotation2 = 240;
         try {

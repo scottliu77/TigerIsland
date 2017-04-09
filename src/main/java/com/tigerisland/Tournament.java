@@ -67,14 +67,17 @@ public class Tournament {
         Message authMessage = new Message("I AM " + globalSettings.getServerSettings().username + " " + globalSettings.getServerSettings().password);
 
         globalSettings.outboundQueue.add(enterMessage);
+
         globalSettings.outboundQueue.add(authMessage);
+
+        System.out.println("TIGERISLAND: Waiting for PlayerID...");
 
         while(true) {
             if(playerIDreceived()) {
                 break;
             }
             try {
-                sleep(5);
+                sleep(50);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

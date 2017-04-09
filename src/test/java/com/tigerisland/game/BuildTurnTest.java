@@ -19,9 +19,9 @@ public class BuildTurnTest {
 
     @Before
     public void createDefaultMoves() {
-        this.tile = new Tile(Terrain.LAKE, Terrain.GRASSLANDS);
+        this.tile = new Tile(Terrain.LAKE, Terrain.GRASS);
         this.location = new Location(0, 1);
-        this.settlementTerrain = Terrain.GRASSLANDS;
+        this.settlementTerrain = Terrain.GRASS;
 
         this.player = new Player(Color.ORANGE, "1", PlayerType.SAFEAI);
 
@@ -29,7 +29,7 @@ public class BuildTurnTest {
 
         this.tilePlacement = new TilePlacement(tile, location, rotation);
         this.villageCreationBuildAction = new BuildAction(player, location, BuildActionType.VILLAGECREATION);
-        this.villageExpansionBuildAction = new BuildAction(player, location, Terrain.GRASSLANDS);
+        this.villageExpansionBuildAction = new BuildAction(player, location, Terrain.GRASS);
     }
 
     @Test

@@ -1,8 +1,5 @@
 package com.tigerisland.game;
 
-import com.tigerisland.game.Location;
-import com.tigerisland.game.PlacedHex;
-import com.tigerisland.game.Settlement;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -44,10 +41,10 @@ public class SettlementTest {
     }
 
     private void createHexes() {
-        this.hex1 = new Hex("hex1", Terrain.GRASSLANDS);
+        this.hex1 = new Hex("hex1", Terrain.GRASS);
         this.hex2 = new Hex("hex2", Terrain.JUNGLE);
         this.hex3 = new Hex("hex3", Terrain.LAKE);
-        this.hex4 = new Hex("hex4", Terrain.ROCKY);
+        this.hex4 = new Hex("hex4", Terrain.ROCK);
     }
 
     private void createLocations() {
@@ -101,9 +98,9 @@ public class SettlementTest {
 
     @Test
     public void testSizeOfSettlementOnBorderOfAnotherSettlement(){
-        Hex hex5 = new Hex("hex5", Terrain.ROCKY);
+        Hex hex5 = new Hex("hex5", Terrain.ROCK);
         Hex hex6 = new Hex("hex6", Terrain.LAKE);
-        Hex hex7 = new Hex("hex7", Terrain.GRASSLANDS);
+        Hex hex7 = new Hex("hex7", Terrain.GRASS);
 
         Location loc5 = new Location(2, 1);
         Location loc6 = new Location(2, 2);

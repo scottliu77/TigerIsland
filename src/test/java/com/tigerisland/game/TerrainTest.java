@@ -10,7 +10,7 @@ public class TerrainTest {
 
     @Before
     public void createTerrainType() {
-        this.terrainType = Terrain.GRASSLANDS;
+        this.terrainType = Terrain.GRASS;
     }
 
     @Test
@@ -20,6 +20,6 @@ public class TerrainTest {
 
     @Test
     public void testCanGetTerrainString() {
-        assertTrue(terrainType.getTerrainString() == "Grasslands");
+        assertTrue(terrainType.getTerrainString() == "Grass");
     }
 }
