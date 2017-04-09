@@ -1,7 +1,6 @@
 package com.tigerisland.game;
 
 import com.tigerisland.InvalidMoveException;
-import com.tigerisland.game.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,11 +16,11 @@ public class TextGUITest {
             Location loc1 = new Location(0,0);
             board.placeTile(tile1, loc1, 60);
 
-            Tile tile2 = new Tile(Terrain.ROCKY,Terrain.ROCKY);
+            Tile tile2 = new Tile(Terrain.ROCK,Terrain.ROCK);
             Location loc2 = new Location(-1,0);
             board.placeTile(tile2, loc2, 240);
 
-            Tile tile3 = new Tile(Terrain.GRASSLANDS,Terrain.GRASSLANDS);
+            Tile tile3 = new Tile(Terrain.GRASS,Terrain.GRASS);
             Location loc3 = new Location(1,0);
             board.placeTile(tile3, loc3, 240);
 
@@ -41,11 +40,11 @@ public class TextGUITest {
             Location loc7 = new Location(0,0);
             board.placeTile(tile7, loc7, 300);
 
-            Tile tile8 = new Tile(Terrain.ROCKY,Terrain.ROCKY);
+            Tile tile8 = new Tile(Terrain.ROCK,Terrain.ROCK);
             Location loc8 = new Location(0,-2);
             board.placeTile(tile8, loc8, 60);
 
-            Tile tile9 = new Tile(Terrain.ROCKY,Terrain.ROCKY);
+            Tile tile9 = new Tile(Terrain.ROCK,Terrain.ROCK);
             Location loc9 = new Location(1,-2);
             board.placeTile(tile9, loc9, 300);
 

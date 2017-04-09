@@ -46,7 +46,7 @@ public class GameTest {
     }
 
     private void placeDummyTilePlacementAndBuildInQueue() {
-        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCKY+GRASSLANDS AT 0 0 0 1 FOUND SETTLEMENT AT -1 -1 0"));
+        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCK+GRASS AT 0 0 0 1 FOUND SETTLEMENT AT -1 -1 0"));
     }
 
     @Test

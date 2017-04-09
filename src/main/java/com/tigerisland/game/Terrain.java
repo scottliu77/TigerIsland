@@ -3,10 +3,10 @@ package com.tigerisland.game;
 public enum Terrain {
 
     VOLCANO("Volcano"),
-    GRASSLANDS("Grasslands"),
+    GRASS("Grass"),
     JUNGLE("Jungle"),
     LAKE("Lake"),
-    ROCKY("Rocky");
+    ROCK("Rock");
 
     private String terrain;
 

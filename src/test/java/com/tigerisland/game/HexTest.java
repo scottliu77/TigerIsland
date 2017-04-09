@@ -26,7 +26,7 @@ public class HexTest {
 
     @Test
     public void testCanCreateHexUsingIDTerrainAndHeight() {
-        Hex triParameterHex = new Hex("dummyID", Terrain.GRASSLANDS, 0);
+        Hex triParameterHex = new Hex("dummyID", Terrain.GRASS, 0);
         assertTrue(triParameterHex != null);
     }
 
@@ -80,7 +80,7 @@ public class HexTest {
 
     @Test
     public void testCanTellIfHexIsNotVolcano() {
-        this.hex = new Hex("dummyID", Terrain.ROCKY);
+        this.hex = new Hex("dummyID", Terrain.ROCK);
         assertTrue(hex.isNotVolcano());
     }
 

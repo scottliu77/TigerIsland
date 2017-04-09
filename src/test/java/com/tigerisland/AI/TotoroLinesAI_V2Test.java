@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class TotoroLinesAITest {
+public class TotoroLinesAI_V2Test {
 
     private Turn turnState;
     private AI myAI;
@@ -24,7 +24,7 @@ public class TotoroLinesAITest {
         turnState = new Turn(gameSettings, board);
         turnState.updateTurnInformation("1", new Tile(Terrain.GRASS, Terrain.JUNGLE), "1");
 
-        myAI = new TotoroLinesAI();
+        myAI = new TotoroLinesAI_V2();
         hasPlacedTotoro = false;
     }
 
@@ -46,27 +46,27 @@ public class TotoroLinesAITest {
         assert(hasPlacedTotoro);
     }
 
-//    public void decideOnMoveAndTakeTurn() throws InvalidMoveException{
-//        myAI.pickTilePlacementAndBuildAction(turnState);
-//
-//        TilePlacement tp = myAI.turnState.getTilePlacement();
-//        turnState.getBoard().placeTile(tp.getTile(), tp.getLocation(), tp.getRotation());
-//
-//        BuildActionType bat = myAI.buildActionType;
-//        if(bat == BuildActionType.VILLAGECREATION) {
-//            board.createVillage(myAI, myAI.returnBuildLocation());
-//            board.updateSettlements();
-//        }
-//        else if(bat == BuildActionType.VILLAGEEXPANSION){
-//            board.expandVillage(myAI, myAI.returnExpansionLocation(), Terrain.LAKE);
-//        }
-//        else if(bat == BuildActionType.TOTOROPLACEMENT) {
-//            board.placeTotoro(myAI, myAI.returnBuildLocation());
-//            hasPlacedTotoro = true;
-//        }
-//        else if(bat == BuildActionType.TIGERPLACEMENT)
-//            board.placeTiger(myAI, myAI.returnBuildLocation());
-//        else
-//            assert(false);
-//    }
+    /*public void decideOnMoveAndTakeTurn() throws InvalidMoveException{
+        myAI.pickTilePlacementAndBuildAction(turnState);
+
+        TilePlacement tp = myAI.turnState.getTilePlacement();
+        turnState.getBoard().placeTile(tp.getTile(), tp.getLocation(), tp.getRotation());
+
+        BuildActionType bat = myAI.buildActionType;
+        if(bat == BuildActionType.VILLAGECREATION) {
+            board.createVillage(myAI, myAI.returnBuildLocation());
+            board.updateSettlements();
+        }
+        else if(bat == BuildActionType.VILLAGEEXPANSION){
+            board.expandVillage(myAI, myAI.returnExpansionLocation(), Terrain.LAKE);
+        }
+        else if(bat == BuildActionType.TOTOROPLACEMENT) {
+            board.placeTotoro(myAI, myAI.returnBuildLocation());
+            hasPlacedTotoro = true;
+        }
+        else if(bat == BuildActionType.TIGERPLACEMENT)
+            board.placeTiger(myAI, myAI.returnBuildLocation());
+        else
+            assert(false);
+    }*/
 }

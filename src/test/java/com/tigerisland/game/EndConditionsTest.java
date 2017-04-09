@@ -5,7 +5,6 @@ import com.tigerisland.InvalidMoveException;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import static org.junit.Assert.assertTrue;
@@ -31,9 +30,9 @@ public class EndConditionsTest {
     @Before
     public void createBasicMocks() throws InvalidMoveException {
         this.board = new Board();
-        this.tile = new Tile(Terrain.GRASSLANDS, Terrain.JUNGLE);
-        this.tile2 = new Tile(Terrain.LAKE, Terrain.ROCKY);
-        this.tile3 = new Tile(Terrain.LAKE, Terrain.GRASSLANDS);
+        this.tile = new Tile(Terrain.GRASS, Terrain.JUNGLE);
+        this.tile2 = new Tile(Terrain.LAKE, Terrain.ROCK);
+        this.tile3 = new Tile(Terrain.LAKE, Terrain.GRASS);
         this.location = new Location(0,0);
         this.location2 = new Location(-1, 0);
         this.location3 = new Location(-2, 0);

@@ -1,7 +1,5 @@
 package com.tigerisland.game;
 
-import com.tigerisland.game.Terrain;
-import com.tigerisland.game.Tile;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -12,7 +10,7 @@ public class TileTest {
 
     @Before
     public void createTile() {
-        this.tile = new Tile(Terrain.JUNGLE, Terrain.ROCKY);
+        this.tile = new Tile(Terrain.JUNGLE, Terrain.ROCK);
     }
 
     @Test

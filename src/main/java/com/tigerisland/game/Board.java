@@ -25,8 +25,8 @@ public class Board{
             placeHex(new Hex(startID, Terrain.VOLCANO), new Location(0, 0));
             placeHex(new Hex(startID, Terrain.JUNGLE), new Location(-1, 1));
             placeHex(new Hex(startID, Terrain.LAKE), new Location(0, 1));
-            placeHex(new Hex(startID, Terrain.GRASSLANDS), new Location(1, -1));
-            placeHex(new Hex(startID, Terrain.ROCKY), new Location(0, -1));
+            placeHex(new Hex(startID, Terrain.GRASS), new Location(1, -1));
+            placeHex(new Hex(startID, Terrain.ROCK), new Location(0, -1));
         }
         catch (InvalidMoveException e){
             System.out.println("This statement should literally never be printed");

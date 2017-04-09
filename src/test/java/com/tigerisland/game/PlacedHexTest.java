@@ -1,9 +1,5 @@
 package com.tigerisland.game;
 
-import com.tigerisland.game.Hex;
-import com.tigerisland.game.Location;
-import com.tigerisland.game.PlacedHex;
-import com.tigerisland.game.Terrain;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,7 +13,7 @@ public class PlacedHexTest {
 
     @Before
     public void createPlacedHex() {
-        this.hex = new Hex("dummyID", Terrain.GRASSLANDS);
+        this.hex = new Hex("dummyID", Terrain.GRASS);
         this.location = new Location(1, 1);
         this.placedHex = new PlacedHex(hex, location);
     }

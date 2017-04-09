@@ -18,7 +18,7 @@ public class AdpaterTest {
     @Before
     public void createBoard() {
         board = new Board();
-        dummyTile = new Tile(Terrain.GRASSLANDS, Terrain.JUNGLE);
+        dummyTile = new Tile(Terrain.GRASS, Terrain.JUNGLE);
         dummyLocation = new Location(0, 0);
     }
 
