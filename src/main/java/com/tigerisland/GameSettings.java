@@ -7,10 +7,8 @@ import com.tigerisland.game.PlayerType;
 
 public class GameSettings {
 
-    // TODO Change before tournament
-
     private final PlayerType BEST_AI_TYPE = PlayerType.TOTOROLINESAI_V2;
-    private final PlayerType TEST_AGAINST_TYPE = PlayerType.TOTOROLINESAI;
+    private final PlayerType TEST_AGAINST_TYPE = PlayerType.JACKSAI;
 
 
     private GlobalSettings globalSettings;

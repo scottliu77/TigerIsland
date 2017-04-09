@@ -88,6 +88,7 @@ public class Tournament {
         for(Message message : globalSettings.inboundQueue) {
             if(message.getMessageType() == MessageType.PLAYERID) {
                 globalSettings.getServerSettings().setPlayerID(message.getOurPlayerID());
+                System.out.println("Player ID: " + message.getOurPlayerID());
                 message.setProcessed();
                 return true;
             }
@@ -148,6 +149,7 @@ public class Tournament {
     private Boolean matchStarted() {
         for(Message message : globalSettings.inboundQueue) {
             if(message.getMessageType() == MessageType.MATCHSTARTED) {
+                System.out.println("Opponent ID: " + message.getOpponentID());
                 globalSettings.getServerSettings().setOpponentID(message.getOpponentID());
                 message.setProcessed();
                 return true;

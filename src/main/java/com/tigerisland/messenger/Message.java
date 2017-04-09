@@ -43,8 +43,8 @@ public class Message {
     private String ourPlayerID;
     private String opponentID;
 
-    private Integer ourPlayerScore;
-    private Integer opponentScore;
+    private String ourPlayerScore;
+    private String opponentScore;
 
     private MessageType messageType;
     private BuildActionType buildActionType;
@@ -356,10 +356,10 @@ public class Message {
             gameID = match.split("\\s+")[1];
 
             ourPlayerID = match.split("\\s+")[4];
-            ourPlayerScore = Integer.valueOf(match.split("\\s+")[5]);
+            ourPlayerScore = match.split("\\s+")[5];
 
             opponentID = match.split("\\s+")[7];
-            opponentScore = Integer.valueOf(match.split("\\s+")[8]);
+            opponentScore = match.split("\\s+")[8];
 
             messageType = MessageType.GAMEOVER;
         }
@@ -489,11 +489,11 @@ public class Message {
         return opponentID;
     }
 
-    public Integer getOurPlayerScore() {
+    public String getOurPlayerScore() {
         return ourPlayerScore;
     }
 
-    public Integer getOpponentScore() {
+    public String getOpponentScore() {
         return opponentScore;
     }
 
