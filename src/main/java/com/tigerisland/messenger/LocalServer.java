@@ -214,6 +214,7 @@ public class LocalServer implements Runnable {
         }
 
         private Boolean endMessageFound() {
+
             for (Message message : messagesReceived) {
                 if (message.getMessageType().getSubtype().equals(MessageType.GAMEOVER.getSubtype())) {
                     messagesReceived.remove(message);
