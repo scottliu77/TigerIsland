@@ -72,8 +72,7 @@ public class LocalServer implements Runnable {
         private PrintWriter writer;
         private String message;
 
-        private int moveID;
-        private Deck deck;
+        private String matchOpponent = "10";
 
         Messenger(Socket socket, GlobalSettings globalSettings) {
             this.dummySocket = socket;
@@ -177,7 +176,9 @@ public class LocalServer implements Runnable {
 
         private void sendNewRound() {
 
-            writer.println("NEW MATCH BEGINNING NOW YOUR OPPONENT IS PLAYER 13");
+            matchOpponent = String.valueOf(Integer.parseInt(matchOpponent)+ 1);
+
+            writer.println("NEW MATCH BEGINNING NOW YOUR OPPONENT IS PLAYER " + matchOpponent);
 
             waitForGamesToEnd();
         }

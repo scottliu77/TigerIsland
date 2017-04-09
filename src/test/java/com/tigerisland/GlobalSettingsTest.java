@@ -29,7 +29,7 @@ public class GlobalSettingsTest {
     public void testCanCreateSettingsWithFullConstructor() {
         try {
             GlobalSettings globalSettings = new GlobalSettings(ServerSettings.defaultOffline, GlobalSettings.defaultTurnTime, ServerSettings.defaultIPaddress,
-                    ServerSettings.defaultPort, ServerSettings.defaultTournamentPassword, ServerSettings.defaultUsername, ServerSettings.defaultPassword, false, parser);
+                    ServerSettings.defaultPort, ServerSettings.defaultTournamentPassword, ServerSettings.defaultUsername, ServerSettings.defaultPassword, false, false, parser);
         } catch (ArgumentParserException e) {
             e.printStackTrace();
         }

@@ -1,5 +1,6 @@
 package com.tigerisland;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.impl.Arguments;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
@@ -44,6 +45,9 @@ public class TigerIsland {
         parser.addArgument("-m", "--manual").type(Arguments.booleanType())
                 .setDefault(false)
                 .help("Run the system with Player 1 as a human user");
+        parser.addArgument("-d", "--dummyFeed").type(Arguments.booleanType())
+                .setDefault(false)
+                .help("Run with dummy values in the inbound feed");
 
         parsedArguments = parser.parseArgs(args);
 
@@ -55,9 +59,10 @@ public class TigerIsland {
         String username = parsedArguments.get("username");
         String password = parsedArguments.get("password");
         Boolean manualTesting = parsedArguments.get("manual");
+        Boolean dummyFeed = parsedArguments.get("dummyFeed");
 
         try {
-            this.globalSettings = new GlobalSettings(offline, turnTime, ipaddress, port, tournamentPassword, username, password, manualTesting, parser);
+            this.globalSettings = new GlobalSettings(offline, turnTime, ipaddress, port, tournamentPassword, username, password, manualTesting, dummyFeed, parser);
         } catch (ArgumentParserException exception) {
             throw exception;
         }

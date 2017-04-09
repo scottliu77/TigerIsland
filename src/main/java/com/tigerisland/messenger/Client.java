@@ -15,7 +15,7 @@ import static java.lang.Thread.sleep;
 
 public class Client implements Runnable {
 
-    private Boolean testing;
+    private Boolean dummyFeed;
 
     private String addr;
     private int port;
@@ -29,7 +29,7 @@ public class Client implements Runnable {
     final boolean offline;
 
     public Client(GlobalSettings globalSettings) {
-        this.testing = globalSettings.manualTesting;
+        this.dummyFeed = globalSettings.dummyFeed;
 
         this.addr = globalSettings.getServerSettings().IPaddress;
         this.port = globalSettings.getServerSettings().port;
@@ -40,6 +40,36 @@ public class Client implements Runnable {
     }
 
     public void run() {
+        if (dummyFeed) {
+            runWithDummyFeed();
+        } else {
+            runWithClient();
+        }
+    }
+
+    private void runWithDummyFeed() {
+        while(true) {
+
+            if(outboundQueue.size() > 0) {
+                String message = null;
+                try {
+                    message = outboundQueue.take().message;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("CLIENT: " + message);
+            } else {
+                for(Message message : inboundQueue) {
+                    if(message.getMessageType() == MessageType.PROCESSED || message.getMessageType() == null) {
+                        System.out.println("SERVER: " + message.message);
+                        inboundQueue.remove(message);
+                    }
+                }
+            }
+        }
+    }
+
+    private void runWithClient() {
         try {
             socket = new Socket(addr, port);
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));

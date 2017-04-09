@@ -16,7 +16,6 @@ public class Match {
     protected HashMap<String, Game> games;
     protected HashMap<String, Thread> gameThreads;
 
-
     Match(GlobalSettings globalSettings) {
         this.globalSettings = globalSettings;
         this.games = new HashMap<String, Game>();

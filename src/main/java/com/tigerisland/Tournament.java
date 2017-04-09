@@ -98,6 +98,7 @@ public class Tournament {
             if(checkMessages(MessageType.CHALLENGESTARTED)) {
                 runRoundProtocol();
             }
+
             try {
                 sleep(5);
             } catch (InterruptedException e) {
@@ -107,11 +108,11 @@ public class Tournament {
     }
 
     private void runRoundProtocol() {
-
         while(checkMessages(MessageType.LASTROUNDOVER)== false) {
             if(checkMessages(MessageType.ROUNDSTARTED)) {
                 runMatchProtocol();
             }
+
             try {
                 sleep(5);
             } catch (InterruptedException e) {
@@ -127,6 +128,7 @@ public class Tournament {
                 match.run();
                 return;
             }
+
             try {
                 sleep(5);
             } catch (InterruptedException e) {

@@ -132,12 +132,14 @@ public class Game implements Runnable {
 
     protected void checkForHaveAIPickAMove() throws InterruptedException {
         for(Message message : gameSettings.getGlobalSettings().inboundQueue) {
-            if(message.getGameID().equals(gameID)) {
-                if(message.getMessageType() == MessageType.MAKEMOVE) {
-                    message.setProcessed();
-                    gameSettings.resetGameID(message.getGameID());
-                    gameSettings.getPlayerSet().setCurrentPlayer(ourPlayerID);
-                    pickMove(message);
+            if(message.getGameID() != null && message.getMessageType() != null) {
+                if (message.getGameID().equals(gameID)) {
+                    if (message.getMessageType() == MessageType.MAKEMOVE) {
+                        message.setProcessed();
+                        gameSettings.resetGameID(message.getGameID());
+                        gameSettings.getPlayerSet().setCurrentPlayer(ourPlayerID);
+                        pickMove(message);
+                    }
                 }
             }
         }
@@ -150,12 +152,14 @@ public class Game implements Runnable {
 
     protected Boolean checkForMoveToProcess() throws InvalidMoveException, InterruptedException {
         for(Message message : gameSettings.getGlobalSettings().inboundQueue) {
-            if(message.getGameID().equals(gameID)) {
-                if(message.getMoveID().equals(moveID)) {
-                    if(message.getMessageType().getSubtype().equals("BUILDACTION")) {
-                        gameSettings.resetGameID(message.getGameID());
-                        sendMockServerMessage(message);
-                        return processMove(message);
+            if(message.getGameID() != null && message.getMoveID() != null && message.getMessageType() != null) {
+                if (message.getGameID().equals(gameID)) {
+                    if (message.getMoveID().equals(moveID)) {
+                        if (message.getMessageType().getSubtype().equals("BUILDACTION")) {
+                            gameSettings.resetGameID(message.getGameID());
+                            sendMockServerMessage(message);
+                            return processMove(message);
+                        }
                     }
                 }
             }
@@ -190,9 +194,11 @@ public class Game implements Runnable {
 
     protected Boolean gameOver() {
         for(Message message : gameSettings.getGlobalSettings().inboundQueue) {
-            if(message.getMessageType().getSubtype().equals(MessageType.GAMEOVER.getSubtype())) {
-                message.setProcessed();
-                return true;
+            if(message.getMessageType() != null) {
+                if(message.getMessageType().getSubtype().equals(MessageType.GAMEOVER.getSubtype())) {
+                    message.setProcessed();
+                    return true;
+                }
             }
         }
 

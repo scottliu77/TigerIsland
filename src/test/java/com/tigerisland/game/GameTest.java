@@ -82,22 +82,4 @@ public class GameTest {
         Thread gameThread = new Thread(game);
         gameThread.run();
     }
-
-    @Ignore("Ignoring test can run mock online game") @Test
-    public void testCanRunMockOnlineGame() {
-        GlobalSettings mockSettings = configureGlobalSettingsForMockGame();
-        Game mockOnlineGame = new Game(new GameSettings(mockSettings));
-        Thread gameThread = new Thread(mockOnlineGame);
-        gameThread.run();
-    }
-
-    private GlobalSettings configureGlobalSettingsForMockGame() {
-        TigerIsland tigerIsland = new TigerIsland();
-        try {
-            tigerIsland.parseArguments(tournamentSettings);
-        } catch (ArgumentParserException exception) {
-            assertTrue(false);
-        }
-        return tigerIsland.getGlobalSettings();
-    }
 }
