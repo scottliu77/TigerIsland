@@ -86,7 +86,7 @@ public class MoveTest {
     public void testCanPlaceTile() throws InvalidMoveException, InterruptedException {
         Board oldBoard = new Board(turn.getBoard());
 
-        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCKY+GRASSLANDS AT 0 -2 -2 2"));
+        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCKY+GRASSLANDS AT 0 -2 -2 2 FOUND SETTLEMENT AT 2 1 -3"));
         turn.processMove();
         turn = Move.placeTile(turn);
 
