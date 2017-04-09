@@ -98,6 +98,7 @@ public class TigerFormAI extends AI {
     private void startNewLine() {
 
         Location loco;
+        Location bella;
 
         plannedTileLocations = new ArrayList<Location>();
 
@@ -111,30 +112,40 @@ public class TigerFormAI extends AI {
         plannedSettlementLocations.add(new Location(xStart + 1, yStart));
         loco = convertLocationAxialToCube(plannedTileLocations.get(plannedTileLocations.size() - 1));
         System.out.println("tile2: " + loco.x + " " + loco.y + " " + loco.z);
+        bella = convertLocationAxialToCube(plannedSettlementLocations.get(plannedSettlementLocations.size()-  1));
+        System.out.println("                     intended Set: " + bella.x + " " + bella.y + " " + bella.z);
 
         plannedTileLocations.add(new Location(xStart + 2, yStart - 4));
         plannedTileRotations.add(0);
         plannedSettlementLocations.add(new Location(xStart + 3, yStart - 4));
         loco = convertLocationAxialToCube(plannedTileLocations.get(plannedTileLocations.size() - 1));
         System.out.println("tile3: " + loco.x + " " + loco.y + " " + loco.z);
+        bella = convertLocationAxialToCube(plannedSettlementLocations.get(plannedSettlementLocations.size()-  1));
+        System.out.println("                     intended Set: " + bella.x + " " + bella.y + " " + bella.z);
 
         plannedTileLocations.add(new Location(xStart, yStart));
         plannedTileRotations.add(300);
         plannedSettlementLocations.add(new Location(xStart + 1, yStart));
         loco = convertLocationAxialToCube(plannedTileLocations.get(plannedTileLocations.size() - 1));
-        System.out.println("tile3: " + loco.x + " " + loco.y + " " + loco.z);
+        System.out.println("tile4: " + loco.x + " " + loco.y + " " + loco.z);
+        bella = convertLocationAxialToCube(plannedSettlementLocations.get(plannedSettlementLocations.size()-  1));
+        System.out.println("                     intended Set: " + bella.x + " " + bella.y + " " + bella.z);
 
         plannedTileLocations.add(new Location(xStart + 1, yStart - 2));
         plannedTileRotations.add(300);
         plannedSettlementLocations.add(new Location(xStart + 1, yStart - 1));
         loco = convertLocationAxialToCube(plannedTileLocations.get(plannedTileLocations.size() - 1));
-        System.out.println("tile4: " + loco.x + " " + loco.y + " " + loco.z);
+        System.out.println("tile5: " + loco.x + " " + loco.y + " " + loco.z);
+        bella = convertLocationAxialToCube(plannedSettlementLocations.get(plannedSettlementLocations.size()-  1));
+        System.out.println("                     intended Set: " + bella.x + " " + bella.y + " " + bella.z);
 
         plannedTileLocations.add(new Location(xStart + 1, yStart - 2));
         plannedTileRotations.add(0);
         plannedSettlementLocations.add(new Location(xStart + 1, yStart - 1));
         loco = convertLocationAxialToCube(plannedTileLocations.get(plannedTileLocations.size() - 1));
-        System.out.println("tile5: " + loco.x + " " + loco.y + " " + loco.z);
+        System.out.println("tile6: " + loco.x + " " + loco.y + " " + loco.z);
+        bella = convertLocationAxialToCube(plannedSettlementLocations.get(plannedSettlementLocations.size()-  1));
+        System.out.println("                     intended Set: " + bella.x + " " + bella.y + " " + bella.z);
 
         tilePlacement = startTilePlacement;
         try {
@@ -239,6 +250,7 @@ public class TigerFormAI extends AI {
     private boolean lineIsInterrupted() {
 
         if (!isValidTilePlacement(plannedTileLocations.get(0), plannedTileRotations.get(0))){
+            System.out.println("bro methinks it's interrupted 1");
             return true;
         }
 
@@ -264,7 +276,6 @@ public class TigerFormAI extends AI {
         for (int i = 0; i < validTilePlacements.size(); i++){
             TilePlacement tp = validTilePlacements.get(i);
            if (tp.getLocation().x == x0 && tp.getLocation().y == y0 && tp.getRotation() == rotation){
-               System.out.println("bro methinks it's interrupted 1");
                 return true;
            }
         }
