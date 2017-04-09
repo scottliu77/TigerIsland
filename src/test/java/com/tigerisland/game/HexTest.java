@@ -90,4 +90,10 @@ public class HexTest {
         assertFalse(hex.isNotVolcano());
     }
 
+    @Test
+    public void testCanTellIfHexIsEmpty() {
+        this.hex = new Hex("dummyID", Terrain.LAKE);
+        assertTrue(hex.isEmpty());
+    }
+
 }

@@ -17,9 +17,5 @@ public enum Terrain {
     public String getTerrainString() {
         return terrain;
     }
-
-    public Character getTerrainChar() {
-        return terrain.charAt(0);
-    }
 }
 

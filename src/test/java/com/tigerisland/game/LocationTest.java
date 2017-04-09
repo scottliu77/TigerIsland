@@ -104,4 +104,18 @@ public class LocationTest {
     public void testThereShouldAlwaysBeSixAdjacentLocations() {
         assertTrue(location.getAdjacentLocations().size() == 6);
     }
+
+    @Test
+    public void testALocationIsEqualToAnotherLocation() {
+        Location loc1 = new Location(0,0);
+        Location loc2 = new Location(0,0);
+        assertTrue(loc1.equals(loc2));
+    }
+
+    @Test
+    public void testTwoLocationsAreNotEqual() {
+        Location loc1 = new Location(0,0);
+        Location loc2 = new Location (0,1);
+        assertFalse(loc1.equals(loc2));
+    }
 }

@@ -30,6 +30,8 @@ public class Player {
         else if(playerType == PlayerType.JACKSAI){
             playerAI = new JacksAI();
         }
+        else if(playerType == PlayerType.TIGERFORMAI)
+            playerAI = new TigerFormAI();
     }
 
     public Player(Player player){
