@@ -73,6 +73,8 @@ public class Message {
 
         checkForMatchOver();
         checkForLastRound();
+
+        checkForEndOfRound();
         checkForLastChallenge();
 
         checkStringForDetails();

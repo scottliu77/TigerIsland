@@ -50,8 +50,9 @@ public class Turn {
 
     public void processMove() throws InterruptedException, InvalidMoveException {
         while(true) {
+
             for(Message message : inboundMessages) {
-                if(message.getMessageType() != MessageType.PROCESSED) {
+                if(messageIsSafeToUse(message)) {
                     if(message.getGameID().equals(gameID)) {
                         if(message.getMoveID().equals(moveID)) {
                             parseTilePlacement(message);
@@ -65,6 +66,18 @@ public class Turn {
             }
             sleep(5);
         }
+    }
+
+    private Boolean messageIsSafeToUse(Message message) {
+        Boolean safe = false;
+        if(message.getMessageType() != MessageType.PROCESSED && message.getMessageType() != null) {
+            if(message.getGameID() != null) {
+                if(message.getMoveID() != null) {
+                    safe = true;
+                }
+            }
+        }
+        return safe;
     }
 
     private void parseTilePlacement(Message message) throws InvalidMoveException {

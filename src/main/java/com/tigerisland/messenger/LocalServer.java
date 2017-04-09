@@ -103,7 +103,7 @@ public class LocalServer implements Runnable {
                            messagesReceived.put(new Message(message));
                            checkForNewEntry();
                            checkForAuthentication();
-
+                           writer.println("THANK YOU FOR PLAYING! GOODBYE");
                        } catch (InterruptedException e) {
                            e.printStackTrace();
                        }
@@ -163,13 +163,13 @@ public class LocalServer implements Runnable {
 
             for(int round = 1; round <= LOCAL_ROUNDS; round++) {
 
-                writer.println("BEGIN ROUND " + (round) + " OF " + LOCAL_ROUNDS);
+                writer.println("BEGIN ROUND " + round + " OF " + LOCAL_ROUNDS);
                 sendNewRound();
 
                 if(round < LOCAL_ROUNDS) {
-                    writer.println("END OF ROUND " + (round) + " OF " + LOCAL_ROUNDS + " WAIT FOR NEXT MATCH");
+                    writer.println("END OF ROUND " + round + " OF " + LOCAL_ROUNDS + " WAIT FOR NEXT MATCH");
                 } else {
-                    writer.println("END OF ROUND " + (round + 1) + " OF " + LOCAL_ROUNDS);
+                    writer.println("END OF ROUND " + round + " OF " + LOCAL_ROUNDS);
                 }
             }
         }

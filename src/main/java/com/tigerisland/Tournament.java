@@ -126,7 +126,6 @@ public class Tournament {
             if(matchStarted()) {
                 match = new Match(globalSettings);
                 match.run();
-                return;
             }
 
             try {
