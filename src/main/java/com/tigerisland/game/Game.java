@@ -44,27 +44,20 @@ public class Game implements Runnable {
             }
 
             calculateResults();
-            offlineGenerateGameOverEcho("GAME " + gameID + " OVER PLAYER " + winner.getPlayerID() + " " + winner.getScore().getScoreValue() + " PLAYER " + loser.getPlayerID() + " " + loser.getScore().getScoreValue());
-
-        } catch (InterruptedException exception) {
-            offlineGenerateGameOverEcho("GAME " + gameID + " MOVE " + turnState.getMoveID() + " PLAYER " + turnState.getCurrentPlayer().getPlayerID() + " FORFEITED: TIMEOUT");
-            calculateResults();
-            System.out.println("GAME " + gameID + " OVER PLAYER " + winner.getPlayerID() + " " + winner.getScore().getScoreValue() + " PLAYER " + loser.getPlayerID() + " " + loser.getScore().getScoreValue());
 
         } catch (InvalidMoveException exception) {
             if(!exception.getMessage().equals("LOST: UNABLE TO BUILD")) {
-                offlineGenerateGameOverEcho("GAME " + gameID + " MOVE " + turnState.getMoveID() + " PLAYER " + turnState.getCurrentPlayer().getPlayerID() + " " + exception.getMessage());
+                gameSettings.getGlobalSettings().outboundQueue.add(new Message("GAME " + gameID + " MOVE " + turnState.getMoveID() + " PLAYER " + turnState.getCurrentPlayer().getPlayerID() + " " + exception.getMessage()));
             }
             calculateResults();
-            System.out.println("GAME " + gameID + " OVER PLAYER " + winner.getPlayerID() + " " + winner.getScore().getScoreValue() + " PLAYER " + loser.getPlayerID() + " " + loser.getScore().getScoreValue());
 
-        } catch (IndexOutOfBoundsException exception) {
-            // Catch out of tile case
-            calculateResults();
-            offlineGenerateGameOverEcho("GAME " + gameID + " OVER PLAYER " + winner.getPlayerID() + " " + winner.getScore().getScoreValue() + " PLAYER " + loser.getPlayerID() + " " + loser.getScore().getScoreValue());
         } catch (Exception exception) {
-            exception.printStackTrace();
+            calculateResults();
         }
+
+        offlineGenerateGameOverEcho("GAME " + gameID + " OVER PLAYER " + winner.getPlayerID() + " WIN PLAYER " + loser.getPlayerID() + " FORFEITED");
+        //offlineGenerateGameOverEcho("GAME " + gameID + " OVER PLAYER " + winner.getPlayerID() + " " + winner.getScore().getScoreValue() + " PLAYER " + loser.getPlayerID() + " " + loser.getScore().getScoreValue());
+
     }
 
     private void calculateResults() {
@@ -132,6 +125,7 @@ public class Game implements Runnable {
     }
 
     protected void checkForHaveAIPickAMove() throws InterruptedException, InvalidMoveException {
+
         for(Message message : gameSettings.getGlobalSettings().inboundQueue) {
             if(message.getGameID() != null && message.getMessageType() != null) {
                 if (message.getGameID().equals(gameID)) {
@@ -147,6 +141,7 @@ public class Game implements Runnable {
     }
 
     private void pickMove(Message message) throws InvalidMoveException {
+
         turnState.updateTurnInformation(message.getMoveID(), message.getTile(), ourPlayerID);
 
         if(EndConditions.noValidMoves(turnState.getCurrentPlayer(), turnState.getBoard())) {
@@ -157,6 +152,7 @@ public class Game implements Runnable {
     }
 
     protected Boolean checkForMoveToProcess() throws InvalidMoveException, InterruptedException {
+
         for(Message message : gameSettings.getGlobalSettings().inboundQueue) {
             if(message.getGameID() != null && message.getMoveID() != null && message.getMessageType() != null) {
                 if (message.getGameID().equals(gameID)) {

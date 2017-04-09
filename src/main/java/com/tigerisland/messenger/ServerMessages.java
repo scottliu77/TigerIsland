@@ -17,7 +17,7 @@ public final class ServerMessages {
     public static final Pattern roundEndPattern = Pattern.compile("END OF ROUND \\d+ OF \\d+");
 
     public static final Pattern matchStartPattern = Pattern.compile("NEW MATCH BEGINNING NOW YOUR OPPONENT IS PLAYER \\w+");
-    public static final Pattern gameOverPattern = Pattern.compile("GAME \\w+ OVER PLAYER \\w+ \\d+ PLAYER \\w+ \\d+");
+    public static final Pattern gameOverPattern = Pattern.compile("GAME \\w+ OVER PLAYER \\w+ \\w+ PLAYER \\w+ \\w+");
 
     public static final Pattern makeMovePattern = Pattern.compile("MAKE YOUR MOVE IN GAME \\w+ WITHIN \\d+(.\\d+)? SECOND(S)?: MOVE \\w+ PLACE \\w+[\\+ ]?\\w+");
     public static final Pattern tournamentEndPattern = Pattern.compile("THANK YOU FOR PLAYING! GOODBYE");

@@ -174,13 +174,13 @@ public class MessageTest {
     public void testCanGetOpponentIDandScore() {
         // TODO Fix bad default first player is always 'our player' second is always 'opponent'
         Message message = new Message("GAME A OVER PLAYER 7 25 PLAYER 13 100");
-        assertTrue(message.getOurPlayerID().equals("7") && message.getOurPlayerScore() == 25);
+        assertTrue(message.getOurPlayerID().equals("7") && message.getOurPlayerScore().equals("25"));
     }
 
     @Test
     public void testCanGetPlayerIDandScore() {
         Message message = new Message("GAME A OVER PLAYER 7 25 PLAYER 13 100");
-        assertTrue(message.getOpponentID().equals("13") && message.getOpponentScore() == 100);
+        assertTrue(message.getOpponentID().equals("13") && message.getOpponentScore().equals("100"));
     }
 
     @Test

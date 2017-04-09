@@ -7,10 +7,12 @@ import com.tigerisland.game.PlayerType;
 
 public class GameSettings {
 
+
     // TODO Change before tournament
 
     private final PlayerType BEST_AI_TYPE = PlayerType.RANDOMAI;
     private final PlayerType TEST_AGAINST_TYPE = PlayerType.RANDOMAI;
+
 
 
     private GlobalSettings globalSettings;
