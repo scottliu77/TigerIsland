@@ -94,8 +94,9 @@ public class Tournament {
 
     private void runChallengeProtocol() {
 
-        while(checkMessages(MessageType.LASTCHALLENGEOVER) == false) {
+        while(checkMessages(MessageType.TOURNAMENTEND) == false) {
             if(checkMessages(MessageType.CHALLENGESTARTED)) {
+                System.out.println("TIGERISLAND: Starting new challenge");
                 runRoundProtocol();
             }
 
@@ -105,11 +106,13 @@ public class Tournament {
                 e.printStackTrace();
             }
         }
+        System.out.println("TIGERISLAND: Last challenge complete");
     }
 
     private void runRoundProtocol() {
-        while(checkMessages(MessageType.LASTROUNDOVER)== false) {
+        while(checkMessages(MessageType.ENDOFCHALLENGE) == false && checkMessages(MessageType.LASTCHALLENGEOVER) == false) {
             if(checkMessages(MessageType.ROUNDSTARTED)) {
+                System.out.println("TIGERISLAND: Starting new round");
                 runMatchProtocol();
             }
 
@@ -119,11 +122,13 @@ public class Tournament {
                 e.printStackTrace();
             }
         }
+        System.out.println("TIGERISLAND: Challenge over");
     }
 
     private void runMatchProtocol() {
-        while(checkMessages(MessageType.ROUNDENDED)== false) {
+        while(checkMessages(MessageType.ROUNDENDED)== false && checkMessages(MessageType.LASTROUNDOVER)== false) {
             if(matchStarted()) {
+                System.out.println("TIGERISLAND: Starting new match");
                 match = new Match(globalSettings);
                 match.run();
             }
@@ -134,6 +139,7 @@ public class Tournament {
                 e.printStackTrace();
             }
         }
+        System.out.println("TIGERISLAND: Round over");
     }
 
     private Boolean matchStarted() {

@@ -9,6 +9,7 @@ public enum  MessageType {
     PLAYERID("CONNECT"),
 
     CHALLENGESTARTED("CHALLENGE"),
+    ENDOFCHALLENGE("CHALLENGE"),
     LASTCHALLENGEOVER("CHALLENGE"),
 
     ROUNDSTARTED("ROUND"),
@@ -32,7 +33,9 @@ public enum  MessageType {
     BUILDTIGER("BUILDACTION"),
 
     PROCESSED("STATUS"),
-    UNASSIGNED("STATUS");
+    UNASSIGNED("STATUS"),
+
+    TOURNAMENTEND("CONNECT");
 
     private String subtype;
 

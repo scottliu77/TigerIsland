@@ -72,15 +72,15 @@ public class Message {
         checkForMakeMove();
 
         checkForMatchOver();
-        checkForLastRound();
 
         checkForEndOfRound();
-        checkForLastChallenge();
+        checkForEndOfChallenge();
 
         checkStringForDetails();
 
         checkForGameOver();
 
+        checkForTournamentEnd();
     }
 
     private void checkForEnterTournament() {
@@ -289,30 +289,34 @@ public class Message {
         }
     }
 
-    private void checkForLastChallenge() {
-        Matcher challengeMatcher = ServerMessages.challengeEndPattern.matcher(message);
+    private void checkForEndOfChallenge() {
+        Matcher endChallengeMatcher = ServerMessages.challengeWaitPattern.matcher(message);
+        Matcher lastChallengeMatcher = ServerMessages.challengeEndPattern.matcher(message);
 
-        while(challengeMatcher.find()) {
+        while(endChallengeMatcher.find()) {
+            messageType = MessageType.ENDOFCHALLENGE;
+            return;
+        }
 
+        while(lastChallengeMatcher.find()) {
             messageType = MessageType.LASTCHALLENGEOVER;
+            return;
         }
     }
 
     private void checkForEndOfRound() {
         Matcher roundMatcher = ServerMessages.roundEndWaitPattern.matcher(message);
+        Matcher lastRoundMatcher = ServerMessages.roundEndPattern.matcher(message);
 
         while(roundMatcher.find()) {
-
             messageType = MessageType.ROUNDENDED;
+            return;
         }
-    }
 
-    private void checkForLastRound() {
-        Matcher roundMatcher = ServerMessages.roundEndPattern.matcher(message);
-
-        while(roundMatcher.find()) {
+        while(lastRoundMatcher.find()) {
 
             messageType = MessageType.LASTROUNDOVER;
+            return;
         }
     }
 
@@ -395,6 +399,14 @@ public class Message {
 
         while(forfeitMatcher.find()) {
             messageType = MessageType.LOSTNOBUILD;
+        }
+    }
+
+    private void checkForTournamentEnd() {
+        Matcher endMatcher  = ServerMessages.tournamentEndPattern.matcher(message);
+
+        while(endMatcher.find()) {
+            messageType = MessageType.TOURNAMENTEND;
         }
     }
 
