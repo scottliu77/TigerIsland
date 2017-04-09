@@ -22,18 +22,19 @@ public class RandomAI extends AI {
     }
 
     public void decideOnMove() {
-        gatherInfo();
+        gatherInfo(turnState.getBoard());
         pickRandomTilePlacement();
-        gatherInfo();
+        Board tempBoard = new Board(turnState.getBoard());
+        gatherInfo(tempBoard);
         pickRandomBuildAction();
     }
 
-    private void gatherInfo(){
-        this.validTilePlacements = AI_Info.returnValidTilePlacements(turnState.getCurrentTile(), turnState.getBoard());
-        this.validTotoroPlacements = AI_Info.returnValidTotoroPlacements(turnState.getCurrentPlayer().getPlayerColor(), turnState.getBoard());
-        this.validTigerPlacements = AI_Info.returnValidTigerPlacements(turnState.getCurrentPlayer().getPlayerColor(), turnState.getBoard());
-        this.validVillageExpansions = AI_Info.returnValidVillageExpansions(turnState.getCurrentPlayer(), turnState.getBoard());
-        this.validVillagePlacements = AI_Info.returnValidVillagePlacements(turnState.getBoard());
+    private void gatherInfo(Board board){
+        this.validTilePlacements = AI_Info.returnValidTilePlacements(turnState.getCurrentTile(), board);
+        this.validTotoroPlacements = AI_Info.returnValidTotoroPlacements(turnState.getCurrentPlayer().getPlayerColor(), board);
+        this.validTigerPlacements = AI_Info.returnValidTigerPlacements(turnState.getCurrentPlayer().getPlayerColor(), board);
+        this.validVillageExpansions = AI_Info.returnValidVillageExpansions(turnState.getCurrentPlayer(), board);
+        this.validVillagePlacements = AI_Info.returnValidVillagePlacements(board);
     }
 
     private void pickRandomTilePlacement() {
