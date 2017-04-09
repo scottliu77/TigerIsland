@@ -28,10 +28,12 @@ public abstract class AI {
         this.turnState = aiCopy.turnState;
     }
 
-    public void pickTilePlacementAndBuildAction(Turn turnState) {
+    public void pickTilePlacementAndBuildAction(Turn turnState) throws InvalidMoveException {
         unpackAIsettings(turnState);
+
         decideOnMove();
         assembleMessage();
+
         sendMessage(message);
     }
 

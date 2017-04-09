@@ -31,26 +31,6 @@ public class LocalServerTest {
         assertTrue(localServer != null);
     }
 
-    @Ignore("Skipping direct write to local server test") @Test
-    public void testCanWriteToLocalServer() throws InterruptedException {
-        Thread localServerThread = new Thread(localServer);
-        localServerThread.start();
-
-        try {
-            Socket socket = new Socket(ServerSettings.defaultIPaddress, ServerSettings.defaultPort);
-            PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
-            writer.println("Hello");
-            writer.println("THANK YOU FOR PLAYING! GOODBYE");
-            socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        localServerThread.join();
-
-        assertTrue(globalSettings.messagesReceived.remove().message.equals("Hello"));
-    }
-
     @Ignore("Skipping direct pass END_CODE to local server test") @Test
     public void testCanShutoffLocalServerWithEndCode() throws InterruptedException {
         Thread localServerThread = new Thread(localServer);
@@ -89,34 +69,6 @@ public class LocalServerTest {
 
         assertTrue(localServerThread.isAlive() == false);
     }
-
-    @Ignore("Skipping successive messages to local server test") @Test
-    public void testCanRetrieveSuccessiveMessages() throws InterruptedException {
-        Thread localServerThread = new Thread(localServer);
-        localServerThread.start();
-
-        try {
-            Socket socket = new Socket(ServerSettings.defaultIPaddress, ServerSettings.defaultPort);
-            PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
-            writer.println("Hello");
-            writer.println("Goodbye");
-            writer.println("THANK YOU FOR PLAYING! GOODBYE");
-            socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        localServerThread.join();
-
-        ArrayList<String> messagesProcessed = new ArrayList<String>();
-        for(Message message : globalSettings.messagesReceived) {
-            messagesProcessed.add(message.message);
-            System.out.println(message.message);
-        }
-
-        assertTrue(messagesProcessed.size() == 2);
-    }
-
 
     @Ignore("Skipping passing of messages to local server from messager") @Test
     public void testLocalServerCanReceiveMessagesFromMessager() throws InterruptedException, IOException {

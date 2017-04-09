@@ -142,7 +142,7 @@ public class ServerMessagesTest {
     @Test
     public void lostUnableToBuildTest() {
         message = "GAME A MOVE 1 PLAYER 2 LOST: UNABLE TO BUILD";
-        protocol = ServerMessages.lostUnableToBuildPattern;
+        protocol = ServerMessages.serverLostUnableToBuildPattern;
         assertTrue(attemptMatchAndReturnSuccess(message, protocol));
     }
 }

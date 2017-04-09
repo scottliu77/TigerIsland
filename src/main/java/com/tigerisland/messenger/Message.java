@@ -24,6 +24,8 @@ public class Message {
     public static final Pattern buildTotoroPattern = Pattern.compile("BUIL[DT] TOTORO SANCTUARY AT -?\\d+ -?\\d+ -?\\d+");
     public static final Pattern buildTigerPattern = Pattern.compile("BUIL[DT] TIGER PLAYGROUND AT -?\\d+ -?\\d+ -?\\d+");
 
+    public static final Pattern clientLostUnableToBuildPattern = Pattern.compile("GAME \\w+ MOVE \\w+ UNABLE TO BUILD");
+
     public final String message;
 
     private String tournamentPassword;
@@ -395,10 +397,15 @@ public class Message {
     }
 
     private void checkForUnableToBuild() {
-        Matcher forfeitMatcher = ServerMessages.lostUnableToBuildPattern.matcher(message);
+        Matcher forfeitMatcher = ServerMessages.serverLostUnableToBuildPattern.matcher(message);
+        Matcher clientForfeitMatcher = clientLostUnableToBuildPattern.matcher(message);
 
         while(forfeitMatcher.find()) {
             messageType = MessageType.LOSTNOBUILD;
+        }
+
+        while(clientForfeitMatcher.find()) {
+            messageType = MessageType.FORFEITBUILD;
         }
     }
 

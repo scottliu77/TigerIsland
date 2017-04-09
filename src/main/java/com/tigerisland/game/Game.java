@@ -52,7 +52,9 @@ public class Game implements Runnable {
             System.out.println("GAME " + gameID + " OVER PLAYER " + winner.getPlayerID() + " " + winner.getScore().getScoreValue() + " PLAYER " + loser.getPlayerID() + " " + loser.getScore().getScoreValue());
 
         } catch (InvalidMoveException exception) {
-            offlineGenerateGameOverEcho("GAME " + gameID + " MOVE " + turnState.getMoveID() + " PLAYER " + turnState.getCurrentPlayer().getPlayerID() + " " + exception.getMessage());
+            if(!exception.getMessage().equals("LOST: UNABLE TO BUILD")) {
+                offlineGenerateGameOverEcho("GAME " + gameID + " MOVE " + turnState.getMoveID() + " PLAYER " + turnState.getCurrentPlayer().getPlayerID() + " " + exception.getMessage());
+            }
             calculateResults();
             System.out.println("GAME " + gameID + " OVER PLAYER " + winner.getPlayerID() + " " + winner.getScore().getScoreValue() + " PLAYER " + loser.getPlayerID() + " " + loser.getScore().getScoreValue());
 
@@ -75,7 +77,6 @@ public class Game implements Runnable {
         //if(gameSettings.getGlobalSettings().manualTesting) {
            // TextGUI.printMap(board);
         //}
-
 
         Boolean continueGame = true;
 
@@ -130,7 +131,7 @@ public class Game implements Runnable {
         moveID = String.valueOf(Integer.parseInt(moveID)+ 1);
     }
 
-    protected void checkForHaveAIPickAMove() throws InterruptedException {
+    protected void checkForHaveAIPickAMove() throws InterruptedException, InvalidMoveException {
         for(Message message : gameSettings.getGlobalSettings().inboundQueue) {
             if(message.getGameID() != null && message.getMessageType() != null) {
                 if (message.getGameID().equals(gameID)) {
@@ -145,9 +146,14 @@ public class Game implements Runnable {
         }
     }
 
-    private void pickMove(Message message) {
+    private void pickMove(Message message) throws InvalidMoveException {
         turnState.updateTurnInformation(message.getMoveID(), message.getTile(), ourPlayerID);
-        turnState.getCurrentPlayer().getPlayerAI().pickTilePlacementAndBuildAction(turnState);
+
+        if(EndConditions.noValidMoves(turnState.getCurrentPlayer(), turnState.getBoard())) {
+            sendUnableToBuildMessage();
+        } else {
+            turnState.getCurrentPlayer().getPlayerAI().pickTilePlacementAndBuildAction(turnState);
+        }
     }
 
     protected Boolean checkForMoveToProcess() throws InvalidMoveException, InterruptedException {
@@ -176,10 +182,6 @@ public class Game implements Runnable {
 
         turnState = Move.placeTile(turnState);
 
-        if(EndConditions.noValidMoves(gameSettings.getPlayerSet().getCurrentPlayer(), board)) {
-            throw new InvalidMoveException("LOST: UNABLE TO BUILD");
-        }
-
         turnState = Move.takeBuildAction(turnState);
 
         if(EndConditions.playerIsOutOfPiecesOfTwoTypes(gameSettings.getPlayerSet().getCurrentPlayer())) {
@@ -194,11 +196,10 @@ public class Game implements Runnable {
 
     protected Boolean gameOver() {
         for(Message message : gameSettings.getGlobalSettings().inboundQueue) {
-            if(message.getMessageType() != null) {
-                if(message.getMessageType().getSubtype().equals(MessageType.GAMEOVER.getSubtype())) {
-                    message.setProcessed();
-                    return true;
-                }
+
+            if(message.getMessageType().getSubtype().equals(MessageType.GAMEOVER.getSubtype())) {
+                message.setProcessed();
+                return true;
             }
         }
 
@@ -209,6 +210,12 @@ public class Game implements Runnable {
         if(offline) {
             System.out.println("SERVER (Offline): " + message.message);
         }
+    }
+
+    private void sendUnableToBuildMessage() throws InvalidMoveException {
+        String unableToBuildMessage = "GAME " + gameID + " MOVE " + turnState.getMoveID() + " UNABLE TO BUILD";
+        gameSettings.getGlobalSettings().outboundQueue.add(new Message(unableToBuildMessage));
+        throw new InvalidMoveException("LOST: UNABLE TO BUILD");
     }
 
     private void offlineGenerateGameOverEcho(String message) {
