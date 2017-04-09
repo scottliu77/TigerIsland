@@ -103,7 +103,6 @@ public class LocalServer implements Runnable {
                            messagesReceived.put(new Message(message));
                            checkForNewEntry();
                            checkForAuthentication();
-                           writer.println("THANK YOU FOR PLAYING! GOODBYE");
                        } catch (InterruptedException e) {
                            e.printStackTrace();
                        }
@@ -151,11 +150,12 @@ public class LocalServer implements Runnable {
                 sendNewChallenge(challenge);
 
                 if(challenge  < LOCAL_CHALLENGES) {
-                    writer.println("WAIT FOR NEXT CHALLENGE TO BEGIN");
+                    writer.println("WAIT FOR THE NEXT CHALLENGE TO BEGIN");
                 } else {
                     writer.println("END OF CHALLENGES");
                 }
             }
+            writer.println("THANK YOU FOR PLAYING! GOODBYE");
         }
 
         private void sendNewChallenge(int challenge) {
@@ -167,7 +167,7 @@ public class LocalServer implements Runnable {
                 sendNewRound();
 
                 if(round < LOCAL_ROUNDS) {
-                    writer.println("END OF ROUND " + round + " OF " + LOCAL_ROUNDS + " WAIT FOR NEXT MATCH");
+                    writer.println("END OF ROUND " + round + " OF " + LOCAL_ROUNDS + " WAIT FOR THE NEXT MATCH");
                 } else {
                     writer.println("END OF ROUND " + round + " OF " + LOCAL_ROUNDS);
                 }
