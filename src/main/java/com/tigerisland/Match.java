@@ -28,11 +28,11 @@ public class Match {
         gameSettingsOne.setGameID("A");
         games.put(gameSettingsOne.getGameID(), new Game(gameSettingsOne));
 
-        if(!gameSettingsOne.getGlobalSettings().manualTesting) {
+        /*if(!gameSettingsOne.getGlobalSettings().manualTesting) {
             gameSettingsTwo = new GameSettings(globalSettings);
             gameSettingsTwo.setGameID("B");
             games.put(gameSettingsTwo.getGameID(), new Game(gameSettingsTwo));
-        }
+        }*/
     }
 
     public void run() {

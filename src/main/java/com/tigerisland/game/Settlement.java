@@ -91,7 +91,7 @@ public class Settlement {
         for(PlacedHex hexInSettlement : hexesInSettlement){
             ArrayList<PlacedHex> adjacentHexes = findAdjacentHexesFromPlacedHex(hexInSettlement, allPlacedHexes);
             for(PlacedHex adjacentHexToSettlement : adjacentHexes){
-                if(!adjacentHexToSettlement.isNotVolcano()){
+                if(!adjacentHexToSettlement.isNotVolcano() || !adjacentHexToSettlement.isEmpty()){
                     continue;
                 }
                 if(!hexesInSettlementSet.contains(adjacentHexToSettlement) && !terrainsToExpandInto.contains(adjacentHexToSettlement.getHex().getHexTerrain())){

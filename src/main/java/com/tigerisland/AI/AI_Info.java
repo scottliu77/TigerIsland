@@ -102,11 +102,12 @@ public class AI_Info {
                 Board tempBoard = new Board(board);
                 try{
                     tempBoard.expandVillage(new Player(player), settlement.getLocationsOfHexesInSettlement().get(0), terrainToExpandInto);
-                    SettlementAndTerrainListPair settlementAndTerrainListPair = new SettlementAndTerrainListPair(settlement, listOfTerrainsThisSettlementCanExpandInto);
-                    validVillageExpansions.add(settlementAndTerrainListPair);
+
                 } catch(InvalidMoveException e){
                     continue;
                 }
+                SettlementAndTerrainListPair settlementAndTerrainListPair = new SettlementAndTerrainListPair(settlement, listOfTerrainsThisSettlementCanExpandInto);
+                validVillageExpansions.add(settlementAndTerrainListPair);
             }
 
 

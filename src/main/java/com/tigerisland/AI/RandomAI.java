@@ -1,5 +1,6 @@
 package com.tigerisland.AI;
 
+import com.tigerisland.InvalidMoveException;
 import com.tigerisland.game.*;
 import com.tigerisland.messenger.Adapter;
 import java.util.ArrayList;
@@ -25,6 +26,11 @@ public class RandomAI extends AI {
         gatherInfo(turnState.getBoard());
         pickRandomTilePlacement();
         Board tempBoard = new Board(turnState.getBoard());
+        try {
+            tempBoard.placeTile(tilePlacement);
+        } catch(InvalidMoveException e){
+
+        }
         gatherInfo(tempBoard);
         pickRandomBuildAction();
     }
