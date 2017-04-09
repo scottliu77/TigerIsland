@@ -22,6 +22,7 @@ public class PlayerSet {
     }
 
     public PlayerSet(PlayerSet playerSet) {
+        this.currentPlayer = playerSet.getCurrentPlayer();
         this.players = new HashMap<String, Player>();
         for(String key: players.keySet()) {
             this.players.put(key, new Player(playerSet.getPlayer(key)));

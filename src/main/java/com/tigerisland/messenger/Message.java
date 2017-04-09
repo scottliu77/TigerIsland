@@ -71,8 +71,7 @@ public class Message {
 
         checkForMakeMove();
 
-        checkForSafeGameOver();
-        checkForEndOfRound();
+        checkForMatchOver();
         checkForLastRound();
         checkForLastChallenge();
 
@@ -340,7 +339,7 @@ public class Message {
 
     }
 
-    private void checkForSafeGameOver() {
+    private void checkForMatchOver() {
         Matcher matchMatcher = ServerMessages.gameOverPattern.matcher(message);
 
         while(matchMatcher.find()) {

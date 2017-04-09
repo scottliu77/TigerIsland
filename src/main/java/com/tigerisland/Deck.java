@@ -50,7 +50,7 @@ public class Deck {
         return tileDeck.size();
     }
 
-    public Tile drawTile() {
+    public Tile drawTile() throws IndexOutOfBoundsException {
         return tileDeck.remove(0);
     }
 }

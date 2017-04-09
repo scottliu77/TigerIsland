@@ -147,11 +147,11 @@ public class LocalServer implements Runnable {
         }
 
         private void startChallengeProtocol() {
-            for(int challenge = 0; challenge < LOCAL_CHALLENGES; challenge++) {
+            for(int challenge = 1; challenge <= LOCAL_CHALLENGES; challenge++) {
 
                 sendNewChallenge(challenge);
 
-                if(challenge + 1 < LOCAL_CHALLENGES) {
+                if(challenge  < LOCAL_CHALLENGES) {
                     writer.println("WAIT FOR NEXT CHALLENGE TO BEGIN");
                 } else {
                     writer.println("END OF CHALLENGES");
@@ -160,15 +160,15 @@ public class LocalServer implements Runnable {
         }
 
         private void sendNewChallenge(int challenge) {
-            writer.println("NEW CHALLENGE " + (challenge + 1) + " YOU WILL PLAY " + LOCAL_ROUNDS + " MATCHES");
+            writer.println("NEW CHALLENGE " + (challenge) + " YOU WILL PLAY " + LOCAL_ROUNDS + " MATCHES");
 
-            for(int round = 0; round < LOCAL_ROUNDS; round++) {
+            for(int round = 1; round <= LOCAL_ROUNDS; round++) {
 
-                writer.println("BEGIN ROUND " + (round + 1) + " OF " + LOCAL_ROUNDS);
+                writer.println("BEGIN ROUND " + (round) + " OF " + LOCAL_ROUNDS);
                 sendNewRound();
 
-                if(round + 1 < LOCAL_ROUNDS) {
-                    writer.println("END OF ROUND " + (round + 1) + " OF " + LOCAL_ROUNDS + " WAIT FOR NEXT MATCH");
+                if(round < LOCAL_ROUNDS) {
+                    writer.println("END OF ROUND " + (round) + " OF " + LOCAL_ROUNDS + " WAIT FOR NEXT MATCH");
                 } else {
                     writer.println("END OF ROUND " + (round + 1) + " OF " + LOCAL_ROUNDS);
                 }
@@ -197,7 +197,7 @@ public class LocalServer implements Runnable {
                         messagesReceived.put(new Message(message));
 
                         if (endMessageFound()) {
-                            gamesRunning--;
+                            gamesRunning = gamesRunning - 1;
                             if(gamesRunning == 0) {
                                 return;
                             }

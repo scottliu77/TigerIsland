@@ -121,7 +121,7 @@ public class Tournament {
     }
 
     private void runMatchProtocol() {
-        while(checkMessages(MessageType.MATCHOVER)== false) {
+        while(checkMessages(MessageType.ROUNDENDED)== false) {
             if(matchStarted()) {
                 match = new Match(globalSettings);
                 match.run();

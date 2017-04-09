@@ -53,7 +53,8 @@ public final class EndConditions {
         }
     }
 
-    public static Player calculateWinner(Player currentPlayer, HashMap<String, Player> playerList) {
+    public static Player calculateWinner(Player currentPlayer, HashMap<String, Player> truePlayerList) {
+        HashMap<String, Player> playerList = new HashMap<String, Player>(truePlayerList);
 
         if(playerIsOutOfPiecesOfTwoTypes(currentPlayer) == false) {
             playerList.remove(currentPlayer.getPlayerID());
@@ -120,5 +121,15 @@ public final class EndConditions {
             }
         }
         return winner;
+    }
+
+    public static Player getLoser(Player winner, HashMap<String, Player> playerList) {
+        Player loser = null;
+        for(String key : playerList.keySet()) {
+            if(!key.equals(winner.getPlayerID())) {
+                loser = playerList.get(key);
+            }
+        }
+        return loser;
     }
 }
