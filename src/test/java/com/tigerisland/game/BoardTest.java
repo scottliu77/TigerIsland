@@ -1261,4 +1261,119 @@ public class BoardTest{
             System.out.println(e.getMessage());
         }
     }
+
+    @Test
+    public void testCannotMakeIllegalTilePlacement() {
+        Tile tile1 = new Tile(Terrain.JUNGLE, Terrain.JUNGLE);
+        Location loc1 = new Location(0,0);
+        int rotation1 = 0;
+        try {
+            board.placeTile(tile1, loc1, rotation1);
+        } catch (InvalidMoveException e) {
+            e.getMessage();
+        }
+
+        Tile tile2 = new Tile(Terrain.GRASSLANDS, Terrain.LAKE);
+        Location loc2 = new Location(3,3);
+        int rotation2 = 0;
+        try {
+            board.placeTile(tile2, loc2, rotation2);
+        } catch (InvalidMoveException e) {
+            assertTrue(e.getMessage().equals("Illegal Placement Location"));
+        }
+    }
+
+    @Test
+    public void testCannotNukeTotoro() {
+        Tile tile1 = new Tile(Terrain.JUNGLE, Terrain.JUNGLE);
+        tile1.getRightHex().addPiecesToHex(new Piece(Color.BLACK, PieceType.TOTORO), 1);
+        Location loc1 = new Location(0,0);
+        int rotation1 = 0;
+        try {
+            board.placeTile(tile1, loc1, rotation1);
+        } catch (InvalidMoveException e) {
+            e.getMessage();
+        }
+
+        Tile tile2 = new Tile(Terrain.GRASSLANDS, Terrain.LAKE);
+        Location loc2 = new Location(1,-1);
+        int rotation2 = 240;
+        try {
+            board.placeTile(tile2, loc2, rotation2);
+        } catch (InvalidMoveException e) {
+            e.getMessage();
+        }
+
+        Tile tile3 = new Tile(Terrain.JUNGLE, Terrain.JUNGLE);
+        Location loc3 = new Location(1,-1);
+        int rotation3 = 60;
+        try {
+            board.placeTile(tile3, loc3, rotation3);
+        } catch (InvalidMoveException e) {
+            assertTrue(e.getMessage().equals("Totoro exists under tile"));
+        }
+    }
+
+    @Test
+    public void testCannotNukeTiger() {
+        Tile tile1 = new Tile(Terrain.JUNGLE, Terrain.JUNGLE);
+        tile1.getRightHex().addPiecesToHex(new Piece(Color.BLACK, PieceType.TIGER), 1);
+        Location loc1 = new Location(0,0);
+        int rotation1 = 0;
+        try {
+            board.placeTile(tile1, loc1, rotation1);
+        } catch (InvalidMoveException e) {
+            e.getMessage();
+        }
+
+        Tile tile2 = new Tile(Terrain.GRASSLANDS, Terrain.LAKE);
+        Location loc2 = new Location(1,-1);
+        int rotation2 = 240;
+        try {
+            board.placeTile(tile2, loc2, rotation2);
+        } catch (InvalidMoveException e) {
+            e.getMessage();
+        }
+
+        Tile tile3 = new Tile(Terrain.JUNGLE, Terrain.JUNGLE);
+        Location loc3 = new Location(1,-1);
+        int rotation3 = 60;
+        try {
+            board.placeTile(tile3, loc3, rotation3);
+        } catch (InvalidMoveException e) {
+            assertTrue(e.getMessage().equals("Tiger exists under tile"));
+        }
+    }
+
+    @Test
+    public void testCannotNukeEntireSettlement() {
+        Tile tile1 = new Tile(Terrain.JUNGLE, Terrain.JUNGLE);
+        tile1.getRightHex().addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        Location loc1 = new Location(0,0);
+        int rotation1 = 0;
+        try {
+            board.placeTile(tile1, loc1, rotation1);
+        } catch (InvalidMoveException e) {
+            e.getMessage();
+        }
+        board.updateSettlements();
+
+        Tile tile2 = new Tile(Terrain.GRASSLANDS, Terrain.LAKE);
+        Location loc2 = new Location(1,-1);
+        int rotation2 = 240;
+        try {
+            board.placeTile(tile2, loc2, rotation2);
+        } catch (InvalidMoveException e) {
+            e.getMessage();
+        }
+
+        Tile tile3 = new Tile(Terrain.JUNGLE, Terrain.JUNGLE);
+        Location loc3 = new Location(1,-1);
+        int rotation3 = 60;
+        try {
+            board.placeTile(tile3, loc3, rotation3);
+        } catch (InvalidMoveException e) {
+            assertTrue(e.getMessage().equals("Whole settlement exists under tile"));
+        }
+    }
 }

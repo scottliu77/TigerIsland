@@ -232,6 +232,7 @@ public class TilePlacementStepDefs{
         Location toExpand = toSettle;
         Location toPlaceTiger = new Location(1,-1);
         Player myPlayer = new Player(Color.BLUE, "1", PlayerType.SAFEAI);
+
         myBoard.createVillage(myPlayer, toSettle);
         myBoard.updateSettlements();
         myBoard.expandVillage(myPlayer, toExpand, Terrain.ROCKY);
