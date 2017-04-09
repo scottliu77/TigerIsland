@@ -9,7 +9,7 @@ import static java.lang.Thread.sleep;
 
 public class Game implements Runnable {
 
-    public final String gameID;
+    public String gameID;
 
     protected GameSettings gameSettings;
     protected Board board;
@@ -135,6 +135,7 @@ public class Game implements Runnable {
             if(message.getGameID().equals(gameID)) {
                 if(message.getMessageType() == MessageType.MAKEMOVE) {
                     message.setProcessed();
+                    gameSettings.resetGameID(message.getGameID());
                     gameSettings.getPlayerSet().setCurrentPlayer(ourPlayerID);
                     pickMove(message);
                 }
@@ -152,6 +153,7 @@ public class Game implements Runnable {
             if(message.getGameID().equals(gameID)) {
                 if(message.getMoveID().equals(moveID)) {
                     if(message.getMessageType().getSubtype().equals("BUILDACTION")) {
+                        gameSettings.resetGameID(message.getGameID());
                         sendMockServerMessage(message);
                         return processMove(message);
                     }
