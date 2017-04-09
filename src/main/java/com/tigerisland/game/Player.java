@@ -23,13 +23,14 @@ public class Player {
             playerAI = new SafeAI();
         else if(playerType == PlayerType.TOTOROLINESAI)
             playerAI = new TotoroLinesAI();
+        else if(playerType == PlayerType.TOTOROLINESAI_V2)
+            playerAI = new TotoroLinesAI_V2();
         else if(playerType == PlayerType.RANDOMAI)
             playerAI = new RandomAI();
         else if(playerType == PlayerType.HUMAN)
             playerAI = new HumanInput();
-        else if(playerType == PlayerType.JACKSAI){
+        else if(playerType == PlayerType.JACKSAI)
             playerAI = new JacksAI();
-        }
         else if(playerType == PlayerType.TIGERFORMAI)
             playerAI = new TigerFormAI();
     }
