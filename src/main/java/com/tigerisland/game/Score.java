@@ -14,6 +14,10 @@ public class Score {
         score = 0;
     }
 
+    public Score(int scoreInt){
+        score = scoreInt;
+    }
+
     public Score(Score score) {
         this.score = score.getScoreValue();
     }

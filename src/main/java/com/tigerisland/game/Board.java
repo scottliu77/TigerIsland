@@ -338,10 +338,15 @@ public class Board{
         checkForVolcano(expandTerrain);
         ArrayList<PlacedHex> allExpandableHexes = new ArrayList<PlacedHex>();
         allExpandableHexes = getAllExpandableAdjacentHexesToSettlement(settlement, specifiedTerrain);
+        Player tempPlayer = new Player(player);
         while (!allExpandableHexes.isEmpty()) {
-            villageExpansionChecks(player, settlement, allExpandableHexes);
+            villageExpansionChecks(tempPlayer, settlement, allExpandableHexes);
             allExpandableHexes = getAllExpandableAdjacentHexesToSettlement(settlement, specifiedTerrain);
         }
+        int villagersToPlace = player.getPieceSet().getNumberOfVillagersRemaining() - tempPlayer.getPieceSet().getNumberOfVillagersRemaining();
+        player.getPieceSet().placeMultipleVillagers(villagersToPlace);
+        player.setScore(tempPlayer.getScore().getScoreValue());
+
     }
 
     public Settlement isSettledLocationValid(Player player, Location settledLoc) throws InvalidMoveException {
@@ -400,6 +405,7 @@ public class Board{
     public void villageExpansionChecks(Player player, Settlement settlement,
                                        ArrayList<PlacedHex> allExpandableHexes) throws InvalidMoveException {
         ArrayList<PlacedHex> hexesInSettlement = settlement.getHexesInSettlement();
+
         for (PlacedHex potentialHex : allExpandableHexes) {
             potentialHex.setExpansionStatus(false);
             int hexHeight = potentialHex.getHex().getHeight();
@@ -412,6 +418,7 @@ public class Board{
                 hexesInSettlement.add(potentialHex);
             }
         }
+
     }
 
     public boolean isAnAvailableEdgeSpace(Location loc){

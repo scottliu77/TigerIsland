@@ -699,6 +699,8 @@ public class BuildOptionStepDefs{
     public void aPlayerAttemptsToExpand() {
         try {
             board.expandVillage(player, hexInSettlement.getLocation(), expandTerrain);
+            System.out.println(player.getPieceSet().getNumberOfVillagersRemaining());
+
         } catch (InvalidMoveException e) {
             caughtErrorMessage = e.getMessage();
         }
