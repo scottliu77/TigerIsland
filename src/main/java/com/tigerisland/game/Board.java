@@ -419,7 +419,6 @@ public class Board{
         for (PlacedHex potentialHex : allExpandableHexes) {
             potentialHex.setExpansionStatus(false);
             int hexHeight = potentialHex.getHex().getHeight();
-            int hexScore = hexHeight * hexHeight;
             if (player.getPieceSet().getNumberOfVillagersRemaining() - hexHeight < 0){
                 throw new InvalidMoveException("Player does not have enough pieces to populate the target hex");
             } else {

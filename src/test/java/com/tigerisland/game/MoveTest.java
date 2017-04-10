@@ -120,6 +120,7 @@ public class MoveTest {
     public void testCanExpandVillage() throws InvalidMoveException, InterruptedException {
         createInitialVillage();
 
+        TextGUI.printMap(turn.getBoard());
         inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCK+GRASS AT 2 -2 0 2 EXPANDED SETTLEMENT AT -2 -1 3 ROCK"));
         turn.processMove();
         turn = Move.takeBuildAction(turn);
