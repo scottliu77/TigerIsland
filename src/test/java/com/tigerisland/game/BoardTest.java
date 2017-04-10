@@ -1616,6 +1616,7 @@ public class BoardTest{
         board.updateSettlements();
     }
 
+    // Used to Debug Random AI problem -> Valid Expansion says player runs out of pieces -> SOLVED
     @Test
     public void testIfPlayerCanPopulateHex() throws Throwable{
         // Create Player 11 (Black) and Player 7 (White)
@@ -1805,20 +1806,23 @@ public class BoardTest{
         board.createVillage(player7, settleLoc20);
         board.updateSettlements();
 
-        TextGUI.printMap(board);
+        // Move 21
+        Tile tile21 = new Tile(Terrain.JUNGLE, Terrain.JUNGLE);
+        Location loc21 = new Location(-1,0);
+        board.placeTile(tile21, loc21, 180);
+
+        Location settledLoc21 = new Location(4,-5);
+        board.createVillage(player14, settledLoc21);
+        board.updateSettlements();
 
 
+        // Move 22
+        Tile tile22 = new Tile(Terrain.ROCK, Terrain.LAKE);
+        Location loc22 = new Location(-9,1);
+        board.placeTile(tile22, loc22, 0);
 
-
-
-
-
-
-
-
-
-
-
-
+        Location settledLoc22 = new Location(7,-7);
+        board.createVillage(player7, settledLoc22);
+        board.updateSettlements();
     }
 }
