@@ -8,8 +8,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Random;
-import java.util.Scanner;
+import java.security.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.BlockingQueue;
 
 import static java.lang.Thread.sleep;
@@ -58,11 +59,11 @@ public class Client implements Runnable {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                System.out.println("CLIENT: " + message);
+                System.out.println("(" + getTime() + ") " + "CLIENT: " + message);
             } else {
                 for(Message message : inboundQueue) {
                     if(message.getMessageType() == MessageType.PROCESSED || message.getMessageType() == null) {
-                        System.out.println("SERVER: " + message.message);
+                        System.out.println("(" + getTime() + ") " + "SERVER: " + message.message);
                         inboundQueue.remove(message);
                     }
                 }
@@ -85,7 +86,7 @@ public class Client implements Runnable {
             }
         } catch (InterruptedException exception) {
             closeLocalServer();
-            System.out.println("CLIENT: Interrupted - Client is now closing");
+            System.out.println("(" + getTime() + ") " + "CLIENT: Interrupted - Client is now closing");
         } catch (IOException exception) {
             System.out.println(exception);
         } finally {
@@ -101,7 +102,7 @@ public class Client implements Runnable {
     protected void processInboundMessages() throws InterruptedException, IOException {
         if ((reader.ready())) {
             String message = reader.readLine();
-            System.out.println("SERVER: " + message);
+            System.out.println("(" + getTime() + ") " + "SERVER: " + message);
             inboundQueue.put(new Message(message));
         }
     }
@@ -109,7 +110,7 @@ public class Client implements Runnable {
     protected void processOutboundMessages() throws InterruptedException {
         if(outboundQueue.size() > 0) {
             String message = outboundQueue.take().message;
-            System.out.println("CLIENT: " + message);
+            System.out.println("(" + getTime() + ") " + "CLIENT: " + message);
             writer.println(message);
         }
     }
@@ -133,6 +134,13 @@ public class Client implements Runnable {
         } catch(IOException exception) {
             exception.printStackTrace();
         }
+    }
+
+    private String getTime() {
+        long yourmilliseconds = System.currentTimeMillis();
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm.ss");
+        Date resultdate = new Date(yourmilliseconds);
+        return sdf.format(resultdate);
     }
 
 }

@@ -110,19 +110,19 @@ public class EndConditionsTest {
         assertTrue(EndConditions.noValidMoves(currentPlayer, board));
     }
 
-    @Test
-    public void testEndConditionNotMetWhenNoVillagersButSize5Settlement() throws InvalidMoveException {
-        currentPlayer.getPieceSet().placeMultipleVillagers(20);
-        board.hexAt(new Location(0, 1)).addPiecesToHex(new Piece(Color.WHITE, PieceType.VILLAGER), 1);
-        board.hexAt(new Location(-1, 1)).addPiecesToHex(new Piece(Color.WHITE, PieceType.VILLAGER), 1);
-        board.hexAt(new Location(-2, 1)).addPiecesToHex(new Piece(Color.WHITE, PieceType.VILLAGER), 1);
-        board.hexAt(new Location(-3, 1)).addPiecesToHex(new Piece(Color.WHITE, PieceType.VILLAGER), 1);
-        board.hexAt(new Location(-3, 0)).addPiecesToHex(new Piece(Color.WHITE, PieceType.VILLAGER), 1);
-
-        board.updateSettlements();
-        TextGUI.printMap(board);
-        assertTrue(EndConditions.noValidMoves(currentPlayer, board) == false);
-    }
+//    @Test
+//    public void testEndConditionNotMetWhenNoVillagersButSize5Settlement() throws InvalidMoveException {
+//        currentPlayer.getPieceSet().placeMultipleVillagers(20);
+//        board.hexAt(new Location(0, 1)).addPiecesToHex(new Piece(Color.WHITE, PieceType.VILLAGER), 1);
+//        board.hexAt(new Location(-1, 1)).addPiecesToHex(new Piece(Color.WHITE, PieceType.VILLAGER), 1);
+//        board.hexAt(new Location(-2, 1)).addPiecesToHex(new Piece(Color.WHITE, PieceType.VILLAGER), 1);
+//        board.hexAt(new Location(-3, 1)).addPiecesToHex(new Piece(Color.WHITE, PieceType.VILLAGER), 1);
+//        board.hexAt(new Location(-3, 0)).addPiecesToHex(new Piece(Color.WHITE, PieceType.VILLAGER), 1);
+//
+//        board.updateSettlements();
+//        TextGUI.printMap(board);
+//        assertTrue(EndConditions.noValidMoves(currentPlayer, board) == false);
+//    }
 
     @Test
     public void testEndConditionMetMetWhenNoVillagersAndSize5SettlementWithTotoro() throws InvalidMoveException {

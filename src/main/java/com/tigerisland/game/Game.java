@@ -146,13 +146,13 @@ public class Game implements Runnable {
             turnState.getCurrentPlayer().getPlayerAI().pickTilePlacementAndBuildAction(turnState);
         }
 
-        if(offline) {
-            Player checkPlayer = gameSettings.getPlayerSet().getPlayerList().get(ourPlayerID);
-            int villagers = checkPlayer.getPieceSet().getNumberOfVillagersRemaining();
-            int totoros = checkPlayer.getPieceSet().getNumberOfTotoroRemaining();
-            int tigers = checkPlayer.getPieceSet().getNumberOfTigersRemaining();
-            System.out.println("................GAME " + gameID + " PLAYER " +  ourPlayerID + " HAS (V-To-Ti) " + villagers + "-" + totoros + "-" + tigers + "...........");
-        }
+//        if(offline) {
+//            Player checkPlayer = gameSettings.getPlayerSet().getPlayerList().get(ourPlayerID);
+//            int villagers = checkPlayer.getPieceSet().getNumberOfVillagersRemaining();
+//            int totoros = checkPlayer.getPieceSet().getNumberOfTotoroRemaining();
+//            int tigers = checkPlayer.getPieceSet().getNumberOfTigersRemaining();
+//            System.out.println("................GAME " + gameID + " PLAYER " +  ourPlayerID + " HAS (V-To-Ti) " + villagers + "-" + totoros + "-" + tigers + "...........");
+//        }
     }
 
     protected Boolean moveReadyToProcess() {
