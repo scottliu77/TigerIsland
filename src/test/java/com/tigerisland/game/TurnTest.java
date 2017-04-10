@@ -27,7 +27,7 @@ public class TurnTest {
         gameSettings.getPlayerSet().setCurrentPlayer("1");
 
         turn = new Turn(gameSettings, board);
-        turn.updateTurnInformation("1", new Tile(Terrain.GRASS, Terrain.JUNGLE), "1");
+        turn.updateTurnInformation("1", new Tile(Terrain.GRASS, Terrain.JUNGLE));
         inboundMessages = gameSettings.getGlobalSettings().inboundQueue;
         inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCK+LAKE AT 0 0 0 1 FOUNDED SETTLEMENT AT 0 0 0"));
     }

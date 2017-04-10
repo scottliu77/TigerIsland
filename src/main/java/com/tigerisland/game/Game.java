@@ -5,6 +5,7 @@ import com.tigerisland.InvalidMoveException;
 import com.tigerisland.messenger.Message;
 import com.tigerisland.messenger.MessageType;
 
+import static java.lang.Thread.getDefaultUncaughtExceptionHandler;
 import static java.lang.Thread.sleep;
 
 public class Game implements Runnable {
@@ -139,12 +140,20 @@ public class Game implements Runnable {
 
     private void pickMove(Message message) throws InvalidMoveException {
 
-        turnState.updateTurnInformation(message.getMoveID(), message.getTile(), ourPlayerID);
+        turnState.updateTurnInformation(message.getMoveID(), message.getTile());
 
         if(EndConditions.noValidMoves(turnState.getCurrentPlayer(), turnState.getBoard())) {
             sendUnableToBuildMessage();
         } else {
             turnState.getCurrentPlayer().getPlayerAI().pickTilePlacementAndBuildAction(turnState);
+        }
+
+        if(offline) {
+            Player checkPlayer = gameSettings.getPlayerSet().getPlayerList().get(ourPlayerID);
+            int villagers = checkPlayer.getPieceSet().getNumberOfVillagersRemaining();
+            int totoros = checkPlayer.getPieceSet().getNumberOfTotoroRemaining();
+            int tigers = checkPlayer.getPieceSet().getNumberOfTigersRemaining();
+            System.out.println("................GAME " + gameID + " PLAYER " +  ourPlayerID + " HAS (V-To-Ti) " + villagers + "-" + totoros + "-" + tigers + "...........");
         }
     }
 
@@ -165,6 +174,7 @@ public class Game implements Runnable {
             if(message.getGameID() != null && message.getMoveID() != null && message.getMessageType() != null) {
                 if (message.getGameID().equals(gameID)) {
                     if (message.getMessageType().getSubtype().equals("BUILDACTION")) {
+                        gameSettings.getPlayerSet().setCurrentPlayer(message.getCurrentPlayerID());
                         gameSettings.setMoveID(message.getMoveID());
                         gameSettings.resetGameID(message.getGameID());
                         sendMockServerMessage(message);
@@ -177,9 +187,6 @@ public class Game implements Runnable {
     }
 
     private Boolean processMove(Message message) throws InvalidMoveException, InterruptedException {
-
-        gameSettings.getPlayerSet().setCurrentPlayer(message.getCurrentPlayerID());
-        gameSettings.setMoveID(message.getMoveID());
 
         turnState.processMove(message);
 

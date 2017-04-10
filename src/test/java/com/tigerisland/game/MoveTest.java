@@ -31,7 +31,7 @@ public class MoveTest {
         gameSettings = new GameSettings();
         gameSettings.getPlayerSet().setCurrentPlayer("1");
         turn = new Turn(gameSettings, board);
-        turn.updateTurnInformation("1", new Tile(Terrain.GRASS, Terrain.JUNGLE), "1");
+        turn.updateTurnInformation("1", new Tile(Terrain.GRASS, Terrain.JUNGLE));
         inboundMessages = gameSettings.getGlobalSettings().inboundQueue;
     }
 

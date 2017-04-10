@@ -42,14 +42,14 @@ public class Turn {
         this.currentPlayer = gameSettings.getPlayerSet().getPlayerList().get(message.getCurrentPlayerID());
     }
 
-    public void updateTurnInformation(String moveID, Tile currentTile, String currentPlayer) {
+    public void updateTurnInformation(String moveID, Tile currentTile) {
         this.moveID = moveID;
         this.currentTile = currentTile;
-        this.currentPlayer = gameSettings.getPlayerSet().getPlayerList().get(currentPlayer);
+        this.currentPlayer = gameSettings.getPlayerSet().getCurrentPlayer();
     }
 
     public void processMove(Message message) throws InterruptedException, InvalidMoveException {
-
+        currentPlayer = gameSettings.getPlayerSet().getCurrentPlayer();
         parseTilePlacement(message);
         filterBuildAction(message);
         message.setProcessed();
