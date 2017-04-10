@@ -78,4 +78,12 @@ public class AdpaterTest {
         assertTrue(converted.x == target.x && converted.y == target.y);
     }
 
+    @Test
+    public void testConvertWrittenNotes() {
+        Location tilePlace = Adapter.convertLocationCubeToAxial(new Location(-9, 16, -7));
+        Location settlePlace = Adapter.convertLocationCubeToAxial(new Location(10, -15, 5));
+
+        System.out.println("Tile Placed at: " + tilePlace.x + ", " + tilePlace.y);
+        System.out.println("Settled/Expanded at: " + settlePlace.x + ", " + settlePlace.y);
+    }
 }
