@@ -78,8 +78,6 @@ public class GameSettings {
         playerSet.getPlayerList().put(ourPlayerID, ourPlayer);
         playerSet.getPlayerList().put(opponentPlayerID, opponentPlayer);
 
-        System.out.println("TIGERISLAND: For Game " + gameID + " OurPlayer is type " + ourPlayerType.name());
-        System.out.println("TIGERISLAND: For Game " + gameID + " OpponentPlayer is type " + opponentPlayerType.name());
     }
 
     public Deck getDeck() {

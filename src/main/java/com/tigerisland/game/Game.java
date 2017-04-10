@@ -55,8 +55,7 @@ public class Game implements Runnable {
             offlineCalculateResults();
         }
 
-        offlineGenerateGameOverEcho("GAME " + gameID + " OVER PLAYER " + winner.getPlayerID() + " WIN PLAYER " + loser.getPlayerID() + " FORFEITED");
-        //offlineGenerateGameOverEcho("GAME " + gameID + " OVER PLAYER " + winner.getPlayerID() + " " + winner.getScore().getScoreValue() + " PLAYER " + loser.getPlayerID() + " " + loser.getScore().getScoreValue());
+        offlineGenerateGameOverEcho();
 
     }
 
@@ -217,8 +216,10 @@ public class Game implements Runnable {
         throw new InvalidMoveException("LOST: UNABLE TO BUILD");
     }
 
-    private void offlineGenerateGameOverEcho(String message) {
+    private void offlineGenerateGameOverEcho() {
         if(offline) {
+            String message = "GAME " + gameID + " OVER PLAYER " + winner.getPlayerID() + " WIN PLAYER " + loser.getPlayerID() + " FORFEITED";
+            //String message = "GAME " + gameID + " OVER PLAYER " + winner.getPlayerID() + " " + winner.getScore().getScoreValue() + " PLAYER " + loser.getPlayerID() + " " + loser.getScore().getScoreValue();
             gameSettings.getGlobalSettings().outboundQueue.add(new Message(message));
         }
     }
