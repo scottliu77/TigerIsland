@@ -16,8 +16,6 @@ public class JacksAI extends AI {
     private ArrayList<TilePlacement> tilePlacementsForNukingEnemySettlementsCloseToGettingATiger;
     private ArrayList<TilePlacement> tilePlacementsThatSetUpPlayerForTotoroPlacement;
     private ArrayList<TilePlacement> tilePlacementsThatCutTotoroOffOfMostOfSettlement;
-    private SettlementAndTerrainListPair bestExpansionToGetRidOfVillagers;
-
     private Board tempBoard;
 
     private Location myNextExpansionLocation;
@@ -53,28 +51,7 @@ public class JacksAI extends AI {
 
             }
         }
-
-        //TODO decide on build action before this point
-
-
         gatherBuildActionInfo();
-        if(itsTimeToRapidlyExpand() && bestExpansionToGetRidOfVillagers != null){
-            buildActionType = BuildActionType.VILLAGEEXPANSION;
-            buildLocation = bestExpansionToGetRidOfVillagers.getSettlement().getLocationsOfHexesInSettlement().get(0);
-            expandTerrain = bestExpansionToGetRidOfVillagers.getTerrainList().get(0);
-            /*try {
-                tempBoard.expandVillage(new Player(turnState.getCurrentPlayer()), bestExpansionToGetRidOfVillagers.getSettlement().getLocationsOfHexesInSettlement().get(0), bestExpansionToGetRidOfVillagers.getTerrainList().get(0));
-            } catch(InvalidMoveException e){
-
-            }*/
-        }
-        else{
-            strategyWhenNotRapidlyExpanding();
-        }
-
-    }
-
-    private void strategyWhenNotRapidlyExpanding(){
         if(canPlaceTotoro()){
             placeTotoro();
             resetTotoroLine();
@@ -93,16 +70,6 @@ public class JacksAI extends AI {
         }
     }
 
-    private boolean itsTimeToRapidlyExpand(){
-        if(turnState.getCurrentPlayer().getPieceSet().getNumberOfTotoroRemaining() == 0 && !canPlaceTiger()){
-            return true;
-        }
-        if(turnState.getCurrentPlayer().getPieceSet().getNumberOfTigersRemaining() == 0 && !canPlaceTotoro()){
-            return true;
-        }
-        return false;
-    }
-
     private void gatherTilePlacementInfo() throws InvalidMoveException{
         this.validTilePlacements = AI_Info.returnValidTilePlacements(turnState.getCurrentTile(), tempBoard);
         this.tilePlacementsForNukingEnemySettlementsCloseToGettingATotoro = AI_Info.findNukableLocationsToStopOpposingPlayerFromMakingTotoroPlacement(Color.BLACK, tempBoard, turnState.getCurrentTile());
@@ -114,7 +81,6 @@ public class JacksAI extends AI {
     private void gatherBuildActionInfo() {
         this.validTotoroPlacements = AI_Info.returnValidTotoroPlacements(turnState.getCurrentPlayer().getPlayerColor(), tempBoard);
         this.validTigerPlacements = AI_Info.returnValidTigerPlacements(turnState.getCurrentPlayer().getPlayerColor(), tempBoard);
-        this.bestExpansionToGetRidOfVillagers = AI_Info.findExpansionThatGetsRidOfMostVillagers(turnState.getCurrentPlayer(), tempBoard);
     }
 
 
@@ -129,7 +95,7 @@ public class JacksAI extends AI {
     private void placeTotoro(){
         buildActionType = BuildActionType.TOTOROPLACEMENT;
         buildLocation = validTotoroPlacements.get(0);
-
+        tilePlacement = validTilePlacements.get(0);
     }
 
     private void resetTotoroLine(){
@@ -147,6 +113,7 @@ public class JacksAI extends AI {
     private void placeTiger(){
         buildActionType = BuildActionType.TIGERPLACEMENT;
         buildLocation = validTigerPlacements.get(0);
+        tilePlacement = validTilePlacements.get(0);
     }
 
     private boolean noCurrentLine(){
@@ -179,20 +146,18 @@ public class JacksAI extends AI {
        /* if (plannedSettlementLocations.size() == 4) {
             myNextExpansionLocation = plannedSettlementLocations.get(0);
         }
-
         if (plannedSettlementLocations.size() == 2) {
             Location nextLocation = plannedSettlementLocations.remove(0);
             this.buildActionType = BuildActionType.VILLAGEEXPANSION;
             findNextTilePlacement(nextLocation);
             // TODO replace with an actual solution
             expandTerrain = tilePlacement.getTile().getLeftHex().getHexTerrain();
-
         } else {*/
-            Location nextLocation = plannedSettlementLocations.remove(0);
-            this.buildActionType = BuildActionType.VILLAGECREATION;
-            this.buildLocation = nextLocation;
-            findNextTilePlacement(nextLocation);
-       // }
+        Location nextLocation = plannedSettlementLocations.remove(0);
+        this.buildActionType = BuildActionType.VILLAGECREATION;
+        this.buildLocation = nextLocation;
+        findNextTilePlacement(nextLocation);
+        // }
     }
 
     private void findNextTilePlacement(Location location) {
@@ -242,4 +207,3 @@ public class JacksAI extends AI {
     public Location returnExpansionLocation() { return myNextExpansionLocation; }
 
 }
-
