@@ -11,7 +11,8 @@ public enum PlayerType {
     RANDOMAI("RANDOMAI"),
     SERVER("SERVER"),
     TIGERFORMAI("TIGERFORMAI"),
-    JACKSAI("JACKSAI");
+    JACKSAI("JACKSAI"),
+    WEAKJACKSAI("WEAKJACKSAI");
 
     private String typeString;
 

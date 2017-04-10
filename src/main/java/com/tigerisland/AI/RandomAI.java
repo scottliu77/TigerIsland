@@ -37,7 +37,7 @@ public class RandomAI extends AI {
 
     private void gatherInfo(Board board){
         this.validTilePlacements = AI_Info.returnValidTilePlacements(turnState.getCurrentTile(), board);
-        this.validTotoroPlacements = AI_Info.returnValidTotoroPlacements(turnState.getCurrentPlayer().getPlayerColor(), board);
+        this.validTotoroPlacements = AI_Info.returnValidTotoroPlacements(turnState.getCurrentPlayer(), board);
         this.validTigerPlacements = AI_Info.returnValidTigerPlacements(turnState.getCurrentPlayer().getPlayerColor(), board);
         this.validVillageExpansions = AI_Info.returnValidVillageExpansions(turnState.getCurrentPlayer(), board);
         this.validVillagePlacements = AI_Info.returnValidVillagePlacements(board);
@@ -78,7 +78,7 @@ public class RandomAI extends AI {
                 }
                 break;
             case 2:
-                if(validVillageExpansions.size() > 0) {
+                /*if(validVillageExpansions.size() > 0) {
                     int index = random.nextInt(validVillageExpansions.size());
                     SettlementAndTerrainListPair settlementAndTerrainListPair = validVillageExpansions.get(index);
                     Settlement settlement = settlementAndTerrainListPair.getSettlement();
@@ -93,9 +93,9 @@ public class RandomAI extends AI {
 
                     buildActionType = BuildActionType.VILLAGEEXPANSION;
                 }
-                else {
+                else {*/
                     doDefault = true;
-                }
+                //}
                 break;
             case 3:
                 int index = random.nextInt(validVillagePlacements.size());

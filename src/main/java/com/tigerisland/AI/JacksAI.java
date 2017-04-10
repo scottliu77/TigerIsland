@@ -3,6 +3,7 @@ package com.tigerisland.AI;
 import com.tigerisland.InvalidMoveException;
 import com.tigerisland.game.*;
 import org.omg.CORBA.DynAnyPackage.Invalid;
+import java.util.Random;
 
 import java.util.ArrayList;
 
@@ -17,6 +18,7 @@ public class JacksAI extends AI {
     private ArrayList<TilePlacement> tilePlacementsThatSetUpPlayerForTotoroPlacement;
     private ArrayList<TilePlacement> tilePlacementsThatCutTotoroOffOfMostOfSettlement;
     private Board tempBoard;
+    private Random rand;
 
     private Location myNextExpansionLocation;
 
@@ -24,25 +26,30 @@ public class JacksAI extends AI {
 
     public JacksAI(){
         plannedSettlementLocations = new ArrayList<Location>();
+        rand = new Random();
     }
 
     public void decideOnMove(){
-        tempBoard = turnState.getBoard();
+        tempBoard = new Board(turnState.getBoard());
         try {
             gatherTilePlacementInfo();
         } catch (InvalidMoveException e) {
         }
         if(tilePlacementsThatSetUpPlayerForTotoroPlacement.size() > 0) {
-            tilePlacement = tilePlacementsThatSetUpPlayerForTotoroPlacement.get(0);
+            int randInt = rand.nextInt(tilePlacementsThatSetUpPlayerForTotoroPlacement.size());
+            tilePlacement = tilePlacementsThatSetUpPlayerForTotoroPlacement.get(randInt);
         }
         else if(tilePlacementsForNukingEnemySettlementsCloseToGettingATotoro.size() > 0) {
-            tilePlacement = tilePlacementsForNukingEnemySettlementsCloseToGettingATotoro.get(0);
+            int randInt = rand.nextInt(tilePlacementsForNukingEnemySettlementsCloseToGettingATotoro.size());
+            tilePlacement = tilePlacementsForNukingEnemySettlementsCloseToGettingATotoro.get(randInt);
         }
         else if(tilePlacementsForNukingEnemySettlementsCloseToGettingATiger.size() > 0) {
-            tilePlacement = tilePlacementsForNukingEnemySettlementsCloseToGettingATiger.get(0);
+            int randInt = rand.nextInt(tilePlacementsForNukingEnemySettlementsCloseToGettingATotoro.size());
+            tilePlacement = tilePlacementsForNukingEnemySettlementsCloseToGettingATiger.get(randInt);
         }
         else if(tilePlacementsThatCutTotoroOffOfMostOfSettlement.size() > 0) {
-            tilePlacement = tilePlacementsThatCutTotoroOffOfMostOfSettlement.get(0);
+            int randInt = rand.nextInt(tilePlacementsThatCutTotoroOffOfMostOfSettlement.size());
+            tilePlacement = tilePlacementsThatCutTotoroOffOfMostOfSettlement.get(randInt);
         }
         if(tilePlacement != null) {
             try {
@@ -79,7 +86,7 @@ public class JacksAI extends AI {
     }
 
     private void gatherBuildActionInfo() {
-        this.validTotoroPlacements = AI_Info.returnValidTotoroPlacements(turnState.getCurrentPlayer().getPlayerColor(), tempBoard);
+        this.validTotoroPlacements = AI_Info.returnValidTotoroPlacements(turnState.getCurrentPlayer(), tempBoard);
         this.validTigerPlacements = AI_Info.returnValidTigerPlacements(turnState.getCurrentPlayer().getPlayerColor(), tempBoard);
     }
 
@@ -95,7 +102,8 @@ public class JacksAI extends AI {
     private void placeTotoro(){
         buildActionType = BuildActionType.TOTOROPLACEMENT;
         buildLocation = validTotoroPlacements.get(0);
-        tilePlacement = validTilePlacements.get(0);
+        int randInt = rand.nextInt(validTilePlacements.size());
+        tilePlacement = validTilePlacements.get(randInt);
     }
 
     private void resetTotoroLine(){
@@ -113,7 +121,8 @@ public class JacksAI extends AI {
     private void placeTiger(){
         buildActionType = BuildActionType.TIGERPLACEMENT;
         buildLocation = validTigerPlacements.get(0);
-        tilePlacement = validTilePlacements.get(0);
+        int randInt = rand.nextInt(validTilePlacements.size());
+        tilePlacement = validTilePlacements.get(randInt);
     }
 
     private boolean noCurrentLine(){
@@ -162,7 +171,8 @@ public class JacksAI extends AI {
 
     private void findNextTilePlacement(Location location) {
         if(tempBoard.hexExistsAtLocation(location)){
-            this.tilePlacement = validTilePlacements.get(0);
+            int randInt = rand.nextInt(validTilePlacements.size());
+            tilePlacement = validTilePlacements.get(randInt);
         }
         else{
             this.tilePlacement = placeTileToExtendLine(location);

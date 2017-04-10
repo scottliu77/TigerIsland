@@ -86,7 +86,5 @@ public class Player {
         return playerID;
     }
 
-    public void setScore(int score){
-        this.score = new Score(score);
-    }
+
 }

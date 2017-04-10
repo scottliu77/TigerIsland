@@ -51,7 +51,7 @@ public class TigerFormAI extends AI {
 
     private void gatherInfo() {
         this.validTilePlacements = AI_Info.returnValidTilePlacements(turnState.getCurrentTile(), turnState.getBoard());
-        this.validTotoroPlacements = AI_Info.returnValidTotoroPlacements(turnState.getCurrentPlayer().getPlayerColor(), turnState.getBoard());
+        this.validTotoroPlacements = AI_Info.returnValidTotoroPlacements(turnState.getCurrentPlayer(), turnState.getBoard());
         this.validTigerPlacements = AI_Info.returnValidTigerPlacements(turnState.getCurrentPlayer().getPlayerColor(), turnState.getBoard());
 //Is this needed?
         this.boardCopy = new Board(turnState.getBoard());

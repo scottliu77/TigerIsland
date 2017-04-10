@@ -116,16 +116,25 @@ public class AI_Info {
         //Returns a list where every object in the list is a pair including a settlement and the list of terrains it can expand into
     }
 
-    public static ArrayList<Location> returnValidTotoroPlacements(Color color, Board board){
+    public static ArrayList<Location> returnValidTotoroPlacements(Player player, Board board){
         ArrayList<Location> listOfValidPlacements = new ArrayList<Location>();
         ArrayList<PlacedHex> placedHexes = board.getPlacedHexes();
         for(PlacedHex ph : placedHexes) {
             if(ph.isEmpty() && ph.isNotVolcano()) {
                 ArrayList<Settlement> settlements = board.findAdjacentSettlementsToLocation(ph.getLocation());
                 for (Settlement ss : settlements) {
-                    if (ss.getColor()==color && !ss.containsTotoro() && ss.size()>=Board.SIZE_REQUIRED_FOR_TOTORO) {
+                    if (ss.getColor()==player.getPlayerColor() && !ss.containsTotoro() && ss.size()>=Board.SIZE_REQUIRED_FOR_TOTORO) {
+                        try{
+                            Board tempBoard = new Board(board);
+                            Player tempPlayer = new Player(player);
+                            tempBoard.placeTotoro(tempPlayer, ph.getLocation());
+                        }
+                        catch(InvalidMoveException e){
+                            continue;
+                        }
                         listOfValidPlacements.add(ph.getLocation());
-                        break;
+                            //listOfValidPlacements.add(ph.getLocation());
+                            //break;
                     }
                 }
             }
