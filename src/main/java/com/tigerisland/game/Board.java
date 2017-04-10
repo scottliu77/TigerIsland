@@ -62,6 +62,7 @@ public class Board{
                 throw ex;
             }
         }
+        updateSettlements();
     }
 
     public void placeTile(TilePlacement tilePlacement) throws InvalidMoveException {
@@ -81,6 +82,7 @@ public class Board{
                 throw ex;
             }
         }
+        updateSettlements();
     }
 
     public boolean isALegalTilePlacment(Location centerLoc, int rotation) {

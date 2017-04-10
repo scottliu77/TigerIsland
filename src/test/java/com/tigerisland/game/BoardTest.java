@@ -3,6 +3,7 @@ package com.tigerisland.game;
 import com.tigerisland.InvalidMoveException;
 import org.junit.Test;
 import org.junit.Before;
+import org.junit.experimental.theories.suppliers.TestedOn;
 
 import java.util.ArrayList;
 
@@ -1375,5 +1376,150 @@ public class BoardTest{
         } catch (InvalidMoveException e) {
             assertTrue(e.getMessage().equals("Whole settlement exists under tile"));
         }
+    }
+
+    @Test  // Used to Debug Random AI problem -> "Hex does not belong in a settlement" -> SOLVED
+    public void testIfExpandVillageIsBroken() throws Throwable{
+        // Create Player 11 (Black) and Player 7 (White)
+        Player player11 = new Player(Color.BLACK, "Player11", PlayerType.HUMAN);
+        Player player7 = new Player(Color.WHITE, "Player7", PlayerType.HUMAN);
+
+        // Setup 5 Original Hexes
+        board.placeStartingTile();
+
+        // First Move
+        Tile tile1 = new Tile(Terrain.LAKE, Terrain.LAKE);
+        Location loc1 = new Location(0,-3);
+        board.placeTile(tile1, loc1, 0);
+
+        Location settleLoc1 = new Location(1,-3);
+        board.createVillage(player11, settleLoc1);
+        board.updateSettlements();
+
+        // Second Move
+        Tile tile2 = new Tile(Terrain.ROCK, Terrain.ROCK);
+        Location loc2 = new Location(1,2);
+        board.placeTile(tile2, loc2, 180);
+
+        Location settleLoc2 = new Location(1,-1);
+        board.createVillage(player7, settleLoc2);
+        board.updateSettlements();
+
+        // Third Move
+        Tile tile3 = new Tile(Terrain.JUNGLE, Terrain.LAKE);
+        Location loc3 = new Location(2,-4);
+        board.placeTile(tile3, loc3, 240);
+
+        Location settleLoc3 = new Location(3,-5);
+        board.createVillage(player11, settleLoc3);
+        board.updateSettlements();
+
+        // Fourth Move
+        Tile tile4 = new Tile(Terrain.JUNGLE, Terrain.JUNGLE);
+        Location loc4 = new Location(-2,4);
+        board.placeTile(tile4, loc4, 240);
+
+        Location settleLoc4 = new Location(0,-1);
+        board.createVillage(player7, settleLoc4);
+        board.updateSettlements();
+
+        // Fifth Move
+        Tile tile5 = new Tile(Terrain.LAKE, Terrain.JUNGLE);
+        Location loc5 = new Location(3, -6);
+        board.placeTile(tile5, loc5, 240);
+
+        Location settleLoc5 = new Location(-2,3);
+        board.createVillage(player11, settleLoc5);
+        board.updateSettlements();
+
+        // Sixth Move
+        Tile tile6 = new Tile(Terrain.GRASS, Terrain.JUNGLE);
+        Location loc6 = new Location(-2,1);
+        board.placeTile(tile6, loc6, 240);
+
+        Location settleLoc6 = new Location(0,1);
+        board.createVillage(player7, settleLoc6);
+        board.updateSettlements();
+
+        // Seventh Move
+        Tile tile7 = new Tile(Terrain.JUNGLE, Terrain.ROCK);
+        Location loc7 = new Location(-4,2);
+        board.placeTile(tile7, loc7, 0);
+
+        Location expandLoc1 = new Location(1,-3);
+        board.expandVillage(player11, expandLoc1, Terrain.LAKE);
+
+        // Eighth Move
+        Tile tile8 = new Tile(Terrain.GRASS, Terrain.ROCK);
+        Location loc8 = new Location(-6,2);
+        board.placeTile(tile8, loc8, 0);
+
+        Location settleLoc8 = new Location(-1,3);
+        board.createVillage(player7, settleLoc8);
+        board.updateSettlements();
+
+        // Ninth Move
+        Tile tile9 = new Tile(Terrain.JUNGLE, Terrain.GRASS);
+        Location loc9 = new Location(-2,-1);
+        board.placeTile(tile9, loc9, 300);
+
+        Location settleLoc9 = new Location(2,-5);
+        board.createVillage(player11, settleLoc9);
+        board.updateSettlements();
+
+        // Tenth Move
+        Tile tile10 = new Tile(Terrain.LAKE, Terrain.GRASS);
+        Location loc10 = new Location(1,-5);
+        board.placeTile(tile10, loc10, 120);
+
+        Location settleLoc10 = new Location(1,1);
+        board.createVillage(player7, settleLoc10);
+        board.updateSettlements();
+
+        // Eleventh Move
+        Tile tile11 = new Tile(Terrain.ROCK, Terrain.LAKE);
+        Location loc11 = new Location(1,-7);
+        board.placeTile(tile11, loc11, 120);
+
+        Location settleLoc11 = new Location(-1,-1);
+        board.createVillage(player11, settleLoc11);
+        board.updateSettlements();
+
+        // Twelfth Move
+        Tile tile12 = new Tile(Terrain.GRASS, Terrain.JUNGLE);
+        Location loc12 = new Location(2,-8);
+        board.placeTile(tile12, loc12, 180);
+
+        Location settleLoc12 = new Location(0,-4);
+        board.createVillage(player7, settleLoc12);
+        board.updateSettlements();
+
+        // Thirteenth Move
+        Tile tile13 = new Tile(Terrain.ROCK, Terrain.JUNGLE);
+        Location loc13 = new Location(-7,2);
+        board.placeTile(tile13, loc13, 60);
+
+        Location expandLoc2 = new Location(0,-2);
+        board.expandVillage(player11, expandLoc2, Terrain.GRASS);
+        board.updateSettlements();
+
+        // Fourteenth Move
+        Tile tile14 = new Tile(Terrain.ROCK, Terrain.JUNGLE);
+        Location loc14 = new Location(0,3);
+        board.placeTile(tile14, loc14, 60);
+
+        Location settleLoc14 = new Location(-2,0);
+        board.createVillage(player7, settleLoc14);
+        board.updateSettlements();
+
+        // Last Move Before Error
+        Tile tile15 = new Tile(Terrain.ROCK, Terrain.GRASS);
+        Location loc15 = new Location(-2,1);
+        board.placeTile(tile15, loc15, 300);
+
+        Location expandLoc3 = new Location(-1,-1);
+        board.expandVillage(player11, expandLoc3, Terrain.GRASS);
+        board.updateSettlements();
+
     }
 }
