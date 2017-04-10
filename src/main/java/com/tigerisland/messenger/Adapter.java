@@ -55,15 +55,15 @@ public final class Adapter {
     }
 
     public static Location convertLocationCubeToAxial(Location cubeLoc) {
-        int x = cubeLoc.z * -1;
-        int y = cubeLoc.x * -1;
+        int x = cubeLoc.y * -1;
+        int y = cubeLoc.z * -1;
         return new Location(x, y);
     }
 
     public static Location convertLocationAxialToCube(Location axialLoc) {
-        int x = axialLoc.y * -1;
-        int z = axialLoc.x * -1;
-        int y = -x - z;
+        int y = axialLoc.x * -1;
+        int z = axialLoc.y * -1;
+        int x = (-y) - z;
         return new Location(x, y, z);
     }
 }

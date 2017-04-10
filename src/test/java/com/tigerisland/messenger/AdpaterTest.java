@@ -46,28 +46,14 @@ public class AdpaterTest {
     @Test
     public void testCanConvertAxialToCubeTest2() {
         Location target = new Location(-3, 0, 3);
-        Location converted = Adapter.convertLocationAxialToCube(new Location(-3, 3));
+        Location converted = Adapter.convertLocationAxialToCube(new Location(0, -3));
         assertTrue(converted.x == target.x && converted.y == target.y && converted.z == target.z);
     }
 
     @Test
     public void testCanConvertAxialToCubeTest3() {
         Location target = new Location(3, -2, -1);
-        Location converted = Adapter.convertLocationAxialToCube(new Location(1, -3));
-        assertTrue(converted.x == target.x && converted.y == target.y && converted.z == target.z);
-    }
-
-    @Test
-    public void testCanConvertAxialToCubeTest4() {
-        Location target = new Location(1, 2, -3);
-        Location converted = Adapter.convertLocationAxialToCube(new Location(3, -1));
-        assertTrue(converted.x == target.x && converted.y == target.y && converted.z == target.z);
-    }
-
-    @Test
-    public void testCanConvertAxialToCubeTest5() {
-        Location target = new Location(-2, 3, -1);
-        Location converted = Adapter.convertLocationAxialToCube(new Location(1, 2));
+        Location converted = Adapter.convertLocationAxialToCube(new Location(2, 1));
         assertTrue(converted.x == target.x && converted.y == target.y && converted.z == target.z);
     }
 
@@ -81,28 +67,15 @@ public class AdpaterTest {
     @Test
     public void testCanConvertCubeToAxialTest1() {
         Location target = new Location(-2, -1);
-        Location converted = Adapter.convertLocationCubeToAxial(new Location(1, -3, 2));
+        Location converted = Adapter.convertLocationCubeToAxial(new Location(-3, 2, 1));
         assertTrue(converted.x == target.x && converted.y == target.y);
     }
 
     @Test
     public void testCanConvertCubeToAxialTest2() {
         Location target = new Location(0, 3);
-        Location converted = Adapter.convertLocationCubeToAxial(new Location(-3, 3, 0));
+        Location converted = Adapter.convertLocationCubeToAxial(new Location(3, 0, -3));
         assertTrue(converted.x == target.x && converted.y == target.y);
     }
 
-    @Test
-    public void testCanConvertCubeToAxialTest3() {
-        Location target = new Location(3, -2);
-        Location converted = Adapter.convertLocationCubeToAxial(new Location(2, 1, -3));
-        assertTrue(converted.x == target.x && converted.y == target.y);
-    }
-
-    @Test
-    public void testCanConvertCubeToAxialTest4() {
-        Location target = new Location(-2, 3);
-        Location converted = Adapter.convertLocationCubeToAxial(new Location(-3, 1, 2));
-        assertTrue(converted.x == target.x && converted.y == target.y);
-    }
 }

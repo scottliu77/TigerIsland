@@ -143,7 +143,7 @@ public class MessageTest {
     @Test
     public void testCanGetNegativeIndicesFromMessage() {
         Message message = new Message("PLACE ROCK+LAKE AT 0 0 -1 1");
-        assertTrue(message.getTileLocation().x == 1);
+        assertTrue(message.getTileLocation().x == 0);
     }
 
     @Test

@@ -86,11 +86,10 @@ public class MoveTest {
     public void testCanPlaceTile() throws InvalidMoveException, InterruptedException {
         Board oldBoard = new Board(turn.getBoard());
 
-        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCK+GRASS AT 0 -2 -2 2 FOUND SETTLEMENT AT 2 1 -3"));
+        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCK+GRASS AT 2 -2 0 2 FOUND SETTLEMENT AT 3 -3 0"));
         turn.processMove();
         turn = Move.placeTile(turn);
 
-        TextGUI.printMap(turn.getBoard());
         assertTrue(oldBoard != turn.getBoard());
     }
 
@@ -102,9 +101,12 @@ public class MoveTest {
     }
 
     private void createInitialVillage() throws InvalidMoveException, InterruptedException {
-        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCK+GRASS AT 0 -2 -2 2 FOUND SETTLEMENT AT 3 2 -1"));
+        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCK+GRASS AT 2 -2 0 2 FOUND SETTLEMENT AT -2 -1 3"));
         turn.processMove();
+
+        turn = Move.placeTile(turn);
         turn = Move.takeBuildAction(turn);
+
     }
 
     @Test
@@ -118,7 +120,7 @@ public class MoveTest {
     public void testCanExpandVillage() throws InvalidMoveException, InterruptedException {
         createInitialVillage();
 
-        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCK+GRASS AT 0 -2 -2 2 EXPANDED SETTLEMENT AT 3 2 -1 ROCK"));
+        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCK+GRASS AT 2 -2 0 2 EXPANDED SETTLEMENT AT -2 -1 3 ROCK"));
         turn.processMove();
         turn = Move.takeBuildAction(turn);
 
@@ -129,7 +131,7 @@ public class MoveTest {
     public void testCanExpandVillageAndGetAdjustedScore() throws InvalidMoveException, InterruptedException {
         createInitialVillage();
 
-        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCK+GRASS AT 0 -2 -2 2 EXPANDED SETTLEMENT AT 3 2 -1 ROCK"));
+        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCK+GRASS AT 2 -2 0 2 EXPANDED SETTLEMENT AT -2 -1 3 ROCK"));
         turn.processMove();
         turn = Move.takeBuildAction(turn);
 
@@ -139,20 +141,20 @@ public class MoveTest {
     @Test
     public void testCanPlaceTotoro() throws InterruptedException, InvalidMoveException {
 
-        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCK+GRASS AT 0 -2 -2 2 FOUND SETTLEMENT AT 1 -1 -2"));
+        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCK+GRASS AT 2 -2 0 2 FOUND SETTLEMENT AT -2 -1 3"));
         turn.processMove();
         turn = Move.takeBuildAction(turn);
 
 
-        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCK+GRASS AT 0 -2 -2 2 EXPAND SETTLEMENT AT 1 -1 -2 LAKE"));
+        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCK+GRASS AT 2 -2 0 2 EXPAND SETTLEMENT AT -2 -1 3 LAKE"));
         turn.processMove();
         turn = Move.takeBuildAction(turn);
 
-        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCK+GRASS AT 0 -2 -2 2 EXPAND SETTLEMENT AT 1 -1 -2 ROCK"));
+        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCK+GRASS AT 2 -2 0 2 EXPAND SETTLEMENT AT -2 -1 3 ROCK"));
         turn.processMove();
         turn = Move.takeBuildAction(turn);
 
-        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCK+GRASS AT 0 -2 -2 2 BUILD TOTORO SANCTUARY AT 1 0 -1"));
+        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCK+GRASS AT 2 -2 0 2 BUILD TOTORO SANCTUARY AT 0 -3 3"));
         turn.processMove();
         turn = Move.takeBuildAction(turn);
 
@@ -162,23 +164,25 @@ public class MoveTest {
     @Test
     public void testCanPlaceTotoroAndGetAdjustedScore() throws InterruptedException, InvalidMoveException {
 
-        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCK+GRASS AT 0 -2 -2 2 FOUND SETTLEMENT AT 1 -1 -2"));
+        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCK+GRASS AT 2 -2 0 2 FOUND SETTLEMENT AT -2 -1 3"));
         turn.processMove();
         turn = Move.takeBuildAction(turn);
 
-        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCK+GRASS AT 0 -2 -2 2 EXPAND SETTLEMENT AT 1 -1 -2 LAKE"));
+
+        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCK+GRASS AT 2 -2 0 2 EXPAND SETTLEMENT AT -2 -1 3 LAKE"));
         turn.processMove();
         turn = Move.takeBuildAction(turn);
 
-        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCK+GRASS AT 0 -2 -2 2 EXPAND SETTLEMENT AT 1 -1 -2 ROCK"));
+        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCK+GRASS AT 2 -2 0 2 EXPAND SETTLEMENT AT -2 -1 3 ROCK"));
         turn.processMove();
         turn = Move.takeBuildAction(turn);
 
         int preTotoroScore = turn.getCurrentPlayer().getScore().getScoreValue();
 
-        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCK+GRASS AT 0 -2 -2 2 BUILD TOTORO SANCTUARY AT 1 0 -1"));
+        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCK+GRASS AT 2 -2 0 2 BUILD TOTORO SANCTUARY AT 0 -3 3"));
         turn.processMove();
         turn = Move.takeBuildAction(turn);
+
 
         assertTrue(turn.getCurrentPlayer().getScore().getScoreValue() - preTotoroScore == Score.TOTORO_POINT_VALUE);
     }
@@ -186,11 +190,11 @@ public class MoveTest {
     @Test
     public void testCanPlaceTiger() throws InterruptedException, InvalidMoveException {
 
-        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCK+GRASS AT 0 -2 -2 2 FOUND SETTLEMENT AT 1 -1 -2"));
+        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCK+GRASS AT 2 -2 0 2 FOUND SETTLEMENT AT 1 -2 1"));
         turn.processMove();
         turn = Move.takeBuildAction(turn);
 
-        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCK+GRASS AT 0 -2 -2 2 BUILD TIGER PLAYGROUND AT 1 0 -1"));
+        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCK+GRASS AT 2 -2 0 2 BUILD TIGER PLAYGROUND AT 0 -1 1"));
         turn.processMove();
         turn = Move.takeBuildAction(turn);
 
@@ -201,12 +205,11 @@ public class MoveTest {
     @Test
     public void testCanPlaceTigerAndGetAdjustedScore() throws InterruptedException, InvalidMoveException {
 
-        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCK+GRASS AT 0 -2 -2 2 FOUND SETTLEMENT AT 1 -1 -2"));
-        gameSettings.getPlayerSet().setCurrentPlayer("1");
+        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCK+GRASS AT 2 -2 0 2 FOUND SETTLEMENT AT 1 -2 1"));
         turn.processMove();
         turn = Move.takeBuildAction(turn);
 
-        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCK+GRASS AT 0 -2 -2 2 BUILD TIGER PLAYGROUND AT 1 0 -1"));
+        inboundMessages.add(new Message("GAME A MOVE 1 PLACE ROCK+GRASS AT 2 -2 0 2 BUILD TIGER PLAYGROUND AT 0 -1 1"));
         turn.processMove();
         turn = Move.takeBuildAction(turn);
 

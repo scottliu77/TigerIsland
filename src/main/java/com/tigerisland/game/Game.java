@@ -19,7 +19,7 @@ public class Game implements Runnable {
 
     private String ourPlayerID;
 
-    private String moveID = "1";
+    private String moveID = "-1";
 
     Player winner;
     Player loser;
@@ -82,9 +82,12 @@ public class Game implements Runnable {
             alternateOurPlayerID();
         }
 
-        checkForHaveAIPickAMove();
+        if(moveReadyToProcess()) {
+            continueGame = attemptToProcessMove();
 
-        continueGame = checkForMoveToProcess();
+        } else {
+            checkForHaveAIPickAMove();
+        }
 
         if(gameOver()) {
             continueGame = false;
@@ -142,6 +145,8 @@ public class Game implements Runnable {
 
     private void pickMove(Message message) throws InvalidMoveException {
 
+        incrementMoveID();
+
         turnState.updateTurnInformation(message.getMoveID(), message.getTile(), ourPlayerID);
 
         if(EndConditions.noValidMoves(turnState.getCurrentPlayer(), turnState.getBoard())) {
@@ -151,7 +156,20 @@ public class Game implements Runnable {
         }
     }
 
-    protected Boolean checkForMoveToProcess() throws InvalidMoveException, InterruptedException {
+    protected Boolean moveReadyToProcess() {
+        for(Message message : gameSettings.getGlobalSettings().inboundQueue) {
+            if (message.getGameID() != null && message.getMoveID() != null && message.getMessageType() != null) {
+                if (message.getGameID().equals(gameID)) {
+                    if (message.getMoveID().equals(moveID)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    protected Boolean attemptToProcessMove() throws InvalidMoveException, InterruptedException {
 
         for(Message message : gameSettings.getGlobalSettings().inboundQueue) {
             if(message.getGameID() != null && message.getMoveID() != null && message.getMessageType() != null) {
@@ -171,6 +189,8 @@ public class Game implements Runnable {
 
     private Boolean processMove(Message message) throws InvalidMoveException, InterruptedException {
 
+        System.out.println("Attempting to process move");
+
         gameSettings.getPlayerSet().setCurrentPlayer(message.getCurrentPlayerID());
         gameSettings.setMoveID(message.getMoveID());
 
@@ -184,10 +204,10 @@ public class Game implements Runnable {
             return false;
         }
 
-        incrementMoveID();
+
+        TextGUI.printMap(turnState.getBoard());
 
         return true;
-
     }
 
     protected Boolean gameOver() {
