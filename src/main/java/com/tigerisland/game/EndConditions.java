@@ -25,7 +25,7 @@ public final class EndConditions {
         Boolean noVillagers = noMoreVillagers(currentPlayer);
         Boolean noTotoro = cantPlayTotoro(currentPlayer, board);
         Boolean noTiger = cantPlayTiger(currentPlayer, board);
-        if((noVillagers && noTotoro) && (noVillagers && noTiger)){
+        if((noVillagers && noTotoro && noTiger)){
             return true;
         }
         return false;

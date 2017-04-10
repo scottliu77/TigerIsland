@@ -19,7 +19,21 @@ public class Match {
     Match(GlobalSettings globalSettings) {
         this.globalSettings = globalSettings;
         this.games = new HashMap<String, Game>();
+        cleanupOldGames();
         constructGames();
+    }
+
+    private void cleanupOldGames() {
+        for(Message message : globalSettings.inboundQueue) {
+            if(message.getMessageType() != null) {
+                if(message.getMessageType() == MessageType.MAKEMOVE) {
+                    message.setProcessed();
+                }
+                if(message.getMessageType().getSubtype().equals("BUILDACTION")) {
+                    message.setProcessed();
+                }
+            }
+        }
     }
 
     private void constructGames() {

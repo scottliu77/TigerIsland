@@ -10,8 +10,6 @@ public class GameSettings {
     private final PlayerType BEST_AI_TYPE = PlayerType.TOTOROLINESAI_V2;
     private final PlayerType TEST_AGAINST_TYPE = PlayerType.TOTOROLINESAI;
 
-
-
     private GlobalSettings globalSettings;
     private Deck deck;
     private PlayerSet playerSet;

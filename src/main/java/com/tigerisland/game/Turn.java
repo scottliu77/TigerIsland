@@ -54,13 +54,10 @@ public class Turn {
             for(Message message : inboundMessages) {
                 if(messageIsSafeToUse(message)) {
                     if(message.getGameID().equals(gameID)) {
-                        if(message.getMoveID().equals(moveID)) {
-                            parseTilePlacement(message);
-                            filterBuildAction(message);
-                            message.setProcessed();
-                            return;
-
-                        }
+                        parseTilePlacement(message);
+                        filterBuildAction(message);
+                        message.setProcessed();
+                        return;
                     }
                 }
             }

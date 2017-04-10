@@ -19,7 +19,7 @@ public class Game implements Runnable {
 
     private String ourPlayerID;
 
-    private String moveID = "-1";
+    private String moveID = "0";
 
     Player winner;
     Player loser;
@@ -67,10 +67,6 @@ public class Game implements Runnable {
 
     private Boolean continuePlayingGame() throws InterruptedException, InvalidMoveException {
 
-        //if(gameSettings.getGlobalSettings().manualTesting) {
-            TextGUI.printMap(board);
-        //}
-
         Boolean continueGame = true;
 
         if(Thread.currentThread().isInterrupted()) {
@@ -82,12 +78,11 @@ public class Game implements Runnable {
             alternateOurPlayerID();
         }
 
-        if(moveReadyToProcess()) {
-            continueGame = attemptToProcessMove();
 
-        } else {
-            checkForHaveAIPickAMove();
-        }
+        continueGame = attemptToProcessMove();
+
+        checkForHaveAIPickAMove();
+
 
         if(gameOver()) {
             continueGame = false;
@@ -123,10 +118,6 @@ public class Game implements Runnable {
         }
     }
 
-    protected void incrementMoveID() {
-        moveID = String.valueOf(Integer.parseInt(moveID)+ 1);
-    }
-
     protected void checkForHaveAIPickAMove() throws InterruptedException, InvalidMoveException {
 
         for(Message message : gameSettings.getGlobalSettings().inboundQueue) {
@@ -134,6 +125,7 @@ public class Game implements Runnable {
                 if (message.getGameID().equals(gameID)) {
                     if (message.getMessageType() == MessageType.MAKEMOVE) {
                         message.setProcessed();
+                        gameSettings.setMoveID(message.getMoveID());
                         gameSettings.resetGameID(message.getGameID());
                         gameSettings.getPlayerSet().setCurrentPlayer(ourPlayerID);
                         pickMove(message);
@@ -144,8 +136,6 @@ public class Game implements Runnable {
     }
 
     private void pickMove(Message message) throws InvalidMoveException {
-
-        incrementMoveID();
 
         turnState.updateTurnInformation(message.getMoveID(), message.getTile(), ourPlayerID);
 
@@ -160,9 +150,7 @@ public class Game implements Runnable {
         for(Message message : gameSettings.getGlobalSettings().inboundQueue) {
             if (message.getGameID() != null && message.getMoveID() != null && message.getMessageType() != null) {
                 if (message.getGameID().equals(gameID)) {
-                    if (message.getMoveID().equals(moveID)) {
-                        return true;
-                    }
+                    return true;
                 }
             }
         }
@@ -174,12 +162,11 @@ public class Game implements Runnable {
         for(Message message : gameSettings.getGlobalSettings().inboundQueue) {
             if(message.getGameID() != null && message.getMoveID() != null && message.getMessageType() != null) {
                 if (message.getGameID().equals(gameID)) {
-                    if (message.getMoveID().equals(moveID)) {
-                        if (message.getMessageType().getSubtype().equals("BUILDACTION")) {
-                            gameSettings.resetGameID(message.getGameID());
-                            sendMockServerMessage(message);
-                            return processMove(message);
-                        }
+                    if (message.getMessageType().getSubtype().equals("BUILDACTION")) {
+                        gameSettings.setMoveID(message.getMoveID());
+                        gameSettings.resetGameID(message.getGameID());
+                        sendMockServerMessage(message);
+                        return processMove(message);
                     }
                 }
             }
@@ -204,8 +191,9 @@ public class Game implements Runnable {
             return false;
         }
 
-
-        TextGUI.printMap(turnState.getBoard());
+        if(!offline) {
+            TextGUI.printMap(turnState.getBoard());
+        }
 
         return true;
     }
