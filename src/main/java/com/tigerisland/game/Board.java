@@ -62,6 +62,7 @@ public class Board{
                 throw ex;
             }
         }
+        updateSettlements();
     }
 
     public void placeTile(TilePlacement tilePlacement) throws InvalidMoveException {
@@ -81,6 +82,7 @@ public class Board{
                 throw ex;
             }
         }
+        updateSettlements();
     }
 
     public boolean isALegalTilePlacment(Location centerLoc, int rotation) {
@@ -329,7 +331,6 @@ public class Board{
             throw new InvalidMoveException("Cannot place a piece on a volcano hex");
         }
         hexAt(location).addPiecesToHex(player.getPieceSet().placeVillager(), 1);
-
     }
 
     public void expandVillage(Player player, Location settledLoc, Terrain expandTerrain) throws InvalidMoveException {
@@ -343,7 +344,6 @@ public class Board{
             villageExpansionChecks(player, settlement, allExpandableHexes);
             allExpandableHexes = getAllExpandableAdjacentHexesToSettlement(settlement, specifiedTerrain);
         }
-
 
 //        Settlement settlement = isSettledLocationValid(player, settledLoc);
 //        Terrain specifiedTerrain = expandTerrain;
@@ -373,7 +373,7 @@ public class Board{
 
         for (Settlement settlement : settlements) {
             for (PlacedHex placedHex : settlement.getHexesInSettlement()) {
-                if (placedHex.getHex().getIDFirstChars(8).equals(potentialSettlementHex.getIDFirstChars(8))) {
+                if ((placedHex.getLocation().x == settledLoc.x) &&(placedHex.getLocation().y == settledLoc.y)) {
                     return settlement;
                 }
             }
@@ -419,7 +419,6 @@ public class Board{
         for (PlacedHex potentialHex : allExpandableHexes) {
             potentialHex.setExpansionStatus(false);
             int hexHeight = potentialHex.getHex().getHeight();
-            int hexScore = hexHeight * hexHeight;
             if (player.getPieceSet().getNumberOfVillagersRemaining() - hexHeight < 0){
                 throw new InvalidMoveException("Player does not have enough pieces to populate the target hex");
             } else {
