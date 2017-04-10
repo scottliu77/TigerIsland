@@ -65,7 +65,7 @@ public class PieceSet {
             IndexOutOfBoundsException exception = new IndexOutOfBoundsException();
             throw new InvalidMoveException("Insufficient number of villagers in game inventory");
         }
-        for (int villager = 0; villager < numVillagersToPlace - 1; villager++) {
+        for (int villager = 0; villager < numVillagersToPlace ; villager++) {
             villagerSet.remove(0);
         }
         return villagerSet.remove(0);

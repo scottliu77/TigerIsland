@@ -43,16 +43,16 @@ public class Game implements Runnable {
                 sleep(1);
             }
 
-            calculateResults();
+            offlineCalculateResults();
 
         } catch (InvalidMoveException exception) {
             if(!exception.getMessage().equals("LOST: UNABLE TO BUILD")) {
                 gameSettings.getGlobalSettings().outboundQueue.add(new Message("GAME " + gameID + " MOVE " + turnState.getMoveID() + " PLAYER " + turnState.getCurrentPlayer().getPlayerID() + " " + exception.getMessage()));
             }
-            calculateResults();
+            offlineCalculateResults();
 
         } catch (Exception exception) {
-            calculateResults();
+            offlineCalculateResults();
         }
 
         offlineGenerateGameOverEcho("GAME " + gameID + " OVER PLAYER " + winner.getPlayerID() + " WIN PLAYER " + loser.getPlayerID() + " FORFEITED");
@@ -60,9 +60,11 @@ public class Game implements Runnable {
 
     }
 
-    private void calculateResults() {
-        winner = EndConditions.calculateWinner(gameSettings.getPlayerSet().getCurrentPlayer(), gameSettings.getPlayerSet().getPlayerList());
-        loser = EndConditions.getLoser(winner, gameSettings.getPlayerSet().getPlayerList());
+    private void offlineCalculateResults() {
+        if(offline) {
+            winner = EndConditions.calculateWinner(gameSettings.getPlayerSet().getCurrentPlayer(), gameSettings.getPlayerSet().getPlayerList());
+            loser = EndConditions.getLoser(winner, gameSettings.getPlayerSet().getPlayerList());
+        }
     }
 
     private Boolean continuePlayingGame() throws InterruptedException, InvalidMoveException {
@@ -77,7 +79,6 @@ public class Game implements Runnable {
             mockMakeMoveMessage();
             alternateOurPlayerID();
         }
-
 
         continueGame = attemptToProcessMove();
 
@@ -124,11 +125,11 @@ public class Game implements Runnable {
             if(message.getGameID() != null && message.getMessageType() != null) {
                 if (message.getGameID().equals(gameID)) {
                     if (message.getMessageType() == MessageType.MAKEMOVE) {
-                        message.setProcessed();
                         gameSettings.setMoveID(message.getMoveID());
                         gameSettings.resetGameID(message.getGameID());
                         gameSettings.getPlayerSet().setCurrentPlayer(ourPlayerID);
                         pickMove(message);
+                        message.setProcessed();
                     }
                 }
             }
@@ -176,12 +177,10 @@ public class Game implements Runnable {
 
     private Boolean processMove(Message message) throws InvalidMoveException, InterruptedException {
 
-        System.out.println("Attempting to process move");
-
         gameSettings.getPlayerSet().setCurrentPlayer(message.getCurrentPlayerID());
         gameSettings.setMoveID(message.getMoveID());
 
-        turnState.processMove();
+        turnState.processMove(message);
 
         turnState = Move.placeTile(turnState);
 
@@ -189,10 +188,6 @@ public class Game implements Runnable {
 
         if(EndConditions.playerIsOutOfPiecesOfTwoTypes(gameSettings.getPlayerSet().getCurrentPlayer())) {
             return false;
-        }
-
-        if(!offline) {
-            TextGUI.printMap(turnState.getBoard());
         }
 
         return true;

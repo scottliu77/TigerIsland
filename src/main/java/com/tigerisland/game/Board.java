@@ -338,15 +338,25 @@ public class Board{
         checkForVolcano(expandTerrain);
         ArrayList<PlacedHex> allExpandableHexes = new ArrayList<PlacedHex>();
         allExpandableHexes = getAllExpandableAdjacentHexesToSettlement(settlement, specifiedTerrain);
-        Player tempPlayer = new Player(player);
+
         while (!allExpandableHexes.isEmpty()) {
-            villageExpansionChecks(tempPlayer, settlement, allExpandableHexes);
+            villageExpansionChecks(player, settlement, allExpandableHexes);
             allExpandableHexes = getAllExpandableAdjacentHexesToSettlement(settlement, specifiedTerrain);
         }
-        int villagersToPlace = player.getPieceSet().getNumberOfVillagersRemaining() - tempPlayer.getPieceSet().getNumberOfVillagersRemaining();
-        player.getPieceSet().placeMultipleVillagers(villagersToPlace);
-        player.setScore(tempPlayer.getScore().getScoreValue());
 
+
+//        Settlement settlement = isSettledLocationValid(player, settledLoc);
+//        Terrain specifiedTerrain = expandTerrain;
+//        checkForVolcano(expandTerrain);
+//        ArrayList<PlacedHex> allExpandableHexes = new ArrayList<PlacedHex>();
+//        allExpandableHexes = getAllExpandableAdjacentHexesToSettlement(settlement, specifiedTerrain);
+//        Player tempPlayer = new Player(player);
+//        while (!allExpandableHexes.isEmpty()) {
+//            villageExpansionChecks(tempPlayer, settlement, allExpandableHexes);
+//            allExpandableHexes = getAllExpandableAdjacentHexesToSettlement(settlement, specifiedTerrain);
+//        }
+//        int villagersToPlace = player.getPieceSet().getNumberOfVillagersRemaining() - tempPlayer.getPieceSet().getNumberOfVillagersRemaining();
+//        player = tempPlayer;
     }
 
     public Settlement isSettledLocationValid(Player player, Location settledLoc) throws InvalidMoveException {

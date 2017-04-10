@@ -29,7 +29,6 @@ public final class Move {
 
     private static Turn createVillage(Turn turnState) throws InvalidMoveException {
 
-
         turnState.getBoard().createVillage(turnState.getCurrentPlayer(), turnState.getBuildAction().getLocation());
         turnState.getBoard().updateSettlements();
         turnState.getCurrentPlayer().getScore().addPoints(Score.VILLAGER_POINT_VALUE);

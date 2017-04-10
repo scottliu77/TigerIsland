@@ -48,6 +48,14 @@ public class Turn {
         this.currentPlayer = gameSettings.getPlayerSet().getPlayerList().get(currentPlayer);
     }
 
+    public void processMove(Message message) throws InterruptedException, InvalidMoveException {
+
+        parseTilePlacement(message);
+        filterBuildAction(message);
+        message.setProcessed();
+
+    }
+
     public void processMove() throws InterruptedException, InvalidMoveException {
         while(true) {
 
@@ -88,12 +96,17 @@ public class Turn {
         if(message.getMessageType() == MessageType.FOUNDSETTLEMENT) {
             parseBuildAction(message, BuildActionType.VILLAGECREATION);
         } else if (message.getMessageType() == MessageType.EXPANDSETTLEMENT) {
+            investigateExpandSettlement(message);
             parseBuildAction(message, BuildActionType.VILLAGEEXPANSION);
         } else if (message.getMessageType() == MessageType.BUILDTOTORO) {
             parseBuildAction(message, BuildActionType.TOTOROPLACEMENT);
         } else if (message.getMessageType() == MessageType.BUILDTIGER) {
             parseBuildAction(message, BuildActionType.TIGERPLACEMENT);
         }
+    }
+
+    private void investigateExpandSettlement(Message message) {
+        System.out.print("DEBUGGING: " + currentPlayer.getPieceSet().getNumberOfVillagersRemaining());
     }
 
     private void parseBuildAction(Message message, BuildActionType buildActionType) {
