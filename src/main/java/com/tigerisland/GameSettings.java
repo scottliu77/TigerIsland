@@ -11,6 +11,7 @@ public class GameSettings {
     private final PlayerType TEST_AGAINST_TYPE = PlayerType.TOTOROLINESAI;
 
 
+
     private GlobalSettings globalSettings;
     private Deck deck;
     private PlayerSet playerSet;

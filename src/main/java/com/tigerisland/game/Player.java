@@ -85,4 +85,8 @@ public class Player {
     public String getPlayerID() {
         return playerID;
     }
+
+    public void setScore(int score){
+        this.score = new Score(score);
+    }
 }
