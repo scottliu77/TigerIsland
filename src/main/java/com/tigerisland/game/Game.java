@@ -69,6 +69,8 @@ public class Game implements Runnable {
 
     private Boolean continuePlayingGame() throws InterruptedException, InvalidMoveException {
 
+        //TextGUI.printMap(board);
+
         Boolean continueGame = true;
 
         if(Thread.currentThread().isInterrupted()) {
@@ -225,8 +227,8 @@ public class Game implements Runnable {
 
     private void offlineGenerateGameOverEcho() {
         if(offline) {
-            String message = "GAME " + gameID + " OVER PLAYER " + winner.getPlayerID() + " WIN PLAYER " + loser.getPlayerID() + " FORFEITED";
-            //String message = "GAME " + gameID + " OVER PLAYER " + winner.getPlayerID() + " " + winner.getScore().getScoreValue() + " PLAYER " + loser.getPlayerID() + " " + loser.getScore().getScoreValue();
+            //String message = "GAME " + gameID + " OVER PLAYER " + winner.getPlayerID() + " WIN PLAYER " + loser.getPlayerID() + " FORFEITED";
+            String message = "GAME " + gameID + " OVER PLAYER " + winner.getPlayerID() + " " + winner.getScore().getScoreValue() + " PLAYER " + loser.getPlayerID() + " " + loser.getScore().getScoreValue();
             gameSettings.getGlobalSettings().outboundQueue.add(new Message(message));
         }
     }

@@ -142,13 +142,13 @@ public class AI_InfoTest {
     public void testForTotoroValidation() throws InvalidMoveException {
         placeTilesForTest2();
 
-        ArrayList<Location> legalTotoroPlacements = AI_Info.returnValidTotoroPlacements(p1.getPlayerColor(), board);
+        ArrayList<Location> legalTotoroPlacements = AI_Info.returnValidTotoroPlacements(p1, board);
         assert(legalTotoroPlacements.size()==0);
 
         setUpBoardForTotoroAndTigerTests();
 
-        ArrayList<Location> legalTotoroPlacementsP1 = AI_Info.returnValidTotoroPlacements(p1.getPlayerColor(), board);
-        ArrayList<Location> legalTotoroPlacementsP2 = AI_Info.returnValidTotoroPlacements(p2.getPlayerColor(), board);
+        ArrayList<Location> legalTotoroPlacementsP1 = AI_Info.returnValidTotoroPlacements(p1, board);
+        ArrayList<Location> legalTotoroPlacementsP2 = AI_Info.returnValidTotoroPlacements(p2, board);
 
         assert(legalTotoroPlacementsP1.size()==0);
         assert(legalTotoroPlacementsP2.size()==2);
