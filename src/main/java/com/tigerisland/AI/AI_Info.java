@@ -6,14 +6,13 @@ import com.tigerisland.game.*;
 import java.util.ArrayList;
 
 public class AI_Info {
-    private static int x_lowerBound;
-    private static int x_upperBound;
-    private static int y_lowerBound;
-    private static int y_upperBound;
-
-    public synchronized static ArrayList<TilePlacement> returnValidTilePlacements(Tile tile, Board board){
+    public static ArrayList<TilePlacement> returnValidTilePlacements(Tile tile, Board board){
         ArrayList<TilePlacement> validTilePlacements = new ArrayList<TilePlacement>();
-        getBoundsOfBoard(board);
+        int[] boundsArray = getBoundsOfBoard(board);
+        int x_lowerBound =  boundsArray[0];
+        int x_upperBound = boundsArray[1];
+        int y_lowerBound = boundsArray[2];
+        int y_upperBound = boundsArray[3];
         for(int xx=x_lowerBound-1; xx<=x_upperBound+1; xx++){
             Location loc;
             int rot;
@@ -59,11 +58,11 @@ public class AI_Info {
         }
         return validTilePlacements;
     }
-    private static void getBoundsOfBoard(Board board){
-        x_lowerBound = Integer.MAX_VALUE;
-        x_upperBound = Integer.MIN_VALUE;
-        y_lowerBound = Integer.MAX_VALUE;
-        y_upperBound = Integer.MIN_VALUE;
+    private static int[] getBoundsOfBoard(Board board){
+        int x_lowerBound = Integer.MAX_VALUE;
+        int x_upperBound = Integer.MIN_VALUE;
+        int y_lowerBound = Integer.MAX_VALUE;
+        int y_upperBound = Integer.MIN_VALUE;
         ArrayList<Location> edgeSpaces = board.getEdgeSpaces();
         for(int ii=0; ii<edgeSpaces.size(); ii++){
             x_lowerBound = Math.min(edgeSpaces.get(ii).x, x_lowerBound);
@@ -71,6 +70,12 @@ public class AI_Info {
             y_lowerBound = Math.min(edgeSpaces.get(ii).y, y_lowerBound);
             y_upperBound = Math.max(edgeSpaces.get(ii).y, y_upperBound);
         }
+        int[] boundsArray = new int[4];
+        boundsArray[0] = x_lowerBound;
+        boundsArray[1] = x_upperBound;
+        boundsArray[2] = y_lowerBound;
+        boundsArray[3] = y_upperBound;
+        return boundsArray;
     }
 
     public static ArrayList<Location> returnValidVillagePlacements(Board board){
