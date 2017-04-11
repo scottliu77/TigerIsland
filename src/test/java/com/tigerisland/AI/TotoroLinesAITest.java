@@ -1,7 +1,7 @@
 package com.tigerisland.AI;
 
 import com.tigerisland.GameSettings;
-import com.tigerisland.InvalidMoveException;
+import com.tigerisland.game.InvalidMoveException;
 import com.tigerisland.game.*;
 import org.junit.Before;
 import org.junit.Ignore;

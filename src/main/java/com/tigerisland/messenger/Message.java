@@ -60,7 +60,7 @@ public class Message {
 
         checkForGameID();
         checkForMoveID();
-        // TODO: general player ID check conflicts with GAME over player check
+
         checkForGeneralPlayerID();
 
         checkForEnterTournament();

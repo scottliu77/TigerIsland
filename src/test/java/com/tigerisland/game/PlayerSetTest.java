@@ -1,14 +1,9 @@
 package com.tigerisland.game;
 
 import com.tigerisland.GlobalSettings;
-import com.tigerisland.InvalidMoveException;
-import com.tigerisland.game.Color;
-import com.tigerisland.game.Player;
-import com.tigerisland.game.PlayerSet;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import static org.junit.Assert.assertNotEquals;

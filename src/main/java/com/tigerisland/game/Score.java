@@ -1,7 +1,5 @@
 package com.tigerisland.game;
 
-import com.tigerisland.InvalidMoveException;
-
 public class Score {
 
     public static final int TOTORO_POINT_VALUE = 200;

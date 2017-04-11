@@ -1,7 +1,6 @@
 package com.tigerisland.game;
 
 import com.tigerisland.GlobalSettings;
-import com.tigerisland.InvalidMoveException;
 import org.junit.Before;
 import org.junit.Test;
 

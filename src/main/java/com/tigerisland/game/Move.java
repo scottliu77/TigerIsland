@@ -1,7 +1,5 @@
 package com.tigerisland.game;
 
-import com.tigerisland.InvalidMoveException;
-
 public final class Move {
 
     public static Turn placeTile(Turn turnState) throws InvalidMoveException {

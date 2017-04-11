@@ -1,4 +1,4 @@
-package com.tigerisland;
+package com.tigerisland.game;
 
 public class InvalidMoveException extends Exception {
 

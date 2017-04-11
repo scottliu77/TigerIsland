@@ -1,5 +1,6 @@
 package com.tigerisland;
 
+import com.tigerisland.game.InvalidMoveException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;

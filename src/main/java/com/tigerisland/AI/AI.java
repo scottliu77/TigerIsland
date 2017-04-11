@@ -1,6 +1,6 @@
 package com.tigerisland.AI;
 
-import com.tigerisland.InvalidMoveException;
+import com.tigerisland.game.InvalidMoveException;
 import com.tigerisland.game.*;
 import com.tigerisland.messenger.Adapter;
 import com.tigerisland.messenger.Message;
