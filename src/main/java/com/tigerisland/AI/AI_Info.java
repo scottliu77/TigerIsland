@@ -95,12 +95,14 @@ public class AI_Info {
             if(!settlement.getColor().equals(player.getPlayerColor())){
                 continue;
             }
-            ArrayList<Terrain> listOfTerrainsThisSettlementCanExpandInto = settlement.findTerrainsSettlementCouldExpandTo(board.getPlacedHexes());
+            ArrayList<Terrain> listOfTerrainsThisSettlementCanExpandIntoIfItHasEnoughPieces = settlement.findTerrainsSettlementCouldExpandTo(board.getPlacedHexes());
 
-            if(listOfTerrainsThisSettlementCanExpandInto.size() == 0){
+            if(listOfTerrainsThisSettlementCanExpandIntoIfItHasEnoughPieces.size() == 0){
                 continue;
             }
-            for(Terrain terrainToExpandInto : listOfTerrainsThisSettlementCanExpandInto){
+
+            ArrayList<Terrain> terrainsThisSettlementHasEnoughPiecesToExpandInto = new ArrayList<Terrain>();
+            for(Terrain terrainToExpandInto : listOfTerrainsThisSettlementCanExpandIntoIfItHasEnoughPieces){
                 Board tempBoard = new Board(board);
                 try{
                     tempBoard.expandVillage(new Player(player), settlement.getLocationsOfHexesInSettlement().get(0), terrainToExpandInto);
@@ -108,9 +110,12 @@ public class AI_Info {
                 } catch(InvalidMoveException e){
                     continue;
                 }
-                SettlementAndTerrainListPair settlementAndTerrainListPair = new SettlementAndTerrainListPair(settlement, listOfTerrainsThisSettlementCanExpandInto);
-                validVillageExpansions.add(settlementAndTerrainListPair);
+                terrainsThisSettlementHasEnoughPiecesToExpandInto.add(terrainToExpandInto);
+
             }
+            SettlementAndTerrainListPair settlementAndTerrainListPair = new SettlementAndTerrainListPair(settlement, terrainsThisSettlementHasEnoughPiecesToExpandInto);
+
+            validVillageExpansions.add(settlementAndTerrainListPair);
 
 
         }
@@ -319,7 +324,7 @@ public class AI_Info {
         ArrayList<SettlementAndTerrainListPair> validVillageExpansions = returnValidVillageExpansions(player, board);
         ArrayList<SettlementAndTerrainListPair> expansionWorthTheMostPoints = new ArrayList<SettlementAndTerrainListPair>();
         int numberOfVillagersUsedInMostExpensiveExpansionFound = 0;
-        if(validVillageExpansions.size() == 0){
+        if(validVillageExpansions.size() == 0 || validVillageExpansions.get(0).getTerrainList().size() == 0){
             return null;
         }
         Terrain terrainToExpandInto = validVillageExpansions.get(0).getTerrainList().get(0);

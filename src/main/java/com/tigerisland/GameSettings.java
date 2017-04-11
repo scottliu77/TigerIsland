@@ -8,8 +8,8 @@ import com.tigerisland.game.PlayerType;
 public class GameSettings {
 
 
-    private final PlayerType BEST_AI_TYPE = PlayerType.TOTOROLINESAI_V2;
-    private final PlayerType TEST_AGAINST_TYPE = PlayerType.TOTOROLINESAI;
+    private final PlayerType BEST_AI_TYPE = PlayerType.JACKSAI_V2;
+    private final PlayerType TEST_AGAINST_TYPE = PlayerType.JACKSAI_V2;
 
 
     private GlobalSettings globalSettings;

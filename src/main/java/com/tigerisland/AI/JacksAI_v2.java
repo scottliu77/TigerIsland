@@ -16,6 +16,7 @@ public class JacksAI_v2 extends AI {
     private ArrayList<TilePlacement> tilePlacementsForNukingEnemySettlementsCloseToGettingATiger;
     private ArrayList<TilePlacement> tilePlacementsThatSetUpPlayerForTotoroPlacement;
     private ArrayList<TilePlacement> tilePlacementsThatCutTotoroOffOfMostOfSettlement;
+    private SettlementAndTerrainListPair bestExpansion;
     private Board tempBoard;
     private Random rand;
 
@@ -65,6 +66,26 @@ public class JacksAI_v2 extends AI {
             }
         }
         gatherBuildActionInfo();
+        if((!hasATotoro() || !hasATiger()) && bestExpansion != null){
+            if(tilePlacement == null){
+                int randInt = rand.nextInt(validTilePlacements.size());
+                tilePlacement = validTilePlacements.get(randInt);
+            }
+            try {
+                tempBoard.placeTile(tilePlacement);
+                tempBoard.updateSettlements();
+            } catch (InvalidMoveException e) {
+                //tempBoard = new Board(turnState.getBoard());
+            }
+
+            AI_Info.findExpansionThatGetsRidOfMostVillagers(turnState.getCurrentPlayer(), tempBoard);
+
+            buildLocation = bestExpansion.getSettlement().getLocationsOfHexesInSettlement().get(0);
+            buildActionType = BuildActionType.VILLAGEEXPANSION;
+            expandTerrain = bestExpansion.getTerrainList().get(0);
+
+            return;
+        }
         if(canPlaceTotoro()){
             placeTotoro();
             resetTotoroLine();
@@ -106,6 +127,7 @@ public class JacksAI_v2 extends AI {
     private void gatherBuildActionInfo() {
         this.validTotoroPlacements = AI_Info.returnValidTotoroPlacements(turnState.getCurrentPlayer(), tempBoard);
         this.validTigerPlacements = AI_Info.returnValidTigerPlacements(turnState.getCurrentPlayer().getPlayerColor(), tempBoard);
+        this.bestExpansion = AI_Info.findExpansionThatGetsRidOfMostVillagers(turnState.getCurrentPlayer(), tempBoard);
     }
 
 
@@ -140,8 +162,11 @@ public class JacksAI_v2 extends AI {
 
     private void placeTiger(){
         buildActionType = BuildActionType.TIGERPLACEMENT;
-        buildLocation = validTigerPlacements.get(0);
-        tilePlacement = validTilePlacements.get(0);
+        int randInt = rand.nextInt(validTigerPlacements.size());
+        buildLocation = validTigerPlacements.get(randInt);
+        if(tilePlacement == null) {
+            tilePlacement = validTilePlacements.get(0);
+        }
     }
 
     private boolean noCurrentLine(){
@@ -219,3 +244,8 @@ public class JacksAI_v2 extends AI {
         return false;
     }
 }
+
+
+
+
+
