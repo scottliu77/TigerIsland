@@ -3,6 +3,7 @@ package com.tigerisland;
 import com.tigerisland.game.Game;
 import com.tigerisland.messenger.*;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -93,6 +94,9 @@ public class Match {
                     message.setProcessed();
                 }
                 if(message.getMessageType().getSubtype().equals("BUILDACTION")) {
+                    message.setProcessed();
+                }
+                if(message.getMessageType() == MessageType.GAMEOVER) {
                     message.setProcessed();
                 }
             }
