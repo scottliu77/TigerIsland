@@ -7,8 +7,8 @@ import com.tigerisland.game.PlayerType;
 
 public class GameSettings {
 
-    private final PlayerType BEST_AI_TYPE = PlayerType.RANDOMAI;
-    private final PlayerType TEST_AGAINST_TYPE = PlayerType.RANDOMAI;
+    private final PlayerType BEST_AI_TYPE = PlayerType.JACKSAI_V2;
+    private final PlayerType TEST_AGAINST_TYPE = PlayerType.SAFEAI;
 
     private GlobalSettings globalSettings;
     private Deck deck;
