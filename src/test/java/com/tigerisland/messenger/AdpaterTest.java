@@ -80,7 +80,7 @@ public class AdpaterTest {
 
     @Test
     public void testConvertWrittenNotes() {
-        Location tilePlace = Adapter.convertLocationCubeToAxial(new Location(-9, 16, -7));
+        Location tilePlace = Adapter.convertLocationCubeToAxial(new Location(1, -2, 1));
         Location settlePlace = Adapter.convertLocationCubeToAxial(new Location(10, -15, 5));
 
         System.out.println("Tile Placed at: " + tilePlace.x + ", " + tilePlace.y);

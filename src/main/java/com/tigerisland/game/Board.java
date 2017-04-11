@@ -342,19 +342,6 @@ public class Board{
             villageExpansionChecks(player, settlement, allExpandableHexes);
             allExpandableHexes = getAllExpandableAdjacentHexesToSettlement(settlement, specifiedTerrain);
         }
-
-//        Settlement settlement = isSettledLocationValid(player, settledLoc);
-//        Terrain specifiedTerrain = expandTerrain;
-//        checkForVolcano(expandTerrain);
-//        ArrayList<PlacedHex> allExpandableHexes = new ArrayList<PlacedHex>();
-//        allExpandableHexes = getAllExpandableAdjacentHexesToSettlement(settlement, specifiedTerrain);
-//        Player tempPlayer = new Player(player);
-//        while (!allExpandableHexes.isEmpty()) {
-//            villageExpansionChecks(tempPlayer, settlement, allExpandableHexes);
-//            allExpandableHexes = getAllExpandableAdjacentHexesToSettlement(settlement, specifiedTerrain);
-//        }
-//        int villagersToPlace = player.getPieceSet().getNumberOfVillagersRemaining() - tempPlayer.getPieceSet().getNumberOfVillagersRemaining();
-//        player = tempPlayer;
     }
 
     public Settlement isSettledLocationValid(Player player, Location settledLoc) throws InvalidMoveException {
@@ -417,7 +404,7 @@ public class Board{
         for (PlacedHex potentialHex : allExpandableHexes) {
             potentialHex.setExpansionStatus(false);
             int hexHeight = potentialHex.getHex().getHeight();
-            if (player.getPieceSet().getNumberOfVillagersRemaining() - hexHeight < 0){
+            if (player.getPieceSet().getNumberOfVillagersRemaining() - hexHeight <= 0){
                 throw new InvalidMoveException("Player does not have enough pieces to populate the target hex");
             } else {
                 potentialHex.getHex().addPiecesToHex(player.getPieceSet().placeMultipleVillagers(hexHeight), hexHeight);
