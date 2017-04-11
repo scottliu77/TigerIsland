@@ -189,35 +189,6 @@ public class BoardTest{
 
     }
 
-    private PlacedHex setUpSettlement(){
-        Hex hex1 = new Hex("hex1", Terrain.LAKE);
-        Hex hex2 = new Hex("hex2", Terrain.LAKE);
-        Hex hex3 = new Hex("hex3", Terrain.LAKE);
-        Hex hex4 = new Hex("hex4", Terrain.LAKE);
-
-        hex1.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
-        hex2.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
-        hex3.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
-        hex4.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
-
-        Location loc1 = new Location(0,0);
-        Location loc2 = new Location(0,-1);
-        Location loc3 = new Location(0,1);
-        Location loc4 = new Location(1,0);
-
-        PlacedHex placedHex1 = new PlacedHex(hex1, loc1);
-        PlacedHex placedHex2 = new PlacedHex(hex2, loc2);
-        PlacedHex placedHex3 = new PlacedHex(hex3, loc3);
-        PlacedHex placedHex4 = new PlacedHex(hex4, loc4);
-
-        placedHexes.add(placedHex1);
-        placedHexes.add(placedHex2);
-        placedHexes.add(placedHex3);
-        placedHexes.add(placedHex4);
-
-        return placedHex1;
-    }
-
     @Test
     public void testCanMakeSaveBoardCopyCheckPlacedHexes() throws InvalidMoveException {
         Board boardCopy = new Board(board);
@@ -1193,5 +1164,34 @@ public class BoardTest{
         } catch (InvalidMoveException e) {
             assertTrue(e.getMessage().equals("Whole settlement exists under tile"));
         }
+    }
+
+    private PlacedHex setUpSettlement(){
+        Hex hex1 = new Hex("hex1", Terrain.LAKE);
+        Hex hex2 = new Hex("hex2", Terrain.LAKE);
+        Hex hex3 = new Hex("hex3", Terrain.LAKE);
+        Hex hex4 = new Hex("hex4", Terrain.LAKE);
+
+        hex1.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        hex2.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        hex3.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        hex4.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+
+        Location loc1 = new Location(0,0);
+        Location loc2 = new Location(0,-1);
+        Location loc3 = new Location(0,1);
+        Location loc4 = new Location(1,0);
+
+        PlacedHex placedHex1 = new PlacedHex(hex1, loc1);
+        PlacedHex placedHex2 = new PlacedHex(hex2, loc2);
+        PlacedHex placedHex3 = new PlacedHex(hex3, loc3);
+        PlacedHex placedHex4 = new PlacedHex(hex4, loc4);
+
+        placedHexes.add(placedHex1);
+        placedHexes.add(placedHex2);
+        placedHexes.add(placedHex3);
+        placedHexes.add(placedHex4);
+
+        return placedHex1;
     }
 }
