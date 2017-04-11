@@ -2,10 +2,7 @@ package com.tigerisland.game;
 
 import com.tigerisland.GameSettings;
 import com.tigerisland.GlobalSettings;
-import com.tigerisland.InvalidMoveException;
-import com.tigerisland.TigerIsland;
 import com.tigerisland.messenger.Message;
-import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.Before;

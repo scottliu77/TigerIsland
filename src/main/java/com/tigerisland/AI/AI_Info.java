@@ -1,12 +1,9 @@
 package com.tigerisland.AI;
 
-import com.tigerisland.InvalidMoveException;
+import com.tigerisland.game.InvalidMoveException;
 import com.tigerisland.game.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 public class AI_Info {
     private static int x_lowerBound;
@@ -248,13 +245,17 @@ public class AI_Info {
         return finalNumberOfSettlementsThatCouldAcceptTiger == originalNumberOfSettlementsThatCouldAcceptTiger - 1;
     }
 
-    public static ArrayList<TilePlacement> findTilePlacementsThatEnableTotoroPlacementForSamePlayer(Color color, Tile tile, Board board) throws InvalidMoveException{
+    public static ArrayList<TilePlacement> findTilePlacementsThatEnableTotoroPlacementForSamePlayer(Color color, Tile tile, Board board) {
         ArrayList<TilePlacement> validTilePlacements = returnValidTilePlacements(tile, board);
         ArrayList<TilePlacement> tilePlacementsThatEnableTotoroPlacement = new ArrayList<TilePlacement>();
         for(TilePlacement tilePlacement : validTilePlacements){
             Board tempBoard = new Board(board);
             int initialNumberOfSettlementsToAddTotoro = tempBoard.settlementsThatCouldAcceptTotoroForGivenPlayer(color).size();
-            tempBoard.placeTile(tilePlacement);
+            try {
+                tempBoard.placeTile(tilePlacement);
+            } catch (InvalidMoveException e){
+                continue;
+            }
             tempBoard.updateSettlements();
             int finalNumberOfSettlementsToAddTotoro = tempBoard.settlementsThatCouldAcceptTotoroForGivenPlayer(color).size();
             if(finalNumberOfSettlementsToAddTotoro > initialNumberOfSettlementsToAddTotoro) {
@@ -264,13 +265,17 @@ public class AI_Info {
         return tilePlacementsThatEnableTotoroPlacement;
     }
 
-    public static ArrayList<TilePlacement> findTilePlacementsThatCutTotoroOffOfMostOfSettlement(Color color, Tile tile, Board board, int desiredSizeOfRemainingSettlement) throws InvalidMoveException{
+    public static ArrayList<TilePlacement> findTilePlacementsThatCutTotoroOffOfMostOfSettlement(Color color, Tile tile, Board board, int desiredSizeOfRemainingSettlement) {
         ArrayList<TilePlacement> validTilePlacements = returnValidTilePlacements(tile, board);
         int initialNumberOfSettlementsPlayerHasWithoutTotoroOfAtLeastDesiredSize = numberOfSettlementsPlayerHasWithoutTotoroAndOfProperSize(color, board, desiredSizeOfRemainingSettlement);
         ArrayList<TilePlacement> usefulTilePlacements = new ArrayList<TilePlacement>();
         for(TilePlacement tilePlacement : validTilePlacements){
             Board tempBoard = new Board(board);
-            tempBoard.placeTile(tilePlacement);
+            try {
+                tempBoard.placeTile(tilePlacement);
+            } catch(InvalidMoveException e){
+                continue;
+            }
             tempBoard.updateSettlements();
             int finalNumberOfSettlementsPlayerHasWithoutTotoroOfDesiredSize = numberOfSettlementsPlayerHasWithoutTotoroAndOfProperSize(color, tempBoard, desiredSizeOfRemainingSettlement);
             if(finalNumberOfSettlementsPlayerHasWithoutTotoroOfDesiredSize > initialNumberOfSettlementsPlayerHasWithoutTotoroOfAtLeastDesiredSize){

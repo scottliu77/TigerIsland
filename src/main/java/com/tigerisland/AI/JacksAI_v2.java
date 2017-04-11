@@ -1,14 +1,13 @@
 package com.tigerisland.AI;
 
-import com.tigerisland.game.InvalidMoveException;
 import com.tigerisland.game.*;
 
+import java.util.ArrayList;
 import java.util.Random;
 
-import java.util.ArrayList;
 
 
-public class JacksAI extends AI {
+public class JacksAI_v2 extends AI {
 
     private ArrayList<TilePlacement> validTilePlacements;
     private ArrayList<Location> validTotoroPlacements;
@@ -24,38 +23,45 @@ public class JacksAI extends AI {
 
     private ArrayList<Location> plannedSettlementLocations;
 
-    public JacksAI(){
+    public JacksAI_v2(){
         plannedSettlementLocations = new ArrayList<Location>();
         rand = new Random();
     }
 
     public void decideOnMove(){
+        tilePlacement = null;
+        boolean tilePlacementDecided = false;
         tempBoard = new Board(turnState.getBoard());
-        try {
-            gatherTilePlacementInfo();
-        } catch (InvalidMoveException e) {
-        }
+
+        gatherTilePlacementInfo();
+
         if(tilePlacementsThatSetUpPlayerForTotoroPlacement.size() > 0) {
             int randInt = rand.nextInt(tilePlacementsThatSetUpPlayerForTotoroPlacement.size());
             tilePlacement = tilePlacementsThatSetUpPlayerForTotoroPlacement.get(randInt);
+            tilePlacementDecided = true;
         }
         else if(tilePlacementsForNukingEnemySettlementsCloseToGettingATotoro.size() > 0) {
             int randInt = rand.nextInt(tilePlacementsForNukingEnemySettlementsCloseToGettingATotoro.size());
             tilePlacement = tilePlacementsForNukingEnemySettlementsCloseToGettingATotoro.get(randInt);
+            tilePlacementDecided = true;
         }
         else if(tilePlacementsForNukingEnemySettlementsCloseToGettingATiger.size() > 0) {
-            int randInt = rand.nextInt(tilePlacementsForNukingEnemySettlementsCloseToGettingATotoro.size());
+            int randInt = rand.nextInt(tilePlacementsForNukingEnemySettlementsCloseToGettingATiger.size());
             tilePlacement = tilePlacementsForNukingEnemySettlementsCloseToGettingATiger.get(randInt);
+            tilePlacementDecided = true;
         }
         else if(tilePlacementsThatCutTotoroOffOfMostOfSettlement.size() > 0) {
             int randInt = rand.nextInt(tilePlacementsThatCutTotoroOffOfMostOfSettlement.size());
             tilePlacement = tilePlacementsThatCutTotoroOffOfMostOfSettlement.get(randInt);
+            tilePlacementDecided = true;
         }
-        if(tilePlacement != null) {
+        if(tilePlacementDecided) {
             try {
                 tempBoard.placeTile(tilePlacement);
+                tempBoard.updateSettlements();
             } catch (InvalidMoveException e) {
-
+                tilePlacementDecided = false;
+                tempBoard = new Board(turnState.getBoard());
             }
         }
         gatherBuildActionInfo();
@@ -66,18 +72,30 @@ public class JacksAI extends AI {
         else if(canPlaceTiger()) {
             placeTiger();
         }
-        else if(noCurrentLine() || lineIsInterrupted()){
+        else if((noCurrentLine() || lineIsInterrupted()) && !tilePlacementDecided){
+
             startNewLine();
         }
-        else if(!lineIsInterrupted()){
+        else if(!lineIsInterrupted() && !tilePlacementDecided){
             extendLine();
+        }
+        else if(tilePlacementDecided){
+            for(PlacedHex placedHex : tempBoard.getPlacedHexes()){
+                if(placedHex.isNotVolcano() && placedHex.isEmpty() && placedHex.getHeight() == 1){
+                    buildActionType = BuildActionType.VILLAGECREATION;
+                    buildLocation = placedHex.getLocation();
+                    return;
+                }
+            }
+            tempBoard = new Board(turnState.getBoard());
+            startNewLine();
         }
         else{
             System.out.println("Shouldn't be an option...");
         }
     }
 
-    private void gatherTilePlacementInfo() throws InvalidMoveException{
+    private void gatherTilePlacementInfo() {
         this.validTilePlacements = AI_Info.returnValidTilePlacements(turnState.getCurrentTile(), tempBoard);
         this.tilePlacementsForNukingEnemySettlementsCloseToGettingATotoro = AI_Info.findNukableLocationsToStopOpposingPlayerFromMakingTotoroPlacement(Color.BLACK, tempBoard, turnState.getCurrentTile());
         this.tilePlacementsForNukingEnemySettlementsCloseToGettingATiger = AI_Info.findNukableLocationsToStopOpposingPlayerFromMakingTigerPlacement(Color.BLACK, tempBoard, turnState.getCurrentTile());
@@ -101,9 +119,11 @@ public class JacksAI extends AI {
 
     private void placeTotoro(){
         buildActionType = BuildActionType.TOTOROPLACEMENT;
-        buildLocation = validTotoroPlacements.get(0);
-        int randInt = rand.nextInt(validTilePlacements.size());
-        tilePlacement = validTilePlacements.get(randInt);
+        int randInt = rand.nextInt(validTotoroPlacements.size());
+        buildLocation = validTotoroPlacements.get(randInt);
+        if(tilePlacement == null) {
+            tilePlacement = validTilePlacements.get(0);
+        }
     }
 
     private void resetTotoroLine(){
@@ -111,7 +131,7 @@ public class JacksAI extends AI {
     }
 
     private boolean canPlaceTiger(){
-        return this.validTigerPlacements.size()>0 && hasATiger();
+        return this.validTigerPlacements.size() > 0 && hasATiger();
     }
 
     private boolean hasATiger(){
@@ -121,8 +141,7 @@ public class JacksAI extends AI {
     private void placeTiger(){
         buildActionType = BuildActionType.TIGERPLACEMENT;
         buildLocation = validTigerPlacements.get(0);
-        int randInt = rand.nextInt(validTilePlacements.size());
-        tilePlacement = validTilePlacements.get(randInt);
+        tilePlacement = validTilePlacements.get(0);
     }
 
     private boolean noCurrentLine(){
@@ -137,10 +156,10 @@ public class JacksAI extends AI {
         int yStart = startTilePlacement.getLocation().y - 1;
 
         plannedSettlementLocations.add(new Location(xStart,yStart));
-        plannedSettlementLocations.add(new Location(xStart,yStart+2));
-        plannedSettlementLocations.add(new Location(xStart,yStart+4));
-        plannedSettlementLocations.add(new Location(xStart,yStart+1));
-        plannedSettlementLocations.add(new Location(xStart,yStart+3));
+        plannedSettlementLocations.add(new Location(xStart,yStart-2));
+        plannedSettlementLocations.add(new Location(xStart,yStart-4));
+        plannedSettlementLocations.add(new Location(xStart,yStart-1));
+        plannedSettlementLocations.add(new Location(xStart,yStart-3));
 
         tilePlacement = startTilePlacement;
         buildActionType = BuildActionType.VILLAGECREATION;
@@ -152,27 +171,15 @@ public class JacksAI extends AI {
     }
 
     private void extendLine(){
-       /* if (plannedSettlementLocations.size() == 4) {
-            myNextExpansionLocation = plannedSettlementLocations.get(0);
-        }
-        if (plannedSettlementLocations.size() == 2) {
-            Location nextLocation = plannedSettlementLocations.remove(0);
-            this.buildActionType = BuildActionType.VILLAGEEXPANSION;
-            findNextTilePlacement(nextLocation);
-            // TODO replace with an actual solution
-            expandTerrain = tilePlacement.getTile().getLeftHex().getHexTerrain();
-        } else {*/
         Location nextLocation = plannedSettlementLocations.remove(0);
         this.buildActionType = BuildActionType.VILLAGECREATION;
         this.buildLocation = nextLocation;
         findNextTilePlacement(nextLocation);
-        // }
     }
 
     private void findNextTilePlacement(Location location) {
-        if(tempBoard.hexExistsAtLocation(location)){
-            int randInt = rand.nextInt(validTilePlacements.size());
-            tilePlacement = validTilePlacements.get(randInt);
+        if(turnState.getBoard().hexExistsAtLocation(location)){
+            this.tilePlacement = validTilePlacements.get(0);
         }
         else{
             this.tilePlacement = placeTileToExtendLine(location);
@@ -180,23 +187,21 @@ public class JacksAI extends AI {
     }
 
     private TilePlacement placeTileToExtendLine(Location nextLocation){
-        Board currentBoard = tempBoard;
+        Board currentBoard = turnState.getBoard();
         Tile currentTile = turnState.getCurrentTile();
 
-        if(currentBoard.isALegalTilePlacment(Location.add(nextLocation,new Location(-1,1)),300))
+        if(currentBoard.isALegalTilePlacment(Location.add(nextLocation,new Location(-1,0)),300))
+            return new TilePlacement(currentTile, Location.add(nextLocation,new Location(-1,0)), 300);
+        else if(currentBoard.isALegalTilePlacment(Location.add(nextLocation,new Location(1,-1)),120))
+            return new TilePlacement(currentTile, Location.add(nextLocation,new Location(1,-1)), 120);
+        else if(currentBoard.isALegalTilePlacment(Location.add(nextLocation,new Location(-1,1)),240))
+            return new TilePlacement(currentTile, Location.add(nextLocation,new Location(-1,1)), 240);
+        else if(currentBoard.isALegalTilePlacment(Location.add(nextLocation,new Location(1,0)),180))
+            return new TilePlacement(currentTile, Location.add(nextLocation,new Location(1,0)), 180);
+        else if(currentBoard.isALegalTilePlacment(Location.add(nextLocation,new Location(-1,1)),300))
             return new TilePlacement(currentTile, Location.add(nextLocation,new Location(-1,1)), 300);
         else if(currentBoard.isALegalTilePlacment(Location.add(nextLocation,new Location(1,0)),120))
             return new TilePlacement(currentTile, Location.add(nextLocation,new Location(1,0)), 120);
-        else if(currentBoard.isALegalTilePlacment(Location.add(nextLocation,new Location(1,0)),180))
-            return new TilePlacement(currentTile, Location.add(nextLocation,new Location(1,0)), 180);
-        else if(currentBoard.isALegalTilePlacment(Location.add(nextLocation,new Location(1,-1)),120))
-            return new TilePlacement(currentTile, Location.add(nextLocation,new Location(1,-1)), 120);
-        else if(currentBoard.isALegalTilePlacment(Location.add(nextLocation,new Location(-1,0)),0))
-            return new TilePlacement(currentTile, Location.add(nextLocation,new Location(-1,0)), 0);
-        else if(currentBoard.isALegalTilePlacment(Location.add(nextLocation,new Location(0,-1)),60))
-            return new TilePlacement(currentTile, Location.add(nextLocation,new Location(0,-1)), 60);
-        else if(currentBoard.isALegalTilePlacment(Location.add(nextLocation,new Location(0,1)),240))
-            return new TilePlacement(currentTile, Location.add(nextLocation,new Location(0,1)), 240);
         else
             startNewLine();
         return tilePlacement;
@@ -205,15 +210,12 @@ public class JacksAI extends AI {
     private boolean lineIsInterrupted(){
         for(Location loc : plannedSettlementLocations){
             Hex hex;
-            if(tempBoard.hexExistsAtLocation(loc)) {
-                hex = tempBoard.hexAt(loc);
+            if(turnState.getBoard().hexExistsAtLocation(loc)) {
+                hex = turnState.getBoard().hexAt(loc);
                 if (!hex.isNotVolcano() || !hex.isEmpty() || hex.getHeight() != 1)
                     return true;
             }
         }
         return false;
     }
-
-    public Location returnExpansionLocation() { return myNextExpansionLocation; }
-
 }

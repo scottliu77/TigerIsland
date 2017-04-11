@@ -1,7 +1,5 @@
 package com.tigerisland.game;
 
-import com.tigerisland.InvalidMoveException;
-
 import java.util.ArrayList;
 
 public class PieceSet {

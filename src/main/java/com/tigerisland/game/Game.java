@@ -1,16 +1,15 @@
 package com.tigerisland.game;
 
 import com.tigerisland.GameSettings;
-import com.tigerisland.InvalidMoveException;
+import com.tigerisland.messenger.Client;
 import com.tigerisland.messenger.Message;
 import com.tigerisland.messenger.MessageType;
 
-import static java.lang.Thread.getDefaultUncaughtExceptionHandler;
 import static java.lang.Thread.sleep;
 
 public class Game implements Runnable {
 
-    public String gameID;
+    public final String gameID;
 
     protected GameSettings gameSettings;
     protected Board board;
@@ -44,32 +43,21 @@ public class Game implements Runnable {
                 sleep(1);
             }
 
-            offlineCalculateResults();
-
         } catch (InvalidMoveException exception) {
             if(!exception.getMessage().equals("LOST: UNABLE TO BUILD")) {
                 gameSettings.getGlobalSettings().outboundQueue.add(new Message("GAME " + gameID + " MOVE " + turnState.getMoveID() + " PLAYER " + turnState.getCurrentPlayer().getPlayerID() + " " + exception.getMessage()));
             }
-            offlineCalculateResults();
 
         } catch (Exception exception) {
-            offlineCalculateResults();
+            exception.printStackTrace();
         }
 
+        offlineCalculateResults();
         offlineGenerateGameOverEcho();
 
     }
 
-    private void offlineCalculateResults() {
-        if(offline) {
-            winner = EndConditions.calculateWinner(gameSettings.getPlayerSet().getCurrentPlayer(), gameSettings.getPlayerSet().getPlayerList());
-            loser = EndConditions.getLoser(winner, gameSettings.getPlayerSet().getPlayerList());
-        }
-    }
-
     private Boolean continuePlayingGame() throws InterruptedException, InvalidMoveException {
-
-        //TextGUI.printMap(board);
 
         Boolean continueGame = true;
 
@@ -77,24 +65,25 @@ public class Game implements Runnable {
             return false;
         }
 
-        if(offline) {
-            mockMakeMoveMessage();
-            alternateOurPlayerID();
-        }
-
         continueGame = attemptToProcessMove();
 
         checkForHaveAIPickAMove();
 
 
-        if(gameOver()) {
+        if(isGameOver()) {
             continueGame = false;
+        }
+
+        if(offline) {
+            moveID = String.valueOf(Integer.valueOf(moveID) + 1);
+            offlineMockMakeMoveMessage();
+            alternateOurPlayerID();
         }
 
         return continueGame;
     }
 
-    protected void mockMakeMoveMessage() throws IndexOutOfBoundsException {
+    protected void offlineMockMakeMoveMessage() throws IndexOutOfBoundsException {
 
         String makeMoveMessage = "MAKE YOUR MOVE IN GAME " + gameSettings.getGameID();
         makeMoveMessage = makeMoveMessage + " WITHIN 1.5 SECONDS:";
@@ -128,7 +117,6 @@ public class Game implements Runnable {
                 if (message.getGameID().equals(gameID)) {
                     if (message.getMessageType() == MessageType.MAKEMOVE) {
                         gameSettings.setMoveID(message.getMoveID());
-                        gameSettings.resetGameID(message.getGameID());
                         gameSettings.getPlayerSet().setCurrentPlayer(ourPlayerID);
                         pickMove(message);
                         message.setProcessed();
@@ -147,25 +135,6 @@ public class Game implements Runnable {
         } else {
             turnState.getCurrentPlayer().getPlayerAI().pickTilePlacementAndBuildAction(turnState);
         }
-
-//        if(offline) {
-//            Player checkPlayer = gameSettings.getPlayerSet().getPlayerList().get(ourPlayerID);
-//            int villagers = checkPlayer.getPieceSet().getNumberOfVillagersRemaining();
-//            int totoros = checkPlayer.getPieceSet().getNumberOfTotoroRemaining();
-//            int tigers = checkPlayer.getPieceSet().getNumberOfTigersRemaining();
-//            System.out.println("................GAME " + gameID + " PLAYER " +  ourPlayerID + " HAS (V-To-Ti) " + villagers + "-" + totoros + "-" + tigers + "...........");
-//        }
-    }
-
-    protected Boolean moveReadyToProcess() {
-        for(Message message : gameSettings.getGlobalSettings().inboundQueue) {
-            if (message.getGameID() != null && message.getMoveID() != null && message.getMessageType() != null) {
-                if (message.getGameID().equals(gameID)) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     protected Boolean attemptToProcessMove() throws InvalidMoveException, InterruptedException {
@@ -176,8 +145,7 @@ public class Game implements Runnable {
                     if (message.getMessageType().getSubtype().equals("BUILDACTION")) {
                         gameSettings.getPlayerSet().setCurrentPlayer(message.getCurrentPlayerID());
                         gameSettings.setMoveID(message.getMoveID());
-                        gameSettings.resetGameID(message.getGameID());
-                        sendMockServerMessage(message);
+                        offlineMockServerMessage(message);
                         return processMove(message);
                     }
                 }
@@ -201,7 +169,7 @@ public class Game implements Runnable {
         return true;
     }
 
-    protected Boolean gameOver() {
+    protected Boolean isGameOver() {
         for(Message message : gameSettings.getGlobalSettings().inboundQueue) {
 
             if(message.getMessageType().getSubtype().equals(MessageType.GAMEOVER.getSubtype())) {
@@ -213,9 +181,9 @@ public class Game implements Runnable {
         return false;
     }
 
-    private void sendMockServerMessage(Message message) {
+    private void offlineMockServerMessage(Message message) {
         if(offline) {
-            System.out.println("SERVER (Offline): " + message.message);
+            System.out.println(Client.getTime() + "SERVER: " + message.message);
         }
     }
 
@@ -223,6 +191,13 @@ public class Game implements Runnable {
         String unableToBuildMessage = "GAME " + gameID + " MOVE " + turnState.getMoveID() + " UNABLE TO BUILD";
         gameSettings.getGlobalSettings().outboundQueue.add(new Message(unableToBuildMessage));
         throw new InvalidMoveException("LOST: UNABLE TO BUILD");
+    }
+
+    private void offlineCalculateResults() {
+        if(offline) {
+            winner = EndConditions.calculateWinner(gameSettings.getPlayerSet().getCurrentPlayer(), gameSettings.getPlayerSet().getPlayerList());
+            loser = EndConditions.getLoser(winner, gameSettings.getPlayerSet().getPlayerList());
+        }
     }
 
     private void offlineGenerateGameOverEcho() {

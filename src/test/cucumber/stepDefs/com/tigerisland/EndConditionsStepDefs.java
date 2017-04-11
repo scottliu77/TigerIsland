@@ -2,16 +2,14 @@ package com.tigerisland;
 
 import com.tigerisland.game.EndConditions;
 import com.tigerisland.game.Game;
+import com.tigerisland.game.InvalidMoveException;
 import com.tigerisland.game.Player;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
-import org.junit.Assert;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import static org.junit.Assert.assertTrue;
