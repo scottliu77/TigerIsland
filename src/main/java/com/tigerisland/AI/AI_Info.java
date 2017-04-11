@@ -305,19 +305,6 @@ public class AI_Info {
         return numberOfSettlementsPlayerHasWithoutTotoroOfSizeThreeOrMore;
     }
 
-    //untested
-    public static ArrayList<TilePlacement> findTilePlacementsThatSetUsUpForATilePlacementThatCutsOffTotoroFromSettlement(Color color, Tile tile, Board board) throws InvalidMoveException{
-        ArrayList<TilePlacement> validTilePlacements = returnValidTilePlacements(tile, board);
-        ArrayList<TilePlacement> tilePlacementsToConsider = new ArrayList<TilePlacement>();
-        for(TilePlacement tilePlacement : validTilePlacements){
-            Board tempBoard = new Board(board);
-            tempBoard.placeTile(tilePlacement);
-            if(findTilePlacementsThatCutTotoroOffOfMostOfSettlement(color, tile, tempBoard, 3).size() > 0){
-                tilePlacementsToConsider.add(tilePlacement);
-            }
-        }
-        return tilePlacementsToConsider;
-    }
 
     //returns best expansion at the 0th index in the arraylist (used an arraylist to avoid returning a null value or a made up expansion if there's no real ones we could do
     public static SettlementAndTerrainListPair findExpansionThatGetsRidOfMostVillagers(Player player, Board board){
@@ -357,5 +344,49 @@ public class AI_Info {
         SettlementAndTerrainListPair bestPairForExpansion = new SettlementAndTerrainListPair(bestSettlementForRapidExpansion, bestTerrainToExpandIntoForThisSettlement);
 
         return bestPairForExpansion;
+    }
+
+    public static TilePlacement findTilePlacementThatImprovesNextExpansion(Tile tile, Player player, Board board){
+        ArrayList<TilePlacement> validTilePlacements = returnValidTilePlacements(tile, board);
+        ArrayList<SettlementAndTerrainListPair> bestPossibleTilePlacementExpansionCombos = new ArrayList<SettlementAndTerrainListPair>();
+        ArrayList<TilePlacement> tilePlacementsThatWorked = new ArrayList<TilePlacement>();
+        for(TilePlacement tilePlacement : validTilePlacements){
+            TilePlacement tempTilePlacement = new TilePlacement(tilePlacement);
+            Board tempBoard = new Board(board);
+            try {
+                tempBoard.placeTile(tempTilePlacement);
+            } catch(InvalidMoveException e){
+                continue;
+            }
+            tempBoard.updateSettlements();
+            tilePlacementsThatWorked.add(tilePlacement);
+            bestPossibleTilePlacementExpansionCombos.add(findExpansionThatGetsRidOfMostVillagers(player, tempBoard));
+        }
+        return bestPossibleTilePlacementExpansionCombo(tilePlacementsThatWorked, bestPossibleTilePlacementExpansionCombos,board, player);
+
+    }
+
+    private static TilePlacement bestPossibleTilePlacementExpansionCombo(ArrayList<TilePlacement> tilePlacements, ArrayList<SettlementAndTerrainListPair> settlementAndTerrainListPairs, Board board, Player player){
+        int mostNumberOfVillagersUsed = 0;
+        TilePlacement bestTilePlacement = null;
+        for(int i = 0; i< tilePlacements.size(); i++){
+            Board tempBoard = new Board(board);
+            Player tempPlayer = new Player(player);
+            try{
+                tempBoard.placeTile(new TilePlacement(tilePlacements.get(i)));
+                tempBoard.expandVillage(tempPlayer, settlementAndTerrainListPairs.get(i).getSettlement().getLocationsOfHexesInSettlement().get(0), settlementAndTerrainListPairs.get(i).getTerrainList().get(0));
+            } catch (InvalidMoveException e){
+                continue;
+            } catch(NullPointerException e){
+                continue;
+            }
+            int villagersUsed = player.getPieceSet().getNumberOfVillagersRemaining() - tempPlayer.getPieceSet().getNumberOfVillagersRemaining();
+            if(villagersUsed > mostNumberOfVillagersUsed){
+                mostNumberOfVillagersUsed = villagersUsed;
+                bestTilePlacement = tilePlacements.get(i);
+            }
+
+        }
+        return bestTilePlacement;
     }
 }

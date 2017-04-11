@@ -17,9 +17,10 @@ public class Tile {
     }
 
     public Tile(Tile tile) {
-        this.volcanoHex = tile.getCenterHex();
-        this.leftHex = tile.getLeftHex();
-        this.rightHex = tile.getRightHex();
+        String tileID = tile.getCenterHex().getTileID();
+        this.volcanoHex = new Hex(tileID, tile.getCenterHex().getHexTerrain());
+        this.leftHex = new Hex (tileID, tile.getLeftHex().getHexTerrain());
+        this.rightHex = new Hex(tileID, tile.getRightHex().getHexTerrain());
     }
 
     public Hex getCenterHex() {

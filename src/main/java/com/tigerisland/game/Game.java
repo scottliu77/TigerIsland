@@ -59,6 +59,8 @@ public class Game implements Runnable {
 
     private Boolean continuePlayingGame() throws InterruptedException, InvalidMoveException {
 
+
+
         Boolean continueGame = true;
 
         if(Thread.currentThread().isInterrupted()) {

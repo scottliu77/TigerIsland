@@ -14,6 +14,12 @@ public class TilePlacement {
         this.rotation = rotation;
     }
 
+    public TilePlacement(TilePlacement tilePlacement){
+        this.tile = new Tile(tilePlacement.getTile());
+        this.location = tilePlacement.getLocation();
+        this.rotation = tilePlacement.getRotation();
+    }
+
     public Tile getTile() {
         return this.tile;
     }

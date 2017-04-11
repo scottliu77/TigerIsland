@@ -20,7 +20,6 @@ public class JacksAI_v2 extends AI {
     private Board tempBoard;
     private Random rand;
 
-    private Location myNextExpansionLocation;
 
     private ArrayList<Location> plannedSettlementLocations;
 
@@ -31,61 +30,19 @@ public class JacksAI_v2 extends AI {
 
     public void decideOnMove(){
         tilePlacement = null;
-        boolean tilePlacementDecided = false;
         tempBoard = new Board(turnState.getBoard());
-
         gatherTilePlacementInfo();
-
-        if(tilePlacementsThatSetUpPlayerForTotoroPlacement.size() > 0) {
-            int randInt = rand.nextInt(tilePlacementsThatSetUpPlayerForTotoroPlacement.size());
-            tilePlacement = tilePlacementsThatSetUpPlayerForTotoroPlacement.get(randInt);
-            tilePlacementDecided = true;
-        }
-        else if(tilePlacementsForNukingEnemySettlementsCloseToGettingATotoro.size() > 0) {
-            int randInt = rand.nextInt(tilePlacementsForNukingEnemySettlementsCloseToGettingATotoro.size());
-            tilePlacement = tilePlacementsForNukingEnemySettlementsCloseToGettingATotoro.get(randInt);
-            tilePlacementDecided = true;
-        }
-        else if(tilePlacementsForNukingEnemySettlementsCloseToGettingATiger.size() > 0) {
-            int randInt = rand.nextInt(tilePlacementsForNukingEnemySettlementsCloseToGettingATiger.size());
-            tilePlacement = tilePlacementsForNukingEnemySettlementsCloseToGettingATiger.get(randInt);
-            tilePlacementDecided = true;
-        }
-        else if(tilePlacementsThatCutTotoroOffOfMostOfSettlement.size() > 0) {
-            int randInt = rand.nextInt(tilePlacementsThatCutTotoroOffOfMostOfSettlement.size());
-            tilePlacement = tilePlacementsThatCutTotoroOffOfMostOfSettlement.get(randInt);
-            tilePlacementDecided = true;
-        }
-        if(tilePlacementDecided) {
-            try {
-                tempBoard.placeTile(tilePlacement);
-                tempBoard.updateSettlements();
-            } catch (InvalidMoveException e) {
-                tilePlacementDecided = false;
-                tempBoard = new Board(turnState.getBoard());
-            }
-        }
+        makeAnyPossibleStrategicTilePlacement();
         gatherBuildActionInfo();
-        if((!hasATotoro() || !hasATiger()) && bestExpansion != null){
-            if(tilePlacement == null){
-                int randInt = rand.nextInt(validTilePlacements.size());
-                tilePlacement = validTilePlacements.get(randInt);
-            }
-            try {
-                tempBoard.placeTile(tilePlacement);
-                tempBoard.updateSettlements();
-            } catch (InvalidMoveException e) {
-                //tempBoard = new Board(turnState.getBoard());
-            }
-
-            AI_Info.findExpansionThatGetsRidOfMostVillagers(turnState.getCurrentPlayer(), tempBoard);
-
-            buildLocation = bestExpansion.getSettlement().getLocationsOfHexesInSettlement().get(0);
-            buildActionType = BuildActionType.VILLAGEEXPANSION;
-            expandTerrain = bestExpansion.getTerrainList().get(0);
-
+        boolean timeToRapidlyExpand = (!hasATotoro() || !hasATiger()) && bestExpansion != null;
+        if(timeToRapidlyExpand){
+            rapidlyExpand();
             return;
         }
+        pickBuildOption();
+    }
+
+    private void pickBuildOption() {
         if(canPlaceTotoro()){
             placeTotoro();
             resetTotoroLine();
@@ -93,14 +50,13 @@ public class JacksAI_v2 extends AI {
         else if(canPlaceTiger()) {
             placeTiger();
         }
-        else if((noCurrentLine() || lineIsInterrupted()) && !tilePlacementDecided){
-
+        else if((noCurrentLine() || lineIsInterrupted()) && tilePlacement == null){
             startNewLine();
         }
-        else if(!lineIsInterrupted() && !tilePlacementDecided){
+        else if(!lineIsInterrupted() && tilePlacement == null){
             extendLine();
         }
-        else if(tilePlacementDecided){
+        else if(tilePlacement != null){
             for(PlacedHex placedHex : tempBoard.getPlacedHexes()){
                 if(placedHex.isNotVolcano() && placedHex.isEmpty() && placedHex.getHeight() == 1){
                     buildActionType = BuildActionType.VILLAGECREATION;
@@ -113,6 +69,65 @@ public class JacksAI_v2 extends AI {
         }
         else{
             System.out.println("Shouldn't be an option...");
+        }
+    }
+
+    private void rapidlyExpand() {
+        if(tilePlacement == null){
+            TilePlacement bestTilePlacementForExpansion = AI_Info.findTilePlacementThatImprovesNextExpansion(turnState.getCurrentTile(), turnState.getCurrentPlayer(), tempBoard);
+            if(bestTilePlacementForExpansion != null){
+                tilePlacement = bestTilePlacementForExpansion;
+            }
+            else {
+                int randInt = rand.nextInt(validTilePlacements.size());
+                tilePlacement = validTilePlacements.get(randInt);
+            }
+        }
+        try {
+            tempBoard.placeTile(tilePlacement);
+            tempBoard.updateSettlements();
+        } catch (InvalidMoveException e) {
+            //tempBoard = new Board(turnState.getBoard());
+        }
+
+        bestExpansion = AI_Info.findExpansionThatGetsRidOfMostVillagers(turnState.getCurrentPlayer(), tempBoard);
+
+        buildLocation = bestExpansion.getSettlement().getLocationsOfHexesInSettlement().get(0);
+        buildActionType = BuildActionType.VILLAGEEXPANSION;
+        expandTerrain = bestExpansion.getTerrainList().get(0);
+
+        return;
+    }
+
+    private void makeAnyPossibleStrategicTilePlacement() {
+        if(tilePlacementsThatSetUpPlayerForTotoroPlacement.size() > 0) {
+            int randInt = rand.nextInt(tilePlacementsThatSetUpPlayerForTotoroPlacement.size());
+            tilePlacement = tilePlacementsThatSetUpPlayerForTotoroPlacement.get(randInt);
+
+        }
+        else if(tilePlacementsForNukingEnemySettlementsCloseToGettingATotoro.size() > 0) {
+            int randInt = rand.nextInt(tilePlacementsForNukingEnemySettlementsCloseToGettingATotoro.size());
+            tilePlacement = tilePlacementsForNukingEnemySettlementsCloseToGettingATotoro.get(randInt);
+
+        }
+        else if(tilePlacementsForNukingEnemySettlementsCloseToGettingATiger.size() > 0) {
+            int randInt = rand.nextInt(tilePlacementsForNukingEnemySettlementsCloseToGettingATiger.size());
+            tilePlacement = tilePlacementsForNukingEnemySettlementsCloseToGettingATiger.get(randInt);
+
+        }
+        else if(tilePlacementsThatCutTotoroOffOfMostOfSettlement.size() > 0) {
+            int randInt = rand.nextInt(tilePlacementsThatCutTotoroOffOfMostOfSettlement.size());
+            tilePlacement = tilePlacementsThatCutTotoroOffOfMostOfSettlement.get(randInt);
+
+        }
+
+        if(tilePlacement != null) {
+            try {
+                tempBoard.placeTile(tilePlacement);
+                tempBoard.updateSettlements();
+            } catch (InvalidMoveException e) {
+                tempBoard = new Board(turnState.getBoard());
+            }
         }
     }
 

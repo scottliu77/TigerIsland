@@ -275,13 +275,13 @@ public class AI_InfoTest {
 
     @Test
     public void testForFindingTilePlacementsThatCutTotoroOffFromMostOfSettlement() throws InvalidMoveException{
-        setUpBoardWithASettlementThatForFindingTilePlacementsThatCutTotoroOffFromMostOfSettlementTest();
+        setUpBoardWithASettlementForFindingTilePlacementsThatCutTotoroOffFromMostOfSettlementTest();
         Tile tile = new Tile(Terrain.JUNGLE, Terrain.LAKE);
         ArrayList<TilePlacement> tilePlacementsThatCutTotoroOff = AI_Info.findTilePlacementsThatCutTotoroOffOfMostOfSettlement(p2.getPlayerColor(), tile, board, 3);
         assertTrue(tilePlacementsThatCutTotoroOff.size() == 4);
     }
 
-    private void setUpBoardWithASettlementThatForFindingTilePlacementsThatCutTotoroOffFromMostOfSettlementTest() throws InvalidMoveException {
+    private void setUpBoardWithASettlementForFindingTilePlacementsThatCutTotoroOffFromMostOfSettlementTest() throws InvalidMoveException {
         TilePlacement tilePlacement1 = new TilePlacement(new Tile(Terrain.LAKE, Terrain.LAKE), new Location(0, 0), 0);
         TilePlacement tilePlacement2 = new TilePlacement(new Tile(Terrain.LAKE, Terrain.GRASS), new Location(1, -1), 300);
         TilePlacement tilePlacement3 = new TilePlacement(new Tile(Terrain.LAKE, Terrain.LAKE), new Location(2, 0), 60);
@@ -296,15 +296,33 @@ public class AI_InfoTest {
         board.updateSettlements();
     }
 
-    /*@Test
-    public void testForFindingTilePlacementsThatSetUpForTilePlacementThatCutsOffTotoroFromSettlement() throws InvalidMoveException{
-        setUpBoardWithASettlementThatForFindingTilePlacementsThatCutTotoroOffFromMostOfSettlementTest();
-        TextGUI.printMap(board);
-        Tile tile = new Tile(Terrain.JUNGLE, Terrain.LAKE);
-        ArrayList<TilePlacement> tilePlacementsThatCutTotoroOff = AI_Info.findTilePlacementsThatCutTotoroOffOfMostOfSettlement(p2.getPlayerColor(), tile, board, 3);
-        assertTrue(tilePlacementsThatCutTotoroOff.size() == 4);
 
-    }*/
+    @Test
+    public void testFindTilePlacementThatImprovesNextExpansion() throws InvalidMoveException{
+        setUpBoardWithASettlementForFindingTilePlacementThatImprovesNextExpansion();
+        int originalNumberOfVillagersLeft = p2.getPieceSet().getNumberOfVillagersRemaining();
+        Tile tileToPlace = new Tile(Terrain.JUNGLE, Terrain.JUNGLE);
+        TilePlacement bestTilePlacementForExpansion = AI_Info.findTilePlacementThatImprovesNextExpansion(tileToPlace, p2, board);
+        board.placeTile(bestTilePlacementForExpansion);
+        SettlementAndTerrainListPair bestExpansionOption = AI_Info.findExpansionThatGetsRidOfMostVillagers(p2, board);
+        board.expandVillage(p2,bestExpansionOption.getSettlement().getLocationsOfHexesInSettlement().get(0), bestExpansionOption.getTerrainList().get(0));
+        board.updateSettlements();
+        int finalNumberOfVillagersLeft = p2.getPieceSet().getNumberOfVillagersRemaining();
+        assertTrue(originalNumberOfVillagersLeft - finalNumberOfVillagersLeft == 6);
+    }
+
+    private void setUpBoardWithASettlementForFindingTilePlacementThatImprovesNextExpansion() throws InvalidMoveException {
+        TilePlacement tilePlacement1 = new TilePlacement(new Tile(Terrain.JUNGLE, Terrain.LAKE), new Location(0, 0), 0);
+        TilePlacement tilePlacement2 = new TilePlacement(new Tile(Terrain.LAKE, Terrain.GRASS), new Location(1, -1), 300);
+        TilePlacement tilePlacement3 = new TilePlacement(new Tile(Terrain.LAKE, Terrain.JUNGLE), new Location(3, 0), 120);
+        board.placeTile(tilePlacement1);
+        board.placeTile(tilePlacement2);
+        board.placeTile(tilePlacement3);
+        board.createVillage(p2, new Location(2, -1));
+        board.updateSettlements();
+        board.expandVillage(p2, new Location(2, -1), Terrain.LAKE);
+        board.updateSettlements();
+    }
 
 }
 
