@@ -27,8 +27,6 @@ public class SettlementTest {
     private PlacedHex placedHex3;
     private PlacedHex placedHex4;
 
-
-
     @Before
     public void createSettlement(){
         createHexes();

@@ -3,6 +3,7 @@ package com.tigerisland.game;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class PlacedHexTest {
@@ -41,7 +42,7 @@ public class PlacedHexTest {
     }
 
     @Test
-    public void testCanGetExpansionStatus() { assertTrue(!placedHex.getExpansionStatus()); }
+    public void testCanGetExpansionStatus() { assertFalse(placedHex.getExpansionStatus()); }
 
     @Test
     public void testCanChangeExpansionStatus() {
