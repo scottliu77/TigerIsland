@@ -369,6 +369,7 @@ public class Message {
         checkForIllegalTilePlacement();
         checkForIllegalBuild();
         checkForTimeout();
+        checkForMalformedMove();
         checkForUnableToBuild();
     }
 
@@ -393,6 +394,14 @@ public class Message {
 
         while(forfeitMatcher.find()) {
             messageType = MessageType.FORFEITTIMEOUT;
+        }
+    }
+
+    private void checkForMalformedMove() {
+        Matcher foreitMatcher = ServerMessages.forfeitMalformedMovePattern.matcher(message);
+
+        while(foreitMatcher.find()) {
+            messageType = MessageType.FORFEITMALFORMED;
         }
     }
 

@@ -25,6 +25,7 @@ public final class ServerMessages {
     public static final Pattern forfeitIllegalTilePlacementPattern = Pattern.compile("FORFEITED: ILLEGAL TILE PLACEMENT");
     public static final Pattern forfeitIllegalBuildPattern = Pattern.compile("FORFEITED: ILLEGAL BUILD");
     public static final Pattern forfeitTimeoutPattern = Pattern.compile("FORFEITED: TIMEOUT");
+    public static final Pattern forfeitMalformedMovePattern = Pattern.compile("FORFEITED: MALFORMED MOVE");
 
     public static final Pattern serverLostUnableToBuildPattern = Pattern.compile("LOST: UNABLE TO BUILD");
 
