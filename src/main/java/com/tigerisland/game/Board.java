@@ -29,7 +29,7 @@ public class Board{
             placeHex(new Hex(startID, Terrain.ROCK), new Location(0, -1));
         }
         catch (InvalidMoveException e){
-            System.out.println("This statement should literally never be printed");
+            System.out.println("Starting Tile Cannot Be Placed");
         }
     }
 
