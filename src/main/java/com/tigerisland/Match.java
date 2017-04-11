@@ -10,20 +10,83 @@ import static java.lang.Thread.sleep;
 
 public class Match {
 
+    public final int GAMES_PER_MATCH = 2;
+
     protected GlobalSettings globalSettings;
-    protected GameSettings gameSettingsOne;
-    protected GameSettings gameSettingsTwo;
+    protected GameSettings newGameSettings;
     protected HashMap<String, Game> games;
     protected HashMap<String, Thread> gameThreads;
+
+    private ArrayList<String> gameIDsAssigned;
 
     Match(GlobalSettings globalSettings) {
         this.globalSettings = globalSettings;
         this.games = new HashMap<String, Game>();
-        cleanupOldGames();
-        constructGames();
+        this.gameIDsAssigned = new ArrayList<String>();
+        this.gameThreads = new HashMap<String, Thread>();
     }
 
-    private void cleanupOldGames() {
+    public void run() {
+        startGames();
+        waitForAllGamesToEnd();
+        closeGames();
+        cleanupGameMessages();
+    }
+
+    private void startGames() {
+        for(int game = 1; game <= GAMES_PER_MATCH; game++) {
+            String gameID = configureGameSettings();
+            createGameAsThread(gameID);
+            gameThreads.get(gameID).start();
+            System.out.println(Client.getTime() + "TIGERISLAND: GAME - " + gameID + " HAS BEGUN");
+        }
+    }
+
+    private String configureGameSettings() {
+        String gameID = waitForGameID();
+        newGameSettings = new GameSettings(globalSettings);
+        newGameSettings.setGameID(gameID);
+        return gameID;
+    }
+
+    private void createGameAsThread(String gameID) {
+        Game newGame = new Game(newGameSettings);
+        games.put(gameID, newGame);
+        gameThreads.put(gameID, new Thread(newGame));
+    }
+
+    private String waitForGameID() {
+        while(true) {
+            for(Message message : globalSettings.inboundQueue) {
+                if(message.getGameID() != null && message.getMessageType() != null) {
+                    if(gameIDsAssigned.contains(message.getGameID()) == false) {
+                        gameIDsAssigned.add(message.getGameID());
+                        return message.getGameID();
+                    }
+                }
+            }
+            try {
+                sleep(5);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    protected void closeGames() {
+
+        for(Thread gameThread : gameThreads.values()) {
+            try {
+                gameThread.join();
+                System.out.println("TIGERISLAND: Game - " + gameThread.getName() + " has ENDED");
+            } catch (InterruptedException exception) {
+                exception.printStackTrace();
+            }
+        }
+    }
+
+    private void cleanupGameMessages() {
         for(Message message : globalSettings.inboundQueue) {
             if(message.getMessageType() != null) {
                 if(message.getMessageType() == MessageType.MAKEMOVE) {
@@ -36,43 +99,6 @@ public class Match {
         }
     }
 
-    private void constructGames() {
-        // TODO allow safe assignment of gameID via first move message
-        gameSettingsOne = new GameSettings(globalSettings);
-        gameSettingsOne.setGameID("A");
-        games.put(gameSettingsOne.getGameID(), new Game(gameSettingsOne));
-
-        if(!gameSettingsOne.getGlobalSettings().manualTesting) {
-            gameSettingsTwo = new GameSettings(globalSettings);
-            gameSettingsTwo.setGameID("B");
-            games.put(gameSettingsTwo.getGameID(), new Game(gameSettingsTwo));
-        }
-    }
-
-    public void run() {
-        createAndStartAllGameThreads();
-    }
-
-    protected void createAndStartAllGameThreads() {
-
-        gameThreads = new HashMap<String, Thread>();
-        for(Game game: games.values()) {
-            gameThreads.put(game.gameID, new Thread(game));
-            gameThreads.get(game.gameID).start();
-            System.out.println("TIGERISLAND: Game (thread) #" + game.getGameID() + " is RUNNING");
-        }
-
-        waitForAllGamesToEnd();
-
-        for(Thread gameThread : gameThreads.values()) {
-            try {
-                gameThread.join();
-                System.out.println("TIGERISLAND: Game (thread): " + gameThread.getName() + " has CLOSED");
-            } catch (InterruptedException exception) {
-                exception.printStackTrace();
-            }
-        }
-    }
 
     private void waitForAllGamesToEnd() {
         try {

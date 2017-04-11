@@ -1,7 +1,5 @@
 package com.tigerisland.game;
 
-import com.tigerisland.InvalidMoveException;
-
 import java.util.*;
 
 public class Board{

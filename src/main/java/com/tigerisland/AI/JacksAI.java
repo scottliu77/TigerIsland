@@ -1,8 +1,8 @@
 package com.tigerisland.AI;
 
-import com.tigerisland.InvalidMoveException;
+import com.tigerisland.game.InvalidMoveException;
 import com.tigerisland.game.*;
-import org.omg.CORBA.DynAnyPackage.Invalid;
+
 import java.util.Random;
 
 import java.util.ArrayList;

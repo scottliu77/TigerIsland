@@ -1,9 +1,7 @@
 package com.tigerisland.game;
 
-import com.tigerisland.InvalidMoveException;
 import org.junit.Test;
 import org.junit.Before;
-import org.junit.experimental.theories.suppliers.TestedOn;
 
 import java.util.ArrayList;
 

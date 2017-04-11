@@ -1,6 +1,5 @@
 package com.tigerisland.game;
 
-import com.tigerisland.InvalidMoveException;
 import org.junit.Test;
 import org.junit.Before;
 

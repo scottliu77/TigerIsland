@@ -1,12 +1,9 @@
 package com.tigerisland.AI;
 
-import com.tigerisland.InvalidMoveException;
+import com.tigerisland.game.InvalidMoveException;
 import com.tigerisland.game.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 public class AI_Info {
     private static int x_lowerBound;

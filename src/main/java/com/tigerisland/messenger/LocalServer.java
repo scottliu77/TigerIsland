@@ -73,6 +73,7 @@ public class LocalServer implements Runnable {
         private String message;
 
         private String matchOpponent = "10";
+        private int gameID = 1;
 
         Messenger(Socket socket, GlobalSettings globalSettings) {
             this.dummySocket = socket;
@@ -179,6 +180,11 @@ public class LocalServer implements Runnable {
             matchOpponent = String.valueOf(Integer.parseInt(matchOpponent)+ 1);
 
             writer.println("NEW MATCH BEGINNING NOW YOUR OPPONENT IS PLAYER " + matchOpponent);
+
+            writer.println("MAKE YOUR MOVE IN GAME " + (gameID) + " WITHIN 1.5 SECONDS: MOVE 0 PLACE GRASS+LAKE");
+            writer.println("MAKE YOUR MOVE IN GAME " + (gameID + 1) + " WITHIN 1.5 SECONDS: MOVE 0 PLACE ROCK+LAKE");
+
+            gameID += 2;
 
             waitForGamesToEnd();
         }

@@ -1,9 +1,5 @@
 package com.tigerisland.game;
 
-import com.tigerisland.InvalidMoveException;
-import com.tigerisland.game.Color;
-import com.tigerisland.game.Piece;
-import com.tigerisland.game.PieceSet;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
