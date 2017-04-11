@@ -1,6 +1,5 @@
 package com.tigerisland.AI;
 
-import com.tigerisland.InvalidMoveException;
 import com.tigerisland.game.*;
 
 import java.util.ArrayList;
