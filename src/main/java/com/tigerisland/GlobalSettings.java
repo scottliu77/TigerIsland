@@ -1,5 +1,7 @@
 package com.tigerisland;
 
+import com.tigerisland.game.Player;
+import com.tigerisland.game.PlayerType;
 import com.tigerisland.messenger.Message;
 import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
@@ -26,6 +28,9 @@ public class GlobalSettings {
     private ArgumentParser parser;
     private ServerSettings serverSettings;
 
+    public final static PlayerType defaultAItype = PlayerType.JACKSAI_V2;
+    private PlayerType AIType;
+
     public final BlockingQueue<Message> inboundQueue = new LinkedBlockingQueue<Message>();
     public final BlockingQueue<Message> outboundQueue = new LinkedBlockingQueue<Message>();
     public final BlockingQueue<Message> messagesReceived = new LinkedBlockingQueue<Message>();
@@ -34,6 +39,8 @@ public class GlobalSettings {
        this.turnTime = defaultTurnTime;
        this.manualTesting = false;
        this.dummyFeed = false;
+
+       this.AIType = defaultAItype;
 
        this.parser = ArgumentParsers.newArgumentParser("com.tigerisland.TigerIsland ArgumentParser");
 
@@ -44,6 +51,8 @@ public class GlobalSettings {
         this.turnTime = turnTime;
         this.manualTesting = false;
         this.dummyFeed = false;
+
+        this.AIType = defaultAItype;
 
         this.parser = ArgumentParsers.newArgumentParser("com.tigerisland.TigerIsland ArgumentParser");
 
@@ -56,7 +65,7 @@ public class GlobalSettings {
         }
     }
 
-    public GlobalSettings(Boolean offline, float turnTime, String IPaddress, int port, String tournamentPassword, String username, String password, Boolean manualTesting, Boolean dummyFeed, ArgumentParser parser) throws ArgumentParserException {
+    public GlobalSettings(Boolean offline, float turnTime, String IPaddress, int port, String tournamentPassword, String username, String password, Boolean manualTesting, Boolean dummyFeed, String AIType, ArgumentParser parser) throws ArgumentParserException {
         this.turnTime = turnTime;
         this.manualTesting = manualTesting;
         this.dummyFeed = dummyFeed;
@@ -67,6 +76,7 @@ public class GlobalSettings {
 
         try {
             validateTurnTime();
+            validateAItype(AIType);
         } catch (ArgumentParserException exception) {
             throw exception;
         }
@@ -78,7 +88,22 @@ public class GlobalSettings {
         }
     }
 
+    private void validateAItype(String AIType) throws ArgumentParserException {
+        for(PlayerType type : PlayerType.values()) {
+            System.out.println(type.name() + " " + AIType);
+            if(AIType.equals(type.name())) {
+                this.AIType = type;
+                return;
+            }
+        }
+        throw new ArgumentParserException("AIType " + AIType + " does not exist. Choose from 'HUMAN', 'SAFEAI', 'JACKSAI(_V2)', 'TOTOROLINESAI(_V2)', 'RANDOMAI', and 'TIGERFORMAI'", parser);
+    }
+
     public ServerSettings getServerSettings() {
         return serverSettings;
+    }
+
+    public PlayerType getAIType() {
+        return AIType;
     }
 }

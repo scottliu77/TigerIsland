@@ -7,10 +7,8 @@ import com.tigerisland.game.PlayerType;
 
 public class GameSettings {
 
-
-    private final PlayerType BEST_AI_TYPE = PlayerType.JACKSAI_V2;
+    private final PlayerType BEST_AI_TYPE;
     private final PlayerType TEST_AGAINST_TYPE = PlayerType.TOTOROLINESAI_V2;
-
 
     private GlobalSettings globalSettings;
     private Deck deck;
@@ -21,12 +19,14 @@ public class GameSettings {
 
     public GameSettings() {
         this.globalSettings = setPlayerIDsIfNull(new GlobalSettings());
+        this.BEST_AI_TYPE = GlobalSettings.defaultAItype;
         this.playerSet = new PlayerSet(globalSettings);
         constructPlayerSet();
     }
 
     public GameSettings(GlobalSettings settings) {
         this.globalSettings = setPlayerIDsIfNull(settings);
+        this.BEST_AI_TYPE = globalSettings.getAIType();
         this.playerSet = new PlayerSet(globalSettings);
         constructPlayerSet();
         setDeck();
@@ -35,6 +35,8 @@ public class GameSettings {
     public GameSettings(GameSettings gameSettings) {
         this.gameID = gameSettings.gameID;
         this.moveID = gameSettings.moveID;
+
+        this.BEST_AI_TYPE = gameSettings.BEST_AI_TYPE;
 
         this.globalSettings = gameSettings.getGlobalSettings();
         this.deck = new Deck(gameSettings.getDeck());

@@ -48,6 +48,9 @@ public class TigerIsland {
         parser.addArgument("-d", "--dummyFeed").type(Arguments.booleanType())
                 .setDefault(false)
                 .help("Run with dummy values in the inbound feed");
+        parser.addArgument("-a", "--aiType").type(String.class)
+                .setDefault("JACKSAI_V2")
+                .help("Select AI type from choices: 'HUMAN', 'SAFEAI', 'JACKSAI(_V2)', 'TOTOROLINESAI(_V2)', 'RANDOMAI', and 'TIGERFORMAI'");
 
         parsedArguments = parser.parseArgs(args);
 
@@ -60,9 +63,10 @@ public class TigerIsland {
         String password = parsedArguments.get("password");
         Boolean manualTesting = parsedArguments.get("manual");
         Boolean dummyFeed = parsedArguments.get("dummyFeed");
+        String aiType = parsedArguments.get("aiType");
 
         try {
-            this.globalSettings = new GlobalSettings(offline, turnTime, ipaddress, port, tournamentPassword, username, password, manualTesting, dummyFeed, parser);
+            this.globalSettings = new GlobalSettings(offline, turnTime, ipaddress, port, tournamentPassword, username, password, manualTesting, dummyFeed, aiType, parser);
         } catch (ArgumentParserException exception) {
             throw exception;
         }
