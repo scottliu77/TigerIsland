@@ -38,14 +38,14 @@ public class TurnTest {
 
     @Test
     public void testCanUpdateAndGetTilePlacement() throws InvalidMoveException, InterruptedException {
-        turn.processMove();
+        turn.processMove(inboundMessages.remove());
         TilePlacement tilePlacement = turn.getTilePlacement();
         assertTrue(tilePlacement != null);
     }
 
     @Test
     public void testCanUpdateAndGetBuildAction() throws InterruptedException, InvalidMoveException {
-        turn.processMove();
+        turn.processMove(inboundMessages.remove());
         BuildAction buildAction = turn.getBuildAction();
         assertTrue(buildAction != null);
     }

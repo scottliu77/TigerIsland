@@ -80,7 +80,7 @@ public class Match {
         for(Thread gameThread : gameThreads.values()) {
             try {
                 gameThread.join();
-                System.out.println("TIGERISLAND: Game - " + gameThread.getName() + " has ENDED");
+                System.out.println(Client.getTime() + "TIGERISLAND: Game - " + gameThread.getName() + " has ENDED");
             } catch (InterruptedException exception) {
                 exception.printStackTrace();
             }

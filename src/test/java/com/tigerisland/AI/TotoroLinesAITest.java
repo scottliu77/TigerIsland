@@ -3,6 +3,7 @@ package com.tigerisland.AI;
 import com.tigerisland.GameSettings;
 import com.tigerisland.game.InvalidMoveException;
 import com.tigerisland.game.*;
+import com.tigerisland.messenger.Message;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -35,7 +36,8 @@ public class TotoroLinesAITest {
             turnState.getCurrentPlayer().getPlayerAI().pickTilePlacementAndBuildAction(turnState);
 
             try {
-                turnState.processMove();
+                Message message = new Message("GAME A MOVE 1 PLACE ROCK+LAKE AT 0 0 0 1 FOUNDED SETTLEMENT AT 0 0 0");
+                turnState.processMove(message);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

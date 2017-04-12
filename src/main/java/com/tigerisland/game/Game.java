@@ -21,6 +21,8 @@ public class Game implements Runnable {
 
     private String moveID = "0";
 
+    private Boolean continueGame = true;
+
     Player winner;
     Player loser;
 
@@ -55,13 +57,11 @@ public class Game implements Runnable {
         offlineCalculateResults();
         offlineGenerateGameOverEcho();
 
+        waitForGameOver();
+
     }
 
     private Boolean continuePlayingGame() throws InterruptedException, InvalidMoveException {
-
-
-
-        Boolean continueGame = true;
 
         if(Thread.currentThread().isInterrupted()) {
             return false;
@@ -118,10 +118,10 @@ public class Game implements Runnable {
             if(message.getGameID() != null && message.getMessageType() != null) {
                 if (message.getGameID().equals(gameID)) {
                     if (message.getMessageType() == MessageType.MAKEMOVE) {
+                        message.setProcessed();
                         gameSettings.setMoveID(message.getMoveID());
                         gameSettings.getPlayerSet().setCurrentPlayer(ourPlayerID);
                         pickMove(message);
-                        message.setProcessed();
                     }
                 }
             }
@@ -166,6 +166,14 @@ public class Game implements Runnable {
         }
 
         return true;
+    }
+
+    private void waitForGameOver() {
+        while(continueGame) {
+            if(isGameOver()) {
+                continueGame = false;
+            }
+        }
     }
 
     protected Boolean isGameOver() {
