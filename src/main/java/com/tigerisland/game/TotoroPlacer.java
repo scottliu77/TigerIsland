@@ -24,7 +24,12 @@ public class TotoroPlacer {
         if(adjacentSettlementsToTargetLocation.size() == 0){
             throw new InvalidMoveException("Settlement already contains a totoro or is too small");
         }
-        targetHex.getHex().addPiecesToHex(player.getPieceSet().placeTotoro(), 1);
+
+        try {
+            targetHex.getHex().addPiecesToHex(player.getPieceSet().placeTotoro(), 1);
+        } catch(NullPointerException e){
+            return;
+        }
     }
 
 

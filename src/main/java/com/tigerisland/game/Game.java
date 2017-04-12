@@ -63,6 +63,7 @@ public class Game implements Runnable {
 
     private Boolean continuePlayingGame() throws InterruptedException, InvalidMoveException {
 
+
         if(Thread.currentThread().isInterrupted()) {
             return false;
         }
@@ -70,7 +71,6 @@ public class Game implements Runnable {
         attemptToProcessMove();
 
         checkForHaveAIPickAMove();
-
 
         if(isGameOver()) {
             continueGame = false;

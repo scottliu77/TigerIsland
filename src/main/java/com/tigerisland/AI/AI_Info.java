@@ -132,8 +132,15 @@ public class AI_Info {
                 for (Settlement ss : settlements) {
                     if (ss.getColor()==player.getPlayerColor() && !ss.containsTotoro() && ss.size()>=Board.SIZE_REQUIRED_FOR_TOTORO) {
                         try{
+                            if(player == null){
+                                int i= 0;
+
+                            }
                             Board tempBoard = new Board(board);
                             Player tempPlayer = new Player(player);
+                            if(tempPlayer == null){
+                                int i = 0;
+                            }
                             tempBoard.placeTotoro(tempPlayer, ph.getLocation());
                         }
                         catch(InvalidMoveException e){
@@ -388,4 +395,58 @@ public class AI_Info {
         }
         return bestTilePlacement;
     }
+
+    public static TilePlacement findHighestPossibleTilePlacement(Tile tile, Board board, Color opposingColor, Player player){
+        ArrayList<TilePlacement> validTilePlacements = returnValidTilePlacements(tile, board);
+        int highestHeight = 0;
+        TilePlacement highestTilePlacement = null;
+        for(TilePlacement tilePlacement : validTilePlacements){
+            Location locationOfTilePlacement = tilePlacement.getLocation();
+            int heightOfThisTilePlacement;
+            if(board.hexExistsAtLocation(locationOfTilePlacement)) {
+                heightOfThisTilePlacement = 1 + board.hexAt(locationOfTilePlacement).getHeight();
+            }
+            else{
+                heightOfThisTilePlacement = 1;
+            }
+            if(heightOfThisTilePlacement > highestHeight && tilePlacementDoesntGiveOpponentATigerPlayground(tilePlacement, board, opposingColor) && tilePlacementDoesntNukeOurOwnSettlement(tilePlacement, board, player)){
+                highestHeight = heightOfThisTilePlacement;
+                highestTilePlacement = tilePlacement;
+            }
+        }
+        return highestTilePlacement;
+    }
+
+    private static boolean tilePlacementDoesntGiveOpponentATigerPlayground(TilePlacement tilePlacement, Board board, Color opposingColor){
+        Board tempBoard = new Board(board);
+        TilePlacement tempTilePlacement = new TilePlacement(tilePlacement);
+        try{
+            tempBoard.placeTile(tempTilePlacement);
+        } catch (InvalidMoveException e){
+            return false;
+        }
+        if(returnValidTigerPlacements(opposingColor, tempBoard).size() != 0){
+            return false;
+        }
+        return true;
+    }
+
+    private static boolean tilePlacementDoesntNukeOurOwnSettlement(TilePlacement tilePlacement, Board board, Player player){
+        Board tempBoard = new Board(board);
+        int numberOfValidTotoroPlacementsBeforeTilePlacement = returnValidTotoroPlacements(player, tempBoard).size();
+        TilePlacement tempTilePlacement = new TilePlacement(tilePlacement);
+        try{
+            tempBoard.placeTile(tempTilePlacement);
+        } catch (InvalidMoveException e){
+            return false;
+        }
+        int numberOfValidTotoroPlacementsAfterTilePlacement = returnValidTotoroPlacements(player, tempBoard).size();
+        if(numberOfValidTotoroPlacementsBeforeTilePlacement > numberOfValidTotoroPlacementsAfterTilePlacement){
+            return false;
+        }
+
+        return true;
+    }
 }
+
+

@@ -465,10 +465,10 @@ public class Board{
     }
 
     public void placeTotoro(Player player, Location location) throws InvalidMoveException{
+
         PlacedHex targetHex = placedHexAtLocation(location);
         ArrayList<Settlement> adjacentSettlementsToTargetLocation = findAdjacentSettlementsToLocation(location);
         TotoroPlacer.placeTotoro(player, targetHex, adjacentSettlementsToTargetLocation);
-        //player.getScore().addPoints(Score.TOTORO_POINT_VALUE);
     }
 
     public void placeTiger(Player player, Location location) throws InvalidMoveException{

@@ -49,8 +49,8 @@ public class TigerIsland {
                 .setDefault(false)
                 .help("Run with dummy values in the inbound feed");
         parser.addArgument("-a", "--aiType").type(String.class)
-                .setDefault("JACKSAI_V2")
-                .help("Select AI type from choices: 'HUMAN', 'SAFEAI', 'JACKSAI(_V2)', 'TOTOROLINESAI(_V2)', 'RANDOMAI', and 'TIGERFORMAI'");
+                .setDefault("TOTOROLINESAI_V2")
+                .help("Select AI type from choices: 'HUMAN', 'SAFEAI', 'JACKSAI(_V2)', 'TOTOROLINESAI(_V2)(_V3)', 'RANDOMAI', and 'TIGERFORMAI'");
 
         parsedArguments = parser.parseArgs(args);
 

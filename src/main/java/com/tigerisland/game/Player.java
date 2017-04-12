@@ -35,6 +35,8 @@ public class Player {
             playerAI = new TigerFormAI();
         else if(playerType == PlayerType.JACKSAI_V2)
             playerAI = new JacksAI_v2();
+        else if(playerType == PlayerType.JACKSAI_V3)
+            playerAI = new JacksAI_v3();
     }
 
     public Player(Player player){
