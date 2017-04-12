@@ -39,6 +39,8 @@ public class Player {
             playerAI = new JacksAI_v3();
         else if(playerType == PlayerType.JACKSAI_V4)
             playerAI = new JacksAI_v4();
+        else if(playerType == PlayerType.DAXSAI)
+            playerAI = new DAXSAI();
     }
 
     public Player(Player player){
