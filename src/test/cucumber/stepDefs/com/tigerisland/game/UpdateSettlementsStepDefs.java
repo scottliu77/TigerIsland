@@ -33,10 +33,10 @@ public class UpdateSettlementsStepDefs {
     public void aPlayerHasTwoVillagesAdjacentToOneAnother() {
         PlacedHex placedHex = createSettlementSizeOne();
 
-        Hex hex = new Hex("hex2", Terrain.GRASS, 1);
-        Location location = new Location(0,1);
-        hex.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
-        PlacedHex placedHex2 = new PlacedHex(hex, location);
+        Hex hex2 = new Hex("hex2", Terrain.GRASS, 1);
+        Location loc2 = new Location(0,1);
+        hex2.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+        PlacedHex placedHex2 = new PlacedHex(hex2, loc2);
 
         placedHexes.add(placedHex);
         placedHexes.add(placedHex2);
@@ -52,10 +52,10 @@ public class UpdateSettlementsStepDefs {
     public void twoSettlementsOfDifferentColorAreAdjacent() {
         PlacedHex placedHex = createSettlementSizeOne();
 
-        Hex hex = new Hex("hex2", Terrain.GRASS, 1);
-        Location location = new Location(0,1);
-        hex.addPiecesToHex(new Piece(Color.WHITE, PieceType.VILLAGER), 1);
-        PlacedHex placedHex2 = new PlacedHex(hex, location);
+        Hex hex2 = new Hex("hex2", Terrain.GRASS, 1);
+        Location loc2 = new Location(0,1);
+        hex2.addPiecesToHex(new Piece(Color.WHITE, PieceType.VILLAGER), 1);
+        PlacedHex placedHex2 = new PlacedHex(hex2, loc2);
 
         placedHexes.add(placedHex);
         placedHexes.add(placedHex2);
@@ -68,7 +68,7 @@ public class UpdateSettlementsStepDefs {
     }
 
     @Given("^a player has expanded an existing settlement becoming adjacent to another settlement of the same color$")
-    public void aPlayerHasExpandedBecomingAdjacentToAnotherSettlementOfTheSameColor() {
+    public void aPlayerHasExpandedBecomingAdjacentToAnotherSettlementOfTheSameColor() throws InvalidMoveException {
         PlacedHex placedHex = createSettlementSizeOne();
 
         populatePlacedHexes();
@@ -87,15 +87,11 @@ public class UpdateSettlementsStepDefs {
         board.settlements.add(village1);
         board.settlements.add(village2);
 
-        try {
-            board.expandVillage(player, placedHex.getLocation(), Terrain.ROCK);
-        } catch (InvalidMoveException e) {
-            e.getMessage();
-        }
+        board.expandVillage(player, placedHex.getLocation(), Terrain.ROCK);
     }
 
     @Given("^a player expands an existing settlement becoming adjacent to a different colored settlement$")
-    public void aPlayerExpandsBecomingAdjacentToADifferentColoredSettlement() {
+    public void aPlayerExpandsBecomingAdjacentToADifferentColoredSettlement() throws InvalidMoveException {
         PlacedHex placedHex = createSettlementSizeOne();
 
         populatePlacedHexes();
@@ -114,15 +110,11 @@ public class UpdateSettlementsStepDefs {
         board.settlements.add(village1);
         board.settlements.add(village2);
 
-        try {
-            board.expandVillage(player, placedHex.getLocation(), Terrain.ROCK);
-        } catch (InvalidMoveException e) {
-            e.getMessage();
-        }
+        board.expandVillage(player, placedHex.getLocation(), Terrain.ROCK);
     }
 
     @Given("^a player builds a totoro sanctuary connecting two settlements$")
-    public void aPlayerBuildsATotoroSanctuaryConnectingTwoSettlements() {
+    public void aPlayerBuildsATotoroSanctuaryConnectingTwoSettlements() throws InvalidMoveException {
         PlacedHex placedHex = createSettlementSizeOne();
 
         populatePlacedHexes();
@@ -146,21 +138,13 @@ public class UpdateSettlementsStepDefs {
         board.settlements.add(village1);
         board.settlements.add(village2);
 
-        try {
-            board.expandVillage(player, placedHex.getLocation(), Terrain.ROCK);
-        } catch (InvalidMoveException e) {
-            e.getMessage();
-        }
+        board.expandVillage(player, placedHex.getLocation(), Terrain.ROCK);
 
-        try {
-            board.placeTotoro(player, placedHex6.getLocation());
-        } catch (InvalidMoveException e) {
-            e.getMessage();
-        }
+        board.placeTotoro(player, placedHex6.getLocation());
     }
 
     @Given("^a player builds a totoro directly next to a totoro in another settlement$")
-    public void aPlayerBuildsATotoroDirectlyNextToATotoroInAnotherSettlement() {
+    public void aPlayerBuildsATotoroDirectlyNextToATotoroInAnotherSettlement() throws InvalidMoveException {
         PlacedHex placedHex = createSettlementSizeOne();
 
         populatePlacedHexes();
@@ -176,17 +160,9 @@ public class UpdateSettlementsStepDefs {
         Settlement village1 = new Settlement(placedHex, placedHexes);
         board.settlements.add(village1);
 
-        try {
-            board.expandVillage(player, placedHex.getLocation(), Terrain.ROCK);
-        } catch (InvalidMoveException e) {
-            e.getMessage();
-        }
+        board.expandVillage(player, placedHex.getLocation(), Terrain.ROCK);
 
-        try {
-            board.placeTotoro(player, placedHex6.getLocation());
-        } catch (InvalidMoveException e) {
-            e.getMessage();
-        }
+        board.placeTotoro(player, placedHex6.getLocation());
 
         populateMorePlacedHexes();
 
@@ -205,21 +181,13 @@ public class UpdateSettlementsStepDefs {
         Settlement village2 = new Settlement(placedHex12, placedHexes);
         board.settlements.add(village2);
 
-        try {
-            board.expandVillage(player, placedHex12.getLocation(), Terrain.ROCK);
-        } catch (InvalidMoveException e) {
-            e.getMessage();
-        }
+        board.expandVillage(player, placedHex12.getLocation(), Terrain.ROCK);
 
-        try {
-            board.placeTotoro(player, placedHex7.getLocation());
-        } catch (InvalidMoveException e) {
-            e.getMessage();
-        }
+        board.placeTotoro(player, placedHex7.getLocation());
     }
 
     @Given("^a player builds a totoro sanctuary between two different colored settlements$")
-    public void aPlayerBuildsATotoroBetweenTwoDifferentColoredSettlements() {
+    public void aPlayerBuildsATotoroBetweenTwoDifferentColoredSettlements() throws InvalidMoveException {
         PlacedHex placedHex = createSettlementSizeOne();
 
         populatePlacedHexes();
@@ -243,21 +211,13 @@ public class UpdateSettlementsStepDefs {
         board.settlements.add(village1);
         board.settlements.add(village2);
 
-        try {
-            board.expandVillage(player, placedHex.getLocation(), Terrain.ROCK);
-        } catch (InvalidMoveException e) {
-            e.getMessage();
-        }
+        board.expandVillage(player, placedHex.getLocation(), Terrain.ROCK);
 
-        try {
-            board.placeTotoro(player, placedHex6.getLocation());
-        } catch (InvalidMoveException e) {
-            e.getMessage();
-        }
+        board.placeTotoro(player, placedHex6.getLocation());
     }
 
     @Given("^a player builds a tiger connecting two settlements$")
-    public void aPlayerBuildsATigerConnectingTwoSettlements() {
+    public void aPlayerBuildsATigerConnectingTwoSettlements() throws InvalidMoveException {
         PlacedHex placedHex = createSettlementSizeOne();
 
         Hex hex2 = new Hex("hex2", Terrain.ROCK, 3);
@@ -279,15 +239,11 @@ public class UpdateSettlementsStepDefs {
         board.settlements.add(village1);
         board.settlements.add(village2);
 
-        try {
-            board.placeTiger(player, placedHex2.getLocation());
-        } catch (InvalidMoveException e) {
-            e.getMessage();
-        }
+        board.placeTiger(player, placedHex2.getLocation());
     }
 
     @Given("^a player builds a tiger directly next to a tiger in another settlement$")
-    public void aPlayerBuildsATigerDirectlyNextToATigerInAnotherSettlement() {
+    public void aPlayerBuildsATigerDirectlyNextToATigerInAnotherSettlement() throws InvalidMoveException {
         PlacedHex placedHex = createSettlementSizeOne();
 
         Hex hex2 = new Hex("hex2", Terrain.ROCK, 3);
@@ -299,11 +255,7 @@ public class UpdateSettlementsStepDefs {
         Settlement village1 = new Settlement(placedHex, placedHexes);
         board.settlements.add(village1);
 
-        try {
-            board.placeTiger(player, placedHex2.getLocation());
-        } catch (InvalidMoveException e) {
-            e.getMessage();
-        }
+        board.placeTiger(player, placedHex2.getLocation());
 
         Hex hex3 = new Hex("hex3", Terrain.ROCK, 3);
         Location loc3 = new Location(0,2);
@@ -320,15 +272,11 @@ public class UpdateSettlementsStepDefs {
         Settlement village2 = new Settlement(placedHex4, placedHexes);
         board.settlements.add(village2);
 
-        try {
-            board.placeTiger(player, placedHex3.getLocation());
-        } catch (InvalidMoveException e) {
-            e.getMessage();
-        }
+        board.placeTiger(player, placedHex3.getLocation());
     }
 
     @Given("^a player builds a tiger between two different colored settlements$")
-    public void aPlayerBuildsATigerBetweenTwoDifferentColoredSettlements() {
+    public void aPlayerBuildsATigerBetweenTwoDifferentColoredSettlements() throws InvalidMoveException {
         PlacedHex placedHex = createSettlementSizeOne();
 
         Hex hex2 = new Hex("hex2", Terrain.ROCK, 3);
@@ -350,15 +298,11 @@ public class UpdateSettlementsStepDefs {
         board.settlements.add(village1);
         board.settlements.add(village2);
 
-        try {
-            board.placeTiger(player, placedHex2.getLocation());
-        } catch (InvalidMoveException e) {
-            e.getMessage();
-        }
+        board.placeTiger(player, placedHex2.getLocation());
     }
 
     @Given("^a player has a settlement containing a tiger and another capable of placing a totoro$")
-    public void aPlayerHasASettlementContainingATigerAndAnotherCapableOfPlacingATotoro() {
+    public void aPlayerHasASettlementContainingATigerAndAnotherCapableOfPlacingATotoro() throws InvalidMoveException {
         PlacedHex placedHex = createSettlementSizeOne();
         placedHexes.add(placedHex);
 
@@ -387,15 +331,11 @@ public class UpdateSettlementsStepDefs {
         board.settlements.add(tigerVillage);
         board.settlements.add(totoroVillage);
 
-        try {
-            board.placeTotoro(player, loc9);
-        } catch (InvalidMoveException e) {
-            e.getMessage();
-        }
+        board.placeTotoro(player, loc9);
     }
 
     @Given("^a player has a settlement containing a totoro and another capable of placing a tiger$")
-    public void aPlayerHasASettlementContainingATotoroAndAnotherCapableOfPlacingATiger() {
+    public void aPlayerHasASettlementContainingATotoroAndAnotherCapableOfPlacingATiger() throws InvalidMoveException {
         PlacedHex placedHex = createSettlementSizeOne();
         placedHexes.add(placedHex);
 
@@ -424,15 +364,11 @@ public class UpdateSettlementsStepDefs {
         board.settlements.add(tigerVillage);
         board.settlements.add(totoroVillage);
 
-        try {
-            board.placeTiger(player, loc2);
-        } catch (InvalidMoveException e) {
-            e.getMessage();
-        }
+        board.placeTiger(player, loc2);
     }
 
     @Given("^a player has a settlement with a totoro and another settlement builds a tiger directly next to it$")
-    public void aSettlementWithATotoroBuildsATigerDirectlyNextToIt() {
+    public void aSettlementWithATotoroBuildsATigerDirectlyNextToIt() throws InvalidMoveException {
         PlacedHex placedHex = createSettlementSizeOne();
         placedHexes.add(placedHex);
 
@@ -461,11 +397,7 @@ public class UpdateSettlementsStepDefs {
         board.settlements.add(tigerVillage);
         board.settlements.add(totoroVillage);
 
-        try {
-            board.placeTiger(player, loc2);
-        } catch (InvalidMoveException e) {
-            e.getMessage();
-        }
+        board.placeTiger(player, loc2);
     }
 
     @When("^the turn is over and updateSettlements is called$")
