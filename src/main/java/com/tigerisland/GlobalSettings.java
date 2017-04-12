@@ -90,7 +90,6 @@ public class GlobalSettings {
 
     private void validateAItype(String AIType) throws ArgumentParserException {
         for(PlayerType type : PlayerType.values()) {
-            System.out.println(type.name() + " " + AIType);
             if(AIType.equals(type.name())) {
                 this.AIType = type;
                 return;

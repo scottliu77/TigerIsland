@@ -1,6 +1,5 @@
 package com.tigerisland.messenger;
 
-import com.tigerisland.Deck;
 import com.tigerisland.GlobalSettings;
 import com.tigerisland.ServerSettings;
 
@@ -122,7 +121,7 @@ public class LocalServer implements Runnable {
 
         private void checkForNewEntry() throws IOException {
             for(Message message : messagesReceived) {
-                if(message.getMessageType() == MessageType.ENTERTOURNAMENT) {
+                if(message.getMessageType() == MessageType.CLIENTENTERTOURNAMENT) {
                     if(globalSettings.getServerSettings().tournamentPassword.equals(ServerSettings.defaultTournamentPassword)) {
                         writer.println("TWO SHALL ENTER, ONE SHALL LEAVE");
                         message.setProcessed();
@@ -133,7 +132,7 @@ public class LocalServer implements Runnable {
 
         private void checkForAuthentication() throws IOException {
             for(Message message : messagesReceived) {
-                if(message.getMessageType() == MessageType.AUTHENTICATETEAM) {
+                if(message.getMessageType() == MessageType.CLIENTAUTHENTICATETEAM) {
                     if(globalSettings.getServerSettings().username.equals(ServerSettings.defaultUsername)) {
                         if(globalSettings.getServerSettings().password.equals(ServerSettings.defaultPassword)) {
                             writer.println("WAIT FOR THE TOURNAMENT TO BEGIN 7");

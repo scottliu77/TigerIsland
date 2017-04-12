@@ -8,6 +8,9 @@ import com.tigerisland.game.Tile;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.tigerisland.messenger.ServerMessages.authAcceptPattern;
+import static com.tigerisland.messenger.ServerMessages.authWelcomePattern;
+
 public class Message {
 
     public static final Pattern enterTournamentPattern = Pattern.compile("ENTER THUNDERDOME \\w+");
@@ -58,13 +61,15 @@ public class Message {
     public Message(String message) {
         this.message = message;
 
+        checkForServerWelcomeOne();
+        checkForEnterTournament();
+        checkForServerWelcomeTwo();
+        checkForAuthenticateTeam();
+
         checkForGameID();
         checkForMoveID();
 
         checkForGeneralPlayerID();
-
-        checkForEnterTournament();
-        checkForAuthenticateTeam();
         checkForCurrentPlayerID();
 
         checkForNewChallenge();
@@ -85,13 +90,27 @@ public class Message {
         checkForTournamentEnd();
     }
 
+    private void checkForServerWelcomeOne() {
+        Matcher serverWelcomeMatcher = authWelcomePattern.matcher(message);
+        while(serverWelcomeMatcher.find()) {
+            messageType = MessageType.SERVERWELCOME;
+        }
+    }
+
     private void checkForEnterTournament() {
         Matcher enterTournamentMatcher = enterTournamentPattern.matcher(message);
         while(enterTournamentMatcher.find()) {
             String match = enterTournamentMatcher.group();
             tournamentPassword = match.split("\\s+")[2];
 
-            messageType = MessageType.ENTERTOURNAMENT;
+            messageType = MessageType.CLIENTENTERTOURNAMENT;
+        }
+    }
+
+    private void checkForServerWelcomeTwo() {
+        Matcher serverWelcomeMatcher = authAcceptPattern.matcher(message);
+        while(serverWelcomeMatcher.find()) {
+            messageType = MessageType.SERVERWELCOME2;
         }
     }
 
@@ -103,7 +122,7 @@ public class Message {
             teamUsername = match.split("\\s+")[2];
             teamPassword = match.split("\\s+")[3];
 
-            messageType = MessageType.AUTHENTICATETEAM;
+            messageType = MessageType.CLIENTAUTHENTICATETEAM;
         }
     }
 
