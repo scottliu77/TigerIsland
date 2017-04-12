@@ -84,6 +84,12 @@ public class LocalServer implements Runnable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            sendStartingMessage();
+        }
+
+        private void sendStartingMessage() {
+            writer.println("WELCOME TO ANOTHER EDITION OF THUNDERDOME!");
         }
 
         public Boolean call() {
