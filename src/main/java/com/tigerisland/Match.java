@@ -11,7 +11,7 @@ import static java.lang.Thread.sleep;
 
 public class Match {
 
-    public final int GAMES_PER_MATCH = 2;
+    public final int GAMES_PER_MATCH = 1;
 
     protected GlobalSettings globalSettings;
     protected GameSettings newGameSettings;

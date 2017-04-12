@@ -63,14 +63,22 @@ public class Game implements Runnable {
 
         Boolean continueGame = true;
 
+        TextGUI.printMap(board);
         if(Thread.currentThread().isInterrupted()) {
             return false;
         }
 
         continueGame = attemptToProcessMove();
+        if(gameSettings.getPlayerSet().getCurrentPlayer() == null){
+            int i= 0;
+
+        }
 
         checkForHaveAIPickAMove();
+        if(gameSettings.getPlayerSet().getCurrentPlayer() == null){
+            int i= 0;
 
+        }
 
         if(isGameOver()) {
             continueGame = false;

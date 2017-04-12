@@ -2,12 +2,10 @@ package com.tigerisland.AI;
 
 import com.tigerisland.game.*;
 
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 
 
-
-public class JacksAI_v2 extends AI {
+public class JacksAI_v3 extends AI {
 
     private ArrayList<TilePlacement> validTilePlacements;
     private ArrayList<Location> validTotoroPlacements;
@@ -23,7 +21,7 @@ public class JacksAI_v2 extends AI {
 
     private ArrayList<Location> plannedSettlementLocations;
 
-    public JacksAI_v2(){
+    public JacksAI_v3(){
         plannedSettlementLocations = new ArrayList<Location>();
         rand = new Random();
     }
@@ -35,6 +33,7 @@ public class JacksAI_v2 extends AI {
         expandTerrain = null;
 
         tempBoard = new Board(turnState.getBoard());
+        //TextGUI.printMap(tempBoard);
         gatherTilePlacementInfo();
         makeAnyPossibleStrategicTilePlacement();
         gatherBuildActionInfo();
@@ -101,7 +100,6 @@ public class JacksAI_v2 extends AI {
         } catch (InvalidMoveException e) {
             //tempBoard = new Board(turnState.getBoard());
         }
-        TextGUI.printMap(turnState.getBoard());
         bestExpansion = AI_Info.findExpansionThatGetsRidOfMostVillagers(turnState.getCurrentPlayer(), tempBoard);
 
         buildLocation = bestExpansion.getSettlement().getLocationsOfHexesInSettlement().get(0);
@@ -115,6 +113,14 @@ public class JacksAI_v2 extends AI {
         if(tilePlacementsThatSetUpPlayerForTotoroPlacement.size() > 0 && hasATotoro()) {
             int randInt = rand.nextInt(tilePlacementsThatSetUpPlayerForTotoroPlacement.size());
             tilePlacement = tilePlacementsThatSetUpPlayerForTotoroPlacement.get(randInt);
+            try{
+                tempBoard.placeTile(tilePlacement);
+            } catch (InvalidMoveException e){
+                return;
+            }
+
+            validTotoroPlacements = AI_Info.returnValidTotoroPlacements(turnState.getCurrentPlayer(), tempBoard);
+            placeTotoro();
 
         }
         else if(tilePlacementsForNukingEnemySettlementsCloseToGettingATotoro.size() > 0 && hasATotoro()) {
@@ -152,6 +158,10 @@ public class JacksAI_v2 extends AI {
     }
 
     private void gatherBuildActionInfo() {
+        if(turnState.getCurrentPlayer() == null){
+            int i= 0;
+
+        }
         this.validTotoroPlacements = AI_Info.returnValidTotoroPlacements(turnState.getCurrentPlayer(), tempBoard);
         this.validTigerPlacements = AI_Info.returnValidTigerPlacements(turnState.getCurrentPlayer().getPlayerColor(), tempBoard);
         this.bestExpansion = AI_Info.findExpansionThatGetsRidOfMostVillagers(turnState.getCurrentPlayer(), tempBoard);
@@ -168,11 +178,32 @@ public class JacksAI_v2 extends AI {
 
     private void placeTotoro(){
         buildActionType = BuildActionType.TOTOROPLACEMENT;
+        /*if(validTotoroPlacements == null || validTotoroPlacements.size() == 0){
+            int breakpoint = 0;
+        }*/
         int randInt = rand.nextInt(validTotoroPlacements.size());
         buildLocation = validTotoroPlacements.get(randInt);
         if(tilePlacement == null) {
+            tilePlacement = AI_Info.findHighestPossibleTilePlacement(turnState.getCurrentTile(), turnState.getBoard(), opposingPlayerColor(), turnState.getCurrentPlayer());
+        }
+        if(tilePlacement == null){
             tilePlacement = validTilePlacements.get(0);
         }
+    }
+
+    private Color opposingPlayerColor(){
+        Color currentPlayerColor = turnState.getCurrentPlayer().getPlayerColor();
+        HashMap<String, Player> playerSet =  turnState.getGameSettings().getPlayerSet().getPlayerList();
+        Iterator it = playerSet.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            Player player = (Player)pair.getValue();
+            if(player.getPlayerColor() != currentPlayerColor) {
+                return player.getPlayerColor();
+            }
+
+        }
+        return currentPlayerColor; //this will never happen
     }
 
     private void resetTotoroLine(){
@@ -271,7 +302,6 @@ public class JacksAI_v2 extends AI {
         return false;
     }
 }
-
 
 
 

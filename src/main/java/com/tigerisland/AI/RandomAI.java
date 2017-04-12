@@ -76,7 +76,7 @@ public class RandomAI extends AI {
                     doDefault = true;
                 }
                 break;
-            case 2:
+            case 2:/*
                 if(validVillageExpansions.size() > 0) {
                     int index = random.nextInt(validVillageExpansions.size());
                     SettlementAndTerrainListPair settlementAndTerrainListPair = validVillageExpansions.get(index);
@@ -92,9 +92,9 @@ public class RandomAI extends AI {
 
                     buildActionType = BuildActionType.VILLAGEEXPANSION;
                 }
-                else {
+                else {*/
                     doDefault = true;
-                }
+               // }
                 break;
             case 3:
                 int index = random.nextInt(validVillagePlacements.size());
