@@ -147,8 +147,6 @@ public class AI_Info {
                             continue;
                         }
                         listOfValidPlacements.add(ph.getLocation());
-                            //listOfValidPlacements.add(ph.getLocation());
-                            //break;
                     }
                 }
             }
@@ -446,6 +444,20 @@ public class AI_Info {
         }
 
         return true;
+    }
+
+    public static SettlementAndTerrainListPair findSettlementsWeCouldExpandToBecomeTotoroAccepting(Board board, Player player){
+        ArrayList<SettlementAndTerrainListPair> validExpansions = returnValidVillageExpansions(player, board);
+        SettlementAndTerrainListPair settlementAndTerrainListPairToReturn = null;
+        for(SettlementAndTerrainListPair settlementAndTerrainListPair : validExpansions){
+            if(settlementAndTerrainListPair.getSettlement().size() == 3){
+                settlementAndTerrainListPairToReturn = settlementAndTerrainListPair;
+            }
+            else if(settlementAndTerrainListPair.getSettlement().size() > 3){
+                return settlementAndTerrainListPair;
+            }
+        }
+        return settlementAndTerrainListPairToReturn;
     }
 }
 

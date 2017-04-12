@@ -28,7 +28,7 @@ public class GlobalSettings {
     private ArgumentParser parser;
     private ServerSettings serverSettings;
 
-    public final static PlayerType defaultAItype = PlayerType.JACKSAI_V2;
+    public final static PlayerType defaultAItype = PlayerType.SAFEAI;
     private PlayerType AIType;
 
     public final BlockingQueue<Message> inboundQueue = new LinkedBlockingQueue<Message>();

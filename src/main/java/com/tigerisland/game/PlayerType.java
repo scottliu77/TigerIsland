@@ -13,7 +13,8 @@ public enum PlayerType {
     TIGERFORMAI("TIGERFORMAI"),
     JACKSAI("JACKSAI"),
     JACKSAI_V2("JACKSAI_V2"),
-    JACKSAI_V3("JACKSAI_V3");
+    JACKSAI_V3("JACKSAI_V3"),
+    JACKSAI_V4("JACKSAI_V4");
 
     private String typeString;
 
