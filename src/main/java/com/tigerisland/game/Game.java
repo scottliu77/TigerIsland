@@ -132,11 +132,8 @@ public class Game implements Runnable {
 
         turnState.updateTurnInformation(message.getMoveID(), message.getTile());
 
-        if(EndConditions.noValidMoves(turnState.getCurrentPlayer(), turnState.getBoard())) {
-            sendUnableToBuildMessage();
-        } else {
-            turnState.getCurrentPlayer().getPlayerAI().pickTilePlacementAndBuildAction(turnState);
-        }
+        turnState.getCurrentPlayer().getPlayerAI().pickTilePlacementAndBuildAction(turnState);
+
     }
 
     protected Boolean attemptToProcessMove() throws InvalidMoveException, InterruptedException {
@@ -187,12 +184,6 @@ public class Game implements Runnable {
         if(offline) {
             System.out.println(Client.getTime() + "SERVER: " + message.message);
         }
-    }
-
-    private void sendUnableToBuildMessage() throws InvalidMoveException {
-        String unableToBuildMessage = "GAME " + gameID + " MOVE " + turnState.getMoveID() + " UNABLE TO BUILD";
-        gameSettings.getGlobalSettings().outboundQueue.add(new Message(unableToBuildMessage));
-        throw new InvalidMoveException("LOST: UNABLE TO BUILD");
     }
 
     private void offlineCalculateResults() {
