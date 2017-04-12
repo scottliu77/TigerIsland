@@ -101,7 +101,7 @@ public class JacksAI_v2 extends AI {
         } catch (InvalidMoveException e) {
             //tempBoard = new Board(turnState.getBoard());
         }
-        TextGUI.printMap(turnState.getBoard());
+        //TextGUI.printMap(turnState.getBoard());
         bestExpansion = AI_Info.findExpansionThatGetsRidOfMostVillagers(turnState.getCurrentPlayer(), tempBoard);
 
         buildLocation = bestExpansion.getSettlement().getLocationsOfHexesInSettlement().get(0);
