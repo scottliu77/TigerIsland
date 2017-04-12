@@ -29,7 +29,7 @@ public class Match {
 
     public void run() {
         startGames();
-        waitForAllGamesToEnd();
+        //waitForAllGamesToEnd();
         closeGames();
         cleanupGameMessages();
     }
@@ -87,23 +87,6 @@ public class Match {
         }
     }
 
-    private void cleanupGameMessages() {
-        for(Message message : globalSettings.inboundQueue) {
-            if(message.getMessageType() != null) {
-                if(message.getMessageType() == MessageType.MAKEMOVE) {
-                    message.setProcessed();
-                }
-                if(message.getMessageType().getSubtype().equals("BUILDACTION")) {
-                    message.setProcessed();
-                }
-                if(message.getMessageType() == MessageType.GAMEOVER) {
-                    message.setProcessed();
-                }
-            }
-        }
-    }
-
-
     private void waitForAllGamesToEnd() {
         try {
             while(true) {
@@ -122,4 +105,21 @@ public class Match {
             exception.printStackTrace();
         }
     }
+
+    private void cleanupGameMessages() {
+        for(Message message : globalSettings.inboundQueue) {
+            if(message.getMessageType() != null) {
+                if(message.getMessageType() == MessageType.MAKEMOVE) {
+                    message.setProcessed();
+                }
+                if(message.getMessageType().getSubtype().equals("BUILDACTION")) {
+                    message.setProcessed();
+                }
+                if(message.getMessageType() == MessageType.GAMEOVER) {
+                    message.setProcessed();
+                }
+            }
+        }
+    }
+
 }

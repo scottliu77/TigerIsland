@@ -67,7 +67,7 @@ public class Game implements Runnable {
             return false;
         }
 
-        continueGame = attemptToProcessMove();
+        attemptToProcessMove();
 
         checkForHaveAIPickAMove();
 
@@ -136,7 +136,7 @@ public class Game implements Runnable {
 
     }
 
-    protected Boolean attemptToProcessMove() throws InvalidMoveException, InterruptedException {
+    protected void attemptToProcessMove() throws InvalidMoveException, InterruptedException {
 
         for(Message message : gameSettings.getGlobalSettings().inboundQueue) {
             if(message.getGameID() != null && message.getMoveID() != null && message.getMessageType() != null) {
@@ -145,15 +145,14 @@ public class Game implements Runnable {
                         gameSettings.getPlayerSet().setCurrentPlayer(message.getCurrentPlayerID());
                         gameSettings.setMoveID(message.getMoveID());
                         offlineMockServerMessage(message);
-                        return processMove(message);
+                        processMove(message);
                     }
                 }
             }
         }
-        return true;
     }
 
-    private Boolean processMove(Message message) throws InvalidMoveException, InterruptedException {
+    private void processMove(Message message) throws InvalidMoveException, InterruptedException {
 
         turnState.processMove(message);
 
@@ -161,11 +160,10 @@ public class Game implements Runnable {
 
         turnState = Move.takeBuildAction(turnState);
 
-        if(EndConditions.playerIsOutOfPiecesOfTwoTypes(gameSettings.getPlayerSet().getCurrentPlayer())) {
-            return false;
+        if(offline && EndConditions.playerIsOutOfPiecesOfTwoTypes(gameSettings.getPlayerSet().getCurrentPlayer())) {
+            continueGame = false;
         }
 
-        return true;
     }
 
     private void waitForGameOver() {
@@ -178,10 +176,13 @@ public class Game implements Runnable {
 
     protected Boolean isGameOver() {
         for(Message message : gameSettings.getGlobalSettings().inboundQueue) {
-
-            if(message.getMessageType().getSubtype().equals(MessageType.GAMEOVER.getSubtype())) {
-                message.setProcessed();
-                return true;
+            if(message.getGameID() != null && message.getMessageType() != null) {
+                if (message.getGameID().equals(gameID)) {
+                    if (message.getMessageType().getSubtype().equals(MessageType.GAMEOVER.getSubtype())) {
+                        message.setProcessed();
+                        return true;
+                    }
+                }
             }
         }
 
