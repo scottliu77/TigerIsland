@@ -95,7 +95,7 @@ public class GlobalSettings {
                 return;
             }
         }
-        throw new ArgumentParserException("AIType " + AIType + " does not exist. Choose from 'HUMAN', 'SAFEAI', 'JACKSAI(_V2)', 'TOTOROLINESAI(_V2)', 'RANDOMAI', and 'TIGERFORMAI'", parser);
+        throw new ArgumentParserException("AIType " + AIType + " does not exist. Choose from 'HUMAN', 'SAFEAI', 'JACKSAI(_V2)', 'TOTOROLINESAI(_V2)', 'DAXSAI', 'RANDOMAI', and 'TIGERFORMAI'", parser);
     }
 
     public ServerSettings getServerSettings() {
