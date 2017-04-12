@@ -12,9 +12,9 @@ public class TotoroPlacer {
 
     public static void placeTotoro(Player player, PlacedHex targetHex, ArrayList<Settlement> adjacentSettlementsToTargetLocation) throws InvalidMoveException {
 
-        if(adjacentSettlementsToTargetLocation.size() > 1){
+        /*if(adjacentSettlementsToTargetLocation.size() > 1){
             throw new InvalidMoveException("THIS IS ACTUALLY OKAY BUT THE SERVER IS A JERK");
-        }
+        }*/
 
 
 
