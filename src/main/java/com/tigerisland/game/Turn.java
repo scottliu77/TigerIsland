@@ -52,24 +52,6 @@ public class Turn {
         parseTilePlacement(message);
         filterBuildAction(message);
         message.setProcessed();
-
-    }
-
-    public void processMove() throws InterruptedException, InvalidMoveException {
-        while(true) {
-
-            for(Message message : inboundMessages) {
-                if(messageIsSafeToUse(message)) {
-                    if(message.getGameID().equals(gameID)) {
-                        parseTilePlacement(message);
-                        filterBuildAction(message);
-                        message.setProcessed();
-                        return;
-                    }
-                }
-            }
-            sleep(5);
-        }
     }
 
     private Boolean messageIsSafeToUse(Message message) {

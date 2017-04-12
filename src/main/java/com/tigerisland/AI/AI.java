@@ -45,8 +45,12 @@ public abstract class AI {
         this.turnState = turnState;
     }
 
-    protected void assembleMessage() {
-        message = "GAME " + turnState.gameID + " MOVE " + turnState.getMoveID() + " " + createTilePlacementString() + " " + buildActionString();
+    protected void assembleMessage() throws InvalidMoveException {
+        if(EndConditions.noValidMoves(turnState.getCurrentPlayer(), turnState.getBoard())) {
+            sendUnableToBuildMessage();
+        } else {
+            message = "GAME " + turnState.gameID + " MOVE " + turnState.getMoveID() + " " + createTilePlacementString() + " " + buildActionString();
+        }
     }
 
     private String createTilePlacementString() {
@@ -109,5 +113,9 @@ public abstract class AI {
 
     private String assembleOfflineEchoMessage(String message) {
         return "GAME " + turnState.gameID + " MOVE " + turnState.getMoveID() + " PLAYER " + turnState.getCurrentPlayer().getPlayerID() + " " + tilePlacementString + " " + buildActionString;
+    }
+
+    private void sendUnableToBuildMessage() throws InvalidMoveException {
+        message = "GAME " + turnState.gameID + " MOVE " + turnState.getMoveID() + " " + createTilePlacementString() + " UNABLE TO BUILD";
     }
 }

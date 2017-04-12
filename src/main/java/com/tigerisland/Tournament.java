@@ -2,7 +2,6 @@ package com.tigerisland;
 
 import com.tigerisland.messenger.*;
 
-import static com.tigerisland.messenger.Client.getTime;
 import static java.lang.Thread.sleep;
 
 public class Tournament {
@@ -64,12 +63,9 @@ public class Tournament {
     }
 
     private void runAuthenticationProtocolToGetPlayerID() {
-        Message enterMessage = new Message("ENTER THUNDERDOME " + globalSettings.getServerSettings().tournamentPassword);
-        Message authMessage = new Message("I AM " + globalSettings.getServerSettings().username + " " + globalSettings.getServerSettings().password);
 
-        globalSettings.outboundQueue.add(enterMessage);
-
-        globalSettings.outboundQueue.add(authMessage);
+        sendTournamentPassword();
+        sendTeamAuthentication();
 
         while(true) {
             if(playerIDreceived()) {
@@ -77,6 +73,37 @@ public class Tournament {
             }
             try {
                 sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void sendTournamentPassword() {
+        while(true) {
+            if(checkMessages(MessageType.SERVERWELCOME)) {
+                Message enterMessage = new Message("ENTER THUNDERDOME " + globalSettings.getServerSettings().tournamentPassword);
+                globalSettings.outboundQueue.add(enterMessage);
+                return;
+            }
+
+            try {
+                sleep(5);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void sendTeamAuthentication() {
+        while(true) {
+            if(checkMessages(MessageType.SERVERWELCOME2)) {
+                Message authMessage = new Message("I AM " + globalSettings.getServerSettings().username + " " + globalSettings.getServerSettings().password);
+                globalSettings.outboundQueue.add(authMessage);
+                return;
+            }
+            try {
+                sleep(5);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

@@ -21,6 +21,8 @@ public class Game implements Runnable {
 
     private String moveID = "0";
 
+    private Boolean continueGame = true;
+
     Player winner;
     Player loser;
 
@@ -55,15 +57,13 @@ public class Game implements Runnable {
         offlineCalculateResults();
         offlineGenerateGameOverEcho();
 
+        waitForGameOver();
+
     }
 
     private Boolean continuePlayingGame() throws InterruptedException, InvalidMoveException {
 
 
-
-        Boolean continueGame = true;
-
-        TextGUI.printMap(board);
         if(Thread.currentThread().isInterrupted()) {
             return false;
         }
@@ -126,10 +126,10 @@ public class Game implements Runnable {
             if(message.getGameID() != null && message.getMessageType() != null) {
                 if (message.getGameID().equals(gameID)) {
                     if (message.getMessageType() == MessageType.MAKEMOVE) {
+                        message.setProcessed();
                         gameSettings.setMoveID(message.getMoveID());
                         gameSettings.getPlayerSet().setCurrentPlayer(ourPlayerID);
                         pickMove(message);
-                        message.setProcessed();
                     }
                 }
             }
@@ -140,11 +140,8 @@ public class Game implements Runnable {
 
         turnState.updateTurnInformation(message.getMoveID(), message.getTile());
 
-        if(EndConditions.noValidMoves(turnState.getCurrentPlayer(), turnState.getBoard())) {
-            sendUnableToBuildMessage();
-        } else {
-            turnState.getCurrentPlayer().getPlayerAI().pickTilePlacementAndBuildAction(turnState);
-        }
+        turnState.getCurrentPlayer().getPlayerAI().pickTilePlacementAndBuildAction(turnState);
+
     }
 
     protected Boolean attemptToProcessMove() throws InvalidMoveException, InterruptedException {
@@ -179,6 +176,14 @@ public class Game implements Runnable {
         return true;
     }
 
+    private void waitForGameOver() {
+        while(continueGame) {
+            if(isGameOver()) {
+                continueGame = false;
+            }
+        }
+    }
+
     protected Boolean isGameOver() {
         for(Message message : gameSettings.getGlobalSettings().inboundQueue) {
 
@@ -195,12 +200,6 @@ public class Game implements Runnable {
         if(offline) {
             System.out.println(Client.getTime() + "SERVER: " + message.message);
         }
-    }
-
-    private void sendUnableToBuildMessage() throws InvalidMoveException {
-        String unableToBuildMessage = "GAME " + gameID + " MOVE " + turnState.getMoveID() + " UNABLE TO BUILD";
-        gameSettings.getGlobalSettings().outboundQueue.add(new Message(unableToBuildMessage));
-        throw new InvalidMoveException("LOST: UNABLE TO BUILD");
     }
 
     private void offlineCalculateResults() {
