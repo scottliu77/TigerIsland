@@ -4,6 +4,7 @@ import com.tigerisland.game.EndConditions;
 import com.tigerisland.game.Game;
 import com.tigerisland.game.InvalidMoveException;
 import com.tigerisland.game.Player;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -52,6 +53,24 @@ public class EndConditionsStepDefs {
     public void thatPlayerIsUnableToBuild() throws Throwable {
         player.getPieceSet().placeMultipleVillagers(20);
         assertTrue(EndConditions.noValidMoves(player, game.getBoard()));
+    }
+
+    @When("^they build all villagers and totoro$")
+    public void theyBuildAllVillagersAndTotoro() throws Throwable {
+        player.getPieceSet().placeMultipleVillagers(20);
+        for(int totoros = 0; totoros < 3; totoros++) { player.getPieceSet().placeTotoro(); }
+    }
+
+    @When("^they build all villagers and tigers$")
+    public void theyBuildAllVillagersAndTigers() throws Throwable {
+        player.getPieceSet().placeMultipleVillagers(20);
+        for(int tigers = 0; tigers < 2; tigers++) { player.getPieceSet().placeTiger(); }
+    }
+
+    @When("^they build all totoro and tigers$")
+    public void theyBuildAllTotoroAndTigers() throws Throwable {
+        for(int totoros = 0; totoros < 3; totoros++) { player.getPieceSet().placeTotoro(); }
+        for(int tigers = 0; tigers < 2; tigers++) { player.getPieceSet().placeTiger(); }
     }
 
     @And("^they have not played their last piece$")
@@ -171,4 +190,5 @@ public class EndConditionsStepDefs {
             players.get(opponentID).getPieceSet().placeTiger();
         }
     }
+
 }

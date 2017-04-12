@@ -79,14 +79,19 @@ public class BuildOptionStepDefs{
     public void addSettlementWithTigerToBoard() {
         expectedErrorMessage = "Settlement already contains a tiger or is too small";
         PlacedHex placedHex1 = setUpSettlement();
-        Hex hex5 = new Hex("hex5", Terrain.LAKE);
-        hex5.addPiecesToHex(new Piece(Color.BLACK, PieceType.TIGER), 1);
+
         Location loc5 = new Location(0,-2);
-        PlacedHex placedHex5 = new PlacedHex(hex5, loc5);
-        placedHexes.add(placedHex5);
-        Hex hex6 = new Hex("hex6", Terrain.LAKE, 3);
         Location loc6 = new Location(0, -3);
+
+        Hex hex5 = new Hex("hex5", Terrain.LAKE);
+        Hex hex6 = new Hex("hex6", Terrain.LAKE, 3);
+
+        hex5.addPiecesToHex(new Piece(Color.BLACK, PieceType.TIGER), 1);
+
+        PlacedHex placedHex5 = new PlacedHex(hex5, loc5);
         targetHex = new PlacedHex(hex6, loc6);
+
+        placedHexes.add(placedHex5);
         placedHexes.add(targetHex);
         Settlement settlement = new Settlement(placedHex1, placedHexes);
 
@@ -98,14 +103,19 @@ public class BuildOptionStepDefs{
     @Given("^a settlement capable of accepting a totoro$")
     public void addSettlementCapableOfAcceptingTotoroToBoard(){
         PlacedHex placedHex1 = setUpSettlement();
-        Hex hex5 = new Hex("hex5", Terrain.LAKE);
-        hex5.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+
         Location loc5 = new Location(1,-2);
-        targetHex = new PlacedHex(hex5, loc5);
-        placedHexes.add(targetHex);
-        Hex hex6 = new Hex("hex6", Terrain.GRASS);
         Location loc6 = new Location(0,-3);
+
+        Hex hex5 = new Hex("hex5", Terrain.LAKE);
+        Hex hex6 = new Hex("hex6", Terrain.GRASS);
+
+        hex5.addPiecesToHex(new Piece(Color.BLACK, PieceType.VILLAGER), 1);
+
+        targetHex = new PlacedHex(hex5, loc5);
         PlacedHex placedHex6 = new PlacedHex(hex6, loc6);
+
+        placedHexes.add(targetHex);
         placedHexes.add(placedHex6);
         Settlement settlement = new Settlement(placedHex1, placedHexes);
 
