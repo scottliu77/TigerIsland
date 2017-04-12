@@ -30,6 +30,10 @@ public class JacksAI_v2 extends AI {
 
     public void decideOnMove(){
         tilePlacement = null;
+        buildActionType = null;
+        buildLocation = null;
+        expandTerrain = null;
+
         tempBoard = new Board(turnState.getBoard());
         gatherTilePlacementInfo();
         makeAnyPossibleStrategicTilePlacement();
@@ -73,6 +77,7 @@ public class JacksAI_v2 extends AI {
     }
 
     private void rapidlyExpand() {
+
         if(tilePlacement == null){
             TilePlacement bestTilePlacementForExpansion = AI_Info.findTilePlacementThatImprovesNextExpansion(turnState.getCurrentTile(), turnState.getCurrentPlayer(), tempBoard);
             if(bestTilePlacementForExpansion != null){
@@ -82,6 +87,9 @@ public class JacksAI_v2 extends AI {
                 int randInt = rand.nextInt(validTilePlacements.size());
                 tilePlacement = validTilePlacements.get(randInt);
             }
+        }
+        if(tilePlacement == null){
+            tilePlacement = validTilePlacements.get(0);
         }
         try {
             tempBoard.placeTile(tilePlacement);
@@ -100,22 +108,22 @@ public class JacksAI_v2 extends AI {
     }
 
     private void makeAnyPossibleStrategicTilePlacement() {
-        if(tilePlacementsThatSetUpPlayerForTotoroPlacement.size() > 0) {
+        if(tilePlacementsThatSetUpPlayerForTotoroPlacement.size() > 0 && hasATotoro()) {
             int randInt = rand.nextInt(tilePlacementsThatSetUpPlayerForTotoroPlacement.size());
             tilePlacement = tilePlacementsThatSetUpPlayerForTotoroPlacement.get(randInt);
 
         }
-        else if(tilePlacementsForNukingEnemySettlementsCloseToGettingATotoro.size() > 0) {
+        else if(tilePlacementsForNukingEnemySettlementsCloseToGettingATotoro.size() > 0 && hasATotoro()) {
             int randInt = rand.nextInt(tilePlacementsForNukingEnemySettlementsCloseToGettingATotoro.size());
             tilePlacement = tilePlacementsForNukingEnemySettlementsCloseToGettingATotoro.get(randInt);
 
         }
-        else if(tilePlacementsForNukingEnemySettlementsCloseToGettingATiger.size() > 0) {
+        else if(tilePlacementsForNukingEnemySettlementsCloseToGettingATiger.size() > 0 && hasATotoro()) {
             int randInt = rand.nextInt(tilePlacementsForNukingEnemySettlementsCloseToGettingATiger.size());
             tilePlacement = tilePlacementsForNukingEnemySettlementsCloseToGettingATiger.get(randInt);
 
         }
-        else if(tilePlacementsThatCutTotoroOffOfMostOfSettlement.size() > 0) {
+        else if(tilePlacementsThatCutTotoroOffOfMostOfSettlement.size() > 0 && hasATotoro()) {
             int randInt = rand.nextInt(tilePlacementsThatCutTotoroOffOfMostOfSettlement.size());
             tilePlacement = tilePlacementsThatCutTotoroOffOfMostOfSettlement.get(randInt);
 
