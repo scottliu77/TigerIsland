@@ -1,10 +1,11 @@
 package com.tigerisland;
 
 
+import com.tigerisland.settings.GlobalSettings;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.Before;
+
 import static org.junit.Assert.*;
 
 public class TournamentTest {

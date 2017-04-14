@@ -1,9 +1,13 @@
 package com.tigerisland.AI;
 
-import com.tigerisland.GameSettings;
+import com.tigerisland.game.board.Board;
+import com.tigerisland.game.board.Terrain;
+import com.tigerisland.game.board.TextGUI;
+import com.tigerisland.game.board.Tile;
+import com.tigerisland.settings.GameSettings;
 import com.tigerisland.game.InvalidMoveException;
 import com.tigerisland.game.*;
-import com.tigerisland.messenger.Message;
+import com.tigerisland.client.Message;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;

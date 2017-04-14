@@ -1,6 +1,13 @@
 package com.tigerisland.game;
 
 
+import com.tigerisland.game.board.*;
+import com.tigerisland.game.pieces.Color;
+import com.tigerisland.game.pieces.Piece;
+import com.tigerisland.game.pieces.PieceType;
+import com.tigerisland.game.player.Player;
+import com.tigerisland.game.player.PlayerType;
+import com.tigerisland.game.player.Score;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -51,8 +58,8 @@ public class BuildOptionStepDefs{
         targetHex = new PlacedHex(hex1, loc1);
         placedHexes.add(0, targetHex);
         Settlement settlement = new Settlement(placedHexes.get(1), placedHexes);
-        board.placedHexes = placedHexes;
-        board.settlements.add(settlement);
+        board.setPlacedHexes(placedHexes);
+        board.getSettlements().add(settlement);
     }
 
     @Given("^a settlement already containing a totoro$")
@@ -70,8 +77,8 @@ public class BuildOptionStepDefs{
         placedHexes.add(targetHex);
         Settlement settlement = new Settlement(placedHex1, placedHexes);
 
-        board.placedHexes = placedHexes;
-        board.settlements.add(settlement);
+        board.setPlacedHexes(placedHexes);
+        board.getSettlements().add(settlement);
 
     }
 
@@ -95,8 +102,8 @@ public class BuildOptionStepDefs{
         placedHexes.add(targetHex);
         Settlement settlement = new Settlement(placedHex1, placedHexes);
 
-        board.placedHexes = placedHexes;
-        board.settlements.add(settlement);
+        board.setPlacedHexes(placedHexes);
+        board.getSettlements().add(settlement);
 
     }
 
@@ -119,8 +126,8 @@ public class BuildOptionStepDefs{
         placedHexes.add(placedHex6);
         Settlement settlement = new Settlement(placedHex1, placedHexes);
 
-        board.placedHexes = placedHexes;
-        board.settlements.add(settlement);
+        board.setPlacedHexes(placedHexes);
+        board.getSettlements().add(settlement);
     }
 
     @Given("^a settlement capable of accepting a totoro with no adjacent placed hex$")
@@ -134,8 +141,8 @@ public class BuildOptionStepDefs{
         placedHexes.add(targetHex);
         Settlement settlement = new Settlement(placedHex1, placedHexes);
         targetLocation = new Location(0,-3);
-        board.placedHexes = placedHexes;
-        board.settlements.add(settlement);
+        board.setPlacedHexes(placedHexes);
+        board.getSettlements().add(settlement);
 
     }
 
@@ -163,8 +170,8 @@ public class BuildOptionStepDefs{
             e.getMessage();
         }
 
-        board.placedHexes = placedHexes;
-        board.settlements.add(settlement);
+        board.setPlacedHexes(placedHexes);
+        board.getSettlements().add(settlement);
     }
 
     @Given("^a settlement that can build a tiger but the player is out of tiger pieces$")
@@ -184,8 +191,8 @@ public class BuildOptionStepDefs{
             e.getMessage();
         }
 
-        board.placedHexes = placedHexes;
-        board.settlements.add(settlement);
+        board.setPlacedHexes(placedHexes);
+        board.getSettlements().add(settlement);
     }
 
     @Given("^a volcano hex is of level three or greater$")
@@ -195,7 +202,7 @@ public class BuildOptionStepDefs{
         targetLocation = new Location(0,0);
         targetHex = new PlacedHex(volcanoHex, targetLocation);
         placedHexes.add(targetHex);
-        board.placedHexes = placedHexes;
+        board.setPlacedHexes(placedHexes);
 
     }
 
@@ -206,7 +213,7 @@ public class BuildOptionStepDefs{
         targetLocation = new Location(0,0);
         targetHex = new PlacedHex(hex, targetLocation);
         placedHexes.add(targetHex);
-        board.placedHexes = placedHexes;
+        board.setPlacedHexes(placedHexes);
     }
 
     @Given("^an occupied hex")
@@ -217,7 +224,7 @@ public class BuildOptionStepDefs{
         targetLocation = new Location(0,0);
         targetHex = new PlacedHex(hex, targetLocation);
         placedHexes.add(targetHex);
-        board.placedHexes = placedHexes;
+        board.setPlacedHexes(placedHexes);
     }
 
     @Given("^a hex is not part of a settlement$")
@@ -228,7 +235,7 @@ public class BuildOptionStepDefs{
         targetHex = new PlacedHex(hex6, loc6);
         placedHexes.add(targetHex);
 
-        board.placedHexes = placedHexes;
+        board.setPlacedHexes(placedHexes);
     }
 
     @Given("^a settlement adjacent to a level three valid hex$")
@@ -245,8 +252,8 @@ public class BuildOptionStepDefs{
         placedHexes.add(targetHex);
 
         Settlement settlement = new Settlement(placedHex1, placedHexes);
-        board.placedHexes = this.placedHexes;
-        board.settlements.add(settlement);
+        board.setPlacedHexes(this.placedHexes);
+        board.getSettlements().add(settlement);
     }
 
     @Given("^a settlement adjacent to a level four valid hex$")
@@ -263,8 +270,8 @@ public class BuildOptionStepDefs{
         placedHexes.add(targetHex);
 
         Settlement settlement = new Settlement(placedHex1, placedHexes);
-        board.placedHexes = this.placedHexes;
-        board.settlements.add(settlement);
+        board.setPlacedHexes(this.placedHexes);
+        board.getSettlements().add(settlement);
     }
 
     @Given("^a settlement containing a totoro and a valid hex for tiger placement$")
@@ -281,8 +288,8 @@ public class BuildOptionStepDefs{
         placedHexes.add(targetHex);
         Settlement settlement = new Settlement(placedHex1, placedHexes);
 
-        board.placedHexes = placedHexes;
-        board.settlements.add(settlement);
+        board.setPlacedHexes(placedHexes);
+        board.getSettlements().add(settlement);
     }
 
     @Given("^a settlement containing a totoro and a valid hex directly next to a totoro$")
@@ -299,8 +306,8 @@ public class BuildOptionStepDefs{
         placedHexes.add(targetHex);
         Settlement settlement = new Settlement(placedHex1, placedHexes);
 
-        board.placedHexes = placedHexes;
-        board.settlements.add(settlement);
+        board.setPlacedHexes(placedHexes);
+        board.getSettlements().add(settlement);
     }
 
     @Given("^a settlement containing a tiger and is valid to build a totoro$")
@@ -317,8 +324,8 @@ public class BuildOptionStepDefs{
         placedHexes.add(targetHex);
         Settlement settlement = new Settlement(placedHex1, placedHexes);
 
-        board.placedHexes = placedHexes;
-        board.settlements.add(settlement);
+        board.setPlacedHexes(placedHexes);
+        board.getSettlements().add(settlement);
     }
 
     @Given("^a settlement containing a tiger and a valid hex directly next to the tiger$")
@@ -335,8 +342,8 @@ public class BuildOptionStepDefs{
         placedHexes.add(targetHex);
         Settlement settlement = new Settlement(placedHex1, placedHexes);
 
-        board.placedHexes = placedHexes;
-        board.settlements.add(settlement);
+        board.setPlacedHexes(placedHexes);
+        board.getSettlements().add(settlement);
     }
 
     @Given("^a settlement capable of accepting a totoro with a valid hex of height greater than one$")
@@ -354,8 +361,8 @@ public class BuildOptionStepDefs{
         targetHex = new PlacedHex(hex6, loc6);
         placedHexes.add(targetHex);
 
-        board.placedHexes = placedHexes;
-        board.settlements.add(settlement);
+        board.setPlacedHexes(placedHexes);
+        board.getSettlements().add(settlement);
     }
 
     @Given("^a settlement that is of your own color and an adjacent Volcano hex$")
@@ -376,8 +383,8 @@ public class BuildOptionStepDefs{
         placedHexes.add(hexInSettlement);
 
         Settlement settlement = new Settlement(hexInSettlement, placedHexes);
-        board.placedHexes = this.placedHexes;
-        board.settlements.add(settlement);
+        board.setPlacedHexes(this.placedHexes);
+        board.getSettlements().add(settlement);
 
     }
 
@@ -412,8 +419,8 @@ public class BuildOptionStepDefs{
         placedHexes.add(pHex4);
 
         Settlement settlement = new Settlement(hexInSettlement, placedHexes);
-        board.placedHexes = this.placedHexes;
-        board.settlements.add(settlement);
+        board.setPlacedHexes(this.placedHexes);
+        board.getSettlements().add(settlement);
     }
 
     @Given("^a player has fewer pieces than needed to expand$")
@@ -449,8 +456,8 @@ public class BuildOptionStepDefs{
         placedHexes.add(pHex4);
 
         Settlement settlement = new Settlement(hexInSettlement, placedHexes);
-        board.placedHexes = this.placedHexes;
-        board.settlements.add(settlement);
+        board.setPlacedHexes(this.placedHexes);
+        board.getSettlements().add(settlement);
 
         try {
             player.getPieceSet().placeMultipleVillagers(17);
@@ -494,9 +501,9 @@ public class BuildOptionStepDefs{
 
         Settlement blackSettlement = new Settlement(hexInSettlement, placedHexes);
         Settlement whiteSettlement = new Settlement(pHex2, placedHexes);
-        board.placedHexes = this.placedHexes;
-        board.settlements.add(blackSettlement);
-        board.settlements.add(whiteSettlement);
+        board.setPlacedHexes(this.placedHexes);
+        board.getSettlements().add(blackSettlement);
+        board.getSettlements().add(whiteSettlement);
     }
 
     @Given("^a settlement adjacent to hexes of different heights$")
@@ -530,8 +537,8 @@ public class BuildOptionStepDefs{
         placedHexes.add(pHex4);
 
         Settlement settlement = new Settlement(hexInSettlement, placedHexes);
-        board.placedHexes = this.placedHexes;
-        board.settlements.add(settlement);
+        board.setPlacedHexes(this.placedHexes);
+        board.getSettlements().add(settlement);
     }
 
     @Given("^a player has fewer pieces to expand across different heights$")
@@ -567,8 +574,8 @@ public class BuildOptionStepDefs{
         placedHexes.add(pHex4);
 
         Settlement settlement = new Settlement(hexInSettlement, placedHexes);
-        board.placedHexes = this.placedHexes;
-        board.settlements.add(settlement);
+        board.setPlacedHexes(this.placedHexes);
+        board.getSettlements().add(settlement);
 
         try {
             player.getPieceSet().placeMultipleVillagers(11);
@@ -584,7 +591,7 @@ public class BuildOptionStepDefs{
         targetLocation = new Location(0,0);
         targetHex = new PlacedHex(volcanoHex, targetLocation);
         placedHexes.add(targetHex);
-        board.placedHexes = placedHexes;
+        board.setPlacedHexes(placedHexes);
     }
 
     @Given("^a nonvolcanic hex of height greater than one$")
@@ -594,7 +601,7 @@ public class BuildOptionStepDefs{
         targetLocation = new Location(0,0);
         targetHex = new PlacedHex(hex, targetLocation);
         placedHexes.add(targetHex);
-        board.placedHexes = placedHexes;
+        board.setPlacedHexes(placedHexes);
     }
 
     @Given("^a nonexistent hex location$")
@@ -609,7 +616,7 @@ public class BuildOptionStepDefs{
         targetLocation = new Location(0,0);
         targetHex = new PlacedHex(hex, targetLocation);
         placedHexes.add(targetHex);
-        board.placedHexes = placedHexes;
+        board.setPlacedHexes(placedHexes);
     }
 
     @And("^the player has no villagers$")
@@ -762,8 +769,8 @@ public class BuildOptionStepDefs{
     public void addAnotherSmallSettlementCloseToTheFirst(){
         PlacedHex placedHex5 = setUpAnotherSettlement();
         Settlement settlement = new Settlement(placedHex5, placedHexes);
-        board.placedHexes = placedHexes;
-        board.settlements.add(settlement);
+        board.setPlacedHexes(placedHexes);
+        board.getSettlements().add(settlement);
     }
 
     @And("^a nearby settlement containing a totoro$")

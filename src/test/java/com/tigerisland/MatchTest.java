@@ -1,5 +1,6 @@
 package com.tigerisland;
 
+import com.tigerisland.settings.GlobalSettings;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;

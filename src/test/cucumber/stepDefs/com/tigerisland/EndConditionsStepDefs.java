@@ -1,10 +1,12 @@
 package com.tigerisland;
 
+import com.tigerisland.client.OfflineDeck;
 import com.tigerisland.game.EndConditions;
 import com.tigerisland.game.Game;
 import com.tigerisland.game.InvalidMoveException;
-import com.tigerisland.game.Player;
-import cucumber.api.PendingException;
+import com.tigerisland.game.player.Player;
+import com.tigerisland.settings.GameSettings;
+import com.tigerisland.settings.GlobalSettings;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -22,7 +24,7 @@ public class EndConditionsStepDefs {
     private Game game;
     private Player player;
     private HashMap<String, Player> players;
-    private Deck deck;
+    private OfflineDeck offlineDeck;
 
     public EndConditionsStepDefs() throws ArgumentParserException {
         GlobalSettings globalSettings = new GlobalSettings();
@@ -34,7 +36,7 @@ public class EndConditionsStepDefs {
         game.getGameSettings().getPlayerSet().setCurrentPlayer(playerID);
         this.player = this.game.getGameSettings().getPlayerSet().getCurrentPlayer();
         this.players = this.game.getGameSettings().getPlayerSet().getPlayerList();
-        this.deck = new Deck();
+        this.offlineDeck = new OfflineDeck();
     }
 
     @Given("^it is a player's turn$")
@@ -116,7 +118,7 @@ public class EndConditionsStepDefs {
 
     @When("^there are no unplayed tiles left$")
     public void thereAreNoUnplayedTilesLeft() throws Throwable {
-        assertTrue(deck.getDeckSize() == 0);
+        assertTrue(offlineDeck.getDeckSize() == 0);
     }
 
     @And("^the scores are tied$")

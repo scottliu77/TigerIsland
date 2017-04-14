@@ -1,11 +1,16 @@
 package com.tigerisland.AI;
 
 import com.tigerisland.game.InvalidMoveException;
-import com.tigerisland.game.*;
+import com.tigerisland.game.board.Board;
+import com.tigerisland.game.board.Location;
+import com.tigerisland.game.board.SettlementAndTerrainListPair;
+import com.tigerisland.game.board.Terrain;
+import com.tigerisland.game.moves.BuildActionType;
+import com.tigerisland.game.moves.TilePlacement;
 
 import java.util.ArrayList;
 
-import static com.tigerisland.messenger.Adapter.convertLocationAxialToCube;
+import static com.tigerisland.client.Adapter.convertLocationAxialToCube;
 
 public class TigerFormAI extends AI {
 

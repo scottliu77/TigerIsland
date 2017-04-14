@@ -1,5 +1,12 @@
 package com.tigerisland.game;
 
+import com.tigerisland.game.board.Board;
+import com.tigerisland.game.board.Location;
+import com.tigerisland.game.board.Terrain;
+import com.tigerisland.game.board.Tile;
+import com.tigerisland.game.pieces.Color;
+import com.tigerisland.game.player.Player;
+import com.tigerisland.game.player.PlayerType;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
