@@ -1,9 +1,13 @@
 package com.tigerisland.AI;
 
 import com.tigerisland.game.*;
+import com.tigerisland.game.board.*;
+import com.tigerisland.game.moves.BuildActionType;
+import com.tigerisland.game.moves.TilePlacement;
+import com.tigerisland.game.pieces.Color;
+import com.tigerisland.game.player.Player;
 
 import java.util.*;
-
 /*
     Builds off of v5, in a sense. Actually it takes a feature away from v5 that may not have been beneficial to have in the first place.
     That feature is the expansions that v4 added. So, we never expand with this AI unless we're out of tigers or totoro.

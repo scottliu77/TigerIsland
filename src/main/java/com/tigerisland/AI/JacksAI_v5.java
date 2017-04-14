@@ -1,9 +1,13 @@
 package com.tigerisland.AI;
 
 import com.tigerisland.game.*;
+import com.tigerisland.game.board.*;
+import com.tigerisland.game.moves.BuildActionType;
+import com.tigerisland.game.moves.TilePlacement;
+import com.tigerisland.game.pieces.Color;
+import com.tigerisland.game.player.Player;
 
 import java.util.*;
-
 /*
     Merges v3 and v4. So ultimately it builds off of v2 and
     also ensures that when we place a totoro and have no strategic tile placement to make, we place a tile at the highest possible height,
