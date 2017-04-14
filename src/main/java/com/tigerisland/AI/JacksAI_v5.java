@@ -2,16 +2,17 @@ package com.tigerisland.AI;
 
 import com.tigerisland.game.*;
 
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 
 /*
-    Builds off of v2. Does not implement the feature added to v3. Instead, it adds two features. The first is that it
-    looks for settlements of size 3 or larger that it could expand in hopes of making settlements big enough to accept
-    a totoro. The second change is that it looks for hexes where we could settle and immediately be adjacent to a tiger accepting hex.
+    Merges v3 and v4. So ultimately it builds off of v2 and
+    also ensures that when we place a totoro and have no strategic tile placement to make, we place a tile at the highest possible height,
+    we create settlements when they give us the opportunity to place a tiger on the next turn, and we expand settlements of size 3 or more
+    when possible.
+
  */
 
-public class JacksAI_v4 extends AI {
+public class JacksAI_v5 extends AI {
 
     private ArrayList<TilePlacement> validTilePlacements;
     private ArrayList<Location> validTotoroPlacements;
@@ -29,7 +30,7 @@ public class JacksAI_v4 extends AI {
 
     private ArrayList<Location> plannedSettlementLocations;
 
-    public JacksAI_v4(){
+    public JacksAI_v5(){
         plannedSettlementLocations = new ArrayList<Location>();
         rand = new Random();
     }
@@ -145,6 +146,14 @@ public class JacksAI_v4 extends AI {
         if(tilePlacementsThatSetUpPlayerForTotoroPlacement.size() > 0 && hasATotoro()) {
             int randInt = rand.nextInt(tilePlacementsThatSetUpPlayerForTotoroPlacement.size());
             tilePlacement = tilePlacementsThatSetUpPlayerForTotoroPlacement.get(randInt);
+            try{
+                tempBoard.placeTile(tilePlacement);
+            } catch (InvalidMoveException e){
+                return;
+            }
+
+            validTotoroPlacements = AI_Info.returnValidTotoroPlacements(turnState.getCurrentPlayer(), tempBoard);
+            placeTotoro();
 
         }
         else if(tilePlacementsForNukingEnemySettlementsCloseToGettingATotoro.size() > 0 && hasATotoro()) {
@@ -203,8 +212,26 @@ public class JacksAI_v4 extends AI {
         int randInt = rand.nextInt(validTotoroPlacements.size());
         buildLocation = validTotoroPlacements.get(randInt);
         if(tilePlacement == null) {
+            tilePlacement = AI_Info.findHighestPossibleTilePlacement(turnState.getCurrentTile(), turnState.getBoard(), opposingPlayerColor(), turnState.getCurrentPlayer());
+        }
+        if(tilePlacement == null){
             tilePlacement = validTilePlacements.get(0);
         }
+    }
+
+    private Color opposingPlayerColor(){
+        Color currentPlayerColor = turnState.getCurrentPlayer().getPlayerColor();
+        HashMap<String, Player> playerSet =  turnState.getGameSettings().getPlayerSet().getPlayerList();
+        Iterator it = playerSet.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            Player player = (Player)pair.getValue();
+            if(player.getPlayerColor() != currentPlayerColor) {
+                return player.getPlayerColor();
+            }
+
+        }
+        return currentPlayerColor; //this will never happen
     }
 
     private void resetTotoroLine(){

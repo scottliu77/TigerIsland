@@ -2,16 +2,15 @@ package com.tigerisland.AI;
 
 import com.tigerisland.game.*;
 
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 
 /*
-    Builds off of v2. Does not implement the feature added to v3. Instead, it adds two features. The first is that it
-    looks for settlements of size 3 or larger that it could expand in hopes of making settlements big enough to accept
-    a totoro. The second change is that it looks for hexes where we could settle and immediately be adjacent to a tiger accepting hex.
+    Builds off of v5, in a sense. Actually it takes a feature away from v5 that may not have been beneficial to have in the first place.
+    That feature is the expansions that v4 added. So, we never expand with this AI unless we're out of tigers or totoro.
  */
 
-public class JacksAI_v4 extends AI {
+
+public class JacksAI_v6 extends AI {
 
     private ArrayList<TilePlacement> validTilePlacements;
     private ArrayList<Location> validTotoroPlacements;
@@ -20,7 +19,6 @@ public class JacksAI_v4 extends AI {
     private ArrayList<TilePlacement> tilePlacementsForNukingEnemySettlementsCloseToGettingATiger;
     private ArrayList<TilePlacement> tilePlacementsThatSetUpPlayerForTotoroPlacement;
     private ArrayList<TilePlacement> tilePlacementsThatCutTotoroOffOfMostOfSettlement;
-    private SettlementAndTerrainListPair expansionOnASettlementOfSizeThreeOrMore;
     private SettlementAndTerrainListPair bestExpansion;
     private Location villageCreationThatSetsUpForTigerPlacement;
     private Board tempBoard;
@@ -29,7 +27,7 @@ public class JacksAI_v4 extends AI {
 
     private ArrayList<Location> plannedSettlementLocations;
 
-    public JacksAI_v4(){
+    public JacksAI_v6(){
         plannedSettlementLocations = new ArrayList<Location>();
         rand = new Random();
     }
@@ -39,7 +37,6 @@ public class JacksAI_v4 extends AI {
         buildActionType = null;
         buildLocation = null;
         expandTerrain = null;
-        expansionOnASettlementOfSizeThreeOrMore = null;
         villageCreationThatSetsUpForTigerPlacement = null;
 
         tempBoard = new Board(turnState.getBoard());
@@ -76,17 +73,6 @@ public class JacksAI_v4 extends AI {
                 extendLine();
             }
 
-        }
-        else if(expansionOnASettlementOfSizeThreeOrMore != null && expansionOnASettlementOfSizeThreeOrMore.getTerrainList().size() > 0){
-            buildActionType = BuildActionType.VILLAGEEXPANSION;
-            buildLocation = expansionOnASettlementOfSizeThreeOrMore.getSettlement().getLocationsOfHexesInSettlement().get(0);
-            expandTerrain = expansionOnASettlementOfSizeThreeOrMore.getTerrainList().get(0);
-            if((noCurrentLine() || lineIsInterrupted()) && tilePlacement == null){
-                startNewLine();
-            }
-            else if(!lineIsInterrupted() && tilePlacement == null){
-                extendLine();
-            }
         }
         else if((noCurrentLine() || lineIsInterrupted()) && tilePlacement == null){
             startNewLine();
@@ -145,6 +131,14 @@ public class JacksAI_v4 extends AI {
         if(tilePlacementsThatSetUpPlayerForTotoroPlacement.size() > 0 && hasATotoro()) {
             int randInt = rand.nextInt(tilePlacementsThatSetUpPlayerForTotoroPlacement.size());
             tilePlacement = tilePlacementsThatSetUpPlayerForTotoroPlacement.get(randInt);
+            try{
+                tempBoard.placeTile(tilePlacement);
+            } catch (InvalidMoveException e){
+                return;
+            }
+
+            validTotoroPlacements = AI_Info.returnValidTotoroPlacements(turnState.getCurrentPlayer(), tempBoard);
+            placeTotoro();
 
         }
         else if(tilePlacementsForNukingEnemySettlementsCloseToGettingATotoro.size() > 0 && hasATotoro()) {
@@ -185,7 +179,6 @@ public class JacksAI_v4 extends AI {
         this.villageCreationThatSetsUpForTigerPlacement = AI_Info.locationToSettleBorderingLevelThreeHex(tempBoard, turnState.getCurrentPlayer());
         this.validTotoroPlacements = AI_Info.returnValidTotoroPlacements(turnState.getCurrentPlayer(), tempBoard);
         this.validTigerPlacements = AI_Info.returnValidTigerPlacements(turnState.getCurrentPlayer().getPlayerColor(), tempBoard);
-        this.expansionOnASettlementOfSizeThreeOrMore = AI_Info.findSettlementsWeCouldExpandToBecomeTotoroAccepting(tempBoard, turnState.getCurrentPlayer());
         this.bestExpansion = AI_Info.findExpansionThatGetsRidOfMostVillagers(turnState.getCurrentPlayer(), tempBoard);
     }
 
@@ -203,8 +196,26 @@ public class JacksAI_v4 extends AI {
         int randInt = rand.nextInt(validTotoroPlacements.size());
         buildLocation = validTotoroPlacements.get(randInt);
         if(tilePlacement == null) {
+            tilePlacement = AI_Info.findHighestPossibleTilePlacement(turnState.getCurrentTile(), turnState.getBoard(), opposingPlayerColor(), turnState.getCurrentPlayer());
+        }
+        if(tilePlacement == null){
             tilePlacement = validTilePlacements.get(0);
         }
+    }
+
+    private Color opposingPlayerColor(){
+        Color currentPlayerColor = turnState.getCurrentPlayer().getPlayerColor();
+        HashMap<String, Player> playerSet =  turnState.getGameSettings().getPlayerSet().getPlayerList();
+        Iterator it = playerSet.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            Player player = (Player)pair.getValue();
+            if(player.getPlayerColor() != currentPlayerColor) {
+                return player.getPlayerColor();
+            }
+
+        }
+        return currentPlayerColor; //this will never happen
     }
 
     private void resetTotoroLine(){
@@ -303,4 +314,3 @@ public class JacksAI_v4 extends AI {
         return false;
     }
 }
-

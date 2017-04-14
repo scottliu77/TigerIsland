@@ -5,6 +5,9 @@ import com.tigerisland.game.*;
 import java.util.*;
 
 
+/*This AI builds off of v2. It makes one significant change. When we place a totoro and have nothing obviously strategic to do with our tile placement,
+    we place the tile at the highest height possible.
+ */
 public class JacksAI_v3 extends AI {
 
     private ArrayList<TilePlacement> validTilePlacements;
@@ -33,7 +36,6 @@ public class JacksAI_v3 extends AI {
         expandTerrain = null;
 
         tempBoard = new Board(turnState.getBoard());
-        //TextGUI.printMap(tempBoard);
         gatherTilePlacementInfo();
         makeAnyPossibleStrategicTilePlacement();
         gatherBuildActionInfo();
@@ -98,7 +100,6 @@ public class JacksAI_v3 extends AI {
             tempBoard.placeTile(tilePlacement);
             tempBoard.updateSettlements();
         } catch (InvalidMoveException e) {
-            //tempBoard = new Board(turnState.getBoard());
         }
         bestExpansion = AI_Info.findExpansionThatGetsRidOfMostVillagers(turnState.getCurrentPlayer(), tempBoard);
 
@@ -178,9 +179,6 @@ public class JacksAI_v3 extends AI {
 
     private void placeTotoro(){
         buildActionType = BuildActionType.TOTOROPLACEMENT;
-        /*if(validTotoroPlacements == null || validTotoroPlacements.size() == 0){
-            int breakpoint = 0;
-        }*/
         int randInt = rand.nextInt(validTotoroPlacements.size());
         buildLocation = validTotoroPlacements.get(randInt);
         if(tilePlacement == null) {

@@ -16,6 +16,8 @@ public enum PlayerType {
     JACKSAI_V3("JACKSAI_V3"),
 
     JACKSAI_V4("JACKSAI_V4"),
+    JACKSAI_V5("JACKSAI_V5"),
+    JACKSAI_V6("JACKSAI_V6"),
 
     DAXSAI("DAXSAI");
 
