@@ -33,8 +33,6 @@ public class Player {
             playerAI = new HumanInput();
         else if(playerType == PlayerType.JACKSAI)
             playerAI = new JacksAI();
-        else if(playerType == PlayerType.TIGERFORMAI)
-            playerAI = new TigerFormAI();
         else if(playerType == PlayerType.JACKSAI_V2)
             playerAI = new JacksAI_v2();
         else if(playerType == PlayerType.JACKSAI_V3)

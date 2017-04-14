@@ -181,7 +181,7 @@ public class JacksAI_v4 extends AI {
     }
 
     private boolean hasATotoro(){
-        return turnState.getCurrentPlayer().getPieceSet().getNumberOfTotoroRemaining()>0;
+        return turnState.getCurrentPlayer().getPieceSet().getNumberOfTotoroRemaining() > 0;
     }
 
     private void placeTotoro(){
@@ -202,7 +202,7 @@ public class JacksAI_v4 extends AI {
     }
 
     private boolean hasATiger(){
-        return turnState.getCurrentPlayer().getPieceSet().getNumberOfTigersRemaining()>0;
+        return turnState.getCurrentPlayer().getPieceSet().getNumberOfTigersRemaining() > 0;
     }
 
     private void placeTiger(){
@@ -215,7 +215,7 @@ public class JacksAI_v4 extends AI {
     }
 
     private boolean noCurrentLine(){
-        return plannedSettlementLocations.size()==0;
+        return plannedSettlementLocations.size() == 0;
     }
 
     private void startNewLine(){
@@ -226,10 +226,10 @@ public class JacksAI_v4 extends AI {
         int yStart = startTilePlacement.getLocation().y - 1;
 
         plannedSettlementLocations.add(new Location(xStart,yStart));
-        plannedSettlementLocations.add(new Location(xStart,yStart-2));
-        plannedSettlementLocations.add(new Location(xStart,yStart-4));
-        plannedSettlementLocations.add(new Location(xStart,yStart-1));
-        plannedSettlementLocations.add(new Location(xStart,yStart-3));
+        plannedSettlementLocations.add(new Location(xStart,yStart - 2));
+        plannedSettlementLocations.add(new Location(xStart,yStart - 4));
+        plannedSettlementLocations.add(new Location(xStart,yStart - 1));
+        plannedSettlementLocations.add(new Location(xStart,yStart - 3));
 
         tilePlacement = startTilePlacement;
         buildActionType = BuildActionType.VILLAGECREATION;
@@ -237,7 +237,7 @@ public class JacksAI_v4 extends AI {
     }
 
     private TilePlacement chooseStartTilePlacement(){
-        return validTilePlacements.get(validTilePlacements.size()-1);
+        return validTilePlacements.get(validTilePlacements.size() - 1);
     }
 
     private void extendLine(){
