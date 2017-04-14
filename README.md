@@ -2,7 +2,68 @@
 
 Private repository for the Spring 2017 CEN3031 Semester Project, titled "Tiger Island"
 
-# Complete Setup Tools and Instructions 
+### Contents
+
+1. Implementation (TODO)
+2. Complete Setup Tools and Instructions
+3. Building and Running TigerIsland Client
+4. TigerIsland Command-Line
+5. References
+
+## 1. Implementation (TODO)
+
+### Implemented
+* Tournament Structure
+  * Tournament (implements protocols)
+  * Match
+  * Game
+* Game Mechanics
+  * Board construction and rendering
+    * Terrain
+    * Hex
+    * Location & Rotation
+    * Tile
+    * Deck (for offline testing only)
+    * Board
+    * TextGUI (for debugging)
+    * Settlement (identification and updating)
+  * Piece Set
+    * Villager
+    * Totoro
+    * Tiger
+    * Piece color and type
+  * Piece placement
+    * Found settlement
+    * Expand settlement
+    * Create Totoro sanctuary
+    * Create Tiger playground
+  * End Conditions
+* Server/Client Mechanics
+  * Multi-threaded Client which reads from and writes to server
+  * Thread-safe server socket connection
+  * Client and server message parsing
+  * Mock server for local testing
+  * Message parser and variable extractor
+  * Message adapter 
+* AI
+  * JacksAI (versions 1 through 6)
+    * **JacksAI Version 5 is used in the tournament**
+  * TotoroLinesAI (Versions 1 and 2)
+  * DaxsAI (reconciles a bug found in old server version)
+  * HumanInput (for manual testing)
+  * SafeAI (initial version of AI created for testing game operation)
+  * AI Info (provides information about valid moves to AI implementations)
+* Command-Line Argument Parser
+* Settings
+  * Global Settings
+  * Game Settings
+  * Server Settings
+
+### Incomplete
+
+**4/14/2017 - 4:20PM**. At this time, all required functionality has been implemented and tested, both locally and during in-class tournaments.
+
+## 2. Complete Setup Tools and Instructions 
 
 See the Maven file (pom.xml) for a full list of dependencies.
 
@@ -36,9 +97,9 @@ See the Maven file (pom.xml) for a full list of dependencies.
     * Atlassian Clover for IDEA
       * Code coverage tool sitting atop JUnit
 
-# Building and Running TigerIsland Client
+## 3. Building and Running TigerIsland Client
 
-## Building TigerIsland
+### Building TigerIsland
 
 1. File -> Save All
 2. Run driver/class with main method (TigerIsland.java)
@@ -54,7 +115,7 @@ See the Maven file (pom.xml) for a full list of dependencies.
 11. From the main menu, select the build drop down
 12. Select the option “build artifacts”
 
-## Running TigerIsland
+### Running TigerIsland
 
 1. Go to the directory containing the .jar file
   a. Should be “out\artifacts\TigerIsland_jar”
@@ -62,7 +123,7 @@ See the Maven file (pom.xml) for a full list of dependencies.
 3. For help on proper usage, check “java -jar TigerIsland.jar --help”
   a. A screencap of the help text is provided below for reference.
 
-## TigerIsland Command-Line
+## 4. TigerIsland Command-Line
 
 The following is an example configuration with which to run TigerIsland.
 
@@ -115,6 +176,6 @@ optional arguments:
 net.sourceforge.argparse4j.internal.HelpScreenException: Help Screen
 ```
 
-# References
+## 5. References
 
 * [Building jars in IntelliJ properly](http://stackoverflow.com/questions/1082580/how-to-build-jars-from-intellij-properly)
