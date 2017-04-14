@@ -46,13 +46,13 @@ public class PlacedHexTest {
     }
 
     @Test
-    public void testCanGetExpansionStatus() { assertFalse(placedHex.getExpansionStatus()); }
+    public void testCanGetExpansionStatus() { assertFalse(placedHex.toBeExpanded()); }
 
     @Test
     public void testCanChangeExpansionStatus() {
         boolean status = true;
-        placedHex.setExpansionStatus(status);
-        assertTrue(placedHex.getExpansionStatus());
+        placedHex.setToBeExpanded(status);
+        assertTrue(placedHex.toBeExpanded());
     }
 
     @Test
