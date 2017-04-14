@@ -30,6 +30,7 @@ public class JacksAI_v5 extends AI {
     private Location villageCreationThatSetsUpForTigerPlacement;
     private Board tempBoard;
     private Random rand;
+    private boolean moveFound;
 
 
     private ArrayList<Location> plannedSettlementLocations;
@@ -46,10 +47,14 @@ public class JacksAI_v5 extends AI {
         expandTerrain = null;
         expansionOnASettlementOfSizeThreeOrMore = null;
         villageCreationThatSetsUpForTigerPlacement = null;
+        moveFound = false;
 
         tempBoard = new Board(turnState.getBoard());
         gatherTilePlacementInfo();
         makeAnyPossibleStrategicTilePlacement();
+        if(moveFound){
+            return;
+        }
         gatherBuildActionInfo();
         boolean timeToRapidlyExpand = (!hasATotoro() || !hasATiger()) && bestExpansion != null;
         if(timeToRapidlyExpand){
@@ -158,6 +163,7 @@ public class JacksAI_v5 extends AI {
 
             validTotoroPlacements = AI_Info.returnValidTotoroPlacements(turnState.getCurrentPlayer(), tempBoard);
             placeTotoro();
+            moveFound = true;
 
         }
         else if(tilePlacementsForNukingEnemySettlementsCloseToGettingATotoro.size() > 0 && hasATotoro()) {
