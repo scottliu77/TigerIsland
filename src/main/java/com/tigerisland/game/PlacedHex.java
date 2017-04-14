@@ -35,9 +35,9 @@ public class PlacedHex {
 
     public boolean isNotVolcano(){ return hex.isNotVolcano(); }
 
-    public boolean getExpansionStatus() { return this.toBeExpanded; }
+    public boolean toBeExpanded() { return this.toBeExpanded; }
 
-    public void setExpansionStatus(boolean status) { this.toBeExpanded = status; }
+    public void setToBeExpanded(boolean status) { this.toBeExpanded = status; }
 
 
     public static void printPlacedHexes(ArrayList<PlacedHex> list){
