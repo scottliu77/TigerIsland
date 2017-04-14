@@ -16,8 +16,8 @@ import static org.junit.Assert.*;
 public class AI_InfoTest {
     Board board;
     Tile testTile;
-    Player p1;
-    Player p2;
+    Player player1;
+    Player player2;
     TextGUI gui;
 
     @Before
@@ -25,8 +25,8 @@ public class AI_InfoTest {
         this.board = new Board();
         this.testTile = new Tile(Terrain.GRASS, Terrain.GRASS);
 
-        this.p1 = new Player(Color.BLUE, "1", PlayerType.SAFEAI);
-        this.p2 = new Player(Color.PURPLE, "2", PlayerType.SAFEAI);
+        this.player1 = new Player(Color.BLUE, "1", PlayerType.SAFEAI);
+        this.player2 = new Player(Color.PURPLE, "2", PlayerType.SAFEAI);
     }
 
     @Test
@@ -115,7 +115,7 @@ public class AI_InfoTest {
     public void testReturnValidSettlementExpansions() throws InvalidMoveException{
         placeTilesForValidExpansionTest();
         board.updateSettlements();
-        ArrayList<SettlementAndTerrainListPair> possibleExpansions = AI_Info.returnValidVillageExpansions(p1, board);
+        ArrayList<SettlementAndTerrainListPair> possibleExpansions = AI_Info.returnValidVillageExpansions(player1, board);
         SettlementAndTerrainListPair settlementAndTerrainListPair = possibleExpansions.get(0);
         assertTrue(settlementAndTerrainListPair.getTerrainList().contains(Terrain.GRASS));
         assertTrue(settlementAndTerrainListPair.getTerrainList().contains(Terrain.JUNGLE));
@@ -138,7 +138,7 @@ public class AI_InfoTest {
         board.placeTile(tile2, loc2, 60);
         board.placeTile(tile3, loc3, 180);
 
-        board.createVillage(p1, new Location(1, 0));
+        board.createVillage(player1, new Location(1, 0));
 
     }
 
@@ -146,13 +146,13 @@ public class AI_InfoTest {
     public void testForTotoroValidation() throws InvalidMoveException {
         placeTilesForTest2();
 
-        ArrayList<Location> legalTotoroPlacements = AI_Info.returnValidTotoroPlacements(p1, board);
+        ArrayList<Location> legalTotoroPlacements = AI_Info.returnValidTotoroPlacements(player1, board);
         assert(legalTotoroPlacements.size()==0);
 
         setUpBoardForTotoroAndTigerTests();
 
-        ArrayList<Location> legalTotoroPlacementsP1 = AI_Info.returnValidTotoroPlacements(p1, board);
-        ArrayList<Location> legalTotoroPlacementsP2 = AI_Info.returnValidTotoroPlacements(p2, board);
+        ArrayList<Location> legalTotoroPlacementsP1 = AI_Info.returnValidTotoroPlacements(player1, board);
+        ArrayList<Location> legalTotoroPlacementsP2 = AI_Info.returnValidTotoroPlacements(player2, board);
 
         assert(legalTotoroPlacementsP1.size()==0);
         assert(legalTotoroPlacementsP2.size()==2);
@@ -163,33 +163,33 @@ public class AI_InfoTest {
         placeTilesForTest2();
 
 
-        ArrayList<Location> legalTigerPlacements = AI_Info.returnValidTigerPlacements(p1.getPlayerColor(), board);
+        ArrayList<Location> legalTigerPlacements = AI_Info.returnValidTigerPlacements(player1.getPlayerColor(), board);
         assert(legalTigerPlacements.size()==0);
 
         setUpBoardForTotoroAndTigerTests();
 
-        ArrayList<Location> legalTigerPlacementsP1 = AI_Info.returnValidTigerPlacements(p1.getPlayerColor(), board);
-        ArrayList<Location> legalTigerPlacementsP2 = AI_Info.returnValidTigerPlacements(p2.getPlayerColor(), board);
+        ArrayList<Location> legalTigerPlacementsP1 = AI_Info.returnValidTigerPlacements(player1.getPlayerColor(), board);
+        ArrayList<Location> legalTigerPlacementsP2 = AI_Info.returnValidTigerPlacements(player2.getPlayerColor(), board);
 
         assert(legalTigerPlacementsP1.size()==1);
         assert(legalTigerPlacementsP2.size()==2);
     }
 
     public void setUpBoardForTotoroAndTigerTests() throws InvalidMoveException{
-        board.createVillage(p1,new Location(2,-1));
-        board.createVillage(p2,new Location(3,-2));
+        board.createVillage(player1,new Location(2,-1));
+        board.createVillage(player2,new Location(3,-2));
 
         board.updateSettlements();
-        board.expandVillage(p2, new Location(3,-2), Terrain.ROCK);
+        board.expandVillage(player2, new Location(3,-2), Terrain.ROCK);
 
         board.updateSettlements();
-        board.createVillage(p2,new Location(1,-3));
+        board.createVillage(player2,new Location(1,-3));
 
         board.updateSettlements();
-        board.expandVillage(p2, new Location(3,-2), Terrain.LAKE);
+        board.expandVillage(player2, new Location(3,-2), Terrain.LAKE);
 
         board.updateSettlements();
-        board.expandVillage(p2, new Location(3,-2), Terrain.ROCK);
+        board.expandVillage(player2, new Location(3,-2), Terrain.ROCK);
     }
 
     @Test
@@ -233,7 +233,7 @@ public class AI_InfoTest {
         board.placeTile(tileThatWillHostVolcanoToNukeFrom1, locationForVolcanoToNukeFrom1, 300);
         board.updateSettlements();
         Tile tile = new Tile(Terrain.JUNGLE, Terrain.LAKE);
-        ArrayList<TilePlacement> tilePlacementsThatWouldPreventTotoroPlacement = AI_Info.findNukableLocationsToStopOpposingPlayerFromMakingTotoroPlacement(p2.getPlayerColor(),board, tile);
+        ArrayList<TilePlacement> tilePlacementsThatWouldPreventTotoroPlacement = AI_Info.findNukableLocationsToStopOpposingPlayerFromMakingTotoroPlacement(player2.getPlayerColor(),board, tile);
         assertTrue(tilePlacementsThatWouldPreventTotoroPlacement.size() == 3);
     }
 
@@ -244,10 +244,10 @@ public class AI_InfoTest {
         Tile tileThatWillHostVolcanoToNukeFrom = new Tile(Terrain.GRASS, Terrain.GRASS);
         Location locationForVolcanoToNukeFrom = new Location(3, -1);
         board.placeTile(tileThatWillHostVolcanoToNukeFrom, locationForVolcanoToNukeFrom, 60);
-        board.expandVillage(p1, new Location(2, -1), Terrain.GRASS);
+        board.expandVillage(player1, new Location(2, -1), Terrain.GRASS);
         board.updateSettlements();
         Tile tile = new Tile(Terrain.JUNGLE, Terrain.LAKE);
-        ArrayList<TilePlacement> tilePlacementsThatWouldPreventTotoroPlacement = AI_Info.findNukableLocationsToStopOpposingPlayerFromMakingTigerPlacement(p1.getPlayerColor(),board, tile);
+        ArrayList<TilePlacement> tilePlacementsThatWouldPreventTotoroPlacement = AI_Info.findNukableLocationsToStopOpposingPlayerFromMakingTigerPlacement(player1.getPlayerColor(),board, tile);
         assertTrue(tilePlacementsThatWouldPreventTotoroPlacement.size() == 2);
     }
 
@@ -256,7 +256,7 @@ public class AI_InfoTest {
         setUpBoardWithASettlementThatJustNeedsAnExpansionPointToPlaceTotoro();
         board.updateSettlements();
         Tile tile = new Tile(Terrain.JUNGLE, Terrain.LAKE);
-        ArrayList<TilePlacement> tilePlacementsThatWouldEnableTotoroPlacement = AI_Info.findTilePlacementsThatEnableTotoroPlacementForSamePlayer(p1.getPlayerColor(), tile, board);
+        ArrayList<TilePlacement> tilePlacementsThatWouldEnableTotoroPlacement = AI_Info.findTilePlacementsThatEnableTotoroPlacementForSamePlayer(player1.getPlayerColor(), tile, board);
         assertTrue(tilePlacementsThatWouldEnableTotoroPlacement.size() == 3);
 
     }
@@ -270,18 +270,18 @@ public class AI_InfoTest {
         board.placeTile(tilePlacement2);
         board.placeTile(tilePlacement3);
         board.placeTile(tilePlacement4);
-        board.createVillage(p1, new Location(2, -1));
+        board.createVillage(player1, new Location(2, -1));
         board.updateSettlements();
-        board.expandVillage(p1, new Location(2, -1), Terrain.LAKE);
+        board.expandVillage(player1, new Location(2, -1), Terrain.LAKE);
         board.updateSettlements();
-        board.placeTotoro(p1, new Location(2, -2));
+        board.placeTotoro(player1, new Location(2, -2));
     }
 
     @Test
     public void testForFindingTilePlacementsThatCutTotoroOffFromMostOfSettlement() throws InvalidMoveException{
         setUpBoardWithASettlementForFindingTilePlacementsThatCutTotoroOffFromMostOfSettlementTest();
         Tile tile = new Tile(Terrain.JUNGLE, Terrain.LAKE);
-        ArrayList<TilePlacement> tilePlacementsThatCutTotoroOff = AI_Info.findTilePlacementsThatCutTotoroOffOfMostOfSettlement(p2.getPlayerColor(), tile, board, 3);
+        ArrayList<TilePlacement> tilePlacementsThatCutTotoroOff = AI_Info.findTilePlacementsThatCutTotoroOffOfMostOfSettlement(player2.getPlayerColor(), tile, board, 3);
         assertTrue(tilePlacementsThatCutTotoroOff.size() == 4);
     }
 
@@ -292,11 +292,11 @@ public class AI_InfoTest {
         board.placeTile(tilePlacement1);
         board.placeTile(tilePlacement2);
         board.placeTile(tilePlacement3);
-        board.createVillage(p2, new Location(2, -1));
+        board.createVillage(player2, new Location(2, -1));
         board.updateSettlements();
-        board.expandVillage(p2, new Location(2, -1), Terrain.LAKE);
+        board.expandVillage(player2, new Location(2, -1), Terrain.LAKE);
         board.updateSettlements();
-        board.placeTotoro(p2, new Location(2, -2));
+        board.placeTotoro(player2, new Location(2, -2));
         board.updateSettlements();
     }
 
@@ -304,14 +304,14 @@ public class AI_InfoTest {
     @Test
     public void testFindTilePlacementThatImprovesNextExpansion() throws InvalidMoveException{
         setUpBoardWithASettlementForFindingTilePlacementThatImprovesNextExpansion();
-        int originalNumberOfVillagersLeft = p2.getPieceSet().getNumberOfVillagersRemaining();
+        int originalNumberOfVillagersLeft = player2.getPieceSet().getNumberOfVillagersRemaining();
         Tile tileToPlace = new Tile(Terrain.JUNGLE, Terrain.JUNGLE);
-        TilePlacement bestTilePlacementForExpansion = AI_Info.findTilePlacementThatImprovesNextExpansion(tileToPlace, p2, board);
+        TilePlacement bestTilePlacementForExpansion = AI_Info.findTilePlacementThatImprovesNextExpansion(tileToPlace, player2, board);
         board.placeTile(bestTilePlacementForExpansion);
-        SettlementAndTerrainListPair bestExpansionOption = AI_Info.findExpansionThatGetsRidOfMostVillagers(p2, board);
-        board.expandVillage(p2,bestExpansionOption.getSettlement().getLocationsOfHexesInSettlement().get(0), bestExpansionOption.getTerrainList().get(0));
+        SettlementAndTerrainListPair bestExpansionOption = AI_Info.findExpansionThatGetsRidOfMostVillagers(player2, board);
+        board.expandVillage(player2,bestExpansionOption.getSettlement().getLocationsOfHexesInSettlement().get(0), bestExpansionOption.getTerrainList().get(0));
         board.updateSettlements();
-        int finalNumberOfVillagersLeft = p2.getPieceSet().getNumberOfVillagersRemaining();
+        int finalNumberOfVillagersLeft = player2.getPieceSet().getNumberOfVillagersRemaining();
         assertTrue(originalNumberOfVillagersLeft - finalNumberOfVillagersLeft == 6);
     }
 
@@ -322,9 +322,9 @@ public class AI_InfoTest {
         board.placeTile(tilePlacement1);
         board.placeTile(tilePlacement2);
         board.placeTile(tilePlacement3);
-        board.createVillage(p2, new Location(2, -1));
+        board.createVillage(player2, new Location(2, -1));
         board.updateSettlements();
-        board.expandVillage(p2, new Location(2, -1), Terrain.LAKE);
+        board.expandVillage(player2, new Location(2, -1), Terrain.LAKE);
         board.updateSettlements();
     }
 

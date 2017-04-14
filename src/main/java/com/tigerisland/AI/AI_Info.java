@@ -12,14 +12,14 @@ public class AI_Info {
     public static ArrayList<TilePlacement> returnValidTilePlacements(Tile tile, Board board){
         ArrayList<TilePlacement> validTilePlacements = new ArrayList<TilePlacement>();
         int[] boundsArray = getBoundsOfBoard(board);
-        int x_lowerBound =  boundsArray[0];
-        int x_upperBound = boundsArray[1];
-        int y_lowerBound = boundsArray[2];
-        int y_upperBound = boundsArray[3];
-        for(int xx=x_lowerBound-1; xx<=x_upperBound+1; xx++){
+        int xLowerBound =  boundsArray[0];
+        int xUpperbound = boundsArray[1];
+        int yLowerBound = boundsArray[2];
+        int yUpperBound = boundsArray[3];
+        for(int xx = xLowerBound-1; xx <= xUpperbound+1; xx++){
             Location loc;
             int rot;
-            for(int yy=y_lowerBound-1; yy<=y_upperBound+1; yy++) {
+            for(int yy = yLowerBound-1; yy <= yUpperBound+1; yy++) {
                 //2-hexes on bottom/1-hex on top - Three different orientations
                 loc = new Location(xx, yy);
                 rot = 0;
@@ -62,31 +62,31 @@ public class AI_Info {
         return validTilePlacements;
     }
     private static int[] getBoundsOfBoard(Board board){
-        int x_lowerBound = Integer.MAX_VALUE;
-        int x_upperBound = Integer.MIN_VALUE;
-        int y_lowerBound = Integer.MAX_VALUE;
-        int y_upperBound = Integer.MIN_VALUE;
+        int xLowerBound = Integer.MAX_VALUE;
+        int xUpperBound = Integer.MIN_VALUE;
+        int yLowerBound = Integer.MAX_VALUE;
+        int yUpperBound = Integer.MIN_VALUE;
         ArrayList<Location> edgeSpaces = board.getEdgeSpaces();
-        for(int ii=0; ii<edgeSpaces.size(); ii++){
-            x_lowerBound = Math.min(edgeSpaces.get(ii).x, x_lowerBound);
-            x_upperBound = Math.max(edgeSpaces.get(ii).x, x_upperBound);
-            y_lowerBound = Math.min(edgeSpaces.get(ii).y, y_lowerBound);
-            y_upperBound = Math.max(edgeSpaces.get(ii).y, y_upperBound);
+        for(int i = 0; i < edgeSpaces.size(); i++){
+            xLowerBound = Math.min(edgeSpaces.get(i).x, xLowerBound);
+            xUpperBound = Math.max(edgeSpaces.get(i).x, xUpperBound);
+            yLowerBound = Math.min(edgeSpaces.get(i).y, yLowerBound);
+            yUpperBound = Math.max(edgeSpaces.get(i).y, yUpperBound);
         }
         int[] boundsArray = new int[4];
-        boundsArray[0] = x_lowerBound;
-        boundsArray[1] = x_upperBound;
-        boundsArray[2] = y_lowerBound;
-        boundsArray[3] = y_upperBound;
+        boundsArray[0] = xLowerBound;
+        boundsArray[1] = xUpperBound;
+        boundsArray[2] = yLowerBound;
+        boundsArray[3] = yUpperBound;
         return boundsArray;
     }
 
     public static ArrayList<Location> returnValidVillagePlacements(Board board){
         ArrayList<Location> listOfValidPlacements = new ArrayList<Location>();
         ArrayList<PlacedHex> placedHexes = board.getPlacedHexes();
-        for(int ii=0; ii<placedHexes.size(); ii++){
-            PlacedHex currentHex = placedHexes.get(ii);
-            if(currentHex.isEmpty() && currentHex.getHeight()==1 && currentHex.isNotVolcano())
+        for(int i = 0; i < placedHexes.size(); i++){
+            PlacedHex currentHex = placedHexes.get(i);
+            if(currentHex.isEmpty() && currentHex.getHeight() == 1 && currentHex.isNotVolcano())
                 listOfValidPlacements.add(currentHex.getLocation());
         }
         return listOfValidPlacements;
@@ -123,17 +123,16 @@ public class AI_Info {
 
         }
         return validVillageExpansions;
-        //Returns a list where every object in the list is a pair including a settlement and the list of terrains it can expand into
     }
 
     public static ArrayList<Location> returnValidTotoroPlacements(Player player, Board board){
         ArrayList<Location> listOfValidPlacements = new ArrayList<Location>();
         ArrayList<PlacedHex> placedHexes = board.getPlacedHexes();
-        for(PlacedHex ph : placedHexes) {
-            if(ph.isEmpty() && ph.isNotVolcano()) {
-                ArrayList<Settlement> settlements = board.findAdjacentSettlementsToLocation(ph.getLocation());
+        for(PlacedHex placedHex : placedHexes) {
+            if(placedHex.isEmpty() && placedHex.isNotVolcano()) {
+                ArrayList<Settlement> settlements = board.findAdjacentSettlementsToLocation(placedHex.getLocation());
                 for (Settlement ss : settlements) {
-                    if (ss.getColor()==player.getPlayerColor() && !ss.containsTotoro() && ss.size()>=Board.SIZE_REQUIRED_FOR_TOTORO) {
+                    if (ss.getColor() == player.getPlayerColor() && !ss.containsTotoro() && ss.size() >= Board.SIZE_REQUIRED_FOR_TOTORO) {
                         try{
                             if(player == null){
                                 int i= 0;
@@ -144,12 +143,12 @@ public class AI_Info {
                             if(tempPlayer == null){
                                 int i = 0;
                             }
-                            tempBoard.placeTotoro(tempPlayer, ph.getLocation());
+                            tempBoard.placeTotoro(tempPlayer, placedHex.getLocation());
                         }
                         catch(InvalidMoveException e){
                             continue;
                         }
-                        listOfValidPlacements.add(ph.getLocation());
+                        listOfValidPlacements.add(placedHex.getLocation());
                     }
                 }
             }
@@ -160,12 +159,12 @@ public class AI_Info {
     public static ArrayList<Location> returnValidTigerPlacements(Color color, Board board){
         ArrayList<Location> listOfValidPlacements = new ArrayList<Location>();
         ArrayList<PlacedHex> placedHexes = board.getPlacedHexes();
-        for(PlacedHex ph : placedHexes) {
-            if(ph.isEmpty() && ph.getHeight()>=Board.HEIGHT_REQUIRED_FOR_TIGER && ph.isNotVolcano()) {
-                ArrayList<Settlement> settlements = board.findAdjacentSettlementsToLocation(ph.getLocation());
-                for (Settlement ss : settlements) {
-                    if (ss.getColor()==color && !ss.containsTiger()) {
-                        listOfValidPlacements.add(ph.getLocation());
+        for(PlacedHex placedHex : placedHexes) {
+            if(placedHex.isEmpty() && placedHex.getHeight() >= Board.HEIGHT_REQUIRED_FOR_TIGER && placedHex.isNotVolcano()) {
+                ArrayList<Settlement> settlements = board.findAdjacentSettlementsToLocation(placedHex.getLocation());
+                for (Settlement settlement : settlements) {
+                    if (settlement.getColor() == color && !settlement.containsTiger()) {
+                        listOfValidPlacements.add(placedHex.getLocation());
                         break;
                     }
                 }
@@ -174,7 +173,6 @@ public class AI_Info {
         return listOfValidPlacements;
     }
 
-    //ToDo: Make a function meant to just find nukable locations. Then integrate that into this function
     public static ArrayList<TilePlacement> findNukableLocationsToStopOpposingPlayerFromMakingTotoroPlacement(Color opposingPlayerColor, Board board, Tile tile){
         ArrayList<Settlement> opposingSettlementsThatCouldAcceptTotoro = board.settlementsThatCouldAcceptTotoroForGivenPlayer(opposingPlayerColor);
         ArrayList<TilePlacement> validTilePlacements = returnValidTilePlacements(tile, board);
@@ -375,7 +373,7 @@ public class AI_Info {
     private static TilePlacement bestPossibleTilePlacementExpansionCombo(ArrayList<TilePlacement> tilePlacements, ArrayList<SettlementAndTerrainListPair> settlementAndTerrainListPairs, Board board, Player player){
         int mostNumberOfVillagersUsed = 0;
         TilePlacement bestTilePlacement = null;
-        for(int i = 0; i< tilePlacements.size(); i++){
+        for(int i = 0; i < tilePlacements.size(); i++){
             Board tempBoard = new Board(board);
             Player tempPlayer = new Player(player);
             try{
@@ -405,7 +403,7 @@ public class AI_Info {
             Location locationOfTilePlacement = tilePlacement.getLocation();
             int heightOfThisTilePlacement;
             if(board.hexExistsAtLocation(locationOfTilePlacement)) {
-                heightOfThisTilePlacement = 1 + board.hexAt(locationOfTilePlacement).getHeight();
+                heightOfThisTilePlacement = board.hexAt(locationOfTilePlacement).getHeight() + 1;
             }
             else{
                 heightOfThisTilePlacement = 1;
