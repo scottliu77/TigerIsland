@@ -18,7 +18,6 @@ public class TotoroPlacer {
 
     public static void placeTotoro(Player player, PlacedHex targetHex, ArrayList<Settlement> adjacentSettlementsToTargetLocation) throws InvalidMoveException {
 
-
         if (targetHex == null) {
             throw new InvalidMoveException("Target hex does not exist");
         }
@@ -41,8 +40,7 @@ public class TotoroPlacer {
     }
 
 
-
-    private static void removeSettlementsThatCantAcceptTotoroFromList(ArrayList<Settlement> adjacentSettlementsToTargetLocation) {
+    protected static void removeSettlementsThatCantAcceptTotoroFromList(ArrayList<Settlement> adjacentSettlementsToTargetLocation) {
         Iterator<Settlement> iter = adjacentSettlementsToTargetLocation.iterator();
         while (iter.hasNext()) {
             Settlement adjacentSettlement = iter.next();

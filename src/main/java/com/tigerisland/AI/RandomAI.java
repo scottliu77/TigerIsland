@@ -115,11 +115,11 @@ public class RandomAI extends AI {
     }
 
     private boolean hasATotoro(){
-        return turnState.getCurrentPlayer().getPieceSet().getNumberOfTotoroRemaining()>0;
+        return turnState.getCurrentPlayer().getPieceSet().getNumberOfTotoroRemaining() > 0;
     }
 
     private boolean hasATiger(){
-        return turnState.getCurrentPlayer().getPieceSet().getNumberOfTigersRemaining()>0;
+        return turnState.getCurrentPlayer().getPieceSet().getNumberOfTigersRemaining() > 0;
     }
 
 }

@@ -122,10 +122,10 @@ public class Settlement {
     public boolean isConfinedUnderTile(Location centerLoc, int rotation){
         int numberOfHexesUnderTile = 0;
         Location loc1 = Location.rotateHexLeft(centerLoc, rotation);
-        Location loc2 = Location.rotateHexLeft(centerLoc, rotation +60);
-        for(int ii = 0; ii<hexesInSettlement.size(); ii++){
-            PlacedHex currentHex = hexesInSettlement.get(ii);
-            Location loc = currentHex.getLocation();
+        Location loc2 = Location.rotateHexLeft(centerLoc, rotation + 60);
+        for(int i = 0; i < hexesInSettlement.size(); i++){
+            PlacedHex currentPlacedHex = hexesInSettlement.get(i);
+            Location loc = currentPlacedHex.getLocation();
             if(loc.equalTo(centerLoc) || loc.equalTo(loc1) || loc.equalTo(loc2))
                 numberOfHexesUnderTile += 1;
         }

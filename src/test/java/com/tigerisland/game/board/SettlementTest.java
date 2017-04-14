@@ -40,6 +40,7 @@ public class SettlementTest {
         placedHex1.getHex().addPiecesToHex(new Piece(Color.BLACK, PieceType.TOTORO), 1);
         placedHex3.getHex().addPiecesToHex(new Piece(Color.WHITE, PieceType.VILLAGER), 1);
         placedHex4.getHex().addPiecesToHex(new Piece(Color.WHITE, PieceType.VILLAGER), 1);
+
     }
 
     private void createHexes() {
