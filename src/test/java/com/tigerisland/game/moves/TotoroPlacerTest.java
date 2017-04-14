@@ -38,14 +38,12 @@ public class TotoroPlacerTest {
 
     @Before
     public void createSettlementList() {
-        createSettlement();
-
         settlements = new ArrayList<Settlement>();
         settlements.add(settlement1);
 
     }
-
-    private void createSettlement() {
+    @Before
+    public void createSettlement() {
         createHexes();
         createLocations();
         createPlacedHexes();
@@ -57,7 +55,7 @@ public class TotoroPlacerTest {
         Hex hex = new Hex("currentHex", Terrain.GRASS);
         Location loc = new Location(-1, 0);
         PlacedHex hexInSettlement = new PlacedHex(hex, loc);
-        hexInSettlement.getHex().addPiecesToHex(new Piece(Color.WHITE, PieceType.TOTORO), 1);
+        hexInSettlement.getHex().addPiecesToHex(new Piece(Color.WHITE, PieceType.VILLAGER), 1);
 
         settlement1 = new Settlement(hexInSettlement,allPlacedHexes);
 
@@ -96,6 +94,20 @@ public class TotoroPlacerTest {
 
     @Test
     public void testCanRemoveSettlementContainingTotoro() {
+        Hex hex = new Hex("currentHex", Terrain.GRASS);
+        Location loc = new Location(-1, 0);
+        PlacedHex hexInSettlement = new PlacedHex(hex, loc);
+        hexInSettlement.getHex().addPiecesToHex(new Piece(Color.WHITE, PieceType.TOTORO), 1);
+        settlement1 = new Settlement(hexInSettlement,allPlacedHexes);
+
+        settlements.add(settlement1);
+
+        TotoroPlacer.removeSettlementsThatCantAcceptTotoroFromList(settlements);
+        assertTrue(settlements.size() == 0);
+    }
+
+    @Test
+    public void testCanRemoveSetlementLessThanSizeFive() {
         TotoroPlacer.removeSettlementsThatCantAcceptTotoroFromList(settlements);
         assertTrue(settlements.size() == 0);
     }
