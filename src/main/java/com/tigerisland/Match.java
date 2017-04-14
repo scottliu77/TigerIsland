@@ -2,8 +2,9 @@ package com.tigerisland;
 
 import com.tigerisland.game.Game;
 import com.tigerisland.messenger.*;
+import com.tigerisland.settings.GameSettings;
+import com.tigerisland.settings.GlobalSettings;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 

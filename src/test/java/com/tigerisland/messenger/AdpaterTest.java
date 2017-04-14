@@ -1,7 +1,10 @@
 package com.tigerisland.messenger;
 
 import com.tigerisland.game.InvalidMoveException;
-import com.tigerisland.game.*;
+import com.tigerisland.game.board.Board;
+import com.tigerisland.game.board.Location;
+import com.tigerisland.game.board.Terrain;
+import com.tigerisland.game.board.Tile;
 import org.junit.Before;
 import org.junit.Test;
 

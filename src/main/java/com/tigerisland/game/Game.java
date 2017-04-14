@@ -1,6 +1,10 @@
 package com.tigerisland.game;
 
-import com.tigerisland.GameSettings;
+import com.tigerisland.game.board.Board;
+import com.tigerisland.game.board.Tile;
+import com.tigerisland.game.moves.Move;
+import com.tigerisland.game.player.Player;
+import com.tigerisland.settings.GameSettings;
 import com.tigerisland.messenger.Client;
 import com.tigerisland.messenger.Message;
 import com.tigerisland.messenger.MessageType;

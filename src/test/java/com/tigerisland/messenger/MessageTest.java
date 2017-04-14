@@ -1,6 +1,6 @@
 package com.tigerisland.messenger;
 
-import com.tigerisland.game.Terrain;
+import com.tigerisland.game.board.Terrain;
 import org.junit.Test;
 
 import static org.junit.Assert.assertNotEquals;

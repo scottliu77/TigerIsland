@@ -1,33 +1,16 @@
 package com.tigerisland.messenger;
 
-import com.tigerisland.game.BuildActionType;
-import com.tigerisland.game.Location;
-import com.tigerisland.game.Terrain;
-import com.tigerisland.game.Tile;
+import com.tigerisland.game.moves.BuildActionType;
+import com.tigerisland.game.board.Location;
+import com.tigerisland.game.board.Terrain;
+import com.tigerisland.game.board.Tile;
 
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import static com.tigerisland.messenger.ServerMessages.authAcceptPattern;
-import static com.tigerisland.messenger.ServerMessages.authWelcomePattern;
+import static com.tigerisland.messenger.ClientMessages.*;
+import static com.tigerisland.messenger.ServerMessages.*;
 
 public class Message {
-
-    public static final Pattern enterTournamentPattern = Pattern.compile("ENTER THUNDERDOME \\w+");
-    public static final Pattern authenticationPattern = Pattern.compile("I AM \\w+ \\w+");
-
-    public static final Pattern gameIDPattern = Pattern.compile("GAME \\w+");
-    public static final Pattern moveIDPattern = Pattern.compile("MOVE \\w+");
-    public static final Pattern currentPlayerIDPattern = Pattern.compile("PLAYER \\w+");
-
-    public static final Pattern placeTilePattern = Pattern.compile("PLACE(D)? \\w+[\\+ ]?\\w+ AT -?\\d+ -?\\d+ -?\\d+ -?\\d+");
-
-    public static final Pattern foundSettlementPattern = Pattern.compile("FOUND(ED)? SETTLEMENT AT -?\\d+ -?\\d+ -?\\d+");
-    public static final Pattern expandSettlementPattern = Pattern.compile("EXPAND(ED)? SETTLEMENT AT -?\\d+ -?\\d+ -?\\d+ \\w+");
-    public static final Pattern buildTotoroPattern = Pattern.compile("BUIL[DT] TOTORO SANCTUARY AT -?\\d+ -?\\d+ -?\\d+");
-    public static final Pattern buildTigerPattern = Pattern.compile("BUIL[DT] TIGER PLAYGROUND AT -?\\d+ -?\\d+ -?\\d+");
-
-    public static final Pattern clientLostUnableToBuildPattern = Pattern.compile("GAME \\w+ MOVE \\w+ UNABLE TO BUILD");
 
     public final String message;
 

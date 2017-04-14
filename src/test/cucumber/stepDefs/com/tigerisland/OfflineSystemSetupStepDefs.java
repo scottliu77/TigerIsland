@@ -1,10 +1,10 @@
 package com.tigerisland;
 
-import com.tigerisland.game.PlayerSet;
+import com.tigerisland.game.player.PlayerSet;
 import com.tigerisland.game.Game;
-import com.tigerisland.game.Terrain;
-import com.tigerisland.game.Tile;
-import cucumber.api.PendingException;
+import com.tigerisland.game.board.Terrain;
+import com.tigerisland.game.board.Tile;
+import com.tigerisland.settings.GameSettings;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;

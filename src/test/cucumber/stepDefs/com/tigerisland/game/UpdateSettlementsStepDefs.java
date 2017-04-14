@@ -1,5 +1,11 @@
 package com.tigerisland.game;
 
+import com.tigerisland.game.board.*;
+import com.tigerisland.game.pieces.Color;
+import com.tigerisland.game.pieces.Piece;
+import com.tigerisland.game.pieces.PieceType;
+import com.tigerisland.game.player.Player;
+import com.tigerisland.game.player.PlayerType;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -24,9 +30,9 @@ public class UpdateSettlementsStepDefs {
         PlacedHex placedHex = createSettlementSizeOne();
         placedHexes.add(placedHex);
 
-        board.placedHexes = placedHexes;
+        board.setPlacedHexes(placedHexes);
         Settlement settlement = new Settlement(placedHex, placedHexes);
-        board.settlements.add(settlement);
+        board.getSettlements().add(settlement);
     }
 
     @Given("^a player has two villages adjacent to one another$")
@@ -40,12 +46,12 @@ public class UpdateSettlementsStepDefs {
 
         placedHexes.add(placedHex);
         placedHexes.add(placedHex2);
-        board.placedHexes = placedHexes;
+        board.setPlacedHexes(placedHexes);
 
         Settlement village1 = new Settlement(placedHex, placedHexes);
         Settlement village2 = new Settlement(placedHex2, placedHexes);
-        board.settlements.add(village1);
-        board.settlements.add(village2);
+        board.getSettlements().add(village1);
+        board.getSettlements().add(village2);
     }
 
     @Given("^two settlements of different color are adjacent$")
@@ -59,12 +65,12 @@ public class UpdateSettlementsStepDefs {
 
         placedHexes.add(placedHex);
         placedHexes.add(placedHex2);
-        board.placedHexes = placedHexes;
+        board.setPlacedHexes(placedHexes);
 
         Settlement village1 = new Settlement(placedHex, placedHexes);
         Settlement village2 = new Settlement(placedHex2, placedHexes);
-        board.settlements.add(village1);
-        board.settlements.add(village2);
+        board.getSettlements().add(village1);
+        board.getSettlements().add(village2);
     }
 
     @Given("^a player has expanded an existing settlement becoming adjacent to another settlement of the same color$")
@@ -80,12 +86,12 @@ public class UpdateSettlementsStepDefs {
 
         placedHexes.add(placedHex);
         placedHexes.add(placedHex6);
-        board.placedHexes = placedHexes;
+        board.setPlacedHexes(placedHexes);
 
         Settlement village1 = new Settlement(placedHex, placedHexes);
         Settlement village2 = new Settlement(placedHex6, placedHexes);
-        board.settlements.add(village1);
-        board.settlements.add(village2);
+        board.getSettlements().add(village1);
+        board.getSettlements().add(village2);
 
         board.expandVillage(player, placedHex.getLocation(), Terrain.ROCK);
     }
@@ -103,12 +109,12 @@ public class UpdateSettlementsStepDefs {
 
         placedHexes.add(placedHex);
         placedHexes.add(placedHex6);
-        board.placedHexes = placedHexes;
+        board.setPlacedHexes(placedHexes);
 
         Settlement village1 = new Settlement(placedHex, placedHexes);
         Settlement village2 = new Settlement(placedHex6, placedHexes);
-        board.settlements.add(village1);
-        board.settlements.add(village2);
+        board.getSettlements().add(village1);
+        board.getSettlements().add(village2);
 
         board.expandVillage(player, placedHex.getLocation(), Terrain.ROCK);
     }
@@ -131,12 +137,12 @@ public class UpdateSettlementsStepDefs {
         placedHexes.add(placedHex);
         placedHexes.add(placedHex6);
         placedHexes.add(placedHex7);
-        board.placedHexes = placedHexes;
+        board.setPlacedHexes(placedHexes);
 
         Settlement village1 = new Settlement(placedHex, placedHexes);
         Settlement village2 = new Settlement(placedHex7, placedHexes);
-        board.settlements.add(village1);
-        board.settlements.add(village2);
+        board.getSettlements().add(village1);
+        board.getSettlements().add(village2);
 
         board.expandVillage(player, placedHex.getLocation(), Terrain.ROCK);
 
@@ -155,10 +161,10 @@ public class UpdateSettlementsStepDefs {
 
         placedHexes.add(placedHex);
         placedHexes.add(placedHex6);
-        board.placedHexes = placedHexes;
+        board.setPlacedHexes(placedHexes);
 
         Settlement village1 = new Settlement(placedHex, placedHexes);
-        board.settlements.add(village1);
+        board.getSettlements().add(village1);
 
         board.expandVillage(player, placedHex.getLocation(), Terrain.ROCK);
 
@@ -177,9 +183,9 @@ public class UpdateSettlementsStepDefs {
         PlacedHex placedHex12 = new PlacedHex(hex12, loc12);
         placedHexes.add(placedHex12);
 
-        board.placedHexes = this.placedHexes;
+        board.setPlacedHexes(placedHexes);
         Settlement village2 = new Settlement(placedHex12, placedHexes);
-        board.settlements.add(village2);
+        board.getSettlements().add(village2);
 
         board.expandVillage(player, placedHex12.getLocation(), Terrain.ROCK);
 
@@ -204,12 +210,12 @@ public class UpdateSettlementsStepDefs {
         placedHexes.add(placedHex);
         placedHexes.add(placedHex6);
         placedHexes.add(placedHex7);
-        board.placedHexes = placedHexes;
+        board.setPlacedHexes(placedHexes);
 
         Settlement village1 = new Settlement(placedHex, placedHexes);
         Settlement village2 = new Settlement(placedHex7, placedHexes);
-        board.settlements.add(village1);
-        board.settlements.add(village2);
+        board.getSettlements().add(village1);
+        board.getSettlements().add(village2);
 
         board.expandVillage(player, placedHex.getLocation(), Terrain.ROCK);
 
@@ -232,12 +238,12 @@ public class UpdateSettlementsStepDefs {
         placedHexes.add(placedHex);
         placedHexes.add(placedHex2);
         placedHexes.add(placedHex3);
-        board.placedHexes = placedHexes;
+        board.setPlacedHexes(placedHexes);
 
         Settlement village1 = new Settlement(placedHex, placedHexes);
         Settlement village2 = new Settlement(placedHex3, placedHexes);
-        board.settlements.add(village1);
-        board.settlements.add(village2);
+        board.getSettlements().add(village1);
+        board.getSettlements().add(village2);
 
         board.placeTiger(player, placedHex2.getLocation());
     }
@@ -251,9 +257,9 @@ public class UpdateSettlementsStepDefs {
         PlacedHex placedHex2 = new PlacedHex(hex2, loc2);
         placedHexes.add(placedHex2);
 
-        board.placedHexes = this.placedHexes;
+        board.setPlacedHexes(placedHexes);
         Settlement village1 = new Settlement(placedHex, placedHexes);
-        board.settlements.add(village1);
+        board.getSettlements().add(village1);
 
         board.placeTiger(player, placedHex2.getLocation());
 
@@ -268,9 +274,9 @@ public class UpdateSettlementsStepDefs {
         PlacedHex placedHex4 = new PlacedHex(hex4,loc4);
         placedHexes.add(placedHex4);
 
-        board.placedHexes = this.placedHexes;
+        board.setPlacedHexes(placedHexes);
         Settlement village2 = new Settlement(placedHex4, placedHexes);
-        board.settlements.add(village2);
+        board.getSettlements().add(village2);
 
         board.placeTiger(player, placedHex3.getLocation());
     }
@@ -291,12 +297,12 @@ public class UpdateSettlementsStepDefs {
         placedHexes.add(placedHex);
         placedHexes.add(placedHex2);
         placedHexes.add(placedHex3);
-        board.placedHexes = placedHexes;
+        board.setPlacedHexes(placedHexes);
 
         Settlement village1 = new Settlement(placedHex, placedHexes);
         Settlement village2 = new Settlement(placedHex3, placedHexes);
-        board.settlements.add(village1);
-        board.settlements.add(village2);
+        board.getSettlements().add(village1);
+        board.getSettlements().add(village2);
 
         board.placeTiger(player, placedHex2.getLocation());
     }
@@ -324,12 +330,12 @@ public class UpdateSettlementsStepDefs {
         Location loc9 = new Location(1,4);
         PlacedHex placedHex9 = new PlacedHex(hex9, loc9);
         placedHexes.add(placedHex9);
-        board.placedHexes = this.placedHexes;
+        board.setPlacedHexes(placedHexes);
 
         Settlement tigerVillage = new Settlement(placedHex, placedHexes);
         Settlement totoroVillage = new Settlement(placedHex8, placedHexes);
-        board.settlements.add(tigerVillage);
-        board.settlements.add(totoroVillage);
+        board.getSettlements().add(tigerVillage);
+        board.getSettlements().add(totoroVillage);
 
         board.placeTotoro(player, loc9);
     }
@@ -357,12 +363,12 @@ public class UpdateSettlementsStepDefs {
         Location loc9 = new Location(1,4);
         PlacedHex placedHex9 = new PlacedHex(hex9, loc9);
         placedHexes.add(placedHex9);
-        board.placedHexes = this.placedHexes;
+        board.setPlacedHexes(placedHexes);
 
         Settlement tigerVillage = new Settlement(placedHex, placedHexes);
         Settlement totoroVillage = new Settlement(placedHex8, placedHexes);
-        board.settlements.add(tigerVillage);
-        board.settlements.add(totoroVillage);
+        board.getSettlements().add(tigerVillage);
+        board.getSettlements().add(totoroVillage);
 
         board.placeTiger(player, loc2);
     }
@@ -390,12 +396,12 @@ public class UpdateSettlementsStepDefs {
         Location loc9 = new Location(1,4);
         PlacedHex placedHex9 = new PlacedHex(hex9, loc9);
         placedHexes.add(placedHex9);
-        board.placedHexes = this.placedHexes;
+        board.setPlacedHexes(placedHexes);
 
         Settlement tigerVillage = new Settlement(placedHex, placedHexes);
         Settlement totoroVillage = new Settlement(placedHex8, placedHexes);
-        board.settlements.add(tigerVillage);
-        board.settlements.add(totoroVillage);
+        board.getSettlements().add(tigerVillage);
+        board.getSettlements().add(totoroVillage);
 
         board.placeTiger(player, loc2);
     }
@@ -407,17 +413,17 @@ public class UpdateSettlementsStepDefs {
 
     @Then("^the number of settlements should increase by one$")
     public void theNumberOfSettlementsShouldIncreaseByOne() {
-        assertTrue(board.settlements.size() == 1);
+        assertTrue(board.getSettlements().size() == 1);
     }
 
     @Then("^there should only be one settlement$")
     public void thereShouldOnlyBeOneSettlement() {
-        assertTrue(board.settlements.size() == 1);
+        assertTrue(board.getSettlements().size() == 1);
     }
 
     @Then("^there should be two settlements, not one$")
     public void thereShouldBeTwoSettlementsNotOne() {
-        assertTrue(board.settlements.size() == 2);
+        assertTrue(board.getSettlements().size() == 2);
     }
 
     private PlacedHex createSettlementSizeOne() {

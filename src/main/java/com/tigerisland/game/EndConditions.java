@@ -1,5 +1,9 @@
 package com.tigerisland.game;
 
+import com.tigerisland.game.board.Board;
+import com.tigerisland.game.pieces.PieceSet;
+import com.tigerisland.game.player.Player;
+
 import java.util.HashMap;
 
 public final class EndConditions {

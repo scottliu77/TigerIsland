@@ -1,6 +1,15 @@
 package com.tigerisland.game;
 
-import com.tigerisland.GlobalSettings;
+import com.tigerisland.game.board.Board;
+import com.tigerisland.game.board.Location;
+import com.tigerisland.game.board.Terrain;
+import com.tigerisland.game.board.Tile;
+import com.tigerisland.game.pieces.Color;
+import com.tigerisland.game.pieces.Piece;
+import com.tigerisland.game.pieces.PieceType;
+import com.tigerisland.game.player.Player;
+import com.tigerisland.game.player.PlayerSet;
+import com.tigerisland.settings.GlobalSettings;
 import org.junit.Before;
 import org.junit.Test;
 

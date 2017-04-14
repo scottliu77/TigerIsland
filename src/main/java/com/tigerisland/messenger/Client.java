@@ -1,14 +1,13 @@
 package com.tigerisland.messenger;
 
-import com.tigerisland.GlobalSettings;
-import com.tigerisland.ServerSettings;
+import com.tigerisland.settings.GlobalSettings;
+import com.tigerisland.settings.ServerSettings;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.security.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.BlockingQueue;

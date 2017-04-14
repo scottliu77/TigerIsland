@@ -1,8 +1,12 @@
 package com.tigerisland.AI;
 
 import com.tigerisland.Deck;
-import com.tigerisland.GameSettings;
-import com.tigerisland.GlobalSettings;
+import com.tigerisland.game.board.Board;
+import com.tigerisland.game.pieces.Color;
+import com.tigerisland.game.player.Player;
+import com.tigerisland.game.player.PlayerType;
+import com.tigerisland.settings.GameSettings;
+import com.tigerisland.settings.GlobalSettings;
 import com.tigerisland.game.*;
 import com.tigerisland.messenger.Message;
 import org.junit.Before;

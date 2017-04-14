@@ -1,8 +1,6 @@
 package com.tigerisland.AI;
 
-import com.tigerisland.game.TextGUI;
-import com.tigerisland.game.TilePlacement;
-import com.tigerisland.game.Turn;
+import com.tigerisland.game.moves.TilePlacement;
 import com.tigerisland.messenger.Message;
 
 import java.io.BufferedReader;

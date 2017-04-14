@@ -1,6 +1,6 @@
 package com.tigerisland.messenger;
 
-import com.tigerisland.GlobalSettings;
+import com.tigerisland.settings.GlobalSettings;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -23,7 +23,7 @@ public class ClientTest {
 
     @Ignore("Skipping start/stop client thread test") @Test
     public void testCanStartAndStopMessengerThread() throws InterruptedException {
-        Thread localServerThread = new Thread(new LocalServer(globalSettings));
+        Thread localServerThread = new Thread(new MockServer(globalSettings));
         localServerThread.start();
 
         messengerThread = new Thread(client);
@@ -47,7 +47,7 @@ public class ClientTest {
     public void testCanListenForMessages() throws InterruptedException {
 
 
-        Thread localServerThread = new Thread(new LocalServer(globalSettings));
+        Thread localServerThread = new Thread(new MockServer(globalSettings));
         localServerThread.start();
 
         messengerThread = new Thread(client);

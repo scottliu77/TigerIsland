@@ -1,6 +1,7 @@
 package com.tigerisland;
 
 import com.tigerisland.messenger.*;
+import com.tigerisland.settings.GlobalSettings;
 
 import static java.lang.Thread.sleep;
 
@@ -9,14 +10,14 @@ public class Tournament {
     protected GlobalSettings globalSettings;
 
     protected Client client;
-    protected LocalServer localServer;
+    protected MockServer mockServer;
 
     protected Match match;
 
     Tournament(GlobalSettings globalSettings) {
         this.globalSettings = globalSettings;
         this.client = new Client(globalSettings);
-        this.localServer = new LocalServer(globalSettings);
+        this.mockServer = new MockServer(globalSettings);
         setupMessage();
     }
 
@@ -39,7 +40,7 @@ public class Tournament {
 
     protected void createLocalServerAndStartThreads() {
 
-        Thread localServerThread = new Thread(localServer);
+        Thread localServerThread = new Thread(mockServer);
         localServerThread.start();
 
         System.out.println(Client.getTime() + "TIGERISLAND: Local Server is RUNNING");

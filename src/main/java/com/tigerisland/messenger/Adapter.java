@@ -1,6 +1,6 @@
 package com.tigerisland.messenger;
 
-import com.tigerisland.game.Location;
+import com.tigerisland.game.board.Location;
 
 public final class Adapter {
 

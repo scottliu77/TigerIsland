@@ -1,7 +1,10 @@
 package com.tigerisland.AI;
 
 import com.tigerisland.game.InvalidMoveException;
-import com.tigerisland.game.*;
+import com.tigerisland.game.board.*;
+import com.tigerisland.game.moves.TilePlacement;
+import com.tigerisland.game.pieces.Color;
+import com.tigerisland.game.player.Player;
 
 import java.util.ArrayList;
 

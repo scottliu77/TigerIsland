@@ -1,6 +1,7 @@
 package com.tigerisland;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
+import com.tigerisland.settings.GlobalSettings;
+import com.tigerisland.settings.ServerSettings;
 import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.impl.Arguments;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
