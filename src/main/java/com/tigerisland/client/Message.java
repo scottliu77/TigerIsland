@@ -1,4 +1,4 @@
-package com.tigerisland.messenger;
+package com.tigerisland.client;
 
 import com.tigerisland.game.moves.BuildActionType;
 import com.tigerisland.game.board.Location;
@@ -7,8 +7,8 @@ import com.tigerisland.game.board.Tile;
 
 import java.util.regex.Matcher;
 
-import static com.tigerisland.messenger.ClientMessages.*;
-import static com.tigerisland.messenger.ServerMessages.*;
+import static com.tigerisland.client.ClientMessages.*;
+import static com.tigerisland.client.ServerMessages.*;
 
 public class Message {
 

@@ -1,5 +1,6 @@
 package com.tigerisland;
 
+import com.tigerisland.client.OfflineDeck;
 import com.tigerisland.game.player.PlayerSet;
 import com.tigerisland.game.Game;
 import com.tigerisland.game.board.Terrain;
@@ -18,7 +19,7 @@ public class OfflineSystemSetupStepDefs {
 
     private Game aGame;
     private PlayerSet playerSet;
-    private Deck deck;
+    private OfflineDeck offlineDeck;
     private Boolean gameRunning = false;
 
     @Given("^an offline game is created$")
@@ -43,13 +44,13 @@ public class OfflineSystemSetupStepDefs {
 
     @Then("^then the game has a tile deck$")
     public void thenTheGameHasATileDeck() throws Throwable {
-        deck = aGame.getGameSettings().getDeck();
-        assertTrue(deck != null);
+        offlineDeck = aGame.getGameSettings().getOfflineDeck();
+        assertTrue(offlineDeck != null);
     }
 
     @And("^that deck has (\\d+) total tiles$")
     public void thatDeckHasTotalTiles(int arg0) throws Throwable {
-        assertTrue(deck.getDeckSize() == 48);
+        assertTrue(offlineDeck.getDeckSize() == 48);
     }
 
     @And("^that deck has (\\d+) tiles of each valid combination of terrain types$")
@@ -77,7 +78,7 @@ public class OfflineSystemSetupStepDefs {
 
     private ArrayList<String> getAllStringCombinationsFoundInDeck() {
         ArrayList<String> combinationsFound = new ArrayList<String>();
-        for(Tile tile: deck.tileDeck) {
+        for(Tile tile: offlineDeck.getTileDeck()) {
             combinationsFound.add(tile.getLeftHex().getHexTerrain().getTerrainString() + tile.getRightHex().getHexTerrain().getTerrainString());
         }
         return combinationsFound;

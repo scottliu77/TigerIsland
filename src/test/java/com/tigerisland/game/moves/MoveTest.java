@@ -3,13 +3,12 @@ package com.tigerisland.game.moves;
 import com.tigerisland.game.InvalidMoveException;
 import com.tigerisland.game.Turn;
 import com.tigerisland.game.board.*;
-import com.tigerisland.game.moves.Move;
 import com.tigerisland.game.pieces.Color;
 import com.tigerisland.game.player.Player;
 import com.tigerisland.game.player.PlayerType;
 import com.tigerisland.game.player.Score;
 import com.tigerisland.settings.GameSettings;
-import com.tigerisland.messenger.Message;
+import com.tigerisland.client.Message;
 import org.junit.Before;
 import org.junit.Test;
 

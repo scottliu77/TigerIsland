@@ -1,6 +1,6 @@
 package com.tigerisland.AI;
 
-import com.tigerisland.Deck;
+import com.tigerisland.client.OfflineDeck;
 import com.tigerisland.game.board.Board;
 import com.tigerisland.game.pieces.Color;
 import com.tigerisland.game.player.Player;
@@ -8,7 +8,7 @@ import com.tigerisland.game.player.PlayerType;
 import com.tigerisland.settings.GameSettings;
 import com.tigerisland.settings.GlobalSettings;
 import com.tigerisland.game.*;
-import com.tigerisland.messenger.Message;
+import com.tigerisland.client.Message;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,7 +24,7 @@ public class AITest {
     private AI testAI;
     private GameSettings gameSettings;
     private BlockingQueue<Message> inboundMessages;
-    private Deck deck;
+    private OfflineDeck offlineDeck;
 
     @Before
     public void createMocks() {

@@ -8,8 +8,8 @@ import com.tigerisland.game.moves.BuildActionType;
 import com.tigerisland.game.moves.TilePlacement;
 import com.tigerisland.game.player.Player;
 import com.tigerisland.settings.GameSettings;
-import com.tigerisland.messenger.Message;
-import com.tigerisland.messenger.MessageType;
+import com.tigerisland.client.Message;
+import com.tigerisland.client.MessageType;
 
 import java.util.concurrent.BlockingQueue;
 

@@ -10,7 +10,7 @@ import com.tigerisland.game.moves.TilePlacement;
 
 import java.util.ArrayList;
 
-import static com.tigerisland.messenger.Adapter.convertLocationAxialToCube;
+import static com.tigerisland.client.Adapter.convertLocationAxialToCube;
 
 public class TigerFormAI extends AI {
 

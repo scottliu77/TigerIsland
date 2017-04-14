@@ -4,7 +4,7 @@ import com.tigerisland.game.board.Board;
 import com.tigerisland.settings.GameSettings;
 import com.tigerisland.settings.GlobalSettings;
 import com.tigerisland.game.*;
-import com.tigerisland.messenger.Message;
+import com.tigerisland.client.Message;
 import org.junit.After;
 import org.junit.Before;
 

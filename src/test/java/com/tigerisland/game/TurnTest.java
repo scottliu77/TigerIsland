@@ -10,7 +10,7 @@ import com.tigerisland.game.pieces.Color;
 import com.tigerisland.game.player.Player;
 import com.tigerisland.game.player.PlayerType;
 import com.tigerisland.settings.GameSettings;
-import com.tigerisland.messenger.Message;
+import com.tigerisland.client.Message;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -5,9 +5,9 @@ import com.tigerisland.game.board.Tile;
 import com.tigerisland.game.moves.Move;
 import com.tigerisland.game.player.Player;
 import com.tigerisland.settings.GameSettings;
-import com.tigerisland.messenger.Client;
-import com.tigerisland.messenger.Message;
-import com.tigerisland.messenger.MessageType;
+import com.tigerisland.client.Client;
+import com.tigerisland.client.Message;
+import com.tigerisland.client.MessageType;
 
 import static java.lang.Thread.sleep;
 
@@ -96,7 +96,7 @@ public class Game implements Runnable {
 
         makeMoveMessage = makeMoveMessage + " MOVE " + moveID + " PLACE ";
 
-        Tile newTile = gameSettings.getDeck().drawTile();
+        Tile newTile = gameSettings.getOfflineDeck().drawTile();
 
         String leftTerrain = newTile.getLeftHex().getHexTerrain().name();
         String rightTerrain = newTile.getRightHex().getHexTerrain().name();

@@ -1,7 +1,7 @@
 package com.tigerisland.AI;
 
 import com.tigerisland.game.moves.TilePlacement;
-import com.tigerisland.messenger.Message;
+import com.tigerisland.client.Message;
 
 import java.io.BufferedReader;
 import java.io.IOException;

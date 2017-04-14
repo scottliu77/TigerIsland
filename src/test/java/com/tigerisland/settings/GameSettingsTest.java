@@ -1,7 +1,5 @@
 package com.tigerisland.settings;
 
-import com.tigerisland.settings.GameSettings;
-import com.tigerisland.settings.GlobalSettings;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -38,7 +36,7 @@ public class GameSettingsTest {
     @Test
     public void testCanCreateAndGetDeckOffline() {
         gameSettings.setDeck();
-        assertTrue(gameSettings.getDeck() != null);
+        assertTrue(gameSettings.getOfflineDeck() != null);
     }
 
     @Test

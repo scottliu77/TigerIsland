@@ -1,22 +1,23 @@
-package com.tigerisland;
+package com.tigerisland.client;
 
+import com.tigerisland.TigerIsland;
 import com.tigerisland.game.board.Terrain;
 import com.tigerisland.game.board.Tile;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Deck {
+public class OfflineDeck {
 
     protected ArrayList<Tile> tileDeck;
 
-    public Deck() {
+    public OfflineDeck() {
         this.tileDeck = new ArrayList<Tile>();
     }
 
-    public Deck(Deck deck) {
+    public OfflineDeck(OfflineDeck offlineDeck) {
         this.tileDeck = new ArrayList<Tile>();
-        for(Tile tile : deck.tileDeck) {
+        for(Tile tile : offlineDeck.tileDeck) {
             this.tileDeck.add(new Tile(tile));
         }
     }
@@ -52,5 +53,9 @@ public class Deck {
 
     public Tile drawTile() throws IndexOutOfBoundsException {
         return tileDeck.remove(0);
+    }
+
+    public ArrayList<Tile> getTileDeck() {
+        return tileDeck;
     }
 }

@@ -1,4 +1,4 @@
-package com.tigerisland.messenger;
+package com.tigerisland.client;
 
 import java.util.regex.Pattern;
 

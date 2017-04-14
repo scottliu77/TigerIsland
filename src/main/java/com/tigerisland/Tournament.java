@@ -1,6 +1,6 @@
 package com.tigerisland;
 
-import com.tigerisland.messenger.*;
+import com.tigerisland.client.*;
 import com.tigerisland.settings.GlobalSettings;
 
 import static java.lang.Thread.sleep;

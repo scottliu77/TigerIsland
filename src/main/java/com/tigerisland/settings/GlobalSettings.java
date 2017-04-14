@@ -1,7 +1,7 @@
 package com.tigerisland.settings;
 
 import com.tigerisland.game.player.PlayerType;
-import com.tigerisland.messenger.Message;
+import com.tigerisland.client.Message;
 import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;

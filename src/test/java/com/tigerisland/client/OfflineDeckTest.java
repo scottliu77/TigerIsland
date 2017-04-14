@@ -1,4 +1,4 @@
-package com.tigerisland;
+package com.tigerisland.client;
 
 import com.tigerisland.game.board.Tile;
 import org.junit.Before;
@@ -10,55 +10,55 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class DeckTest{
+public class OfflineDeckTest {
 
-    private Deck deck;
+    private OfflineDeck offlineDeck;
     ArrayList<Tile> baseDeck;
     ArrayList<Tile> altDeck;
 
     @Before
     public void createDeck() {
-        this.deck = new Deck();
-        deck.createOfflineDeck();
-        this.baseDeck = deck.tileDeck;
+        this.offlineDeck = new OfflineDeck();
+        offlineDeck.createOfflineDeck();
+        this.baseDeck = offlineDeck.tileDeck;
     }
 
     @Test
     public void testCanCreateDeck() {
-        assertTrue(deck != null);
+        assertTrue(offlineDeck != null);
     }
 
     @Test
     public void testCanCreateDeckViaCopyConstructor() {
-        Deck deckCopy = new Deck(deck);
-        assertTrue(deckCopy != deck);
+        OfflineDeck offlineDeckCopy = new OfflineDeck(offlineDeck);
+        assertTrue(offlineDeckCopy != offlineDeck);
     }
 
     @Test
     public void testCanCreateNonEmptyDeck() {
-        assertTrue(deck.getDeckSize() > 0);
+        assertTrue(offlineDeck.getDeckSize() > 0);
     }
 
     @Test
     public void testCanCreateDeckOfSize48() {
-        assertTrue(deck.getDeckSize() == 48);
+        assertTrue(offlineDeck.getDeckSize() == 48);
     }
 
     @Test
     public void testCanShuffleDeckOnceCreated() {
-        String baseDeckString = Arrays.toString(deck.tileDeck.toArray());
-        deck.shuffleDeck();
-        String altDeckString = Arrays.toString(deck.tileDeck.toArray());
+        String baseDeckString = Arrays.toString(offlineDeck.tileDeck.toArray());
+        offlineDeck.shuffleDeck();
+        String altDeckString = Arrays.toString(offlineDeck.tileDeck.toArray());
         assertNotEquals(baseDeckString, altDeckString);
     }
 
     @Test
     public void testEachTileHasUniqueId() {
-        int deckSize = deck.getDeckSize();
+        int deckSize = offlineDeck.getDeckSize();
 
         Set<String> listOfUniqueIDs = new HashSet<String>();
 
-        for (Tile tile : deck.tileDeck) {
+        for (Tile tile : offlineDeck.tileDeck) {
             listOfUniqueIDs.add(tile.getTileID());
         }
 
@@ -67,8 +67,8 @@ public class DeckTest{
 
     @Test
     public void testCanDrawTile() {
-        int deckSize = deck.getDeckSize();
-        deck.drawTile();
-        assertTrue(deckSize - 1 == deck.getDeckSize());
+        int deckSize = offlineDeck.getDeckSize();
+        offlineDeck.drawTile();
+        assertTrue(deckSize - 1 == offlineDeck.getDeckSize());
     }
 }

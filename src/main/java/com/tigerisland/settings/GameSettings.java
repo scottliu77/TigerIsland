@@ -1,6 +1,6 @@
 package com.tigerisland.settings;
 
-import com.tigerisland.Deck;
+import com.tigerisland.client.OfflineDeck;
 import com.tigerisland.game.pieces.Color;
 import com.tigerisland.game.player.Player;
 import com.tigerisland.game.player.PlayerSet;
@@ -12,7 +12,7 @@ public class GameSettings {
     private final PlayerType TEST_AGAINST_TYPE = PlayerType.SAFEAI;
 
     private GlobalSettings globalSettings;
-    private Deck deck;
+    private OfflineDeck offlineDeck;
     private PlayerSet playerSet;
 
     private String gameID = "A";
@@ -40,7 +40,7 @@ public class GameSettings {
         this.BEST_AI_TYPE = gameSettings.BEST_AI_TYPE;
 
         this.globalSettings = gameSettings.getGlobalSettings();
-        this.deck = new Deck(gameSettings.getDeck());
+        this.offlineDeck = new OfflineDeck(gameSettings.getOfflineDeck());
         this.playerSet = new PlayerSet(gameSettings.getPlayerSet());
     }
 
@@ -55,9 +55,9 @@ public class GameSettings {
     }
 
     public void setDeck() {
-        deck = new Deck();
+        offlineDeck = new OfflineDeck();
         if(globalSettings.getServerSettings().offline) {
-            deck.createOfflineDeck();
+            offlineDeck.createOfflineDeck();
         }
     }
 
@@ -84,8 +84,8 @@ public class GameSettings {
 
     }
 
-    public Deck getDeck() {
-        return deck;
+    public OfflineDeck getOfflineDeck() {
+        return offlineDeck;
     }
 
     public PlayerSet getPlayerSet() {

@@ -1,6 +1,4 @@
-package com.tigerisland.messenger;
-
-import java.util.EnumSet;
+package com.tigerisland.client;
 
 public enum  MessageType {
 
