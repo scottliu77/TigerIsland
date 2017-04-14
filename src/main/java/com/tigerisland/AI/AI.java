@@ -24,12 +24,15 @@ public abstract class AI {
 
     protected String message;
 
+    protected Boolean unableToBuild = false;
+
     public AI() {
     }
 
     public AI(AI aiCopy) {
         this.turnTime = aiCopy.turnTime;
         this.turnState = aiCopy.turnState;
+        this.unableToBuild = aiCopy.unableToBuild;
     }
 
     public void pickTilePlacementAndBuildAction(Turn turnState) throws InvalidMoveException {
@@ -121,5 +124,10 @@ public abstract class AI {
 
     private void sendUnableToBuildMessage() throws InvalidMoveException {
         message = "GAME " + turnState.gameID + " MOVE " + turnState.getMoveID() + " " + createTilePlacementString() + " UNABLE TO BUILD";
+        unableToBuild = true;
+    }
+
+    public Boolean isUnableToBuild() {
+        return unableToBuild;
     }
 }

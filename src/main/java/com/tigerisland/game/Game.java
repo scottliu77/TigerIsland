@@ -138,6 +138,9 @@ public class Game implements Runnable {
 
         turnState.getCurrentPlayer().getPlayerAI().pickTilePlacementAndBuildAction(turnState);
 
+        if(offline && turnState.getCurrentPlayer().getPlayerAI().isUnableToBuild()) {
+            throw new InvalidMoveException("LOST: UNABLE TO BUILD");
+        }
     }
 
     protected void attemptToProcessMove() throws InvalidMoveException, InterruptedException {
@@ -211,6 +214,7 @@ public class Game implements Runnable {
             //String message = "GAME " + gameID + " OVER PLAYER " + winner.getPlayerID() + " WIN PLAYER " + loser.getPlayerID() + " FORFEITED";
             String message = "GAME " + gameID + " OVER PLAYER " + winner.getPlayerID() + " " + winner.getScore().getScoreValue() + " PLAYER " + loser.getPlayerID() + " " + loser.getScore().getScoreValue();
             gameSettings.getGlobalSettings().outboundQueue.add(new Message(message));
+            continueGame = false;
         }
     }
 

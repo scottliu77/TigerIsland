@@ -18,6 +18,6 @@ public class ClientMessages {
     public static final Pattern buildTotoroPattern = Pattern.compile("BUIL[DT] TOTORO SANCTUARY AT -?\\d+ -?\\d+ -?\\d+");
     public static final Pattern buildTigerPattern = Pattern.compile("BUIL[DT] TIGER PLAYGROUND AT -?\\d+ -?\\d+ -?\\d+");
 
-    public static final Pattern clientLostUnableToBuildPattern = Pattern.compile("GAME \\w+ MOVE \\w+ UNABLE TO BUILD");
+    public static final Pattern clientLostUnableToBuildPattern = Pattern.compile("GAME \\w+ MOVE \\w+ PLACE \\w+[\\+ ]?\\w+ AT -?\\d+ -?\\d+ -?\\d+ -?\\d+ UNABLE TO BUILD");
 
 }
