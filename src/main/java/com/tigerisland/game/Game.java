@@ -51,7 +51,7 @@ public class Game implements Runnable {
 
         } catch (InvalidMoveException exception) {
             if(!exception.getMessage().equals("LOST: UNABLE TO BUILD")) {
-                gameSettings.getGlobalSettings().outboundQueue.add(new Message("GAME " + gameID + " MOVE " + turnState.getMoveID() + " PLAYER " + turnState.getCurrentPlayer().getPlayerID() + " " + exception.getMessage()));
+                System.out.println("INVALID MOVE EXCEPTION: GAME " + gameID + " MOVE " + turnState.getMoveID() + " PLAYER " + turnState.getCurrentPlayer().getPlayerID() + " " + exception.getMessage());
             }
 
         } catch (Exception exception) {
