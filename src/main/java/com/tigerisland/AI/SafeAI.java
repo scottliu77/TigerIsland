@@ -1,7 +1,9 @@
 package com.tigerisland.AI;
 
-import com.tigerisland.game.*;
-import com.tigerisland.messenger.Adapter;
+import com.tigerisland.game.board.Location;
+import com.tigerisland.game.board.PlacedHex;
+import com.tigerisland.game.moves.BuildActionType;
+import com.tigerisland.game.moves.TilePlacement;
 
 public class SafeAI extends AI {
 

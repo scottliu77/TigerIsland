@@ -2,8 +2,12 @@ package com.tigerisland.AI;
 
 import com.tigerisland.game.InvalidMoveException;
 import com.tigerisland.game.*;
-import com.tigerisland.messenger.Adapter;
-import com.tigerisland.messenger.Message;
+import com.tigerisland.game.board.Location;
+import com.tigerisland.game.board.Terrain;
+import com.tigerisland.game.moves.BuildActionType;
+import com.tigerisland.game.moves.TilePlacement;
+import com.tigerisland.client.Adapter;
+import com.tigerisland.client.Message;
 
 public abstract class AI {
     private double turnTime;

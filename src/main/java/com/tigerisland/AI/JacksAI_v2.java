@@ -1,6 +1,10 @@
 package com.tigerisland.AI;
 
 import com.tigerisland.game.*;
+import com.tigerisland.game.board.*;
+import com.tigerisland.game.moves.BuildActionType;
+import com.tigerisland.game.moves.TilePlacement;
+import com.tigerisland.game.pieces.Color;
 
 import java.util.ArrayList;
 import java.util.Random;
