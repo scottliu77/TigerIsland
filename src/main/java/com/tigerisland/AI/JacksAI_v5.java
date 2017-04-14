@@ -8,12 +8,15 @@ import com.tigerisland.game.pieces.Color;
 import com.tigerisland.game.player.Player;
 
 import java.util.*;
+/*
+    Merges v3 and v4. So ultimately it builds off of v2 and
+    also ensures that when we place a totoro and have no strategic tile placement to make, we place a tile at the highest possible height,
+    we create settlements when they give us the opportunity to place a tiger on the next turn, and we expand settlements of size 3 or more
+    when possible.
 
-
-/*This AI builds off of v2. It makes one significant change. When we place a totoro and have nothing obviously strategic to do with our tile placement,
-    we place the tile at the highest height possible.
  */
-public class JacksAI_v3 extends AI {
+
+public class JacksAI_v5 extends AI {
 
     private ArrayList<TilePlacement> validTilePlacements;
     private ArrayList<Location> validTotoroPlacements;
@@ -22,14 +25,17 @@ public class JacksAI_v3 extends AI {
     private ArrayList<TilePlacement> tilePlacementsForNukingEnemySettlementsCloseToGettingATiger;
     private ArrayList<TilePlacement> tilePlacementsThatSetUpPlayerForTotoroPlacement;
     private ArrayList<TilePlacement> tilePlacementsThatCutTotoroOffOfMostOfSettlement;
+    private SettlementAndTerrainListPair expansionOnASettlementOfSizeThreeOrMore;
     private SettlementAndTerrainListPair bestExpansion;
+    private Location villageCreationThatSetsUpForTigerPlacement;
     private Board tempBoard;
     private Random rand;
+    private boolean moveFound;
 
 
     private ArrayList<Location> plannedSettlementLocations;
 
-    public JacksAI_v3(){
+    public JacksAI_v5(){
         plannedSettlementLocations = new ArrayList<Location>();
         rand = new Random();
     }
@@ -39,10 +45,16 @@ public class JacksAI_v3 extends AI {
         buildActionType = null;
         buildLocation = null;
         expandTerrain = null;
+        expansionOnASettlementOfSizeThreeOrMore = null;
+        villageCreationThatSetsUpForTigerPlacement = null;
+        moveFound = false;
 
         tempBoard = new Board(turnState.getBoard());
         gatherTilePlacementInfo();
         makeAnyPossibleStrategicTilePlacement();
+        if(moveFound){
+            return;
+        }
         gatherBuildActionInfo();
         boolean timeToRapidlyExpand = (!hasATotoro() || !hasATiger()) && bestExpansion != null;
         if(timeToRapidlyExpand){
@@ -63,6 +75,28 @@ public class JacksAI_v3 extends AI {
         }
         else if(canPlaceTiger()) {
             placeTiger();
+        }
+        else if(villageCreationThatSetsUpForTigerPlacement != null){
+            buildActionType = BuildActionType.VILLAGECREATION;
+            buildLocation = villageCreationThatSetsUpForTigerPlacement;
+            if((noCurrentLine() || lineIsInterrupted()) && tilePlacement == null){
+                startNewLine();
+            }
+            else if(!lineIsInterrupted() && tilePlacement == null){
+                extendLine();
+            }
+
+        }
+        else if(expansionOnASettlementOfSizeThreeOrMore != null && expansionOnASettlementOfSizeThreeOrMore.getTerrainList().size() > 0){
+            buildActionType = BuildActionType.VILLAGEEXPANSION;
+            buildLocation = expansionOnASettlementOfSizeThreeOrMore.getSettlement().getLocationsOfHexesInSettlement().get(0);
+            expandTerrain = expansionOnASettlementOfSizeThreeOrMore.getTerrainList().get(0);
+            if((noCurrentLine() || lineIsInterrupted()) && tilePlacement == null){
+                startNewLine();
+            }
+            else if(!lineIsInterrupted() && tilePlacement == null){
+                extendLine();
+            }
         }
         else if((noCurrentLine() || lineIsInterrupted()) && tilePlacement == null){
             startNewLine();
@@ -105,7 +139,9 @@ public class JacksAI_v3 extends AI {
             tempBoard.placeTile(tilePlacement);
             tempBoard.updateSettlements();
         } catch (InvalidMoveException e) {
+            //tempBoard = new Board(turnState.getBoard());
         }
+        //TextGUI.printMap(turnState.getBoard());
         bestExpansion = AI_Info.findExpansionThatGetsRidOfMostVillagers(turnState.getCurrentPlayer(), tempBoard);
 
         buildLocation = bestExpansion.getSettlement().getLocationsOfHexesInSettlement().get(0);
@@ -127,6 +163,7 @@ public class JacksAI_v3 extends AI {
 
             validTotoroPlacements = AI_Info.returnValidTotoroPlacements(turnState.getCurrentPlayer(), tempBoard);
             placeTotoro();
+            moveFound = true;
 
         }
         else if(tilePlacementsForNukingEnemySettlementsCloseToGettingATotoro.size() > 0 && hasATotoro()) {
@@ -164,22 +201,20 @@ public class JacksAI_v3 extends AI {
     }
 
     private void gatherBuildActionInfo() {
-        if(turnState.getCurrentPlayer() == null){
-            int i= 0;
-
-        }
+        this.villageCreationThatSetsUpForTigerPlacement = AI_Info.locationToSettleBorderingLevelThreeHex(tempBoard, turnState.getCurrentPlayer());
         this.validTotoroPlacements = AI_Info.returnValidTotoroPlacements(turnState.getCurrentPlayer(), tempBoard);
         this.validTigerPlacements = AI_Info.returnValidTigerPlacements(turnState.getCurrentPlayer().getPlayerColor(), tempBoard);
+        this.expansionOnASettlementOfSizeThreeOrMore = AI_Info.findSettlementsWeCouldExpandToBecomeTotoroAccepting(tempBoard, turnState.getCurrentPlayer());
         this.bestExpansion = AI_Info.findExpansionThatGetsRidOfMostVillagers(turnState.getCurrentPlayer(), tempBoard);
     }
 
 
     private boolean canPlaceTotoro(){
-        return this.validTotoroPlacements.size() > 0 && hasATotoro();
+        return this.validTotoroPlacements.size()>0 && hasATotoro();
     }
 
     private boolean hasATotoro(){
-        return turnState.getCurrentPlayer().getPieceSet().getNumberOfTotoroRemaining() > 0;
+        return turnState.getCurrentPlayer().getPieceSet().getNumberOfTotoroRemaining()>0;
     }
 
     private void placeTotoro(){
@@ -218,7 +253,7 @@ public class JacksAI_v3 extends AI {
     }
 
     private boolean hasATiger(){
-        return turnState.getCurrentPlayer().getPieceSet().getNumberOfTigersRemaining() > 0;
+        return turnState.getCurrentPlayer().getPieceSet().getNumberOfTigersRemaining()>0;
     }
 
     private void placeTiger(){
@@ -231,7 +266,7 @@ public class JacksAI_v3 extends AI {
     }
 
     private boolean noCurrentLine(){
-        return plannedSettlementLocations.size() == 0;
+        return plannedSettlementLocations.size()==0;
     }
 
     private void startNewLine(){
@@ -242,10 +277,10 @@ public class JacksAI_v3 extends AI {
         int yStart = startTilePlacement.getLocation().y - 1;
 
         plannedSettlementLocations.add(new Location(xStart,yStart));
-        plannedSettlementLocations.add(new Location(xStart,yStart - 2));
-        plannedSettlementLocations.add(new Location(xStart,yStart - 4));
-        plannedSettlementLocations.add(new Location(xStart,yStart - 1));
-        plannedSettlementLocations.add(new Location(xStart,yStart - 3));
+        plannedSettlementLocations.add(new Location(xStart,yStart-2));
+        plannedSettlementLocations.add(new Location(xStart,yStart-4));
+        plannedSettlementLocations.add(new Location(xStart,yStart-1));
+        plannedSettlementLocations.add(new Location(xStart,yStart-3));
 
         tilePlacement = startTilePlacement;
         buildActionType = BuildActionType.VILLAGECREATION;
@@ -253,7 +288,7 @@ public class JacksAI_v3 extends AI {
     }
 
     private TilePlacement chooseStartTilePlacement(){
-        return validTilePlacements.get(validTilePlacements.size() - 1);
+        return validTilePlacements.get(validTilePlacements.size()-1);
     }
 
     private void extendLine(){
@@ -305,7 +340,4 @@ public class JacksAI_v3 extends AI {
         return false;
     }
 }
-
-
-
 

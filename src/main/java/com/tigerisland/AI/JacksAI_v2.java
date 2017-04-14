@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 
-
+/*This AI takes the TotoroLines strategy but also looks for opportunities to prevent the opponent from making good moves,
+    looks for opportunities for strategic tile placements that help us get rid of totoro, and expands once out of tigers or totoro.
+ */
 public class JacksAI_v2 extends AI {
 
     private ArrayList<TilePlacement> validTilePlacements;

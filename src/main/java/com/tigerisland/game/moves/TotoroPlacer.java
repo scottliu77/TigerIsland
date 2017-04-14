@@ -18,6 +18,10 @@ public class TotoroPlacer {
 
     public static void placeTotoro(Player player, PlacedHex targetHex, ArrayList<Settlement> adjacentSettlementsToTargetLocation) throws InvalidMoveException {
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1b6d8404bf675150dff875b2e64b80b8e3f390f1
         if (targetHex == null) {
             throw new InvalidMoveException("Target hex does not exist");
         }

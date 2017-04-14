@@ -9,7 +9,11 @@ import com.tigerisland.game.pieces.Color;
 import java.util.ArrayList;
 import java.util.Random;
 
-
+/*
+    Builds off of v2. Does not implement the feature added to v3. Instead, it adds two features. The first is that it
+    looks for settlements of size 3 or larger that it could expand in hopes of making settlements big enough to accept
+    a totoro. The second change is that it looks for hexes where we could settle and immediately be adjacent to a tiger accepting hex.
+ */
 
 public class JacksAI_v4 extends AI {
 
@@ -22,6 +26,7 @@ public class JacksAI_v4 extends AI {
     private ArrayList<TilePlacement> tilePlacementsThatCutTotoroOffOfMostOfSettlement;
     private SettlementAndTerrainListPair expansionOnASettlementOfSizeThreeOrMore;
     private SettlementAndTerrainListPair bestExpansion;
+    private Location villageCreationThatSetsUpForTigerPlacement;
     private Board tempBoard;
     private Random rand;
 
@@ -39,6 +44,7 @@ public class JacksAI_v4 extends AI {
         buildLocation = null;
         expandTerrain = null;
         expansionOnASettlementOfSizeThreeOrMore = null;
+        villageCreationThatSetsUpForTigerPlacement = null;
 
         tempBoard = new Board(turnState.getBoard());
         gatherTilePlacementInfo();
@@ -63,6 +69,17 @@ public class JacksAI_v4 extends AI {
         }
         else if(canPlaceTiger()) {
             placeTiger();
+        }
+        else if(villageCreationThatSetsUpForTigerPlacement != null){
+            buildActionType = BuildActionType.VILLAGECREATION;
+            buildLocation = villageCreationThatSetsUpForTigerPlacement;
+            if((noCurrentLine() || lineIsInterrupted()) && tilePlacement == null){
+                startNewLine();
+            }
+            else if(!lineIsInterrupted() && tilePlacement == null){
+                extendLine();
+            }
+
         }
         else if(expansionOnASettlementOfSizeThreeOrMore != null && expansionOnASettlementOfSizeThreeOrMore.getTerrainList().size() > 0){
             buildActionType = BuildActionType.VILLAGEEXPANSION;
@@ -169,6 +186,7 @@ public class JacksAI_v4 extends AI {
     }
 
     private void gatherBuildActionInfo() {
+        this.villageCreationThatSetsUpForTigerPlacement = AI_Info.locationToSettleBorderingLevelThreeHex(tempBoard, turnState.getCurrentPlayer());
         this.validTotoroPlacements = AI_Info.returnValidTotoroPlacements(turnState.getCurrentPlayer(), tempBoard);
         this.validTigerPlacements = AI_Info.returnValidTigerPlacements(turnState.getCurrentPlayer().getPlayerColor(), tempBoard);
         this.expansionOnASettlementOfSizeThreeOrMore = AI_Info.findSettlementsWeCouldExpandToBecomeTotoroAccepting(tempBoard, turnState.getCurrentPlayer());

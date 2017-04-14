@@ -453,7 +453,7 @@ public class BoardTest{
         Location invalidSettlementLocation = new Location(0,1);
 
         try {
-            board.isSettledLocationValid(player, invalidSettlementLocation);
+            board.validSettlementLocation(player, invalidSettlementLocation);
         } catch (InvalidMoveException e) {
             assertTrue(e.getMessage().equals("This hex does not exist"));
         }
@@ -471,7 +471,7 @@ public class BoardTest{
         board.placedHexes = this.placedHexes;
 
         try {
-            board.isSettledLocationValid(player, loc);
+            board.validSettlementLocation(player, loc);
         } catch (InvalidMoveException e) {
             assertTrue(e.getMessage().equals("This hex does not belong in a settlement"));
         }
@@ -491,7 +491,7 @@ public class BoardTest{
         board.placedHexes = this.placedHexes;
 
         try {
-            board.isSettledLocationValid(player2, loc);
+            board.validSettlementLocation(player2, loc);
         } catch (InvalidMoveException e) {
             assertTrue(e.getMessage().equals("Settlement hex does not belong to the current player"));
         }
@@ -512,7 +512,7 @@ public class BoardTest{
         Settlement settlement = new Settlement(blackSettledHex, placedHexes);
 
         try {
-            settlement = board.isSettledLocationValid(player, loc);
+            settlement = board.validSettlementLocation(player, loc);
         } catch (InvalidMoveException e) {
             assertTrue(settlement != null);
         }
@@ -526,7 +526,7 @@ public class BoardTest{
         Location invalidSettlementLocation = new Location(0,1);
 
         try {
-            board.isSettledLocationValid(player, invalidSettlementLocation);
+            board.validSettlementLocation(player, invalidSettlementLocation);
         } catch (InvalidMoveException e) {
             assertTrue(e.getMessage().equals("This hex does not exist"));
         }
@@ -544,7 +544,7 @@ public class BoardTest{
         board.placedHexes = this.placedHexes;
 
         try {
-            board.isSettledLocationValid(player, loc);
+            board.validSettlementLocation(player, loc);
         } catch (InvalidMoveException e) {
             assertTrue(e.getMessage().equals("This hex does not belong in a settlement"));
         }
@@ -564,7 +564,7 @@ public class BoardTest{
         board.placedHexes = this.placedHexes;
 
         try {
-            board.isSettledLocationValid(player2, loc);
+            board.validSettlementLocation(player2, loc);
         } catch (InvalidMoveException e) {
             assertTrue(e.getMessage().equals("Settlement hex does not belong to the current player"));
         }
@@ -586,7 +586,7 @@ public class BoardTest{
         board.settlements.add(settlement);
 
         try {
-            settlement = board.isSettledLocationValid(player, loc);
+            settlement = board.validSettlementLocation(player, loc);
         } catch (InvalidMoveException e) {
             assertFalse(settlement.size() != 1);
         }
@@ -595,7 +595,7 @@ public class BoardTest{
     @Test
     public void testForVolcanoTargetExpansion() {
         try {
-            board.checkForVolcano(Terrain.VOLCANO);
+            board.checkVolcanoExpansion(Terrain.VOLCANO);
         } catch (InvalidMoveException e) {
             assertTrue(e.getMessage().equals("Cannot expand into a Volcano"));
         }
@@ -616,7 +616,7 @@ public class BoardTest{
 
         Settlement settlement = new Settlement(blackSettledHex, placedHexes);
         board.settlements.add(settlement);
-        settlement = board.isSettledLocationValid(player, loc);
+        settlement = board.validSettlementLocation(player, loc);
 
         ArrayList<PlacedHex> allExpandableHexes = board.getAllExpandableAdjacentHexesToSettlement(settlement, Terrain.ROCK);
 
@@ -639,7 +639,7 @@ public class BoardTest{
 
         Settlement settlement = new Settlement(blackSettledHex, placedHexes);
         board.settlements.add(settlement);
-        settlement = board.isSettledLocationValid(player, loc);
+        settlement = board.validSettlementLocation(player, loc);
 
         Location newLoc1 = new Location(0,-1);
         Location newLoc2 = new Location(0,1);
@@ -694,7 +694,7 @@ public class BoardTest{
 
         Settlement settlement = new Settlement(settledHex1, placedHexes);
         board.settlements.add(settlement);
-        settlement = board.isSettledLocationValid(player, loc1);
+        settlement = board.validSettlementLocation(player, loc1);
 
         ArrayList<PlacedHex> allExpandableHexes = board.getAllExpandableAdjacentHexesToSettlement(settlement, Terrain.LAKE);
         assertTrue(allExpandableHexes.isEmpty());
@@ -727,7 +727,7 @@ public class BoardTest{
 
         Settlement settlement = new Settlement(blackSettledHex, placedHexes);
         board.settlements.add(settlement);
-        settlement = board.isSettledLocationValid(player, loc);
+        settlement = board.validSettlementLocation(player, loc);
 
         placedHexes.add(placedHex1);
         placedHexes.add(placedHex2);
@@ -767,7 +767,7 @@ public class BoardTest{
 
         Settlement settlement = new Settlement(blackSettledHex, placedHexes);
         board.settlements.add(settlement);
-        settlement = board.isSettledLocationValid(player, loc);
+        settlement = board.validSettlementLocation(player, loc);
 
         placedHexes.add(placedHex1);
         placedHexes.add(placedHex2);
@@ -802,7 +802,7 @@ public class BoardTest{
 
         Settlement settlement = new Settlement(settledHex, placedHexes);
         board.settlements.add(settlement);
-        settlement = board.isSettledLocationValid(player, loc);
+        settlement = board.validSettlementLocation(player, loc);
 
         placedHexes.add(emptyHex);
         placedHexes.add(emptyHex2);
@@ -841,7 +841,7 @@ public class BoardTest{
 
         Settlement settlement = new Settlement(settledHex, placedHexes);
         board.settlements.add(settlement);
-        settlement = board.isSettledLocationValid(player, loc);
+        settlement = board.validSettlementLocation(player, loc);
 
         placedHexes.add(placedHex1);
         placedHexes.add(placedHex2);
@@ -885,7 +885,7 @@ public class BoardTest{
 
         Settlement settlement = new Settlement(blackSettledHex, placedHexes);
         board.settlements.add(settlement);
-        settlement = board.isSettledLocationValid(player, loc);
+        settlement = board.validSettlementLocation(player, loc);
 
         ArrayList<PlacedHex> allExpandableHexes = board.getAllExpandableAdjacentHexesToSettlement(settlement, Terrain.ROCK);
 
@@ -927,7 +927,7 @@ public class BoardTest{
         board.placedHexes = this.placedHexes;
         Settlement settlement = new Settlement(blackSettledHex, placedHexes);
         board.settlements.add(settlement);
-        settlement = board.isSettledLocationValid(player, loc);
+        settlement = board.validSettlementLocation(player, loc);
 
         ArrayList<PlacedHex> allExpandableHexes = board.getAllExpandableAdjacentHexesToSettlement(settlement, Terrain.ROCK);
         board.villageExpansionChecks(player, settlement, allExpandableHexes);

@@ -312,7 +312,6 @@ public class AI_Info {
     }
 
 
-
     //returns best expansion at the 0th index in the arraylist (used an arraylist to avoid returning a null value or a made up expansion if there's no real ones we could do
     public static SettlementAndTerrainListPair findExpansionThatGetsRidOfMostVillagers(Player player, Board board){
         ArrayList<SettlementAndTerrainListPair> validVillageExpansions = returnValidVillageExpansions(player, board);
@@ -459,6 +458,23 @@ public class AI_Info {
             }
         }
         return settlementAndTerrainListPairToReturn;
+    }
+
+    public static Location locationToSettleBorderingLevelThreeHex(Board board, Player player){
+        ArrayList<Location> validVillagePlacements = returnValidVillagePlacements(board);
+        for(Location validVillagePlacementLocation : validVillagePlacements){
+            Player tempPlayer = new Player(player);
+            Board tempBoard = new Board(board);
+            try{
+                tempBoard.createVillage(tempPlayer, validVillagePlacementLocation);
+            } catch(InvalidMoveException e){
+                continue;
+            }
+            if(AI_Info.returnValidTigerPlacements(player.getPlayerColor(), tempBoard).size() > 0){
+                return validVillagePlacementLocation;
+            }
+        }
+        return null;
     }
 }
 
