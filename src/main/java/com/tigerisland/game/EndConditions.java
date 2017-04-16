@@ -36,7 +36,7 @@ public final class EndConditions {
     }
 
     private static boolean noMoreVillagers(Player currentPlayer){
-        return currentPlayer.getPieceSet().getNumberOfVillagersRemaining() == 0;
+        return currentPlayer.getPieceSet().getNumberOfVillagersRemaining() == 0 && currentPlayer.getPieceSet().shamanAlreadyPlayed();
     }
 
     private static boolean cantPlayTotoro(Player currentPlayer, Board board){

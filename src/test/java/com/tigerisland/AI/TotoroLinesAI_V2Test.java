@@ -60,7 +60,7 @@ public class TotoroLinesAI_V2Test {
 
         BuildActionType bat = myAI.buildActionType;
         if(bat == BuildActionType.VILLAGECREATION) {
-            board.createVillage(myAI, myAI.returnBuildLocation());
+            board.createVillageWithVillager(myAI, myAI.returnBuildLocation());
             board.updateSettlements();
         }
         else if(bat == BuildActionType.VILLAGEEXPANSION){

@@ -46,26 +46,29 @@ public class EndConditionsStepDefs {
 
     @When("^they play their last piece$")
     public void theirTurnEnds() throws Throwable {
-        player.getPieceSet().placeMultipleVillagers(20);
+        player.getPieceSet().placeMultipleVillagers(19);
         for(int totoros = 0; totoros < 3; totoros++) { player.getPieceSet().placeTotoro(); }
         for(int tigers = 0; tigers < 2; tigers++) { player.getPieceSet().placeTiger(); }
     }
 
     @When("^that player is unable to build$")
     public void thatPlayerIsUnableToBuild() throws Throwable {
-        player.getPieceSet().placeMultipleVillagers(20);
+        player.getPieceSet().placeMultipleVillagers(19);
+        player.getPieceSet().placeShaman();
         assertTrue(EndConditions.noValidMoves(player, game.getBoard()));
     }
 
     @When("^they build all villagers and totoro$")
     public void theyBuildAllVillagersAndTotoro() throws Throwable {
-        player.getPieceSet().placeMultipleVillagers(20);
+        player.getPieceSet().placeMultipleVillagers(19);
+        player.getPieceSet().placeShaman();
         for(int totoros = 0; totoros < 3; totoros++) { player.getPieceSet().placeTotoro(); }
     }
 
     @When("^they build all villagers and tigers$")
     public void theyBuildAllVillagersAndTigers() throws Throwable {
-        player.getPieceSet().placeMultipleVillagers(20);
+        player.getPieceSet().placeMultipleVillagers(19);
+        player.getPieceSet().placeShaman();
         for(int tigers = 0; tigers < 2; tigers++) { player.getPieceSet().placeTiger(); }
     }
 
@@ -135,8 +138,10 @@ public class EndConditionsStepDefs {
     }
 
     private void placeAllButTotoros() throws InvalidMoveException {
-        players.get(playerID).getPieceSet().placeMultipleVillagers(20);
-        players.get(opponentID).getPieceSet().placeMultipleVillagers(20);
+        players.get(playerID).getPieceSet().placeMultipleVillagers(19);
+        players.get(opponentID).getPieceSet().placeMultipleVillagers(19);
+        players.get(playerID).getPieceSet().placeShaman();
+        players.get(opponentID).getPieceSet().placeShaman();
         for(int tigers = 0; tigers < 2; tigers++) {
             players.get(playerID).getPieceSet().placeTiger();
             players.get(opponentID).getPieceSet().placeTiger();
@@ -159,8 +164,10 @@ public class EndConditionsStepDefs {
     }
 
     private void placeAllButTigers() throws InvalidMoveException {
-        players.get(playerID).getPieceSet().placeMultipleVillagers(20);
-        players.get(opponentID).getPieceSet().placeMultipleVillagers(20);
+        players.get(playerID).getPieceSet().placeMultipleVillagers(19);
+        players.get(opponentID).getPieceSet().placeMultipleVillagers(19);
+        players.get(playerID).getPieceSet().placeShaman();
+        players.get(opponentID).getPieceSet().placeShaman();
         for(int totoros = 0; totoros < 3; totoros++) {
             players.get(playerID).getPieceSet().placeTotoro();
             players.get(opponentID).getPieceSet().placeTotoro();

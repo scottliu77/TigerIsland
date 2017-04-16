@@ -1,7 +1,6 @@
 package com.tigerisland.game.board;
 
 import com.tigerisland.game.InvalidMoveException;
-import com.tigerisland.game.board.*;
 import com.tigerisland.game.pieces.Color;
 import com.tigerisland.game.pieces.Piece;
 import com.tigerisland.game.pieces.PieceType;
@@ -217,7 +216,7 @@ public class BoardTest{
         Player player = new Player(Color.BLACK, "1", PlayerType.SAFEAI);
 
         Location villageLocation = new Location(1, 0);
-        boardCopy.createVillage(player, villageLocation);
+        boardCopy.createVillageWithVillager(player, villageLocation);
 
         boardCopy.updateSettlements();
 

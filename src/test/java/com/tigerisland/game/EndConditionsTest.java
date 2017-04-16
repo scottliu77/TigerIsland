@@ -81,7 +81,8 @@ public class EndConditionsTest {
         for(int totoroMove = 0; totoroMove < 3; totoroMove++) {
             currentPlayer.getPieceSet().placeTotoro();
         }
-        currentPlayer.getPieceSet().placeMultipleVillagers(19);
+        currentPlayer.getPieceSet().placeMultipleVillagers(18);
+        currentPlayer.getPieceSet().placeShaman();
         assertTrue(EndConditions.playerIsOutOfPiecesOfTwoTypes(currentPlayer) == false);
     }
 
@@ -93,20 +94,23 @@ public class EndConditionsTest {
         for(int tigerMove = 0; tigerMove < 2; tigerMove++) {
             currentPlayer.getPieceSet().placeTiger();
         }
-        currentPlayer.getPieceSet().placeMultipleVillagers(20);
+        currentPlayer.getPieceSet().placeMultipleVillagers(19);
+        currentPlayer.getPieceSet().placeShaman();
         assertTrue(EndConditions.playerIsOutOfPiecesOfTwoTypes(currentPlayer));
     }
 
     @Test
     public void testEndConditionMetNoSizeFiveSettlementAndNoVillagers() throws InvalidMoveException {
-        currentPlayer.getPieceSet().placeMultipleVillagers(20);
+        currentPlayer.getPieceSet().placeMultipleVillagers(19);
+        currentPlayer.getPieceSet().placeShaman();
         board.hexAt(new Location(1, 1)).addPiecesToHex(new Piece(Color.WHITE, PieceType.VILLAGER), 1);
         assertTrue(EndConditions.noValidMoves(currentPlayer, board));
     }
 
     @Test
     public void testEndConditionMetWhenNoVillagersAndNoSize5Settlements() throws InvalidMoveException {
-        currentPlayer.getPieceSet().placeMultipleVillagers(20);
+        currentPlayer.getPieceSet().placeMultipleVillagers(19);
+        currentPlayer.getPieceSet().placeShaman();
         for(int tigers = 0; tigers < 2; tigers++) { currentPlayer.getPieceSet().placeTiger(); }
         board.hexAt(new Location(0, 1)).addPiecesToHex(new Piece(Color.WHITE, PieceType.VILLAGER), 1);
         board.hexAt(new Location(-1, 1)).addPiecesToHex(new Piece(Color.WHITE, PieceType.VILLAGER), 1);
@@ -134,7 +138,8 @@ public class EndConditionsTest {
 
     @Test
     public void testEndConditionMetMetWhenNoVillagersAndSize5SettlementWithTotoro() throws InvalidMoveException {
-        currentPlayer.getPieceSet().placeMultipleVillagers(20);
+        currentPlayer.getPieceSet().placeMultipleVillagers(19);
+        currentPlayer.getPieceSet().placeShaman();
         board.hexAt(new Location(0, 1)).addPiecesToHex(new Piece(Color.WHITE, PieceType.VILLAGER), 1);
         board.hexAt(new Location(-1, 1)).addPiecesToHex(new Piece(Color.WHITE, PieceType.VILLAGER), 1);
         board.hexAt(new Location(-2, 1)).addPiecesToHex(new Piece(Color.WHITE, PieceType.VILLAGER), 1);
@@ -147,7 +152,8 @@ public class EndConditionsTest {
 
     @Test
     public void testEndConditionMetMetWhenNoVillagersAndNoSpaceForTotoro() throws InvalidMoveException {
-        currentPlayer.getPieceSet().placeMultipleVillagers(20);
+        currentPlayer.getPieceSet().placeMultipleVillagers(19);
+        currentPlayer.getPieceSet().placeShaman();
         board.hexAt(new Location(0, 1)).addPiecesToHex(new Piece(Color.WHITE, PieceType.VILLAGER), 1);
         board.hexAt(new Location(-1, 1)).addPiecesToHex(new Piece(Color.WHITE, PieceType.VILLAGER), 1);
         board.hexAt(new Location(-2, 1)).addPiecesToHex(new Piece(Color.WHITE, PieceType.VILLAGER), 1);
@@ -161,14 +167,14 @@ public class EndConditionsTest {
 
     @Test
     public void testCanGetWinnerWhenPlayerCantMakeAValidMove() throws InvalidMoveException {
-        currentPlayer.getPieceSet().placeMultipleVillagers(20);
+        currentPlayer.getPieceSet().placeMultipleVillagers(19);
         Player winner = EndConditions.calculateWinner(currentPlayer, players);
         assertTrue(winner != currentPlayer);
     }
 
     @Test
     public void testCanGetWinnerWhenPlayerPlaysLastPieceCurrentPlayerWins() throws InvalidMoveException {
-        currentPlayer.getPieceSet().placeMultipleVillagers(20);
+        currentPlayer.getPieceSet().placeMultipleVillagers(19);
         for(int totoros = 0; totoros < 3; totoros++) { currentPlayer.getPieceSet().placeTotoro(); }
         for(int tigers = 0; tigers < 2; tigers++) { currentPlayer.getPieceSet().placeTiger(); }
         currentPlayer.getScore().addPoints(1);
@@ -178,7 +184,7 @@ public class EndConditionsTest {
 
     @Test
     public void testCanGetWinnerWhenPlayerPlaysLastPieceCurrentPlayerLoses() throws InvalidMoveException {
-        currentPlayer.getPieceSet().placeMultipleVillagers(20);
+        currentPlayer.getPieceSet().placeMultipleVillagers(19);
         for(int totoros = 0; totoros < 3; totoros++) { currentPlayer.getPieceSet().placeTotoro(); }
         for(int tigers = 0; tigers < 2; tigers++) { currentPlayer.getPieceSet().placeTiger(); }
         players.get("2").getScore().addPoints(1);
@@ -188,7 +194,7 @@ public class EndConditionsTest {
 
     @Test
     public void testCanGetWinnerWhenPlayerPlaysLastPieceScoresTied() throws InvalidMoveException {
-        currentPlayer.getPieceSet().placeMultipleVillagers(20);
+        currentPlayer.getPieceSet().placeMultipleVillagers(19);
         for(int totoros = 0; totoros < 3; totoros++) { currentPlayer.getPieceSet().placeTotoro(); }
         for(int tigers = 0; tigers < 2; tigers++) { currentPlayer.getPieceSet().placeTiger(); }
         Player winner = EndConditions.calculateWinner(currentPlayer, players);

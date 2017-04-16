@@ -23,4 +23,9 @@ public class TerrainTest {
     public void testCanGetTerrainString() {
         assertTrue(terrainType.getTerrainString() == "Grass");
     }
+
+    @Test
+    public void testTotalOfSixTerrainsExist() {
+        assertTrue(Terrain.values().length == 6);
+    }
 }

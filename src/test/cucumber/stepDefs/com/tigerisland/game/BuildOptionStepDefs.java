@@ -37,6 +37,8 @@ public class BuildOptionStepDefs{
 
     private int originalNumberOfTotoroRemaining;
     private int originalNumberOfVillagersRemaining;
+    private boolean shamanAlreadyPlayed;
+
 
     private Score originalScore;
     private Score finalScore;
@@ -622,9 +624,20 @@ public class BuildOptionStepDefs{
     @And("^the player has no villagers$")
     public void thePlayerHasNoVillagers() throws Throwable {
         expectedErrorMessage = "No villagers remaining in game inventory.";
-        originalNumberOfVillagersRemaining = player.getPieceSet().getNumberOfVillagersRemaining();
+        originalNumberOfVillagersRemaining = player.getPieceSet().getNumberOfRegularVillagersRemaining();
         try {
             player.getPieceSet().placeMultipleVillagers(originalNumberOfVillagersRemaining);
+        } catch(InvalidMoveException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @And("^the player has no shaman$")
+    public void thePlayerHasNoShaman() throws Throwable {
+        expectedErrorMessage = "No shaman remaining in game inventory.";
+        shamanAlreadyPlayed = true;
+        try {
+            player.getPieceSet().placeShaman();
         } catch(InvalidMoveException e) {
             e.printStackTrace();
         }
@@ -725,7 +738,16 @@ public class BuildOptionStepDefs{
     @When("^a player attempts to create new village on the hex$")
     public void attemptToCreateNewVillageOnHex(){
         try {
-            board.createVillage(player, targetLocation);
+            board.createVillageWithVillager(player, targetLocation);
+        } catch (InvalidMoveException e) {
+            caughtErrorMessage = e.getMessage();
+        }
+    }
+
+    @When("^a player attempts to create new village on the hex with a shaman$")
+    public void attemptToCreateNewVillageOnHexWithShaman(){
+        try {
+            board.createVillageWithShaman(player, targetLocation);
         } catch (InvalidMoveException e) {
             caughtErrorMessage = e.getMessage();
         }

@@ -123,6 +123,12 @@ public class MessageTest {
     }
 
     @Test
+    public void testCanSendCreateVillageWithShamanMessageAndGetType() {
+        Message message = new Message(("FOUND SHANGRILA AT 0 0 0 "));
+        assertTrue(message.getMessageType() == MessageType.FOUNDSHANGRILA);
+    }
+
+    @Test
     public void testCanSendPlaceTotoroMessageAndGetType() {
         Message message = new Message("BUILD TOTORO SANCTUARY AT 0 0 0");
         assertTrue(message.getMessageType() == MessageType.BUILDTOTORO);

@@ -28,8 +28,8 @@ public class PieceSetTest {
     }
 
     @Test
-    public void testCanCreateExactlyTwentyVillager() {
-        assertTrue(pieceSet.villagerSet.size() == 20);
+    public void testCanCreateExactlyNineteenVillager() {
+        assertTrue(pieceSet.villagerSet.size() == 19);
     }
 
     @Test
@@ -56,7 +56,7 @@ public class PieceSetTest {
 
     @Test
     public void testCanGetNumberOfVillagersRemaining() {
-        assertTrue(pieceSet.getNumberOfVillagersRemaining() == pieceSet.villagerSet.size());
+        assertTrue(pieceSet.getNumberOfVillagersRemaining() == pieceSet.villagerSet.size() + pieceSet.shamanSet.size());
     }
 
     @Test
@@ -120,7 +120,7 @@ public class PieceSetTest {
         } catch (InvalidMoveException e) {
             e.printStackTrace();
         }
-        assertTrue(pieceSet.villagerSet.size() == 19);
+        assertTrue(pieceSet.villagerSet.size() == 18);
     }
 
     @Test

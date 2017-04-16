@@ -16,6 +16,12 @@ Feature: Create new village conditions
   When a player attempts to create new village on the hex
   Then the move is rejected
 
+ Scenario: Trying to create new village when player has no more shaman
+  Given there is a valid hex
+  And the player has no shaman
+  When a player attempts to create new village on the hex with a shaman
+  Then the move is rejected
+
  Scenario: Trying to create new village on hex of height larger than one
   Given a nonvolcanic hex of height greater than one
   When a player attempts to create new village on the hex

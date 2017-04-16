@@ -6,7 +6,8 @@ public enum Terrain {
     GRASS("Grass"),
     JUNGLE("Jungle"),
     LAKE("Lake"),
-    ROCK("Rock");
+    ROCK("Rock"),
+    PADDY("Paddy");
 
     private String terrain;
 

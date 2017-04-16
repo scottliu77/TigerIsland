@@ -83,6 +83,8 @@ public class Turn {
     private void filterBuildAction(Message message) {
         if(message.getMessageType() == MessageType.FOUNDSETTLEMENT) {
             parseBuildAction(message, BuildActionType.VILLAGECREATION);
+        } else if (message.getMessageType() == MessageType.FOUNDSHANGRILA) {
+            parseBuildAction(message, BuildActionType.SHAMANCREATION);
         } else if (message.getMessageType() == MessageType.EXPANDSETTLEMENT) {
             parseBuildAction(message, BuildActionType.VILLAGEEXPANSION);
         } else if (message.getMessageType() == MessageType.BUILDTOTORO) {

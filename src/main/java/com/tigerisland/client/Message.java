@@ -176,6 +176,7 @@ public class Message {
     private void checkStringForDetails() {
         checkForTilePlacement();
         checkForFoundSettlement();
+        checkForFoundSettlementWithShaman();
         checkForExpandSettlement();
         checkForBuildTotoro();
         checkForBuildTiger();
@@ -226,6 +227,27 @@ public class Message {
             messageType = MessageType.FOUNDSETTLEMENT;
 
             buildActionType = BuildActionType.VILLAGECREATION;
+        }
+    }
+
+    private void checkForFoundSettlementWithShaman() {
+        int x, y, z;
+        Location buildCubeLocation;
+
+        Matcher foundShangrilaMatcher = foundShangrilaPattern.matcher(message);
+        while(foundShangrilaMatcher.find()) {
+            String match = foundShangrilaMatcher.group();
+
+            x = Integer.valueOf( match.split("\\s+")[3]);
+            y = Integer.valueOf( match.split("\\s+")[4]);
+            z = Integer.valueOf( match.split("\\s+")[5]);
+
+            buildCubeLocation = new Location(x, y, z);
+
+            buildLocation = Adapter.convertLocationCubeToAxial(buildCubeLocation);
+            messageType = MessageType.FOUNDSHANGRILA;
+
+            buildActionType = BuildActionType.SHAMANCREATION;
         }
     }
 

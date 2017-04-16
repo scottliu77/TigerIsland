@@ -2,6 +2,7 @@ package com.tigerisland.game.moves;
 
 public enum BuildActionType {
     VILLAGECREATION("VillageCreation"),
+    SHAMANCREATION("ShamanCreation"),
     VILLAGEEXPANSION("VillageExpansion"),
     TOTOROPLACEMENT("TotoroPlacement"),
     TIGERPLACEMENT("TigerPlacement");

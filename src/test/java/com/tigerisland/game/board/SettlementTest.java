@@ -138,6 +138,22 @@ public class SettlementTest {
     }
 
     @Test
+    public void testContainsShaman() {
+        Hex hex = new Hex("currentHex", Terrain.GRASS);
+        Location location = new Location(0, -1);
+        PlacedHex placedHex = new PlacedHex(hex, location);
+        placedHex.getHex().addPiecesToHex(new Piece(Color.BLACK, PieceType.SHAMAN), 1);
+        settlement = new Settlement(placedHex, allPlacedHexes);
+        assertTrue(settlement.containsShaman());
+    }
+
+    @Test
+    public void testCanTellWhenSettlementDoesntHaveShaman() {
+        settlement = new Settlement(placedHex4, allPlacedHexes);
+        assertFalse(settlement.containsShaman());
+    }
+
+    @Test
     public void testCanGetSettlementColor() {
         settlement = new Settlement(placedHex1, allPlacedHexes);
         assertTrue(settlement.getColor() == Color.BLACK);

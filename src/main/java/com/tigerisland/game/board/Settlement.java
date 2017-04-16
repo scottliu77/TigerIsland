@@ -33,6 +33,15 @@ public class Settlement {
         return hexesInSettlement.size();
     }
 
+    public boolean containsShaman() {
+        for(PlacedHex hex: hexesInSettlement) {
+            if(hex.getHex().getPieceType().equals("Shaman")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean containsTotoro(){
         for(PlacedHex hex : hexesInSettlement){
             if(hex.getHex().getPieceType().equals("Totoro")){

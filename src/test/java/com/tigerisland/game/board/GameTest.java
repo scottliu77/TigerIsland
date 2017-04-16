@@ -38,7 +38,7 @@ public class GameTest {
     @Before
     public void createPlayerWithNoPieces() {
         try {
-            playerBlack.getPieceSet().placeMultipleVillagers(20);
+            playerBlack.getPieceSet().placeMultipleVillagers(19);
             for (int ii = 0; ii < 3; ii++){
                 playerBlack.getPieceSet().placeTotoro();
             }

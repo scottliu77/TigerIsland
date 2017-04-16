@@ -138,7 +138,7 @@ public class AI_InfoTest {
         board.placeTile(tile2, loc2, 60);
         board.placeTile(tile3, loc3, 180);
 
-        board.createVillage(player1, new Location(1, 0));
+        board.createVillageWithVillager(player1, new Location(1, 0));
 
     }
 
@@ -176,14 +176,14 @@ public class AI_InfoTest {
     }
 
     public void setUpBoardForTotoroAndTigerTests() throws InvalidMoveException{
-        board.createVillage(player1,new Location(2,-1));
-        board.createVillage(player2,new Location(3,-2));
+        board.createVillageWithVillager(player1,new Location(2,-1));
+        board.createVillageWithVillager(player2,new Location(3,-2));
 
         board.updateSettlements();
         board.expandVillage(player2, new Location(3,-2), Terrain.ROCK);
 
         board.updateSettlements();
-        board.createVillage(player2,new Location(1,-3));
+        board.createVillageWithVillager(player2,new Location(1,-3));
 
         board.updateSettlements();
         board.expandVillage(player2, new Location(3,-2), Terrain.LAKE);
@@ -270,7 +270,7 @@ public class AI_InfoTest {
         board.placeTile(tilePlacement2);
         board.placeTile(tilePlacement3);
         board.placeTile(tilePlacement4);
-        board.createVillage(player1, new Location(2, -1));
+        board.createVillageWithVillager(player1, new Location(2, -1));
         board.updateSettlements();
         board.expandVillage(player1, new Location(2, -1), Terrain.LAKE);
         board.updateSettlements();
@@ -292,7 +292,7 @@ public class AI_InfoTest {
         board.placeTile(tilePlacement1);
         board.placeTile(tilePlacement2);
         board.placeTile(tilePlacement3);
-        board.createVillage(player2, new Location(2, -1));
+        board.createVillageWithVillager(player2, new Location(2, -1));
         board.updateSettlements();
         board.expandVillage(player2, new Location(2, -1), Terrain.LAKE);
         board.updateSettlements();
@@ -322,7 +322,7 @@ public class AI_InfoTest {
         board.placeTile(tilePlacement1);
         board.placeTile(tilePlacement2);
         board.placeTile(tilePlacement3);
-        board.createVillage(player2, new Location(2, -1));
+        board.createVillageWithVillager(player2, new Location(2, -1));
         board.updateSettlements();
         board.expandVillage(player2, new Location(2, -1), Terrain.LAKE);
         board.updateSettlements();

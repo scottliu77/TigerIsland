@@ -5,6 +5,7 @@ import com.tigerisland.game.moves.TigerPlacer;
 import com.tigerisland.game.moves.TotoroPlacer;
 import com.tigerisland.game.moves.TilePlacement;
 import com.tigerisland.game.pieces.Color;
+import com.tigerisland.game.pieces.PieceType;
 import com.tigerisland.game.player.Player;
 import com.tigerisland.game.player.Score;
 
@@ -302,7 +303,7 @@ public class Board{
         return new Hex();
     }
 
-    public void createVillage(Player player, Location location) throws InvalidMoveException {
+    public void createVillageWithVillager(Player player, Location location) throws InvalidMoveException {
         Hex targetHex = hexAt(location);
         if (targetHex.getPieceCount() == -1) {
             throw new InvalidMoveException("Target hex does not exist");
@@ -314,6 +315,20 @@ public class Board{
             throw new InvalidMoveException("Cannot place a piece on a volcano hex");
         }
         hexAt(location).addPiecesToHex(player.getPieceSet().placeVillager(), 1);
+    }
+
+    public void createVillageWithShaman(Player player, Location location) throws InvalidMoveException {
+        Hex targetHex = hexAt(location);
+        if (targetHex.getPieceCount() == -1) {
+            throw new InvalidMoveException("Target hex does not exist");
+        } else if (targetHex.getHeight() != 1) {
+            throw new InvalidMoveException("Cannot create village above height 1");
+        } else if (targetHex.getPieceCount() > 0) {
+            throw new InvalidMoveException("Target hex already contains piece(s)");
+        } else if (targetHex.getHexTerrain() == Terrain.VOLCANO) {
+            throw new InvalidMoveException("Cannot place a piece on a volcano hex");
+        }
+        hexAt(location).addPiecesToHex(player.getPieceSet().placeShaman(), 1);
     }
 
     public void expandVillage(Player player, Location settledLoc, Terrain expandTerrain) throws InvalidMoveException {
@@ -389,11 +404,18 @@ public class Board{
         for (PlacedHex potentialHex : allExpandableHexes) {
             potentialHex.setToBeExpanded(false);
             int hexHeight = potentialHex.getHex().getHeight();
-            if (player.getPieceSet().getNumberOfVillagersRemaining() - hexHeight < 0){
+            if (player.getPieceSet().getNumberOfRegularVillagersRemaining() - hexHeight < 0){
                 throw new InvalidMoveException("Player does not have enough pieces to populate the target hex");
             } else {
                 potentialHex.getHex().addPiecesToHex(player.getPieceSet().placeMultipleVillagers(hexHeight), hexHeight);
-                player.getScore().addPoints(Score.VILLAGER_POINT_VALUE * hexHeight);
+                int pointsToBeAdded = Score.VILLAGER_POINT_VALUE * hexHeight;
+                if(settlement.containsShaman()) {
+                    player.getScore().addPoints(2*pointsToBeAdded);
+                }
+                else {
+                    player.getScore().addPoints(pointsToBeAdded);
+
+                }
                 hexesInSettlement.add(potentialHex);
             }
         }

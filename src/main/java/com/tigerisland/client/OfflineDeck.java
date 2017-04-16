@@ -6,13 +6,17 @@ import com.tigerisland.game.board.Tile;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 
 public class OfflineDeck {
 
     protected ArrayList<Tile> tileDeck;
 
+    private Random random;
+
     public OfflineDeck() {
         this.tileDeck = new ArrayList<Tile>();
+        this.random = new Random();
     }
 
     public OfflineDeck(OfflineDeck offlineDeck) {
@@ -34,6 +38,10 @@ public class OfflineDeck {
                     addThreeTilesOfThisType(typeOne, typeTwo);
                 }
             }
+        }
+        while(getDeckSize() != 48) {
+            int index = random.nextInt(getDeckSize());
+            tileDeck.remove(index);
         }
     }
 

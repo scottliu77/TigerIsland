@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class PieceSet {
 
     protected ArrayList<Piece> villagerSet;
+    protected ArrayList<Piece> shamanSet;
     protected ArrayList<Piece> totoroSet;
     protected ArrayList<Piece> tigerSet;
     protected Color ownerColor;
@@ -15,21 +16,26 @@ public class PieceSet {
         this.villagerSet = new ArrayList<Piece>();
         this.totoroSet = new ArrayList<Piece>();
         this.tigerSet = new ArrayList<Piece>();
+        this.shamanSet = new ArrayList<Piece>();
         this.ownerColor = ownerColor;
-        this.generateVillagerSet(ownerColor, 20);
+        this.generateVillagerSet(ownerColor, 19);
+        this.generateShamanSet(ownerColor, 1);
         this.generateTotoroSet(ownerColor, 3);
         this.generateTigerSet(ownerColor, 2);
     }
 
     public PieceSet(PieceSet pieceSet){
         int newVillagerSetSize = pieceSet.villagerSet.size();
+        int newShamanSetSize = pieceSet.shamanSet.size();
         int newTotoroSetSize = pieceSet.totoroSet.size();
         int newTigerSetSize = pieceSet.tigerSet.size();
         this.villagerSet = new ArrayList<Piece>();
+        this.shamanSet = new ArrayList<Piece>();
         this.totoroSet = new ArrayList<Piece>();
         this.tigerSet = new ArrayList<Piece>();
         this.ownerColor = pieceSet.ownerColor;
         this.generateVillagerSet(ownerColor, newVillagerSetSize);
+        this.generateShamanSet(ownerColor, newShamanSetSize);
         this.generateTotoroSet(ownerColor, newTotoroSetSize);
         this.generateTigerSet(ownerColor, newTigerSetSize);
     }
@@ -37,6 +43,12 @@ public class PieceSet {
     private void generateVillagerSet(Color color, int size) {
         for(int pieceNumber = 1; pieceNumber <= size; pieceNumber++) {
             this.villagerSet.add(new Piece(color, PieceType.VILLAGER));
+        }
+    }
+
+    private void generateShamanSet(Color color, int size) {
+        for(int pieceNumber = 1; pieceNumber <= size; pieceNumber++) {
+            this.shamanSet.add(new Piece(color, PieceType.SHAMAN));
         }
     }
 
@@ -60,8 +72,16 @@ public class PieceSet {
         }
     }
 
+    public Piece placeShaman() throws InvalidMoveException {
+        try{
+            return shamanSet.remove(0);
+        } catch (IndexOutOfBoundsException exception) {
+            throw new InvalidMoveException("No shaman remaining in game inventory.");
+        }
+    }
+
     public Piece placeMultipleVillagers(int numVillagersToPlace) throws InvalidMoveException {
-        if (numVillagersToPlace > getNumberOfVillagersRemaining()) {
+        if (numVillagersToPlace > getNumberOfRegularVillagersRemaining()) {
             IndexOutOfBoundsException exception = new IndexOutOfBoundsException();
             throw new InvalidMoveException("Insufficient number of villagers in game inventory");
         }
@@ -70,6 +90,7 @@ public class PieceSet {
         }
         return villagerSet.remove(0);
     }
+
 
     public Piece placeTotoro() throws InvalidMoveException {
         try {
@@ -88,7 +109,7 @@ public class PieceSet {
     }
 
     public boolean inventoryEmpty(){
-        if(totoroSet.size() == 0 && villagerSet.size() == 0 && tigerSet.size() == 0){
+        if(totoroSet.size() == 0 && villagerSet.size() == 0 && tigerSet.size() == 0 && shamanSet.size() == 0){
             return true;
         }
         else {
@@ -97,7 +118,15 @@ public class PieceSet {
     }
 
     public int getNumberOfVillagersRemaining() {
+        return villagerSet.size() + shamanSet.size();
+    }
+
+    public int getNumberOfRegularVillagersRemaining() {
         return villagerSet.size();
+    }
+
+    public boolean shamanAlreadyPlayed() {
+        return shamanSet.size() == 0;
     }
 
     public int getNumberOfTotoroRemaining() {

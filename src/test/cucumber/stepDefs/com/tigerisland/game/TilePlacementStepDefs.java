@@ -184,16 +184,16 @@ public class TilePlacementStepDefs{
         myBoard.placeTile(tile7, loc7, rotation7);
 
         Player myPlayer = new Player(Color.BLUE, "1", PlayerType.SAFEAI);
-        myBoard.createVillage(myPlayer, new Location(2,0));
+        myBoard.createVillageWithVillager(myPlayer, new Location(2,0));
 
-        myBoard.createVillage(myPlayer, new Location(0,1));
-        myBoard.createVillage(myPlayer, new Location(-1,1));
+        myBoard.createVillageWithVillager(myPlayer, new Location(0,1));
+        myBoard.createVillageWithVillager(myPlayer, new Location(-1,1));
 
-        myBoard.createVillage(myPlayer, new Location(-2,-1));
-        myBoard.createVillage(myPlayer, new Location(-1,-1));
-        myBoard.createVillage(myPlayer, new Location(0,-1));
-        myBoard.createVillage(myPlayer, new Location(1,-1));
-        myBoard.createVillage(myPlayer, new Location(-2,-2));
+        myBoard.createVillageWithVillager(myPlayer, new Location(-2,-1));
+        myBoard.createVillageWithVillager(myPlayer, new Location(-1,-1));
+        myBoard.createVillageWithVillager(myPlayer, new Location(0,-1));
+        myBoard.createVillageWithVillager(myPlayer, new Location(1,-1));
+        myBoard.createVillageWithVillager(myPlayer, new Location(-2,-2));
 
         myBoard.updateSettlements();
         myBoard.placeTotoro(myPlayer, new Location(1,-2));
@@ -239,7 +239,7 @@ public class TilePlacementStepDefs{
         Location toPlaceTiger = new Location(1,-1);
         Player myPlayer = new Player(Color.BLUE, "1", PlayerType.SAFEAI);
 
-        myBoard.createVillage(myPlayer, toSettle);
+        myBoard.createVillageWithVillager(myPlayer, toSettle);
         myBoard.updateSettlements();
         myBoard.expandVillage(myPlayer, toExpand, Terrain.ROCK);
         myBoard.updateSettlements();

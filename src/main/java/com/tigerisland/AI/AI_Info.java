@@ -466,7 +466,7 @@ public class AI_Info {
             Player tempPlayer = new Player(player);
             Board tempBoard = new Board(board);
             try{
-                tempBoard.createVillage(tempPlayer, validVillagePlacementLocation);
+                tempBoard.createVillageWithVillager(tempPlayer, validVillagePlacementLocation);
             } catch(InvalidMoveException e){
                 continue;
             }
