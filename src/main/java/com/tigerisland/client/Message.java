@@ -61,7 +61,15 @@ public class Message {
 
         checkForMakeMove();
 
+        checkForSendScore();
+
         checkForMatchOver();
+
+        checkForSendScore();
+
+        checkForClientSendScore();
+
+        checkForPlayerDoesNotKnowScore();
 
         checkForEndOfRound();
         checkForEndOfChallenge();
@@ -315,6 +323,21 @@ public class Message {
         }
     }
 
+    private void checkForClientSendScore() {
+        Matcher sendScoreMatcher = sendScorePattern.matcher(message);
+        while(sendScoreMatcher.find()) {
+            String match = sendScoreMatcher.group();
+
+            gameID = match.split("\\w+")[1];
+
+            ourPlayerID = match.split("\\w+")[4];
+            ourPlayerScore = match.split("\\d+")[5];
+
+            opponentID = match.split("\\w+")[7];
+            opponentScore = match.split("\\d+")[8];
+        }
+    }
+
     private void checkForEndOfChallenge() {
         Matcher endChallengeMatcher = ServerMessages.challengeWaitPattern.matcher(message);
         Matcher lastChallengeMatcher = ServerMessages.challengeEndPattern.matcher(message);
@@ -371,6 +394,16 @@ public class Message {
 
     }
 
+    private void checkForSendScore() {
+        Matcher matchMater = ServerMessages.serverRequestsGameOutcomePattern.matcher(message);
+        while(matchMater.find()) {
+            String match = matchMater.group();
+            gameID = match.split("\\s+")[1];
+
+
+        }
+    }
+
     private void checkForMatchOver() {
         Matcher matchMatcher = ServerMessages.gameOverPattern.matcher(message);
 
@@ -386,6 +419,18 @@ public class Message {
             opponentScore = match.split("\\s+")[8];
 
             messageType = MessageType.GAMEOVER;
+        }
+    }
+
+    private void checkForPlayerDoesNotKnowScore() {
+        Matcher matchMatcher = ServerMessages.playerDoesNotKnowOutcomePattern.matcher(message);
+
+        while(matchMatcher.find()) {
+            String match = matchMatcher.group();
+
+            gameID = match.split("\\s+")[1];
+
+            ourPlayerID = match.split("\\s+")[3];
         }
     }
 

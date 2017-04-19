@@ -21,4 +21,5 @@ public class ClientMessages {
 
     public static final Pattern clientLostUnableToBuildPattern = Pattern.compile("GAME \\w+ MOVE \\w+ PLACE \\w+[\\+ ]?\\w+ AT -?\\d+ -?\\d+ -?\\d+ -?\\d+ UNABLE TO BUILD");
 
+    public static final Pattern sendScorePattern = Pattern.compile("GAME \\w+ OVER PLAYER \\w+ \\d+ PLAYER \\w+ \\d+");
 }

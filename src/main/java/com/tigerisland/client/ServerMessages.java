@@ -29,5 +29,9 @@ public final class ServerMessages {
 
     public static final Pattern serverLostUnableToBuildPattern = Pattern.compile("LOST: UNABLE TO BUILD");
 
+    public static final Pattern serverRequestsGameOutcomePattern = Pattern.compile("GAME \\w+ OVER SEND OUTCOME");
+    public static final Pattern playerDoesNotKnowOutcomePattern = Pattern.compile("GAME \\w+ PLAYER \\w+ FORFEITED: DOES NOT KNOW OUTCOME");
+
+
 }
 

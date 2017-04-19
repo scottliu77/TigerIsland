@@ -4,6 +4,7 @@ import com.tigerisland.game.board.Board;
 import com.tigerisland.game.board.Tile;
 import com.tigerisland.game.moves.Move;
 import com.tigerisland.game.player.Player;
+import com.tigerisland.game.player.Score;
 import com.tigerisland.settings.GameSettings;
 import com.tigerisland.client.Client;
 import com.tigerisland.client.Message;
@@ -29,6 +30,9 @@ public class Game implements Runnable {
 
     Player winner;
     Player loser;
+
+    Score ourScore;
+    Score opponentScore;
 
     public Game(GameSettings gameSettings){
         this.ourPlayerID = gameSettings.getGlobalSettings().getServerSettings().getPlayerID();

@@ -177,6 +177,18 @@ public class MessageTest {
     }
 
     @Test
+    public void testCanGetSendScore() {
+        Message message = new Message("GAME 1 OVER SEND OUTCOME");
+        assertTrue(message.getGameID().equals("1"));
+    }
+
+    @Test
+    public void testCanTellPlayerDoesNotKnowScore() {
+        Message message = new Message("GAME 1 PLAYER 7 FORFEITED: DOES NOT KNOW OUTCOME");
+        assertTrue(message.getGameID().equals("1") && message.getOurPlayerID().equals("7"));
+    }
+
+    @Test
     public void testCanGetOpponentIDandScore() {
         // TODO Fix bad default first player is always 'our player' second is always 'opponent'
         Message message = new Message("GAME A OVER PLAYER 7 25 PLAYER 13 100");
